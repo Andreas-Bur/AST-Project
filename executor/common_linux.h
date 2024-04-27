@@ -2019,6 +2019,20 @@ static long syz_io_uring_submit(volatile long a0, volatile long a1, volatile lon
 
 #endif
 
+// Should I add any other constraints here?
+#if SYZ_EXECUTOR
+
+static long syz_io_uring_register_sync_cancel_deep()
+{
+  struct io_ring_ctx ctx = {
+    .flags      = 0, // How to initialize flags?
+    .drain_next = 0, // How to initialize drain_next?
+    .restricted = 0, // How to initialize restricted?
+  }
+    // TODO.
+}
+#endif
+
 #endif
 
 #if SYZ_EXECUTOR || __NR_syz_usbip_server_init
