@@ -2022,14 +2022,13 @@ static long syz_io_uring_submit(volatile long a0, volatile long a1, volatile lon
 // Should I add any other constraints here?
 #if SYZ_EXECUTOR
 
-static long syz_io_uring_register_sync_cancel_deep()
+static long syz_io_uring_register_sync_cancel_deep(volatile long a0, volatile long a1)
 {
-  struct io_ring_ctx ctx = {
-    .flags      = 0, // How to initialize flags?
-    .drain_next = 0, // How to initialize drain_next?
-    .restricted = 0, // How to initialize restricted?
-  }
-    // TODO.
+  struct io_ring_ctx *ctx = (struct io_ring_ctx*) a0;
+
+  struct io_uring_sync_cancel_reg *arg = (struct io_uring_sync_cancel_reg*) arg;
+
+  io_uring_sync_cancel(ctx, arg);
 }
 #endif
 
