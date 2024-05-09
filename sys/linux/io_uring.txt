@@ -6,6 +6,10 @@
 include <uapi/linux/io_uring.h>
 # For EPOLL_CTL_ADD, EPOLL_CTL_MOD, EPOLL_CTL_DEL
 include <uapi/linux/eventpoll.h>
+# For WEXITED, WSTOPPED, WCONTINUED, P_ALL, P_PID, P_PGID, P_PIDFD
+include <uapi/linux/wait.h>
+# For futex_op, FUTEX_WAITV_MAX
+include <uapi/linux/futex.h>
 
 resource fd_io_uring[fd]
 resource ring_ptr[int64]
@@ -345,16 +349,16 @@ io_uring_sqe_u [
 	IORING_OP_FGETXATTR		io_uring_sqe$fgetxattr
 	IORING_OP_GETXATTR		io_uring_sqe$getxattr
 	IORING_OP_SOCKET		io_uring_sqe$socket
-# IORING_OP_URING_CMD		io_uring_sqe$uring_cmd
+	IORING_OP_URING_CMD		io_uring_cmd_sqes
 	IORING_OP_SEND_ZC		io_uring_sqe$send_zc
 	IORING_OP_SENDMSG_ZC		io_uring_sqe$sendmsg_zc
-# IORING_OP_READ_MULTISHOT	io_uring_sqe$read_multishot
-# 	IORING_OP_WAITID		io_uring_sqe$waitid
-# IORING_OP_FUTEX_WAIT	io_uring_sqe$futex_wait
-# IORING_OP_FUTEX_WAKE	io_uring_sqe$futex_wake
-# IORING_OP_FUTEX_WAITV	io_uring_sqe$futex_waitv
-# IORING_OP_FIXED_FD_INSTALL	io_uring_sqe$fixed_fd_install
-# IORING_OP_FTRUNCATE		io_uring_sqe$ftruncate
+	IORING_OP_READ_MULTISHOT	io_uring_sqe$read_multishot
+	IORING_OP_WAITID		io_uring_sqe$waitid
+	IORING_OP_FUTEX_WAIT		io_uring_sqe$futex_wait
+	IORING_OP_FUTEX_WAKE		io_uring_sqe$futex_wake
+	IORING_OP_FUTEX_WAITV		io_uring_sqe$futex_waitv
+	IORING_OP_FIXED_FD_INSTALL	io_uring_sqe$fixed_fd_install
+	IORING_OP_FTRUNCATE		io_uring_sqe$ftruncate
 ]
 
 # io_uring_enter_opcodes = IORING_OP_NOP, IORING_OP_READV, IORING_OP_WRITEV, IORING_OP_FSYNC, IORING_OP_READ_FIXED, IORING_OP_WRITE_FIXED, IORING_OP_POLL_ADD, IORING_OP_POLL_REMOVE, IORING_OP_SYNC_FILE_RANGE, IORING_OP_SENDMSG, IORING_OP_RECVMSG, IORING_OP_TIMEOUT, IORING_OP_TIMEOUT_REMOVE, IORING_OP_ACCEPT, IORING_OP_ASYNC_CANCEL, IORING_OP_LINK_TIMEOUT, IORING_OP_CONNECT, IORING_OP_FALLOCATE, IORING_OP_OPENAT, IORING_OP_CLOSE, IORING_OP_FILES_UPDATE, IORING_OP_STATX, IORING_OP_READ, IORING_OP_WRITE, IORING_OP_FADVISE, IORING_OP_MADVISE, IORING_OP_SEND, IORING_OP_RECV, IORING_OP_OPENAT2, IORING_OP_EPOLL_CTL, IORING_OP_SPLICE, IORING_OP_PROVIDE_BUFFERS, IORING_OP_REMOVE_BUFFERS, IORING_OP_TEE, IORING_OP_SHUTDOWN, IORING_OP_RENAMEAT, IORING_OP_UNLINKAT, IORING_OP_MKDIRAT, IORING_OP_SYMLINKAT, IORING_OP_LINKAT, IORING_OP_MSG_RING, IORING_OP_FSETXATTR, IORING_OP_SETXATTR, IORING_OP_FGETXATTR, IORING_OP_GETXATTR, IORING_OP_SOCKET, IORING_OP_URING_CMD, IORING_OP_SEND_ZC
@@ -382,6 +386,35 @@ type io_uring_sqe[OP, IOPRIO, FD, OFF, ADDR, LEN, MISC_FLAGS, USER_DATA, MISC] {
 } [size[SIZEOF_IO_URING_SQE]]
 
 define SIZEOF_IO_URING_SQE	64
+
+io_uring_cmd_sqes [
+	standard_cmd	io_uring_cmd_sqe
+# block_cmd		io_uring_block_cmd_sqe
+]
+
+io_uring_cmd_sqe {
+	opcode		const[IORING_OP_URING_CMD, int8]
+	flags		flags[iosqe_flags, int8]
+	ioprio		const[0, int16]
+	fd		fd_or_fixed_fd_index
+	data		array[int64, 4]
+	user_data	flags[sqe_user_data_not_openat, int64]
+	data2		int64
+}
+
+# io_uring_block_cmd_sqe {
+# 	opcode		const[IORING_OP_URING_CMD, int8]
+# 	flags		flags[iosqe_flags, int8]
+# 	ioprio		const[0, int16]
+# 	fd			fd_or_fixed_fd_index
+# 	op			int16
+# 	pad			const[0, int16]
+# 	size_or_ioctl_cmd	int32
+# 	addr		int64
+# 	unused		array[int64, 2]
+# 	user_data	flags[sqe_user_data_not_openat, int64]
+# 	unused2		int64
+# }
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -477,6 +510,16 @@ type io_uring_sqe$socket io_uring_sqe[IORING_OP_SOCKET, const[0, int16], flags[s
 type io_uring_sqe$send_zc io_uring_sqe[IORING_OP_SEND_ZC, const[0, int16], sock, const[0, int64], buffer[in], len[addr, int32], flags[send_flags, int32], sqe_user_data_not_openat, personality_only_misc]
 type io_uring_sqe$sendmsg_zc io_uring_sqe[IORING_OP_SENDMSG_ZC, const[0, int16], sock, const[0, int64], ptr[in, send_msghdr], const[0, int32], flags[send_flags, int32], sqe_user_data_not_openat, personality_only_misc]
 
+type io_uring_sqe$ftruncate io_uring_sqe[IORING_OP_FTRUNCATE, const[0, int16], fd_or_fixed_fd_index, int64, const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, personality_only_misc]
+type io_uring_sqe$waitid io_uring_sqe[IORING_OP_WAITID, const[0, int16], int32[-1:1], ptr64[in, siginfo], const[0, int64], flags[io_uring_sqe_waitid_which, int32], const[0, int32], sqe_user_data_not_openat, io_uring_sqe_waitid_misc]
+type io_uring_sqe$futex_wait io_uring_sqe[IORING_OP_FUTEX_WAIT, const[0, int16], flags[futex_op, int32], int64, ptr[inout, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, io_uring_sqe_futex_wait_misc]
+type io_uring_sqe$futex_waitv io_uring_sqe[IORING_OP_FUTEX_WAITV, const[0, int16], const[0, int32], const[0, int64], ptr[in, array[futex_waitv, 0:FUTEX_WAITV_MAX_INDEX]], int32[0:FUTEX_WAITV_MAX], const[0, int32], sqe_user_data_not_openat, personality_only_misc]
+type io_uring_sqe$futex_wake io_uring_sqe[IORING_OP_FUTEX_WAKE, const[0, int16], flags[futex_op, int32], int64, ptr[inout, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, io_uring_sqe_futex_wait_misc]
+type io_uring_sqe$read_multishot io_uring_sqe[IORING_OP_READ_MULTISHOT, flags[ioprio_priorities, int16], fd_or_fixed_fd_index, fileoff[int64], const[0, int64], const[0, int32], flags[rwf_flags, int32], sqe_user_data_not_openat, buf_index_personality_misc]
+type io_uring_sqe$fixed_fd_install io_uring_sqe[IORING_OP_FIXED_FD_INSTALL, const[0, int16], fd_or_fixed_fd_index, const[0, int64], const[0, int64], const[0, int32], flags[install_fd_flags, int32], sqe_user_data_not_openat, personality_only_misc]
+
+install_fd_flags = IORING_FIXED_FD_NO_CLOEXEC
+define FUTEX_WAITV_MAX_INDEX	FUTEX_WAITV_MAX - 1
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 #
@@ -577,4 +620,22 @@ io_uring_sqe_tee_misc {
 	ioring_personality_id	ioring_personality_id[opt]
 	splice_fd_in		fd
 	pad_unused		array[const[0, int64], 2]
+}
+
+io_uring_sqe_waitid_misc {
+	buf_unused		const[0, int16]
+	ioring_personality_id	ioring_personality_id[opt]
+	file_index		flags[io_uring_sqe_waitid_status, int32]
+	pad_unused		array[const[0, int64], 2]
+}
+
+io_uring_sqe_waitid_status = WEXITED, WSTOPPED, WCONTINUED
+io_uring_sqe_waitid_which = P_ALL, P_PID, P_PGID, P_PIDFD
+
+io_uring_sqe_futex_wait_misc {
+	buf_unused		const[0, int16]
+	ioring_personality_id	ioring_personality_id[opt]
+	buf_unused2		const[0, int32]
+	addr3			int64
+	pad			const[0, int64]
 }
