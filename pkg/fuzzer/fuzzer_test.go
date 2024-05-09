@@ -9,8 +9,6 @@ import (
 	"fmt"
 	"hash/crc32"
 	"math/rand"
-	"os"
-	"path/filepath"
 	"regexp"
 	"runtime"
 	"strings"
@@ -22,7 +20,6 @@ import (
 	"github.com/google/syzkaller/pkg/csource"
 	"github.com/google/syzkaller/pkg/ipc"
 	"github.com/google/syzkaller/pkg/ipc/ipcconfig"
-	"github.com/google/syzkaller/pkg/rpctype"
 	"github.com/google/syzkaller/pkg/signal"
 	"github.com/google/syzkaller/pkg/testutil"
 	"github.com/google/syzkaller/prog"
@@ -42,7 +39,7 @@ func TestFuzz(t *testing.T) {
 	if sysTarget.BrokenCompiler != "" {
 		t.Skipf("skipping, broken cross-compiler: %v", sysTarget.BrokenCompiler)
 	}
-	executor := buildExecutor(t, target)
+	executor := csource.BuildExecutor(t, target, "../..", "-fsanitize-coverage=trace-pc", "-g")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -193,7 +190,7 @@ func emulateExec(req *Request) (*Result, string, error) {
 		if req.NeedCover {
 			callInfo.Cover = []uint32{cover}
 		}
-		if req.NeedSignal != rpctype.NoSignal {
+		if req.NeedSignal != NoSignal {
 			callInfo.Signal = []uint32{cover}
 		}
 		info.Calls = append(info.Calls, callInfo)
@@ -285,7 +282,7 @@ func newProc(t *testing.T, target *prog.Target, executor string) *executorProc {
 		t.Fatal(err)
 	}
 	config.Executor = executor
-	config.Flags |= ipc.FlagSignal
+	execOpts.EnvFlags |= ipc.FlagSignal
 	env, err := ipc.MakeEnv(config, 0)
 	if err != nil {
 		t.Fatal(err)
@@ -302,11 +299,11 @@ var crashRe = regexp.MustCompile(`{{CRASH: (.*?)}}`)
 func (proc *executorProc) execute(req *Request) (*Result, string, error) {
 	execOpts := proc.execOpts
 	// TODO: it's duplicated from fuzzer.go.
-	if req.NeedSignal != rpctype.NoSignal {
-		execOpts.Flags |= ipc.FlagCollectSignal
+	if req.NeedSignal != NoSignal {
+		execOpts.ExecFlags |= ipc.FlagCollectSignal
 	}
 	if req.NeedCover {
-		execOpts.Flags |= ipc.FlagCollectCover
+		execOpts.ExecFlags |= ipc.FlagCollectCover
 	}
 	// TODO: support req.NeedHints.
 	output, info, _, err := proc.env.Exec(&execOpts, req.Prog)
@@ -317,18 +314,6 @@ func (proc *executorProc) execute(req *Request) (*Result, string, error) {
 		return nil, "", err
 	}
 	return &Result{Info: info}, "", nil
-}
-
-func buildExecutor(t *testing.T, target *prog.Target) string {
-	executor, err := csource.BuildFile(target,
-		filepath.FromSlash("../../executor/executor.cc"),
-		"-fsanitize-coverage=trace-pc", "-g",
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Cleanup(func() { os.Remove(executor) })
-	return executor
 }
 
 func checkGoroutineLeaks() {

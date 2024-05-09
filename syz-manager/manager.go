@@ -24,10 +24,10 @@ import (
 	"github.com/google/syzkaller/pkg/corpus"
 	"github.com/google/syzkaller/pkg/csource"
 	"github.com/google/syzkaller/pkg/db"
+	"github.com/google/syzkaller/pkg/flatrpc"
 	"github.com/google/syzkaller/pkg/fuzzer"
 	"github.com/google/syzkaller/pkg/gce"
 	"github.com/google/syzkaller/pkg/hash"
-	"github.com/google/syzkaller/pkg/host"
 	"github.com/google/syzkaller/pkg/instance"
 	"github.com/google/syzkaller/pkg/log"
 	"github.com/google/syzkaller/pkg/mgrconfig"
@@ -35,6 +35,7 @@ import (
 	"github.com/google/syzkaller/pkg/report"
 	crash_pkg "github.com/google/syzkaller/pkg/report/crash"
 	"github.com/google/syzkaller/pkg/repro"
+	"github.com/google/syzkaller/pkg/signal"
 	"github.com/google/syzkaller/pkg/stats"
 	"github.com/google/syzkaller/prog"
 	"github.com/google/syzkaller/sys/targets"
@@ -62,9 +63,9 @@ type Manager struct {
 	firstConnect    atomic.Int64 // unix time, or 0 if not connected
 	crashTypes      map[string]bool
 	vmStop          chan bool
-	checkFeatures   *host.Features
+	enabledFeatures flatrpc.Feature
+	checkDone       bool
 	fresh           bool
-	netCompression  bool
 	expertMode      bool
 	nextInstanceID  atomic.Uint64
 
@@ -90,12 +91,6 @@ type Manager struct {
 	// For checking that files that we are using are not changing under us.
 	// Maps file name to modification time.
 	usedFiles map[string]time.Time
-
-	modules             []host.KernelModule
-	coverFilter         map[uint32]uint32
-	execCoverFilter     map[uint32]uint32
-	modulesInitialized  bool
-	afterTriageStatSent bool
 
 	assetStorage *asset.Storage
 
@@ -182,7 +177,6 @@ func RunManager(cfg *mgrconfig.Config) {
 		memoryLeakFrames:   make(map[string]bool),
 		dataRaceFrames:     make(map[string]bool),
 		fresh:              true,
-		netCompression:     vm.UseNetCompression(cfg.Type),
 		vmStop:             make(chan bool),
 		externalReproQueue: make(chan *Crash, 10),
 		needMoreRepros:     make(chan chan bool),
@@ -217,33 +211,11 @@ func RunManager(cfg *mgrconfig.Config) {
 		}
 	}
 
-	go func() {
-		for lastTime := time.Now(); ; {
-			time.Sleep(10 * time.Second)
-			now := time.Now()
-			diff := int(now.Sub(lastTime))
-			lastTime = now
-			if mgr.firstConnect.Load() == 0 {
-				continue
-			}
-			mgr.statFuzzingTime.Add(diff * mgr.statNumFuzzing.Val())
-			buf := new(bytes.Buffer)
-			for _, stat := range stats.Collect(stats.Console) {
-				fmt.Fprintf(buf, "%v=%v ", stat.Name, stat.Value)
-			}
-			log.Logf(0, "%s", buf.String())
-		}
-	}()
-
 	if *flagBench != "" {
 		mgr.initBench()
 	}
 
-	if mgr.dash != nil {
-		go mgr.dashboardReporter()
-		go mgr.dashboardReproTasks()
-	}
-
+	go mgr.heartbeatLoop()
 	osutil.HandleInterrupts(vm.Shutdown)
 	if mgr.vmPool == nil {
 		log.Logf(0, "no VMs started (type=none)")
@@ -255,14 +227,30 @@ func RunManager(cfg *mgrconfig.Config) {
 	mgr.vmLoop()
 }
 
+func (mgr *Manager) heartbeatLoop() {
+	lastTime := time.Now()
+	for now := range time.NewTicker(10 * time.Second).C {
+		diff := int(now.Sub(lastTime))
+		lastTime = now
+		if mgr.firstConnect.Load() == 0 {
+			continue
+		}
+		mgr.statFuzzingTime.Add(diff * mgr.statNumFuzzing.Val())
+		buf := new(bytes.Buffer)
+		for _, stat := range stats.Collect(stats.Console) {
+			fmt.Fprintf(buf, "%v=%v ", stat.Name, stat.Value)
+		}
+		log.Logf(0, "%s", buf.String())
+	}
+}
+
 func (mgr *Manager) initBench() {
 	f, err := os.OpenFile(*flagBench, os.O_WRONLY|os.O_CREATE|os.O_EXCL, osutil.DefaultFilePerm)
 	if err != nil {
 		log.Fatalf("failed to open bench file: %v", err)
 	}
 	go func() {
-		for {
-			time.Sleep(time.Minute)
+		for range time.NewTicker(time.Minute).C {
 			vals := make(map[string]int)
 			for _, stat := range stats.Collect(stats.All) {
 				vals[stat.Name] = stat.V
@@ -307,7 +295,7 @@ func (mgr *Manager) vmLoop() {
 	if instancesPerRepro > maxReproVMs && maxReproVMs > 0 {
 		instancesPerRepro = maxReproVMs
 	}
-	instances := SequentialResourcePool(vmCount, 10*time.Second*mgr.cfg.Timeouts.Scale)
+	instances := SequentialResourcePool(vmCount, 5*time.Second)
 	runDone := make(chan *RunResult, 1)
 	pendingRepro := make(map[*Crash]bool)
 	reproducing := make(map[string]bool)
@@ -472,7 +460,7 @@ func reportReproError(err error) {
 }
 
 func (mgr *Manager) runRepro(crash *Crash, vmIndexes []int, putInstances func(...int)) *ReproResult {
-	res, stats, err := repro.Run(crash.Output, mgr.cfg, mgr.checkFeatures, mgr.reporter, mgr.vmPool, vmIndexes)
+	res, stats, err := repro.Run(crash.Output, mgr.cfg, mgr.enabledFeatures, mgr.reporter, mgr.vmPool, vmIndexes)
 	ret := &ReproResult{
 		instances:     vmIndexes,
 		report0:       crash.Report,
@@ -734,13 +722,16 @@ func parseProgram(target *prog.Target, enabled map[*prog.Syscall]bool, data []by
 
 func (mgr *Manager) runInstance(index int) (*Crash, error) {
 	mgr.checkUsedFiles()
-	// Use unique instance names to keep name collisions in case of untimely RPC messages.
+	var maxSignal signal.Signal
+	if fuzzer := mgr.fuzzer.Load(); fuzzer != nil {
+		maxSignal = fuzzer.Cover.CopyMaxSignal()
+	}
+	// Use unique instance names to prevent name collisions in case of untimely RPC messages.
 	instanceName := fmt.Sprintf("vm-%d", mgr.nextInstanceID.Add(1))
 	injectLog := make(chan []byte, 10)
-	mgr.serv.createInstance(instanceName, injectLog)
+	mgr.serv.createInstance(instanceName, maxSignal, injectLog)
 
 	rep, vmInfo, err := mgr.runInstanceInner(index, instanceName, injectLog)
-
 	machineInfo := mgr.serv.shutdownInstance(instanceName, rep != nil)
 	if len(vmInfo) != 0 {
 		machineInfo = append(append(vmInfo, '\n'), machineInfo...)
@@ -818,19 +809,22 @@ func (mgr *Manager) runInstanceInner(index int, instanceName string, injectLog <
 		Cover:     mgr.cfg.Cover,
 		Debug:     *flagDebug,
 		Test:      false,
-		Runtest:   false,
 		Optional: &instance.OptionalFuzzerArgs{
-			Slowdown:       mgr.cfg.Timeouts.Slowdown,
-			RawCover:       mgr.cfg.RawCover,
-			SandboxArg:     mgr.cfg.SandboxArg,
-			PprofPort:      inst.PprofPort(),
-			ResetAccState:  mgr.cfg.Experimental.ResetAccState,
-			NetCompression: mgr.netCompression,
+			Slowdown:   mgr.cfg.Timeouts.Slowdown,
+			SandboxArg: mgr.cfg.SandboxArg,
+			PprofPort:  inst.PprofPort(),
 		},
 	}
 	cmd := instance.FuzzerCmd(args)
 	_, rep, err := inst.Run(mgr.cfg.Timeouts.VMRunningTime, mgr.reporter, cmd,
-		vm.ExitTimeout, vm.StopChan(mgr.vmStop), vm.InjectOutput(injectLog))
+		vm.ExitTimeout, vm.StopChan(mgr.vmStop), vm.InjectOutput(injectLog),
+		vm.EarlyFinishCb(func() {
+			// Depending on the crash type and kernel config, fuzzing may continue
+			// running for several seconds even after kernel has printed a crash report.
+			// This litters the log and we want to prevent it.
+			mgr.serv.stopFuzzing(instanceName)
+		}),
+	)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to run fuzzer: %w", err)
 	}
@@ -990,7 +984,7 @@ func (mgr *Manager) needRepro(crash *Crash) bool {
 	if crash.fromHub || crash.fromDashboard {
 		return true
 	}
-	if mgr.checkFeatures == nil || (mgr.checkFeatures[host.FeatureLeak].Enabled &&
+	if !mgr.checkDone || (mgr.enabledFeatures&flatrpc.FeatureLeak != 0 &&
 		crash.Type != crash_pkg.MemoryLeak) {
 		// Leak checking is very slow, don't bother reproducing other crashes on leak instance.
 		return false
@@ -1202,8 +1196,7 @@ func fullReproLog(stats *repro.Stats) []byte {
 
 func (mgr *Manager) corpusInputHandler(updates <-chan corpus.NewItemEvent) {
 	for update := range updates {
-		mgr.serv.updateFilteredCover(update.NewCover)
-
+		mgr.serv.updateCoverFilter(update.NewCover)
 		if update.Exists {
 			// We only save new progs into the corpus.db file.
 			continue
@@ -1220,7 +1213,7 @@ func (mgr *Manager) corpusInputHandler(updates <-chan corpus.NewItemEvent) {
 func (mgr *Manager) getMinimizedCorpus() (corpus, repros [][]byte) {
 	mgr.mu.Lock()
 	defer mgr.mu.Unlock()
-	mgr.minimizeCorpusUnlocked()
+	mgr.minimizeCorpusLocked()
 	items := mgr.corpus.Items()
 	corpus = make([][]byte, 0, len(items))
 	for _, inp := range items {
@@ -1245,9 +1238,9 @@ func (mgr *Manager) addNewCandidates(candidates []fuzzer.Candidate) {
 	}
 }
 
-func (mgr *Manager) minimizeCorpusUnlocked() {
+func (mgr *Manager) minimizeCorpusLocked() {
 	currSize := mgr.corpus.StatProgs.Val()
-	if mgr.phase < phaseLoadedCorpus || currSize <= mgr.lastMinCorpus*103/100 {
+	if currSize <= mgr.lastMinCorpus*103/100 {
 		return
 	}
 	mgr.corpus.Minimize(mgr.cfg.Cover)
@@ -1329,12 +1322,9 @@ func (mgr *Manager) collectSyscallInfo() map[string]*corpus.CallCov {
 	return calls
 }
 
-func (mgr *Manager) fuzzerConnect(modules []host.KernelModule) (
-	BugFrames, map[uint32]uint32, map[uint32]uint32, error) {
+func (mgr *Manager) currentBugFrames() BugFrames {
 	mgr.mu.Lock()
 	defer mgr.mu.Unlock()
-
-	mgr.minimizeCorpusUnlocked()
 	frames := BugFrames{
 		memoryLeaks: make([]string, 0, len(mgr.memoryLeakFrames)),
 		dataRaces:   make([]string, 0, len(mgr.dataRaceFrames)),
@@ -1345,29 +1335,18 @@ func (mgr *Manager) fuzzerConnect(modules []host.KernelModule) (
 	for frame := range mgr.dataRaceFrames {
 		frames.dataRaces = append(frames.dataRaces, frame)
 	}
-	if !mgr.modulesInitialized {
-		var err error
-		mgr.modules = modules
-		mgr.execCoverFilter, mgr.coverFilter, err = mgr.createCoverageFilter()
-		if err != nil {
-			log.Fatalf("failed to create coverage filter: %v", err)
-		}
-		mgr.modulesInitialized = true
-	}
-	return frames, mgr.coverFilter, mgr.execCoverFilter, nil
+	return frames
 }
 
-func (mgr *Manager) machineChecked(features *host.Features, globFiles map[string][]string,
-	enabledSyscalls map[*prog.Syscall]bool) {
+func (mgr *Manager) machineChecked(features flatrpc.Feature, enabledSyscalls map[*prog.Syscall]bool) {
 	mgr.mu.Lock()
 	defer mgr.mu.Unlock()
-	if mgr.checkFeatures != nil {
+	if mgr.checkDone {
 		panic("machineChecked() called twice")
 	}
-
-	mgr.checkFeatures = features
+	mgr.checkDone = true
+	mgr.enabledFeatures = features
 	mgr.targetEnabledSyscalls = enabledSyscalls
-	mgr.target.UpdateGlobs(globFiles)
 	statSyscalls := stats.Create("syscalls", "Number of enabled syscalls",
 		stats.Simple, stats.NoGraph, stats.Link("/syscalls"))
 	statSyscalls.Add(len(enabledSyscalls))
@@ -1376,8 +1355,8 @@ func (mgr *Manager) machineChecked(features *host.Features, globFiles map[string
 	fuzzerObj := fuzzer.NewFuzzer(context.Background(), &fuzzer.Config{
 		Corpus:         mgr.corpus,
 		Coverage:       mgr.cfg.Cover,
-		FaultInjection: features[host.FeatureFault].Enabled,
-		Comparisons:    features[host.FeatureComparisons].Enabled,
+		FaultInjection: features&flatrpc.FeatureFault != 0,
+		Comparisons:    features&flatrpc.FeatureComparisons != 0,
 		Collide:        true,
 		EnabledCalls:   enabledSyscalls,
 		NoMutateCalls:  mgr.cfg.NoMutateCalls,
@@ -1398,8 +1377,22 @@ func (mgr *Manager) machineChecked(features *host.Features, globFiles map[string
 
 	mgr.loadCorpus()
 	mgr.firstConnect.Store(time.Now().Unix())
+	go mgr.corpusMinimization()
 	go mgr.fuzzerLoop(fuzzerObj)
-	go mgr.fuzzerSignalRotation(fuzzerObj)
+	if mgr.dash != nil {
+		go mgr.dashboardReporter()
+		if mgr.cfg.Reproduce {
+			go mgr.dashboardReproTasks()
+		}
+	}
+}
+
+func (mgr *Manager) corpusMinimization() {
+	for range time.NewTicker(time.Minute).C {
+		mgr.mu.Lock()
+		mgr.minimizeCorpusLocked()
+		mgr.mu.Unlock()
+	}
 }
 
 // We need this method since we're not supposed to access Manager fields from RPCServer.
@@ -1407,7 +1400,7 @@ func (mgr *Manager) getFuzzer() *fuzzer.Fuzzer {
 	return mgr.fuzzer.Load()
 }
 
-func (mgr *Manager) fuzzerSignalRotation(fuzzer *fuzzer.Fuzzer) {
+func (mgr *Manager) fuzzerSignalRotation() {
 	const (
 		rotateSignals      = 1000
 		timeBetweenRotates = 15 * time.Minute
@@ -1418,30 +1411,21 @@ func (mgr *Manager) fuzzerSignalRotation(fuzzer *fuzzer.Fuzzer) {
 	)
 	lastExecTotal := 0
 	lastRotation := time.Now()
-	for {
-		time.Sleep(time.Minute * 5)
-		mgr.mu.Lock()
-		phase := mgr.phase
-		mgr.mu.Unlock()
-		if phase < phaseTriagedCorpus {
-			continue
-		}
+	for range time.NewTicker(5 * time.Minute).C {
 		if mgr.statExecs.Val()-lastExecTotal < execsBetweenRotates {
 			continue
 		}
 		if time.Since(lastRotation) < timeBetweenRotates {
 			continue
 		}
-		fuzzer.RotateMaxSignal(rotateSignals)
+		mgr.fuzzer.Load().RotateMaxSignal(rotateSignals)
 		lastRotation = time.Now()
 		lastExecTotal = mgr.statExecs.Val()
 	}
 }
 
 func (mgr *Manager) fuzzerLoop(fuzzer *fuzzer.Fuzzer) {
-	for {
-		time.Sleep(time.Second / 2)
-
+	for ; ; time.Sleep(time.Second / 2) {
 		// Distribute new max signal over all instances.
 		newSignal, dropSignal := fuzzer.Cover.GrabSignalDelta()
 		log.Logf(2, "distributing %d new signal, %d dropped signal",
@@ -1452,6 +1436,7 @@ func (mgr *Manager) fuzzerLoop(fuzzer *fuzzer.Fuzzer) {
 		if fuzzer.StatCandidates.Val() == 0 {
 			mgr.mu.Lock()
 			if mgr.phase == phaseLoadedCorpus {
+				go mgr.fuzzerSignalRotation()
 				if mgr.cfg.HubClient != "" {
 					mgr.phase = phaseTriagedCorpus
 					go mgr.hubSyncLoop(pickGetter(mgr.cfg.HubKey))
@@ -1525,13 +1510,10 @@ func (mgr *Manager) checkUsedFiles() {
 
 func (mgr *Manager) dashboardReporter() {
 	webAddr := publicWebAddr(mgr.cfg.HTTP)
+	triageInfoSent := false
 	var lastFuzzingTime time.Duration
 	var lastCrashes, lastSuppressedCrashes, lastExecs uint64
-	for {
-		time.Sleep(time.Minute)
-		if mgr.firstConnect.Load() == 0 {
-			continue
-		}
+	for range time.NewTicker(time.Minute).C {
 		mgr.mu.Lock()
 		req := &dashapi.ManagerStatsReq{
 			Name:              mgr.cfg.Name,
@@ -1546,8 +1528,8 @@ func (mgr *Manager) dashboardReporter() {
 			SuppressedCrashes: uint64(mgr.statSuppressed.Val()) - lastSuppressedCrashes,
 			Execs:             uint64(mgr.statExecs.Val()) - lastExecs,
 		}
-		if mgr.phase >= phaseTriagedCorpus && !mgr.afterTriageStatSent {
-			mgr.afterTriageStatSent = true
+		if mgr.phase >= phaseTriagedCorpus && !triageInfoSent {
+			triageInfoSent = true
 			req.TriagedCoverage = uint64(mgr.corpus.StatSignal.Val())
 			req.TriagedPCs = uint64(mgr.corpus.StatCover.Val())
 		}
@@ -1567,11 +1549,7 @@ func (mgr *Manager) dashboardReporter() {
 }
 
 func (mgr *Manager) dashboardReproTasks() {
-	if !mgr.cfg.Reproduce {
-		return
-	}
-	for {
-		time.Sleep(20 * time.Minute)
+	for range time.NewTicker(20 * time.Minute).C {
 		needReproReply := make(chan bool)
 		mgr.needMoreRepros <- needReproReply
 		if !<-needReproReply {

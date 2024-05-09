@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/google/syzkaller/pkg/auth"
+	"github.com/google/syzkaller/pkg/flatrpc"
 	"github.com/google/syzkaller/pkg/fuzzer"
 	"github.com/google/syzkaller/pkg/hash"
-	"github.com/google/syzkaller/pkg/host"
 	"github.com/google/syzkaller/pkg/log"
 	"github.com/google/syzkaller/pkg/mgrconfig"
 	"github.com/google/syzkaller/pkg/report"
@@ -44,7 +44,7 @@ func (mgr *Manager) hubSyncLoop(keyGet keyGetter) {
 		target:        mgr.target,
 		domain:        mgr.cfg.TargetOS + "/" + mgr.cfg.HubDomain,
 		enabledCalls:  mgr.targetEnabledSyscalls,
-		leak:          mgr.checkFeatures[host.FeatureLeak].Enabled,
+		leak:          mgr.enabledFeatures&flatrpc.FeatureLeak != 0,
 		fresh:         mgr.fresh,
 		hubReproQueue: mgr.externalReproQueue,
 		keyGet:        keyGet,
@@ -129,7 +129,7 @@ func (hc *HubConnector) connect(corpus [][]byte) (*rpctype.RPCClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	hub, err := rpctype.NewRPCClient(hc.cfg.HubAddr, 1, true, true)
+	hub, err := rpctype.NewRPCClient(hc.cfg.HubAddr)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +162,7 @@ func (hc *HubConnector) connect(corpus [][]byte) (*rpctype.RPCClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	hub, err = rpctype.NewRPCClient(hc.cfg.HubAddr, 1, true, true)
+	hub, err = rpctype.NewRPCClient(hc.cfg.HubAddr)
 	if err != nil {
 		return nil, err
 	}

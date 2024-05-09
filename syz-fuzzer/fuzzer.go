@@ -9,6 +9,7 @@ import (
 	"net/http"
 	_ "net/http/pprof"
 	"os"
+	"path/filepath"
 	"runtime"
 	"runtime/debug"
 	"sync"
@@ -30,18 +31,16 @@ import (
 )
 
 type FuzzerTool struct {
-	name              string
-	config            *ipc.Config
-	procs             []*Proc
-	gate              *ipc.Gate
-	manager           *rpctype.RPCClient
-	target            *prog.Target
+	name     string
+	executor string
+	gate     *ipc.Gate
+	manager  *rpctype.RPCClient
+	// TODO: repair triagedCandidates logic, it's broken now.
 	triagedCandidates uint32
 	timeouts          targets.Timeouts
 
 	noExecRequests atomic.Uint64
 	noExecDuration atomic.Uint64
-	resetAccState  bool
 
 	requests  chan rpctype.ExecutionRequest
 	results   chan executionResult
@@ -56,36 +55,8 @@ type executionResult struct {
 	procID int
 	try    int
 	info   *ipc.ProgInfo
-}
-
-func createIPCConfig(features *host.Features, config *ipc.Config) {
-	if features[host.FeatureExtraCoverage].Enabled {
-		config.Flags |= ipc.FlagExtraCover
-	}
-	if features[host.FeatureDelayKcovMmap].Enabled {
-		config.Flags |= ipc.FlagDelayKcovMmap
-	}
-	if features[host.FeatureNetInjection].Enabled {
-		config.Flags |= ipc.FlagEnableTun
-	}
-	if features[host.FeatureNetDevices].Enabled {
-		config.Flags |= ipc.FlagEnableNetDev
-	}
-	config.Flags |= ipc.FlagEnableNetReset
-	config.Flags |= ipc.FlagEnableCgroups
-	config.Flags |= ipc.FlagEnableCloseFds
-	if features[host.FeatureDevlinkPCI].Enabled {
-		config.Flags |= ipc.FlagEnableDevlinkPCI
-	}
-	if features[host.FeatureNicVF].Enabled {
-		config.Flags |= ipc.FlagEnableNicVF
-	}
-	if features[host.FeatureVhciInjection].Enabled {
-		config.Flags |= ipc.FlagEnableVhciInjection
-	}
-	if features[host.FeatureWifiEmulation].Enabled {
-		config.Flags |= ipc.FlagEnableWifi
-	}
+	output []byte
+	err    string
 }
 
 // Gate size controls how deep in the log the last executed by every proc
@@ -101,37 +72,29 @@ func main() {
 	debug.SetGCPercent(50)
 
 	var (
-		flagName           = flag.String("name", "test", "unique name for manager")
-		flagOS             = flag.String("os", runtime.GOOS, "target OS")
-		flagArch           = flag.String("arch", runtime.GOARCH, "target arch")
-		flagManager        = flag.String("manager", "", "manager rpc address")
-		flagProcs          = flag.Int("procs", 1, "number of parallel test processes")
-		flagTest           = flag.Bool("test", false, "enable image testing mode")      // used by syz-ci
-		flagRunTest        = flag.Bool("runtest", false, "enable program testing mode") // used by pkg/runtest
-		flagRawCover       = flag.Bool("raw_cover", false, "fetch raw coverage")
-		flagPprofPort      = flag.Int("pprof_port", 0, "HTTP port for the pprof endpoint (disabled if 0)")
-		flagNetCompression = flag.Bool("net_compression", false, "use network compression for RPC calls")
-
-		// Experimental flags.
-		flagResetAccState = flag.Bool("reset_acc_state", false, "restarts executor before most executions")
+		flagName      = flag.String("name", "test", "unique name for manager")
+		flagOS        = flag.String("os", runtime.GOOS, "target OS")
+		flagArch      = flag.String("arch", runtime.GOARCH, "target arch")
+		flagManager   = flag.String("manager", "", "manager rpc address")
+		flagProcs     = flag.Int("procs", 1, "number of parallel test processes")
+		flagTest      = flag.Bool("test", false, "enable image testing mode") // used by syz-ci
+		flagPprofPort = flag.Int("pprof_port", 0, "HTTP port for the pprof endpoint (disabled if 0)")
 	)
 	defer tool.Init()()
 	log.Logf(0, "fuzzer started")
 
 	target, err := prog.GetTarget(*flagOS, *flagArch)
 	if err != nil {
-		log.SyzFatalf("%v", err)
+		log.SyzFatal(err)
 	}
 
 	config, execOpts, err := ipcconfig.Default(target)
 	if err != nil {
 		log.SyzFatalf("failed to create default ipc config: %v", err)
 	}
-	if *flagRawCover {
-		execOpts.Flags &^= ipc.FlagDedupCover
-	}
 	timeouts := config.Timeouts
-	sandbox := ipc.FlagsToSandbox(config.Flags)
+	sandbox := ipc.FlagsToSandbox(execOpts.EnvFlags)
+	executor := config.Executor
 	shutdown := make(chan struct{})
 	osutil.HandleInterrupts(shutdown)
 	go func() {
@@ -158,10 +121,8 @@ func main() {
 		return
 	}
 
-	machineInfo, modules := collectMachineInfos()
-
 	log.Logf(0, "dialing manager at %v", *flagManager)
-	manager, err := rpctype.NewRPCClient(*flagManager, timeouts.Scale, false, *flagNetCompression)
+	manager, err := rpctype.NewRPCClient(*flagManager)
 	if err != nil {
 		log.SyzFatalf("failed to create an RPC client: %v ", err)
 	}
@@ -169,8 +130,12 @@ func main() {
 	log.Logf(1, "connecting to manager...")
 	a := &rpctype.ConnectArgs{
 		Name:        *flagName,
-		MachineInfo: machineInfo,
-		Modules:     modules,
+		GitRevision: prog.GitRevision,
+		SyzRevision: target.Revision,
+	}
+	a.ExecutorArch, a.ExecutorSyzRevision, a.ExecutorGitRevision, err = executorVersion(executor)
+	if err != nil {
+		log.SyzFatalf("failed to run executor version: %v ", err)
 	}
 	r := &rpctype.ConnectRes{}
 	if err := manager.Call("Manager.Connect", a, r); err != nil {
@@ -178,102 +143,87 @@ func main() {
 	}
 	featureFlags, err := csource.ParseFeaturesFlags("none", "none", true)
 	if err != nil {
-		log.SyzFatalf("%v", err)
+		log.SyzFatal(err)
 	}
-	if r.CoverFilterBitmap != nil {
-		if err := osutil.WriteFile("syz-cover-bitmap", r.CoverFilterBitmap); err != nil {
-			log.SyzFatalf("failed to write syz-cover-bitmap: %v", err)
-		}
-	}
+	var checkReq *rpctype.CheckArgs
 	if r.Features == nil {
-		checkArgs.gitRevision = r.GitRevision
-		checkArgs.targetRevision = r.TargetRevision
-		checkArgs.enabledCalls = r.EnabledCalls
-		checkArgs.allSandboxes = r.AllSandboxes
 		checkArgs.featureFlags = featureFlags
-		checkResult, err := checkMachine(checkArgs)
+		checkReq, err = checkMachine(checkArgs)
 		if err != nil {
-			if checkResult == nil {
-				checkResult = new(rpctype.CheckArgs)
+			if checkReq == nil {
+				checkReq = new(rpctype.CheckArgs)
 			}
-			checkResult.Error = err.Error()
+			checkReq.Error = err.Error()
 		}
-		checkResult.Name = *flagName
-		if err := manager.Call("Manager.Check", checkResult, nil); err != nil {
-			log.SyzFatalf("Manager.Check call failed: %v", err)
-		}
-		if checkResult.Error != "" {
-			log.SyzFatalf("%v", checkResult.Error)
-		}
-		r.Features = checkResult.Features
+		r.Features = checkReq.Features
 	} else {
-		if err = host.Setup(target, r.Features, featureFlags, config.Executor); err != nil {
-			log.SyzFatalf("%v", err)
+		if err = host.Setup(target, r.Features, featureFlags, executor); err != nil {
+			log.SyzFatal(err)
 		}
+		checkReq = new(rpctype.CheckArgs)
 	}
+
 	for _, feat := range r.Features.Supported() {
 		log.Logf(0, "%v: %v", feat.Name, feat.Reason)
 	}
-	createIPCConfig(r.Features, config)
 
-	if *flagRunTest {
-		runTest(target, manager, *flagName, config.Executor)
-		return
-	}
 	inputsCount := *flagProcs * 2
 	fuzzerTool := &FuzzerTool{
-		name:          *flagName,
-		manager:       manager,
-		target:        target,
-		timeouts:      timeouts,
-		config:        config,
-		resetAccState: *flagResetAccState,
+		name:     *flagName,
+		executor: executor,
+		manager:  manager,
+		timeouts: timeouts,
 
-		requests: make(chan rpctype.ExecutionRequest, inputsCount),
-		results:  make(chan executionResult, inputsCount),
+		requests: make(chan rpctype.ExecutionRequest, 2*inputsCount),
+		results:  make(chan executionResult, 2*inputsCount),
 	}
-	fuzzerTool.gate = ipc.NewGate(gateSize,
-		fuzzerTool.useBugFrames(r, *flagProcs))
-	if r.CoverFilterBitmap != nil {
-		execOpts.Flags |= ipc.FlagEnableCoverageFilter
-	}
-	// Query enough inputs at the beginning.
-	fuzzerTool.exchangeDataCall(inputsCount, nil, 0)
+	gateCb := fuzzerTool.useBugFrames(r.Features, r.MemoryLeakFrames, r.DataRaceFrames)
+	fuzzerTool.gate = ipc.NewGate(gateSize, gateCb)
+
 	log.Logf(0, "starting %v executor processes", *flagProcs)
 	for pid := 0; pid < *flagProcs; pid++ {
-		proc, err := newProc(fuzzerTool, execOpts, pid)
-		if err != nil {
-			log.SyzFatalf("failed to create proc: %v", err)
-		}
-		fuzzerTool.procs = append(fuzzerTool.procs, proc)
-		go proc.loop()
+		startProc(fuzzerTool, pid, config)
 	}
+
+	checkReq.Name = *flagName
+	checkReq.Files = host.ReadFiles(r.ReadFiles)
+	checkReq.Globs = make(map[string][]string)
+	for _, glob := range r.ReadGlobs {
+		files, err := filepath.Glob(filepath.FromSlash(glob))
+		if err != nil && checkReq.Error == "" {
+			checkReq.Error = fmt.Sprintf("failed to read glob %q: %v", glob, err)
+		}
+		checkReq.Globs[glob] = files
+	}
+	checkRes := new(rpctype.CheckRes)
+	if err := manager.Call("Manager.Check", checkReq, checkRes); err != nil {
+		log.SyzFatalf("Manager.Check call failed: %v", err)
+	}
+	if checkReq.Error != "" {
+		log.SyzFatalf("%v", checkReq.Error)
+	}
+
+	if checkRes.CoverFilterBitmap != nil {
+		if err := osutil.WriteFile("syz-cover-bitmap", checkRes.CoverFilterBitmap); err != nil {
+			log.SyzFatalf("failed to write syz-cover-bitmap: %v", err)
+		}
+	}
+	// Query enough inputs at the beginning.
+	fuzzerTool.exchangeDataCall(nil, 0)
 	go fuzzerTool.exchangeDataWorker()
 	fuzzerTool.exchangeDataWorker()
 }
 
-func collectMachineInfos() ([]byte, []host.KernelModule) {
-	machineInfo, err := host.CollectMachineInfo()
-	if err != nil {
-		log.SyzFatalf("failed to collect machine information: %v", err)
-	}
-	modules, err := host.CollectModulesInfo()
-	if err != nil {
-		log.SyzFatalf("failed to collect modules info: %v", err)
-	}
-	return machineInfo, modules
-}
-
 // Returns gateCallback for leak checking if enabled.
-func (tool *FuzzerTool) useBugFrames(r *rpctype.ConnectRes, flagProcs int) func() {
+func (tool *FuzzerTool) useBugFrames(featues *host.Features, leakFrames, raceFrames []string) func() {
 	var gateCallback func()
 
-	if r.Features[host.FeatureLeak].Enabled {
-		gateCallback = func() { tool.gateCallback(r.MemoryLeakFrames) }
+	if featues[host.FeatureLeak].Enabled {
+		gateCallback = func() { tool.gateCallback(leakFrames) }
 	}
 
-	if r.Features[host.FeatureKCSAN].Enabled && len(r.DataRaceFrames) != 0 {
-		tool.filterDataRaceFrames(r.DataRaceFrames)
+	if featues[host.FeatureKCSAN].Enabled && len(raceFrames) != 0 {
+		tool.filterDataRaceFrames(raceFrames)
 	}
 
 	return gateCallback
@@ -291,7 +241,7 @@ func (tool *FuzzerTool) gateCallback(leakFrames []string) {
 	}
 	args := append([]string{"leak"}, leakFrames...)
 	timeout := tool.timeouts.NoOutput * 9 / 10
-	output, err := osutil.RunCmd(timeout, "", tool.config.Executor, args...)
+	output, err := osutil.RunCmd(timeout, "", tool.executor, args...)
 	if err != nil && triagedCandidates == 2 {
 		// If we exit right away, dying executors will dump lots of garbage to console.
 		os.Stdout.Write(output)
@@ -307,7 +257,7 @@ func (tool *FuzzerTool) gateCallback(leakFrames []string) {
 func (tool *FuzzerTool) filterDataRaceFrames(frames []string) {
 	args := append([]string{"setup_kcsan_filterlist"}, frames...)
 	timeout := time.Minute * tool.timeouts.Scale
-	output, err := osutil.RunCmd(timeout, "", tool.config.Executor, args...)
+	output, err := osutil.RunCmd(timeout, "", tool.executor, args...)
 	if err != nil {
 		log.SyzFatalf("failed to set KCSAN filterlist: %v", err)
 	}
@@ -323,8 +273,8 @@ func (tool *FuzzerTool) startExecutingCall(progID int64, pid, try int) {
 	})
 }
 
-func (tool *FuzzerTool) exchangeDataCall(needProgs int, results []rpctype.ExecutionResult,
-	latency time.Duration) time.Duration {
+func (tool *FuzzerTool) exchangeDataCall(results []rpctype.ExecutionResult, latency time.Duration) time.Duration {
+	needProgs := max(0, cap(tool.requests)/2-len(tool.requests))
 	a := &rpctype.ExchangeInfoRequest{
 		Name:       tool.name,
 		NeedProgs:  needProgs,
@@ -338,10 +288,11 @@ func (tool *FuzzerTool) exchangeDataCall(needProgs int, results []rpctype.Execut
 		log.SyzFatalf("Manager.ExchangeInfo call failed: %v", err)
 	}
 	latency = osutil.MonotonicNano() - start
-	if needProgs != len(r.Requests) {
-		log.SyzFatalf("manager returned wrong number of requests: %v/%v", needProgs, len(r.Requests))
-	}
 	tool.updateMaxSignal(r.NewMaxSignal, r.DropMaxSignal)
+	if len(r.Requests) == 0 {
+		// This is possible during initial checking stage, backoff a bit.
+		time.Sleep(100 * time.Millisecond)
+	}
 	for _, req := range r.Requests {
 		tool.requests <- req
 	}
@@ -350,8 +301,18 @@ func (tool *FuzzerTool) exchangeDataCall(needProgs int, results []rpctype.Execut
 
 func (tool *FuzzerTool) exchangeDataWorker() {
 	var latency time.Duration
-	for result := range tool.results {
-		results := []rpctype.ExecutionResult{tool.convertExecutionResult(result)}
+	ticker := time.NewTicker(3 * time.Second * tool.timeouts.Scale).C
+	for {
+		var results []rpctype.ExecutionResult
+		select {
+		case res := <-tool.results:
+			results = append(results, tool.convertExecutionResult(res))
+		case <-ticker:
+			// This is not expected to happen a lot,
+			// but this is required to resolve potential deadlock
+			// during initial checking stage when we may get
+			// no test requests from the host in some requests.
+		}
 		// Grab other finished calls, just in case there are any.
 	loop:
 		for {
@@ -363,7 +324,7 @@ func (tool *FuzzerTool) exchangeDataWorker() {
 			}
 		}
 		// Replenish exactly the finished requests.
-		latency = tool.exchangeDataCall(len(results), results, latency)
+		latency = tool.exchangeDataCall(results, latency)
 	}
 }
 
@@ -372,9 +333,11 @@ func (tool *FuzzerTool) convertExecutionResult(res executionResult) rpctype.Exec
 		ID:     res.ID,
 		ProcID: res.procID,
 		Try:    res.try,
+		Output: res.output,
+		Error:  res.err,
 	}
 	if res.info != nil {
-		if res.NeedSignal == rpctype.NewSignal {
+		if res.NewSignal {
 			tool.diffMaxSignal(res.info, res.SignalFilter, res.SignalFilterCall)
 		}
 		ret.Info = *res.info

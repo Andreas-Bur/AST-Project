@@ -38,7 +38,6 @@ func (mgr *Manager) initStats() {
 		stats.Simple, stats.Graph("crashes"))
 	mgr.statFuzzingTime = stats.Create("fuzzing", "Total fuzzing time in all VMs (seconds)",
 		stats.NoGraph, func(v int, period time.Duration) string { return fmt.Sprintf("%v sec", v/1e9) })
-
 	mgr.statUptime = stats.Create("uptime", "Total uptime (seconds)", stats.Simple, stats.NoGraph,
 		func() int {
 			firstConnect := mgr.firstConnect.Load()

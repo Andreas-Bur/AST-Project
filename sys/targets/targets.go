@@ -584,6 +584,9 @@ var oses = map[string]osCommon{
 
 var (
 	commonCFlags = []string{
+		"-std=c++11",
+		"-I.",
+		"-Iexecutor/_include",
 		"-O2",
 		"-pthread",
 		"-Wall",

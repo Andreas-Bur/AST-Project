@@ -14,7 +14,6 @@ import (
 
 	"github.com/google/syzkaller/pkg/corpus"
 	"github.com/google/syzkaller/pkg/ipc"
-	"github.com/google/syzkaller/pkg/rpctype"
 	"github.com/google/syzkaller/pkg/signal"
 	"github.com/google/syzkaller/pkg/stats"
 	"github.com/google/syzkaller/prog"
@@ -84,11 +83,10 @@ type Config struct {
 }
 
 type Request struct {
-	Prog         *prog.Prog
-	NeedCover    bool
-	NeedRawCover bool
-	NeedSignal   rpctype.SignalType
-	NeedHints    bool
+	Prog       *prog.Prog
+	NeedSignal SignalType
+	NeedCover  bool
+	NeedHints  bool
 	// If specified, the resulting signal for call SignalFilterCall
 	// will include subset of it even if it's not new.
 	SignalFilter     signal.Signal
@@ -99,6 +97,14 @@ type Request struct {
 	resultC chan *Result
 }
 
+type SignalType int
+
+const (
+	NoSignal  SignalType = iota // we don't need any signal
+	NewSignal                   // we need the newly seen signal
+	AllSignal                   // we need all signal
+)
+
 type Result struct {
 	Info *ipc.ProgInfo
 	Stop bool
@@ -108,7 +114,8 @@ func (fuzzer *Fuzzer) Done(req *Request, res *Result) {
 	// Triage individual calls.
 	// We do it before unblocking the waiting threads because
 	// it may result it concurrent modification of req.Prog.
-	if req.NeedSignal != rpctype.NoSignal && res.Info != nil {
+	// If we are already triaging this exact prog, this is flaky coverage.
+	if req.NeedSignal != NoSignal && res.Info != nil && req.flags&progInTriage == 0 {
 		for call, info := range res.Info.Calls {
 			fuzzer.triageProgCall(req.Prog, &info, call, req.flags)
 		}
@@ -124,17 +131,10 @@ func (fuzzer *Fuzzer) Done(req *Request, res *Result) {
 	req.stat.Add(1)
 }
 
-func (fuzzer *Fuzzer) triageProgCall(p *prog.Prog, info *ipc.CallInfo, call int,
-	flags ProgTypes) {
+func (fuzzer *Fuzzer) triageProgCall(p *prog.Prog, info *ipc.CallInfo, call int, flags ProgTypes) {
 	prio := signalPrio(p, info, call)
 	newMaxSignal := fuzzer.Cover.addRawMaxSignal(info.Signal, prio)
 	if newMaxSignal.Empty() {
-		return
-	}
-	if flags&progInTriage > 0 {
-		// We are already triaging this exact prog.
-		// All newly found coverage is flaky.
-		fuzzer.Logf(2, "found new flaky signal in call %d in %s", call, p)
 		return
 	}
 	if !fuzzer.Config.NewInputFilter(p.CallName(call)) {
@@ -249,10 +249,10 @@ func (fuzzer *Fuzzer) nextRand() int64 {
 }
 
 func (fuzzer *Fuzzer) pushExec(req *Request, prio priority) {
-	if req.NeedHints && (req.NeedCover || req.NeedSignal != rpctype.NoSignal) {
+	if req.NeedHints && (req.NeedCover || req.NeedSignal != NoSignal) {
 		panic("Request.NeedHints is mutually exclusive with other fields")
 	}
-	if req.SignalFilter != nil && req.NeedSignal != rpctype.NewSignal {
+	if req.SignalFilter != nil && req.NeedSignal != NewSignal {
 		panic("SignalFilter must be used with NewSignal")
 	}
 	fuzzer.nextExec.push(&priorityQueueItem[*Request]{

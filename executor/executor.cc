@@ -3,6 +3,9 @@
 
 // +build
 
+// Currently this is unused (included only to test building).
+#include "pkg/flatrpc/flatrpc.h"
+
 #include <algorithm>
 #include <errno.h>
 #include <limits.h>
@@ -868,8 +871,6 @@ void execute_one()
 		if (call_num >= ARRAY_SIZE(syscalls))
 			failmsg("invalid syscall number", "call_num=%llu", call_num);
 		const call_t* call = &syscalls[call_num];
-		if (call->attrs.disabled)
-			failmsg("executing disabled syscall", "syscall=%s", call->name);
 		if (prog_extra_timeout < call->attrs.prog_timeout)
 			prog_extra_timeout = call->attrs.prog_timeout * slowdown_scale;
 		if (strncmp(syscalls[call_num].name, "syz_usb", strlen("syz_usb")) == 0)
@@ -1114,7 +1115,7 @@ void copyout_call_results(thread_t* th)
 
 void write_call_output(thread_t* th, bool finished)
 {
-	uint32 reserrno = 999;
+	uint32 reserrno = ENOSYS;
 	const bool blocked = finished && th != last_scheduled;
 	uint32 call_flags = call_flag_executed | (blocked ? call_flag_blocked : 0);
 	if (finished) {

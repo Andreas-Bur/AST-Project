@@ -80,7 +80,7 @@ func init() {
 	ctor := func(env *vmimpl.Env) (vmimpl.Pool, error) {
 		return &testPool{}, nil
 	}
-	vmimpl.Register("test", ctor, false, false)
+	vmimpl.Register("test", ctor, false)
 }
 
 type Test struct {
@@ -329,6 +329,7 @@ var tests = []*Test{
 		Exit:         ExitNormal,
 		InjectOutput: "BUG: foo\n",
 		Body: func(outc chan []byte, errc chan error) {
+			time.Sleep(time.Second)
 			errc <- nil
 		},
 		Report: &report.Report{

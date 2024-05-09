@@ -12,7 +12,7 @@ import (
 	"github.com/google/syzkaller/pkg/testutil"
 )
 
-var allArches = []string{ArchX86, ArchPowerPC}
+var allArches = []string{ArchX86, ArchPowerPC, ArchArm64}
 
 func TestMode(t *testing.T) {
 	for _, arch := range allArches {
@@ -143,7 +143,7 @@ func testGenerate(t *testing.T, arch string) {
 			for len(text) != 0 {
 				size, err := insnset.Decode(mode, text)
 				if size == 0 || err != nil {
-					t.Errorf("failed to decode text: %v", text)
+					t.Errorf("failed to decode text: % x", text)
 					break
 				}
 				text = text[size:]
