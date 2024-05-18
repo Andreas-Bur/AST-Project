@@ -27,46 +27,77 @@ syz_io_uring_setup(entries int32[1:IORING_MAX_ENTRIES], params ptr[inout, io_uri
 
 io_uring_setup(entries int32[1:IORING_MAX_ENTRIES], params ptr[inout, io_uring_params]) fd_io_uring
 io_uring_enter(fd fd_io_uring, to_submit int32[0:IORING_MAX_ENTRIES], min_complete int32[0:IORING_MAX_CQ_ENTRIES], flags flags[io_uring_enter_flags], sigmask ptr[in, sigset_t], size len[sigmask])
-io_uring_register$IORING_REGISTER_BUFFERS(fd fd_io_uring, opcode const[IORING_REGISTER_BUFFERS], arg ptr[in, array[iovec_out]], nr_args len[arg])
-io_uring_register$IORING_UNREGISTER_BUFFERS(fd fd_io_uring, opcode const[IORING_UNREGISTER_BUFFERS], arg const[0], nr_args const[0])
-io_uring_register$IORING_REGISTER_FILES(fd fd_io_uring, opcode const[IORING_REGISTER_FILES], arg ptr[in, array[fd]], nr_args len[arg])
-io_uring_register$IORING_UNREGISTER_FILES(fd fd_io_uring, opcode const[IORING_UNREGISTER_FILES], arg const[0], nr_args const[0])
-io_uring_register$IORING_REGISTER_EVENTFD(fd fd_io_uring, opcode const[IORING_REGISTER_EVENTFD], arg ptr[in, fd_event], nr_args const[1])
-io_uring_register$IORING_UNREGISTER_EVENTFD(fd fd_io_uring, opcode const[IORING_UNREGISTER_EVENTFD], arg const[0], nr_args const[0])
-io_uring_register$IORING_REGISTER_FILES_UPDATE(fd fd_io_uring, opcode const[IORING_REGISTER_FILES_UPDATE], arg ptr[in, io_uring_files_update], nr_args len[arg:fds])
-io_uring_register$IORING_REGISTER_EVENTFD_ASYNC(fd fd_io_uring, opcode const[IORING_REGISTER_EVENTFD_ASYNC], arg ptr[in, fd_event], nr_args const[1])
-io_uring_register$IORING_REGISTER_PROBE(fd fd_io_uring, opcode const[IORING_REGISTER_PROBE], arg ptr[inout, io_uring_probe], nr_args len[arg:ops])
-io_uring_register$IORING_REGISTER_PERSONALITY(fd fd_io_uring, opcode const[IORING_REGISTER_PERSONALITY], arg const[0], nr_args const[0]) ioring_personality_id
-io_uring_register$IORING_UNREGISTER_PERSONALITY(fd fd_io_uring, opcode const[IORING_UNREGISTER_PERSONALITY], arg const[0], nr_args ioring_personality_id)
+
+IORING_REGISTER_BUFFERS_OP_FLAGS = IORING_REGISTER_BUFFERS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_BUFFERS_OP_FLAGS = IORING_UNREGISTER_BUFFERS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_FILES_OP_FLAGS = IORING_REGISTER_FILES, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_FILES_OP_FLAGS = IORING_UNREGISTER_FILES, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_EVENTFD_OP_FLAGS = IORING_REGISTER_EVENTFD, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_EVENTFD_OP_FLAGS = IORING_UNREGISTER_EVENTFD, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_FILES_UPDATE_OP_FLAGS = IORING_REGISTER_FILES_UPDATE, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_EVENTFD_ASYNC_OP_FLAGS = IORING_REGISTER_EVENTFD_ASYNC, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_PROBE_OP_FLAGS = IORING_REGISTER_PROBE, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_PERSONALITY_OP_FLAGS = IORING_REGISTER_PERSONALITY, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_PERSONALITY_OP_FLAGS = IORING_UNREGISTER_PERSONALITY, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_RESTRICTIONS_OP_FLAGS = IORING_REGISTER_RESTRICTIONS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_ENABLE_RINGS_OP_FLAGS = IORING_REGISTER_ENABLE_RINGS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_FILES2_OP_FLAGS = IORING_REGISTER_FILES2, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_FILES_UPDATE2_OP_FLAGS = IORING_REGISTER_FILES_UPDATE2, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_BUFFERS2_OP_FLAGS = IORING_REGISTER_BUFFERS2, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_BUFFERS_UPDATE_OP_FLAGS = IORING_REGISTER_BUFFERS_UPDATE, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_IOWQ_AFF_OP_FLAGS = IORING_REGISTER_IOWQ_AFF, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_IOWQ_AFF_OP_FLAGS = IORING_UNREGISTER_IOWQ_AFF, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_IOWQ_MAX_WORKERS_OP_FLAGS = IORING_REGISTER_IOWQ_MAX_WORKERS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_RING_FDS_OP_FLAGS = IORING_REGISTER_RING_FDS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_RING_FDS_OP_FLAGS = IORING_UNREGISTER_RING_FDS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_PBUF_RING_OP_FLAGS = IORING_REGISTER_PBUF_RING, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_PBUF_RING_OP_FLAGS = IORING_UNREGISTER_PBUF_RING, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_SYNC_CANCEL_OP_FLAGS = IORING_REGISTER_SYNC_CANCEL, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_FILE_ALLOC_RANGE_OP_FLAGS = IORING_REGISTER_FILE_ALLOC_RANGE, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_PBUF_STATUS_OP_FLAGS = IORING_REGISTER_PBUF_STATUS, IORING_REGISTER_USE_REGISTERED_RING
+IORING_REGISTER_NAPI_OP_FLAGS = IORING_REGISTER_NAPI, IORING_REGISTER_USE_REGISTERED_RING
+IORING_UNREGISTER_NAPI_OP_FLAGS = IORING_UNREGISTER_NAPI, IORING_REGISTER_USE_REGISTERED_RING
+
+io_uring_register$IORING_REGISTER_BUFFERS(fd fd_io_uring, opcode flags[IORING_REGISTER_BUFFERS_OP_FLAGS], arg ptr[in, array[iovec_out]], nr_args len[arg])
+io_uring_register$IORING_UNREGISTER_BUFFERS(fd fd_io_uring, opcode flags[IORING_UNREGISTER_BUFFERS_OP_FLAGS], arg const[0], nr_args const[0])
+io_uring_register$IORING_REGISTER_FILES(fd fd_io_uring, opcode flags[IORING_REGISTER_FILES_OP_FLAGS], arg ptr[in, array[fd]], nr_args len[arg])
+io_uring_register$IORING_UNREGISTER_FILES(fd fd_io_uring, opcode flags[IORING_UNREGISTER_FILES_OP_FLAGS], arg const[0], nr_args const[0])
+io_uring_register$IORING_REGISTER_EVENTFD(fd fd_io_uring, opcode flags[IORING_REGISTER_EVENTFD_OP_FLAGS], arg ptr[in, fd_event], nr_args const[1])
+io_uring_register$IORING_UNREGISTER_EVENTFD(fd fd_io_uring, opcode flags[IORING_UNREGISTER_EVENTFD_OP_FLAGS], arg const[0], nr_args const[0])
+io_uring_register$IORING_REGISTER_FILES_UPDATE(fd fd_io_uring, opcode flags[IORING_REGISTER_FILES_UPDATE_OP_FLAGS], arg ptr[in, io_uring_files_update], nr_args len[arg:fds])
+io_uring_register$IORING_REGISTER_EVENTFD_ASYNC(fd fd_io_uring, opcode flags[IORING_REGISTER_EVENTFD_ASYNC_OP_FLAGS], arg ptr[in, fd_event], nr_args const[1])
+io_uring_register$IORING_REGISTER_PROBE(fd fd_io_uring, opcode flags[IORING_REGISTER_PROBE_OP_FLAGS], arg ptr[inout, io_uring_probe], nr_args len[arg:ops])
+io_uring_register$IORING_REGISTER_PERSONALITY(fd fd_io_uring, opcode flags[IORING_REGISTER_PERSONALITY_OP_FLAGS], arg const[0], nr_args const[0]) ioring_personality_id
+io_uring_register$IORING_UNREGISTER_PERSONALITY(fd fd_io_uring, opcode flags[IORING_UNREGISTER_PERSONALITY_OP_FLAGS], arg const[0], nr_args ioring_personality_id)
 # IORING_REGISTER_EVENTFD, IORING_UNREGISTER_EVENTFD >= 5.2
 # IORING_REGISTER_FILES_UPDATE >= 5.5
 # IORING_REGISTER_EVENTFD_ASYNC, IORING_REGISTER_PROBE, IORING_REGISTER_PERSONALITY, IORING_UNREGISTER_PERSONALITY>= 5.6
 
-io_uring_register$IORING_REGISTER_ENABLE_RINGS(fd fd_io_uring, opcode const[IORING_REGISTER_ENABLE_RINGS], arg const[0], nr_args const[0])
-io_uring_register$IORING_REGISTER_RESTRICTIONS(fd fd_io_uring, opcode const[IORING_REGISTER_RESTRICTIONS], arg ptr[in, array[io_uring_restriction_st]], nr_args len[arg])
+io_uring_register$IORING_REGISTER_ENABLE_RINGS(fd fd_io_uring, opcode flags[IORING_REGISTER_ENABLE_RINGS_OP_FLAGS], arg const[0], nr_args const[0])
+io_uring_register$IORING_REGISTER_RESTRICTIONS(fd fd_io_uring, opcode flags[IORING_REGISTER_RESTRICTIONS_OP_FLAGS], arg ptr[in, array[io_uring_restriction_st]], nr_args len[arg])
 # IORING_REGISTER_ENABLE_RINGS, IORING_REGISTER_RESTRICTIONS >= 5.10
-io_uring_register$IORING_REGISTER_BUFFERS2(fd fd_io_uring, opcode const[IORING_REGISTER_BUFFERS2], arg ptr[in, io_uring_rsrc_register], size bytesize[arg])
-io_uring_register$IORING_REGISTER_BUFFERS_UPDATE(fd fd_io_uring, opcode const[IORING_REGISTER_BUFFERS_UPDATE], arg ptr[in, io_uring_rsrc_update2], size bytesize[arg])
-io_uring_register$IORING_REGISTER_FILES2(fd fd_io_uring, opcode const[IORING_REGISTER_FILES2], arg ptr[in, io_uring_rsrc_register], size bytesize[arg])
-io_uring_register$IORING_REGISTER_FILES_UPDATE2(fd fd_io_uring, opcode const[IORING_REGISTER_FILES_UPDATE2], arg ptr[in, io_uring_rsrc_update2], size bytesize[arg])
+io_uring_register$IORING_REGISTER_BUFFERS2(fd fd_io_uring, opcode flags[IORING_REGISTER_BUFFERS2_OP_FLAGS], arg ptr[in, io_uring_rsrc_register], size bytesize[arg])
+io_uring_register$IORING_REGISTER_BUFFERS_UPDATE(fd fd_io_uring, opcode flags[IORING_REGISTER_BUFFERS_UPDATE_OP_FLAGS], arg ptr[in, io_uring_rsrc_update2], size bytesize[arg])
+io_uring_register$IORING_REGISTER_FILES2(fd fd_io_uring, opcode flags[IORING_REGISTER_FILES2_OP_FLAGS], arg ptr[in, io_uring_rsrc_register], size bytesize[arg])
+io_uring_register$IORING_REGISTER_FILES_UPDATE2(fd fd_io_uring, opcode flags[IORING_REGISTER_FILES_UPDATE2_OP_FLAGS], arg ptr[in, io_uring_rsrc_update2], size bytesize[arg])
 # IORING_REGISTER_BUFFERS2, IORING_REGISTER_BUFFERS_UPDATE, IORING_REGISTER_FILES2, IORING_REGISTER_FILES_UPDATE2 >= 5.13
-io_uring_register$IORING_REGISTER_IOWQ_AFF(fd fd_io_uring, opcode const[IORING_REGISTER_IOWQ_AFF], arg ptr[in, array[int8]], size bytesize[arg])
-io_uring_register$IORING_UNREGISTER_IOWQ_AFF(fd fd_io_uring, opcode const[IORING_UNREGISTER_IOWQ_AFF], arg const[0], nr_args const[0])
+io_uring_register$IORING_REGISTER_IOWQ_AFF(fd fd_io_uring, opcode flags[IORING_REGISTER_IOWQ_AFF_OP_FLAGS], arg ptr[in, array[int8]], size bytesize[arg])
+io_uring_register$IORING_UNREGISTER_IOWQ_AFF(fd fd_io_uring, opcode flags[IORING_UNREGISTER_IOWQ_AFF_OP_FLAGS], arg const[0], nr_args const[0])
 # IORING_REGISTER_IOWQ_AFF, IORING_UNREGISTER_IOWQ_AFF >= 5.14
-io_uring_register$IORING_REGISTER_IOWQ_MAX_WORKERS(fd fd_io_uring, opcode const[IORING_REGISTER_IOWQ_MAX_WORKERS], arg ptr[in, array[int32, 2]], nr_args const[2])
+io_uring_register$IORING_REGISTER_IOWQ_MAX_WORKERS(fd fd_io_uring, opcode flags[IORING_REGISTER_IOWQ_MAX_WORKERS_OP_FLAGS], arg ptr[in, array[int32, 2]], nr_args const[2])
 # IORING_REGISTER_IOWQ_MAX_WORKERS >= 5.15
-io_uring_register$IORING_REGISTER_RING_FDS(fd fd_io_uring, opcode const[IORING_REGISTER_RING_FDS], arg ptr[in, array[io_uring_rsrc_register]], nr_args len[arg])
-io_uring_register$IORING_UNREGISTER_RING_FDS(fd fd_io_uring, opcode const[IORING_UNREGISTER_RING_FDS], arg ptr[in, array[io_uring_rsrc_register]], nr_args len[arg])
+io_uring_register$IORING_REGISTER_RING_FDS(fd fd_io_uring, opcode flags[IORING_REGISTER_RING_FDS_OP_FLAGS], arg ptr[in, array[io_uring_rsrc_register]], nr_args len[arg])
+io_uring_register$IORING_UNREGISTER_RING_FDS(fd fd_io_uring, opcode flags[IORING_UNREGISTER_RING_FDS_OP_FLAGS], arg ptr[in, array[io_uring_rsrc_register]], nr_args len[arg])
 # IORING_REGISTER_RING_FDS, IORING_UNREGISTER_RING_FDS >= 5.18
-io_uring_register$IORING_REGISTER_PBUF_RING(fd fd_io_uring, opcode const[IORING_REGISTER_PBUF_RING], arg ptr[in, io_uring_buf_reg], nr_args const[1])
-io_uring_register$IORING_UNREGISTER_PBUF_RING(fd fd_io_uring, opcode const[IORING_UNREGISTER_PBUF_RING], arg ptr[in, io_uring_buf_reg], nr_args const[1])
+io_uring_register$IORING_REGISTER_PBUF_RING(fd fd_io_uring, opcode flags[IORING_REGISTER_PBUF_RING_OP_FLAGS], arg ptr[in, io_uring_buf_reg], nr_args const[1])
+io_uring_register$IORING_UNREGISTER_PBUF_RING(fd fd_io_uring, opcode flags[IORING_UNREGISTER_PBUF_RING_OP_FLAGS], arg ptr[in, io_uring_buf_reg], nr_args const[1])
 # IORING_REGISTER_PBUF_RING, IORING_UNREGISTER_PBUF_RING >= 5.19
 
-io_uring_register$IORING_REGISTER_SYNC_CANCEL(fd fd_io_uring, opcode const[IORING_REGISTER_SYNC_CANCEL], arg ptr[in, io_uring_sync_cancel_reg], nr_args const[1])
-io_uring_register$IORING_REGISTER_FILE_ALLOC_RANGE(fd fd_io_uring, opcode const[IORING_REGISTER_FILE_ALLOC_RANGE], arg ptr[in, io_uring_file_index_range], nr_args const[0])
-io_uring_register$IORING_REGISTER_PBUF_STATUS(fd fd_io_uring, opcode const[IORING_REGISTER_PBUF_STATUS], arg ptr[in, io_uring_buf_status], nr_args const[1])
-io_uring_register$IORING_REGISTER_NAPI(fd fd_io_uring, opcode const[IORING_REGISTER_NAPI], arg ptr[in, io_uring_napi], nr_args const[1])
-io_uring_register$IORING_UNREGISTER_NAPI(fd fd_io_uring, opcode const[IORING_UNREGISTER_NAPI], arg ptr[in, io_uring_napi], nr_args const[1])
+io_uring_register$IORING_REGISTER_SYNC_CANCEL(fd fd_io_uring, opcode flags[IORING_REGISTER_SYNC_CANCEL_OP_FLAGS], arg ptr[in, io_uring_sync_cancel_reg], nr_args const[1])
+io_uring_register$IORING_REGISTER_FILE_ALLOC_RANGE(fd fd_io_uring, opcode flags[IORING_REGISTER_FILE_ALLOC_RANGE_OP_FLAGS], arg ptr[in, io_uring_file_index_range], nr_args const[0])
+io_uring_register$IORING_REGISTER_PBUF_STATUS(fd fd_io_uring, opcode flags[IORING_REGISTER_PBUF_STATUS_OP_FLAGS], arg ptr[in, io_uring_buf_status], nr_args const[1])
+io_uring_register$IORING_REGISTER_NAPI(fd fd_io_uring, opcode flags[IORING_REGISTER_NAPI_OP_FLAGS], arg ptr[in, io_uring_napi], nr_args const[1])
+io_uring_register$IORING_UNREGISTER_NAPI(fd fd_io_uring, opcode flags[IORING_UNREGISTER_NAPI_OP_FLAGS], arg ptr[in, io_uring_napi], nr_args const[1])
 
 io_uring_register_opcodes = IORING_REGISTER_BUFFERS, IORING_UNREGISTER_BUFFERS, IORING_REGISTER_FILES, IORING_UNREGISTER_FILES, IORING_REGISTER_EVENTFD, IORING_UNREGISTER_EVENTFD, IORING_REGISTER_FILES_UPDATE, IORING_REGISTER_EVENTFD_ASYNC, IORING_REGISTER_PROBE, IORING_REGISTER_PERSONALITY, IORING_UNREGISTER_PERSONALITY, IORING_REGISTER_RESTRICTIONS, IORING_REGISTER_ENABLE_RINGS, IORING_REGISTER_FILES2, IORING_REGISTER_FILES_UPDATE2, IORING_REGISTER_BUFFERS2, IORING_REGISTER_BUFFERS_UPDATE, IORING_REGISTER_IOWQ_AFF, IORING_UNREGISTER_IOWQ_AFF, IORING_REGISTER_IOWQ_MAX_WORKERS, IORING_REGISTER_RING_FDS, IORING_UNREGISTER_RING_FDS, IORING_REGISTER_PBUF_RING, IORING_UNREGISTER_PBUF_RING, IORING_REGISTER_SYNC_CANCEL, IORING_REGISTER_FILE_ALLOC_RANGE, IORING_REGISTER_PBUF_STATUS, IORING_REGISTER_NAPI, IORING_UNREGISTER_NAPI
 
@@ -485,7 +516,7 @@ io_uring_sqe_epoll_ctl [
 
 type io_uring_sqe$splice io_uring_sqe[IORING_OP_SPLICE, const[0, int16], fd_or_fixed_fd_index, fileoff[int64], io_uring_sqe_splice_off_in, int32, flags[splice_flags, int32], sqe_user_data_not_openat, io_uring_sqe_splice_misc]
 type io_uring_sqe$provide_buffers io_uring_sqe[IORING_OP_PROVIDE_BUFFERS, const[0, int16], int32, io_uring_bid[int64], buffer[in], int32, const[0, int32], sqe_user_data_not_openat, buf_group_personality_misc]
-type io_uring_sqe$remove_buffers io_uring_sqe[IORING_OP_PROVIDE_BUFFERS, const[0, int16], int32, const[0, int64], const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, buf_group_personality_misc]
+type io_uring_sqe$remove_buffers io_uring_sqe[IORING_OP_REMOVE_BUFFERS, const[0, int16], int32, const[0, int64], const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, buf_group_personality_misc]
 # IORING_OP_SPLICE, IORING_OP_PROVIDE_BUFFERS >= 5.7
 type io_uring_sqe$tee io_uring_sqe[IORING_OP_TEE, const[0, int16], fd_or_fixed_fd_index, const[0, int64], const[0, int64], int32, flags[splice_flags, int32], sqe_user_data_not_openat, io_uring_sqe_tee_misc]
 # IORING_OP_TEE >= 5.8
