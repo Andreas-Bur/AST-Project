@@ -353,7 +353,7 @@ io_uring_sqe_u [
 	IORING_OP_CONNECT		io_uring_sqe$connect
 	IORING_OP_FALLOCATE		io_uring_sqe$fallocate
 	IORING_OP_OPENAT		io_uring_sqe$openat
-	IORING_OP_CLOSE			io_uring_sqe$close
+	IORING_OP_CLOSE			io_uring_sqe_close
 	IORING_OP_FILES_UPDATE		io_uring_sqe$files_update
 	IORING_OP_STATX			io_uring_sqe$statx
 	IORING_OP_READ			io_uring_sqe_read
@@ -486,13 +486,17 @@ type io_uring_sqe$connect io_uring_sqe[IORING_OP_CONNECT, const[0, int16], sock,
 # IORING_OP_TIMEOUT_REMOVE, IORING_OP_ACCEPT, IORING_OP_ASYNC_CANCEL, IORING_OP_LINK_TIMEOUT, IORING_OP_CONNECT >= 5.5
 type io_uring_sqe$fallocate io_uring_sqe[IORING_OP_FALLOCATE, const[0, int16], fd_or_fixed_fd_index, fileoff[int64], const[0, int64], int32, const[0, int32], sqe_user_data_not_openat, personality_only_misc]
 type io_uring_sqe$openat io_uring_sqe[IORING_OP_OPENAT, const[0, int16], fd_dir[opt], const[0, int64], ptr64[in, filename], flags[open_mode, int32], flags[open_flags, int32], sqe_user_data_openat, file_index_misc]
-type io_uring_sqe$close io_uring_sqe[IORING_OP_CLOSE, const[0, int16], fd[opt], const[0, int64], const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, file_index_misc]
 type io_uring_sqe$files_update io_uring_sqe[IORING_OP_FILES_UPDATE, const[0, int16], const[0, int32], fileoff[int64], ptr[in, array[fd]], len[addr, int32], const[0, int32], sqe_user_data_not_openat, personality_only_misc]
 type io_uring_sqe$statx io_uring_sqe[IORING_OP_STATX, const[0, int16], fd_dir[opt], ptr[out, statx], ptr64[in, filename], flags[statx_mask, int32], flags[statx_flags, int32], sqe_user_data_not_openat, personality_only_misc]
 
 io_uring_sqe_read [
 	pass_buffer		io_uring_sqe[IORING_OP_READ, flags[ioprio_priorities, int16], fd_or_fixed_fd_index, fileoff[int64], buffer[out], bytesize[addr, int32], flags[rwf_flags, int32], sqe_user_data_not_openat, personality_only_misc]
 	use_registered_buffer	io_uring_sqe[IORING_OP_READ, flags[ioprio_priorities, int16], fd_or_fixed_fd_index, fileoff[int64], const[0, int64], const[0, int32], flags[rwf_flags, int32], sqe_user_data_not_openat, buf_index_personality_misc]
+]
+
+io_uring_sqe_close [
+	close_fd		io_uring_sqe[IORING_OP_CLOSE, const[0, int16], fd[opt], const[0, int64], const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, personality_only_misc]
+	close_file_index	io_uring_sqe[IORING_OP_CLOSE, const[0, int16], const[0, int32], const[0, int64], const[0, int64], const[0, int32], const[0, int32], sqe_user_data_not_openat, file_index_misc]
 ]
 
 type io_uring_sqe$write io_uring_sqe[IORING_OP_WRITE, flags[ioprio_priorities, int16], fd_or_fixed_fd_index, fileoff[int64], buffer[in], bytesize[addr, int32], flags[rwf_flags, int32], sqe_user_data_not_openat, personality_only_misc]
