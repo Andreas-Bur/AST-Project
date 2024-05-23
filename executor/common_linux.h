@@ -1945,7 +1945,7 @@ static long syz_io_uring_setup(volatile long a0, volatile long a1, volatile long
 	void** sqes_ptr_out = (void**)a3;
 	// Temporarily disable IORING_SETUP_CQE32 and IORING_SETUP_SQE128 that may change SIZEOF_IO_URING_CQE and SIZEOF_IO_URING_SQE.
 	// Tracking bug: https://github.com/google/syzkaller/issues/4531.
-	// setup_params->flags &= ~(IORING_SETUP_CQE32 | IORING_SETUP_SQE128);
+	// setup_params->flags &= ~(I438);
 	uint32 fd_io_uring = syscall(__NR_io_uring_setup, entries, setup_params);
 
 	// Compute the ring sizes
