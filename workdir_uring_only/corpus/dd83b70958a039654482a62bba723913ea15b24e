@@ -1,0 +1,6 @@
+r0 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000300)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000001, 0x0, 0x4)
+r3 = syz_init_net_socket$802154_dgram(0x24, 0x2, 0x0)
+syz_io_uring_submit(r1, r2, &(0x7f0000000100)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={0x0, 0x0, 0x0}})
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000600)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl, 0x80, &(0x7f0000000740)=[{&(0x7f00000002c0)="08000000a6c74ec4", 0x8}, {&(0x7f0000001580)="388e051a194e15a46b9ef962c14452ed9f0545651cd7089aeddc39b0d2998f9be75395474a1af5da7808e3e2c9133bf0c8d51d1b22a8bb40a0dfc1ebba1415b42ad9df4a97cf8ca64efbd73106453f1f9dc52fca5d69d341671ffad2e34284055718c15936aa1ba84b68d79951ab9baecc0dc36101bc8c6d", 0x78}], 0x2}})
+io_uring_enter(r0, 0x1055a6, 0x0, 0x0, 0x0, 0x0)

@@ -1,0 +1,6 @@
+syz_io_uring_setup(0x1149, &(0x7f0000001300), 0x0, 0x0)
+syz_io_uring_setup(0x1, &(0x7f0000000340), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000140))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x0, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_complete(r0)
+r1 = syz_open_procfs(0x0, &(0x7f0000000000)='fdinfo/4\x00')
+read$FUSE(r1, &(0x7f0000000240)={0x2020}, 0x2020)

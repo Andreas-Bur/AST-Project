@@ -1,0 +1,4 @@
+r0 = syz_open_dev$sndpcmp(&(0x7f0000000200), 0x0, 0x0)
+r1 = pkey_alloc(0x0, 0x0)
+pkey_mprotect(&(0x7f0000000000/0x4000)=nil, 0x4000, 0x3, r1)
+ioctl$SNDRV_PCM_IOCTL_REWIND(r0, 0x40084149, &(0x7f0000002e40))

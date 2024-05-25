@@ -1,0 +1,6 @@
+r0 = syz_io_uring_setup(0x5147, &(0x7f0000000080), &(0x7f0000000000), &(0x7f0000001280))
+r1 = openat$sw_sync_info(0xffffffffffffff9c, &(0x7f0000000040), 0x0, 0x0)
+fcntl$setlease(r1, 0x400, 0x0)
+r2 = openat$sw_sync_info(0xffffffffffffff9c, &(0x7f0000000040), 0x0, 0x0)
+fcntl$setlease(r2, 0x400, 0x0)
+close_range(r0, 0xffffffffffffffff, 0x0)

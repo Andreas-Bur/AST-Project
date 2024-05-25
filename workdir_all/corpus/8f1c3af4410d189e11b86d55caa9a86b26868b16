@@ -1,0 +1,4 @@
+r0 = syz_io_uring_setup(0x4bd, &(0x7f0000000040), &(0x7f0000000000)=<r1=>0x0, &(0x7f00000000c0)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r1, r2, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd_index, 0x0, &(0x7f0000000140)="e925639cfdc61e42827e5c576b4dce6918612913165651ca31b3f5954a4c040c0abfa6db3313a447897c00000000ab6cd6901b50d8407ad54ace1b63eac0900b1100984e692efafb0e8f26468deede494f25", 0x52})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)

@@ -1,0 +1,8 @@
+r0 = socket$nl_sock_diag(0x10, 0x3, 0x4)
+syz_mount_image$minix(&(0x7f0000000180), &(0x7f00000001c0)='./file0\x00', 0x0, &(0x7f0000000080)=ANY=[@ANYRES16], 0x1, 0x17f, &(0x7f0000000200)="$eJzs209O6lAUx/Ffy7/3eP+fOnFkoolOoILG6kyXQqAisSgRJxAT4lJcmRuARDdgjYWArUYrClX4fhLSe0hOzrkhl54OKgBz668kQ4ZSkjzP6xytGVqJkvgzN/nmAEyUpzsPwLxK3MTdAYB49A4S/hzQ2Jauby/K3cEnFWF2MGuj9b6k7qP8dMT5o3dp+NflZDA/I+lblPnlqp+/Hqr//Y31s6H8bOR8079urAbzfzw8Ikn6Jem3pD+DZ61/kv4/U78Sqr8UsT7wHoby4TjwhanDmutsDuOUHxeGcdqPi6F4axhn/DhfPnUrk9oCgDGZr5z/ROj8J0PnH8DX1Wy1j0uu65yxiH/Rme0fRcn+9j5LPyxeWsT5rwRgGqzzesNqttq5Wr1UdarOSdHes+3CbmHHtvzJ3wrO/wBmx+imH3cnAAAAAAAAAAAAAABgXAuSFuNuAgAAAMBUPH37x/zw14ni3iMAAAAAAAAAAAAAAAAAAAAwK+4DAAD//0bBSW4=")
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='.\x00', 0x0, 0x0)
+r2 = socket$packet(0x11, 0x3, 0x300)
+setsockopt$SO_ATTACH_FILTER(r2, 0x1, 0x1a, &(0x7f0000000200)={0x1, &(0x7f00000002c0)=[{0x6}]}, 0x10)
+syz_io_uring_submit(0x0, 0x0, 0x0)
+getdents(r1, &(0x7f00000015c0)=""/4096, 0x1000)
+sendmsg$SOCK_DIAG_BY_FAMILY(r0, &(0x7f0000000200)={0x0, 0x0, &(0x7f0000000100)={&(0x7f0000001640)=ANY=[@ANYBLOB="280000001400010e000000000000000011"], 0x28}}, 0x0)

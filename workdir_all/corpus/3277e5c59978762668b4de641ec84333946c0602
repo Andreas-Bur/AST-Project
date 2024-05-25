@@ -1,0 +1,5 @@
+openat(0xffffffffffffff9c, &(0x7f0000000100)='./file1\x00', 0x42, 0x0)
+r0 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x0, 0x0)
+r1 = socket$nl_generic(0x10, 0x3, 0x10)
+r2 = syz_genetlink_get_family_id$batadv(&(0x7f0000000040), 0xffffffffffffffff)
+sendmsg$BATADV_CMD_GET_GATEWAYS(r1, &(0x7f00000001c0)={0x0, 0x0, &(0x7f0000000180)={&(0x7f00000002c0)=ANY=[@ANYBLOB="1c000000", @ANYRES16=r2, @ANYBLOB="190300000000000000000900000008000300", @ANYRES32=r0], 0x1c}}, 0x0)

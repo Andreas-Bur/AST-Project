@@ -1,0 +1,7 @@
+r0 = syz_open_procfs(0x0, &(0x7f0000000040)='net/vlan/vlan1\x00')
+openat$qrtrtun(0xffffffffffffff9c, &(0x7f0000000040), 0x0)
+r1 = socket$qrtr(0x2a, 0x2, 0x0)
+connect$qrtr(r1, &(0x7f0000000100)={0x2a, 0xffffffffffffffff, 0xfffffffe}, 0xc)
+r2 = dup(r1)
+write$P9_RREMOVE(r2, 0x0, 0x0)
+close_range(r0, 0xffffffffffffffff, 0x0)

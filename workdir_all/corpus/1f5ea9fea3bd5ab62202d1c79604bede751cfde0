@@ -1,0 +1,6 @@
+r0 = socket$inet(0x2, 0xa, 0x0)
+r1 = openat$tun(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$TUNSETIFF(r1, 0x400454ca, &(0x7f0000000080)={'pimreg\x00', 0x1})
+ioctl$IOCTL_GET_NCIDEV_IDX(r0, 0x8914, &(0x7f0000000080)=<r2=>0x0)
+r3 = syz_init_net_socket$nfc_llcp(0x27, 0x3, 0x1)
+bind$nfc_llcp(r3, &(0x7f00000022c0)={0x27, r2, 0x0, 0x0, 0x0, 0x0, "d6d9bee2d4d512de62d93191e71c6a6331f68b0e20c2e416edcf28a95bda7626279efd826dcde321604e589d33e5957bd42c5bf7e9fc07ac888fd4e9da7975"}, 0x60)

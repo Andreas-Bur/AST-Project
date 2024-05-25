@@ -1,0 +1,6 @@
+ioctl$DRM_IOCTL_MODE_GETFB2(0xffffffffffffffff, 0xc06864ce, 0x0)
+r0 = socket$nl_generic(0x10, 0x3, 0x10)
+r1 = syz_genetlink_get_family_id$nl80211(&(0x7f0000000140), 0xffffffffffffffff)
+r2 = socket$nl_generic(0x10, 0x3, 0x10)
+ioctl$sock_SIOCGIFINDEX_80211(r2, 0x8933, &(0x7f00000007c0)={'wlan1\x00', <r3=>0x0})
+sendmsg$NL80211_CMD_CHANNEL_SWITCH(r0, &(0x7f0000000000)={0x0, 0x0, &(0x7f0000000180)={&(0x7f00000002c0)=ANY=[@ANYBLOB=',\x00\x00\x00', @ANYRES16=r1, @ANYBLOB="010000000000000000006600000008000300", @ANYRES32=r3, @ANYBLOB="08002600c81400000800b70000000031"], 0x2c}}, 0x0)

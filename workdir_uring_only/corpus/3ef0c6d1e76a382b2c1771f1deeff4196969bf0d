@@ -1,0 +1,8 @@
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000005, 0x0, 0x4)
+r3 = socket$inet(0x2, 0x3, 0x84)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000540)=[{&(0x7f0000000280)="6e9e1dce3fe60772070bb974", 0xc}, {&(0x7f0000000040)="095c90f2", 0x4}, {&(0x7f0000000340)="368a919a5b7cee59422b031b6a758737a741adf297dd93c3fa3b6f657cd00323eb691cd58ce1af59613769edd04608e71f46f954eb125b4838c27edc227c10731ad3c8664e5b7bf87cae32619749e78505dd66776054f3a07fbd56c3728a2354ae7e228f7bb1e82721dfccf26b2a418f801f991ae8a36fdb6efe57cb2496ae3b2dc23bd1fadc69e9feff65c1dd906cdbb66ba624eaafd2032cd42bac858d11bfaaa62d57467867ae5d0a9246144c99220cd5db947081ff3eeaf53b8aa9962e859fdaa818dcdf656faff93e804d1aeb1ddcde0824ae4ad9337fcaca719fb74f56158cbd50f412ef74d139b57400dcea95c61feb61240f51207f1bbe04de", 0xfd}], 0x3}})
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_RECVMSG={0xa, 0x0, 0x1, 0xffffffffffffffff, 0x0, 0x0})
+socket$unix(0xa, 0x0, 0x0)
+syz_io_uring_setup(0x7, &(0x7f0000000240), 0x0, 0x0)
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)

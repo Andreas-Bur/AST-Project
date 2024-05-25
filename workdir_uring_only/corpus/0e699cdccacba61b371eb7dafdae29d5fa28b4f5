@@ -1,0 +1,6 @@
+r0 = add_key$keyring(&(0x7f0000000040), &(0x7f00000001c0)={'syz', 0x3}, 0x0, 0x0, 0xfffffffffffffffc)
+pipe2$watch_queue(&(0x7f0000000200)={<r1=>0xffffffffffffffff, <r2=>0xffffffffffffffff}, 0x80)
+keyctl$KEYCTL_WATCH_KEY(0x20, r0, r1, 0x0)
+pipe2$watch_queue(&(0x7f0000000080)={<r3=>0xffffffffffffffff}, 0x80)
+keyctl$KEYCTL_WATCH_KEY(0x20, r0, r3, 0x0)
+keyctl$KEYCTL_WATCH_KEY(0x20, r0, r2, 0x0)

@@ -1,0 +1,8 @@
+openat$sndseq(0xffffffffffffff9c, &(0x7f0000000040), 0x0)
+r0 = socket$inet_smc(0x2b, 0x1, 0x0)
+unlink(&(0x7f0000000100)='./file1\x00')
+mkdirat(0xffffffffffffff9c, &(0x7f0000000280)='./file1\x00', 0x0)
+r1 = pkey_alloc(0x0, 0x0)
+pkey_mprotect(&(0x7f0000000000/0x1000)=nil, 0x1000, 0x6, r1)
+r2 = openat$sysfs(0xffffffffffffff9c, &(0x7f0000000040)='/sys/kernel/cpu_byteorder', 0x0, 0x0)
+mount$9p_fd(0x0, &(0x7f0000000100)='./file1\x00', &(0x7f0000001240), 0x0, &(0x7f0000001280)=ANY=[@ANYBLOB='trans=fd,rfdno=', @ANYRESHEX=r2, @ANYBLOB=',wfdno=', @ANYRESHEX=r0])

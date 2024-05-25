@@ -1,0 +1,5 @@
+r0 = add_key$keyring(&(0x7f0000000000), &(0x7f00000001c0)={'syz', 0x0}, 0x0, 0x0, 0xfffffffffffffffc)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000280)='./file0\x00', 0x180841, 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x0, 0x0)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0x0, 0x11, r1, 0x10000000)
+keyctl$restrict_keyring(0x1d, r0, &(0x7f00000000c0)='big_key\x00', &(0x7f0000000280)='keyring\x00')

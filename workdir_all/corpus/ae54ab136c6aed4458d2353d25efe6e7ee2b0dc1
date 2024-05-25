@@ -1,0 +1,6 @@
+r0 = socket$inet_smc(0x2b, 0x1, 0x0)
+r1 = epoll_create(0x6)
+epoll_ctl$EPOLL_CTL_ADD(r1, 0x1, r0, &(0x7f0000000000))
+bind$inet(r0, &(0x7f0000000040)={0x2, 0x4e24, @dev}, 0x10)
+setsockopt$inet_tcp_TCP_FASTOPEN_KEY(r0, 0x6, 0x21, &(0x7f0000000100)="c1dbc762c255379bf16b72ff0ff61e15", 0x10)
+connect$inet(r0, &(0x7f00000009c0)={0x2, 0x4e24, @empty}, 0x10)

@@ -1,0 +1,7 @@
+mkdirat(0xffffffffffffff9c, &(0x7f0000002000)='./file0\x00', 0x0)
+r0 = openat$autofs(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = openat$apparmor_thread_current(0xffffffffffffff9c, &(0x7f0000000040), 0x2, 0x0)
+ioctl$AUTOFS_DEV_IOCTL_CLOSEMOUNT(r0, 0xc0189375, &(0x7f0000000080)={{0x1, 0x1, 0x18, <r2=>r1}, './file0\x00'})
+seccomp$SECCOMP_SET_MODE_FILTER_LISTENER(0x1, 0x8, &(0x7f0000000080)={0x1, &(0x7f0000000040)=[{0x6}]})
+shmctl$SHM_LOCK(0x0, 0x3)
+mount$9p_fd(0x0, &(0x7f0000000300)='./file0\x00', &(0x7f0000000340), 0x0, &(0x7f0000000640)=ANY=[@ANYBLOB='trans=fd,rfdno=', @ANYRESHEX=r2, @ANYBLOB=',wfdno=', @ANYRESHEX=r1])

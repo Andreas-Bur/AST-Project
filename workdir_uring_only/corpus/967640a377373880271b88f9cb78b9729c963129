@@ -1,0 +1,6 @@
+r0 = epoll_create1(0x0)
+r1 = syz_open_procfs(0x0, &(0x7f0000000000)='mounts\x00')
+epoll_ctl$EPOLL_CTL_ADD(r0, 0x1, r1, &(0x7f00000002c0))
+mkdirat(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x0)
+mount$tmpfs(0x0, &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, 0x0)
+umount2(&(0x7f00000002c0)='./file0\x00', 0x0)

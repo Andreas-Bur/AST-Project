@@ -1,0 +1,5 @@
+r0 = add_key$keyring(&(0x7f0000001000), &(0x7f0000001040)={'syz', 0x2}, 0x0, 0x0, 0xffffffffffffffff)
+r1 = add_key$keyring(&(0x7f0000000040), &(0x7f0000000fc0)={'syz', 0x3}, 0x0, 0x0, r0)
+syz_emit_ethernet(0x13e, &(0x7f0000000000)={@broadcast, @random="334eea81729a", @void, {@ipv6={0x86dd, @icmpv6={0x0, 0x6, "004ca8", 0x108, 0x3a, 0x0, @dev, @mcast2, {[], @ndisc_ra={0x86, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, [{0x0, 0x1f, "ada44320594adc1266f6563dcbfaaf1b3bf9e6109ad603318b41124ec7deea4af6e812aeac9ec89b00d7f43d7cf4d3b530d89ebb05a0e313111aaa9db02d2d124f2f7df76cc90ea8b11e799984127d79e4867aa4c3b637d082af9784d6e819fd19abbf88c8c335d1b79e91abb9cfc43ae8d24963b939936735eb19723e54b40176bcec731c249d3f6e4265eabe3749733301d92c9ff4c533bd914abed953e08ae5e2c1d66b7b30b0a67b5cbdafe8d86bee52bdf2111ad1310e0d5d4b5c77729efc8705b80b42e0add8c923971ac290d8151bdfbecbaad4ae3d5421dafc7ea3622c906fbd717c5d1b6dc434a7949df076f425af2ad43a"}]}}}}}}, 0x0)
+r2 = add_key$keyring(&(0x7f0000000200), &(0x7f0000000240)={'syz', 0x3}, 0x0, 0x0, r1)
+keyctl$KEYCTL_RESTRICT_KEYRING(0x1d, r2, &(0x7f0000000000)='asymmetric\x00', &(0x7f00000000c0)=@keyring={'key_or_keyring:', 0x0, 0x2})

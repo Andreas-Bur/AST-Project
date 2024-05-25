@@ -1,0 +1,7 @@
+r0 = syz_io_uring_setup(0x3436, &(0x7f0000000080), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r3 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x20841, 0x0)
+syz_io_uring_submit(r1, r2, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd=r3, 0xfae, &(0x7f00000002c0)="fbf7f272dc9bf4b7ce52dd97ccaa9427723fc735d4768c24e25214f580350a8455263fc83f901f28e50051b9c76597847a691a132bbbe8f5bb4d714c71bcad327c1b908060dbb61f49f64f3a1cc2b97038b21b", 0x53})
+io_uring_enter(r0, 0x5936, 0x0, 0x0, 0x0, 0x0)
+r4 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x0, 0x0)
+ioctl$EXT4_IOC_GROUP_ADD(r4, 0x40086602, &(0x7f0000000080))

@@ -1,0 +1,6 @@
+r0 = openat$fuse(0xffffffffffffff9c, &(0x7f0000002000), 0x2, 0x0)
+r1 = getuid()
+r2 = getgid()
+syz_mount_image$fuse(&(0x7f0000002040), &(0x7f00000002c0)='./cgroup/cgroup.procs\x00', 0x0, &(0x7f0000000e40)=ANY=[@ANYBLOB='fd=', @ANYRESHEX=r0, @ANYBLOB=',rootmode=00000000000000000120000,user_id=', @ANYRESDEC=r1, @ANYBLOB=',group_id=', @ANYRESDEC=r2], 0x0, 0x0, 0x0)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0xc, 0x72, 0xffffffffffffffff, 0x10000000)
+ioctl$FUSE_DEV_IOC_CLONE(r0, 0x4004e502, &(0x7f0000000340))

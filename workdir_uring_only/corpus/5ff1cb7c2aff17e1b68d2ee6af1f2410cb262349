@@ -1,0 +1,5 @@
+r0 = socket$nl_route(0x10, 0x3, 0x0)
+syz_io_uring_setup(0x5d00, &(0x7f0000000180)={0x0, 0xcdb3}, 0x0, 0x0)
+r1 = socket$inet_icmp_raw(0x2, 0x3, 0x1)
+ioctl$sock_SIOCGIFINDEX(r1, 0x8933, &(0x7f0000000400)={'bridge_slave_1\x00', <r2=>0x0})
+sendmsg$nl_route(r0, &(0x7f0000000040)={0x0, 0x0, &(0x7f00000000c0)={&(0x7f00000001c0)=ANY=[@ANYBLOB="bc0000001300b5f5000000100000000007000010", @ANYRES32=r2, @ANYBLOB="00000000000000009c000c80280020"], 0xbc}}, 0x0)

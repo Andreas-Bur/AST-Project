@@ -1,0 +1,6 @@
+openat$dir(0xffffffffffffff9c, &(0x7f0000000d00)='./file0\x00', 0x60140, 0x0)
+r0 = openat$autofs(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = openat$apparmor_thread_current(0xffffffffffffff9c, &(0x7f0000000040), 0x2, 0x0)
+ioctl$AUTOFS_DEV_IOCTL_CLOSEMOUNT(r0, 0xc0189375, &(0x7f0000000080)={{0x1, 0x1, 0x18, <r2=>r1}, './file0\x00'})
+syz_open_dev$usbfs(&(0x7f0000000140), 0x1ff, 0x88402)
+mount$9p_fd(0x0, &(0x7f0000000300)='./file0\x00', &(0x7f0000000340), 0x0, &(0x7f0000000640)=ANY=[@ANYBLOB='trans=fd,rfdno=', @ANYRESHEX=r2, @ANYBLOB=',wfdno=', @ANYRESHEX=r1])

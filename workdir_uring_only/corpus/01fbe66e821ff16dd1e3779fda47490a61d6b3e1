@@ -1,0 +1,6 @@
+syz_mount_image$ext4(&(0x7f0000000240)='ext4\x00', &(0x7f0000000280)='./mnt\x00', 0x0, &(0x7f00000002c0), 0x0, 0x255, &(0x7f0000000700)="$eJzs3UFIHGcYBuBvZndr1aXY9lIotIVSSiuIvRV6sZcWhCJSSqEtWErJJUEDRslNc8olh+ScBE+5SMgtJsfgRXJJCORkEg/mEkgkh0gOyWHD7iho3BB11x1lngdGZ3b/mW+Gmfefhd2ZCaCw+iJiKCJKEdEfEZWISLY2+Cob+jYm57qXxiJqtd+fJ4122XRmc77eiJiNiB8jYjFN4ng5Ynrh79WXy79+e26q8s2Vhb+6O7qRG9ZWV35bvzxy9vrwD9N37z8dSWIoqtu2q/2SJq+Vk4hPDqLYIZGU814DdmP09LUH9dx/GhFfN/JfiTSynXd+8oPFSnx/6V3zXnh27/NOrivQfrVapX4OnK0BhZNGRDWSdCAisvE0HRjIPsM/LPWkJyYmT/Ufm5ga/z/vngpol2rEyi83u270vpX/J6Us/8DR8+Uu29Xz/8fo/KP6+HrpYNcJOFzq+e//d+a7kH8onP3kv9l3WcDR4/wPxSX/UFzyD8XVnvz7oSccRc7/UFzyD8Ul/1Bc8g/FtTX/AECx1LryvgIZyEve/Q8AAAAAAAAAAAAAAAAAALDTXPfS2ObQqZq3L0as/ZzdRnxn/VLjecQRHzb+9rxItt1tPGnD3cf/2e3DUg/I1Zyvvv7ocfuX2bWHtne+aH/9vZgZj5g9ExGD5fLO4y/ZOP727+P3vF/5r8UCLfrpz3zrv57Pt/7wcsStev8z2Kz/SeOzxv/m/U+1vv9arH/yVYsLAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoGPeBAAA//8kjG1U")
+mkdirat(0xffffffffffffff9c, &(0x7f0000000640)='mnt/encrypted_dir\x00', 0x0)
+r0 = openat(0xffffffffffffff9c, &(0x7f0000000680)='mnt/encrypted_dir\x00', 0x0, 0x0)
+ioctl$FS_IOC_SET_ENCRYPTION_POLICY(r0, 0x800c6613, &(0x7f00000006c0)=@v1={0x0, @adiantum, 0x0, @desc2})
+r1 = openat(0xffffffffffffff9c, &(0x7f0000000680)='mnt/encrypted_dir\x00', 0x0, 0x0)
+ioctl$FS_IOC_GET_ENCRYPTION_POLICY_EX(r1, 0x400c6615, 0x0)

@@ -1,0 +1,6 @@
+r0 = socket$alg(0x26, 0x5, 0x0)
+r1 = add_key$keyring(&(0x7f0000000040), &(0x7f00000001c0)={'syz', 0x3}, 0x0, 0x0, 0xfffffffffffffffc)
+pipe2$watch_queue(&(0x7f0000000240)={<r2=>0xffffffffffffffff}, 0x80)
+keyctl$KEYCTL_WATCH_KEY(0x20, r1, r2, 0x0)
+close_range(r0, 0xffffffffffffffff, 0x0)
+add_key$fscrypt_v1(&(0x7f0000000000), &(0x7f0000000100)={'fscrypt:', @desc2}, &(0x7f0000000140)={0x0, "d36ecf401a9bac9fb4d5c720650cccac9e4f40e93e0884ec333042b9e52d936bf314495b1fe77008815303393f008e38e5be308fbbab7035c2a14b42f85adfb3"}, 0x48, r1)

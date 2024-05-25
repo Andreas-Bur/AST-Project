@@ -1,0 +1,5 @@
+r0 = eventfd(0x0)
+r1 = openat$vhost_vsock(0xffffffffffffff9c, &(0x7f0000000080), 0x2, 0x0)
+ioctl$VHOST_SET_OWNER(r1, 0xaf01, 0x0)
+ioctl$VHOST_SET_VRING_CALL(r1, 0x4008af20, &(0x7f0000000000)={0x0, r0})
+ioctl$VHOST_SET_VRING_KICK(r1, 0x4008af20, &(0x7f0000000000)={0x0, r0})

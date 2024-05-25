@@ -1,0 +1,5 @@
+r0 = syz_open_dev$sndpcmp(&(0x7f0000000200), 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000d00)='./file0\x00', 0x40, 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x2, 0x0)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0xa, 0x11, r1, 0x10000000)
+ioctl$SNDRV_PCM_IOCTL_STATUS_EXT32(r0, 0x40044103, &(0x7f0000000000))

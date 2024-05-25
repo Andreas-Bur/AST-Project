@@ -1,0 +1,5 @@
+r0 = socket$can_raw(0x1d, 0x3, 0x1)
+ioctl$ifreq_SIOCGIFINDEX_vcan(r0, 0x8933, &(0x7f0000000000)={'vcan0\x00', <r1=>0x0})
+r2 = epoll_create(0x7)
+epoll_ctl$EPOLL_CTL_ADD(r2, 0x1, r0, &(0x7f0000000180))
+sendmsg$can_raw(r0, &(0x7f0000000140)={&(0x7f0000000080)={0x1d, r1}, 0x10, &(0x7f0000000100)={&(0x7f0000000340)=@canfd={{}, 0x0, 0x0, 0x0, 0x0, "fe558898e3d250bce2503e569c164e64b2d127c4e45615640badea2a2790bbeae43ba3cd5573262fad99adf0fc5a58c0115165c53bdff945bab460d31154bbf1"}, 0x48}}, 0x0)

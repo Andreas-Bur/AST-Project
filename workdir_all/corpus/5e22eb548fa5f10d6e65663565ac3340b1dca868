@@ -1,0 +1,6 @@
+io_uring_register$IORING_REGISTER_SYNC_CANCEL(0xffffffffffffffff, 0x18, &(0x7f0000000380)={&(0x7f0000000240)="da07b502a49779a8ebc8043e7d45405effc0749540ee1ca131f3111ddfdaf51efbf9ae25cfa86bbf9efb1c0b0633d63e7bf21143eebcc7a6fd3186fcc18e87db7d5bc088224e8d34467ebe7a1fa12c7e8201ec1f52fa68525c6074becfed5b34210c121bf42da84767b65c5025533ca7c68579ccdd95a47ff99e3f4ff3cb1b257621050164a09e54acaafc48c77da593c5c6e209cf747a575c", @fd_io_uring, 0x0, 0x0}, 0x1)
+r0 = syz_io_uring_setup(0x1147, &(0x7f0000000340), &(0x7f00000000c0)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r3 = socket$unix(0x1, 0x2, 0x0)
+syz_io_uring_submit(r1, r2, &(0x7f0000000000)=@IORING_OP_CONNECT={0x10, 0x0, 0x0, r3, 0x80, &(0x7f00000002c0)=@un=@abs={0x1}})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)

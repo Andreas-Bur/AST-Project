@@ -1,0 +1,4 @@
+r0 = syz_init_net_socket$nl_generic(0x10, 0x3, 0x10)
+r1 = syz_init_net_socket$nl_generic(0x10, 0x3, 0x10)
+r2 = syz_genetlink_get_family_id$nfc(&(0x7f0000000080), r1)
+sendmsg$NFC_CMD_ACTIVATE_TARGET(r0, &(0x7f00000001c0)={0x0, 0x0, &(0x7f0000000180)={&(0x7f0000000200)=ANY=[@ANYBLOB='<\x00\x00\x00', @ANYRES16=r2, @ANYBLOB="010028bd7000fedbdf251c00000008000400ffffffff08000300010000000800030001000000080003000300000008000100", @ANYRES32], 0x3c}}, 0x0)

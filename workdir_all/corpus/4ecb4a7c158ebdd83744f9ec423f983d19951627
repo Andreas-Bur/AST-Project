@@ -1,0 +1,5 @@
+r0 = socket$inet_udp(0x2, 0x2, 0x0)
+r1 = socket$nl_generic(0x10, 0x3, 0x10)
+r2 = syz_genetlink_get_family_id$nl80211(&(0x7f0000000100), 0xffffffffffffffff)
+ioctl$sock_SIOCGIFINDEX_80211(r0, 0x8933, &(0x7f0000001c80)={'wlan1\x00', <r3=>0x0})
+sendmsg$NL80211_CMD_FRAME(r1, &(0x7f0000001d40)={0x0, 0x0, &(0x7f0000001d00)={&(0x7f0000000200)=ANY=[@ANYBLOB='T\x00\x00\x00', @ANYRES16=r2, @ANYBLOB="010000000000000000003b00000008000300", @ANYRES32=r3, @ANYBLOB="370033000f"], 0x54}}, 0x0)

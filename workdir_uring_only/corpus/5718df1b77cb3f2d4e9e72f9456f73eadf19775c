@@ -1,0 +1,6 @@
+r0 = syz_io_uring_setup(0x560e, &(0x7f0000000380), &(0x7f0000000100)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r3 = socket$inet6_udp(0xa, 0x2, 0x0)
+setsockopt$inet6_IPV6_RTHDR(r3, 0x29, 0x39, &(0x7f0000000000)=ANY=[@ANYBLOB="00020400003e"], 0x18)
+syz_io_uring_submit(r1, r2, &(0x7f0000000180)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000300)={&(0x7f0000000240)=@generic={0xa, "4d266946988db094183a27bd6eea8749948a71e02cae04dec08976e57ea95a1ace2e5678d2f8f1341afe612d3edf3185e80eea5da04791461e59188c4af03f6552e5888e42275e1c6448f26fe026ed3f00bb2020cd3742ce6a6281e07fed3c86c3779eed27a9200f163974b5d2b0e1df1df71f69d4d662a8dd552bf9e3f7"}, 0x80, 0x0}})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)

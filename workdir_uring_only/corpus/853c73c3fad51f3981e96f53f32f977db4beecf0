@@ -1,0 +1,5 @@
+r0 = socket$nl_generic(0x10, 0x3, 0x10)
+r1 = syz_genetlink_get_family_id$ethtool(&(0x7f0000000280), 0xffffffffffffffff)
+r2 = socket$inet_icmp_raw(0x2, 0x3, 0x1)
+ioctl$sock_SIOCGIFINDEX(r2, 0x8933, &(0x7f0000000300)={'vlan0\x00', <r3=>0x0})
+sendmsg$ETHTOOL_MSG_STRSET_GET(r0, &(0x7f0000000240)={0x0, 0x0, &(0x7f0000000200)={&(0x7f0000000100)=ANY=[@ANYBLOB='0\x00\x00\x00', @ANYRES16=r1, @ANYBLOB="0100000000000000800001000000100002800c00018008000100270000000c00018008000100", @ANYRES32=r3], 0x30}}, 0x0)

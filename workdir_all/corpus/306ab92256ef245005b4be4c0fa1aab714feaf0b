@@ -1,0 +1,5 @@
+r0 = syz_open_dev$sndpcmp(&(0x7f0000000200), 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000d00)='./file0\x00', 0x40, 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x0, 0x0)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0x0, 0x11, r1, 0x10000000)
+ioctl$SNDRV_PCM_IOCTL_SYNC_PTR(r0, 0xc0884123, &(0x7f0000000080)={0x0, "aaa2a5900759afa9d2c8f6e80b02dec6b8c08f1bf837919a45ddae197901c66bdfa96be20cc6ec0ac5f9b7a1cfff6cea09f8620a2d7bf4f26a2be1c5466d8009"})

@@ -1,0 +1,8 @@
+syz_init_net_socket$netrom(0x6, 0x5, 0x0)
+socket$unix(0xa, 0x1, 0x106)
+syz_io_uring_setup(0x26c2, &(0x7f0000000080), 0x0, 0x0)
+openat$mice(0xffffffffffffff9c, &(0x7f0000000040), 0x48801)
+r0 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r1, r2, &(0x7f0000000040)=@IORING_OP_WRITEV={0x2, 0x0, 0x0, @fd_index=0x6, 0x0, &(0x7f0000000640)=[{&(0x7f00000003c0)="bd473b125ce659a24bb870c01edf86491f25df7690ef9361d04173feeae01fbc5b2a0a52405058a3c96a86d8026fd321cffcea3553a3a23d793d5228a9356b2d1f556e7706743355779228792e2cb66111b19ffd329bef23269b385d3cf1527de7e838d0309aee19bf298f8ee1c299deb20d036b5b951ef89bf877932dbdaddb496fcfd4e5cc1a0a022ecb865d809358ea001ff45e0f09dcda27eb", 0x9b}], 0x1})
+io_uring_enter(r0, 0x280, 0x0, 0x0, 0x0, 0x0)

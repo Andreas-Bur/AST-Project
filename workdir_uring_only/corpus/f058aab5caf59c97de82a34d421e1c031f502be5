@@ -1,0 +1,6 @@
+r0 = syz_init_net_socket$nl_generic(0x10, 0x3, 0x10)
+r1 = syz_genetlink_get_family_id$nl802154(&(0x7f00000012c0), 0xffffffffffffffff)
+sendmsg$NL802154_CMD_NEW_INTERFACE(r0, &(0x7f00000013c0)={0x0, 0x0, &(0x7f0000001380)={&(0x7f0000000080)=ANY=[@ANYBLOB='@\x00\x00\x00', @ANYRES16=r1, @ANYBLOB="010000000000000000000700000008000500000000000c00060001000000010000000a0004007770616e340000000c0017000201aaaaaac7f1f720"], 0x40}}, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+shmat(0x0, &(0x7f0000ffc000/0x4000)=nil, 0x0)
+unlink(0x0)

@@ -1,0 +1,5 @@
+r0 = socket$nl_generic(0x10, 0x3, 0x10)
+r1 = syz_genetlink_get_family_id$ethtool(&(0x7f0000000080), 0xffffffffffffffff)
+r2 = socket$can_j1939(0x1d, 0x2, 0x7)
+ioctl$ifreq_SIOCGIFINDEX_vcan(r2, 0x8933, &(0x7f0000000040)={'vxcan0\x00', <r3=>0x0})
+sendmsg$ETHTOOL_MSG_RINGS_GET(r0, &(0x7f0000000140)={0x0, 0x0, &(0x7f0000000100)={&(0x7f00000000c0)=ANY=[@ANYBLOB=' \x00\x00\x00', @ANYRES16=r1, @ANYBLOB="01000000000000000000270000000c00018008000100", @ANYRES32=r3], 0x20}}, 0x0)

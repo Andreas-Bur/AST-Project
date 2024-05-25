@@ -1,0 +1,6 @@
+r0 = syz_open_procfs(0x0, &(0x7f0000000040)='net/vlan/vlan1\x00')
+mkdirat(0xffffffffffffff9c, &(0x7f0000002040)='./file0\x00', 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000004280)='./file0\x00', 0x0, 0x0)
+fsetxattr$system_posix_acl(r1, &(0x7f0000000040)='system.posix_acl_default\x00', &(0x7f0000001340), 0x24, 0x0)
+close_range(r0, 0xffffffffffffffff, 0x0)
+rmdir(&(0x7f00000000c0)='./file0\x00')

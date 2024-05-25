@@ -1,0 +1,4 @@
+r0 = syz_io_uring_setup(0x44e7, &(0x7f0000000080), &(0x7f0000000000), &(0x7f0000000140))
+r1 = openat$binderfs(0xffffffffffffff9c, &(0x7f0000000180)='./binderfs/binder1\x00', 0x0, 0x0)
+mmap$IORING_OFF_CQ_RING(&(0x7f0000000000/0x3000)=nil, 0x3000, 0x0, 0x12, r1, 0x8000000)
+io_uring_register$IORING_REGISTER_IOWQ_MAX_WORKERS(r0, 0x13, &(0x7f0000000480), 0x2)

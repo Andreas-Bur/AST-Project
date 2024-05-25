@@ -1,0 +1,6 @@
+r0 = syz_open_procfs(0x0, &(0x7f0000000040)='net/vlan/vlan1\x00')
+r1 = syz_init_net_socket$x25(0x9, 0x5, 0x0)
+bind$x25(r1, &(0x7f0000000100), 0x12)
+r2 = syz_init_net_socket$x25(0x9, 0x5, 0x0)
+bind$x25(r2, &(0x7f0000000080), 0x12)
+close_range(r0, 0xffffffffffffffff, 0x0)

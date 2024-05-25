@@ -1,0 +1,5 @@
+r0 = syz_open_dev$tty20(0xc, 0x4, 0x1)
+ioctl$KDGETMODE(r0, 0x4b36, 0x0)
+r1 = getpgrp(0xffffffffffffffff)
+r2 = gettid()
+rt_tgsigqueueinfo(r1, r2, 0x21, &(0x7f0000000240))

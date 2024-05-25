@@ -1,0 +1,5 @@
+r0 = syz_io_uring_setup(0x24cb, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000001, 0x0, 0x4)
+r3 = socket$inet(0x2, 0x3, 0x84)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000000200)=@nl=@unspec, 0x80, &(0x7f00000006c0)=[{&(0x7f0000000040)="13fcb7cb00000000000000000100008000000000934e95245a9844802e2c5d44bb0b5911b90f03148d15f7741da8986a2ff35eabc8fa6dfbacaafb41a25bd9e7f3f1348aa15c2b70f2fb64376f9b7fb44648b3fd02544ba9f028cddc0a060d9078df7596456a9bf7959a1c103b398afc121e1f84896bff437a01e1eadbb90f889abe9e9073beffbf5ff227bedac1e7cb", 0x90}], 0x1}})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)

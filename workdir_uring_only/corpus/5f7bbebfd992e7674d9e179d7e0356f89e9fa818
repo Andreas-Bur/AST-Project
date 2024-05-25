@@ -1,0 +1,4 @@
+r0 = syz_genetlink_get_family_id$nl80211(&(0x7f0000000400), 0xffffffffffffffff)
+r1 = socket$nl_generic(0x10, 0x3, 0x10)
+ioctl$sock_SIOCGIFINDEX_80211(r1, 0x8933, &(0x7f00000007c0)={'wlan1\x00', <r2=>0x0})
+sendmsg$NL80211_CMD_SET_REKEY_OFFLOAD(r1, &(0x7f0000000b80)={0x0, 0x0, &(0x7f0000000b40)={&(0x7f0000000080)={0x54, r0, 0x1, 0x0, 0x0, {{}, {@val={0x8, 0x3, r2}, @void}}, [@NL80211_ATTR_REKEY_DATA={0x38, 0x7a, 0x0, 0x1, [@NL80211_REKEY_DATA_KEK={0x14, 0x1, @kek="3916ccb624062e77e24c653115504a41"}, @NL80211_REKEY_DATA_REPLAY_CTR={0xc, 0x3, "56c7bd8c863b8798"}, @NL80211_REKEY_DATA_KCK={0x14, 0x2, @kck="0172a050e0e253cc6fb020e547263270"}]}]}, 0x54}}, 0x0)

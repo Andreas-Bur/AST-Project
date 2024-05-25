@@ -1,0 +1,5 @@
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000000340)={0x0, 0x0, &(0x7f00000013c0)=[{&(0x7f0000000080)="7c243f639153181c2b05dfd219895915f54cba29ab34cff4e74dd231defb2865d62de39f98c23ef993cb90e758e7978d641a8d24808eb828b6437b040596130d8f", 0x41}], 0x1}})
+r0 = socket$inet6_sctp(0xa, 0x5, 0x84)
+r1 = socket$inet6_sctp(0xa, 0x1, 0x84)
+getsockopt$inet_sctp6_SCTP_MAX_BURST(r1, 0x84, 0x10, &(0x7f00000000c0)=@assoc_value={<r2=>0x0}, &(0x7f0000000100)=0x8)
+getsockopt$inet_sctp6_SCTP_LOCAL_AUTH_CHUNKS(r0, 0x84, 0x1b, &(0x7f0000001880)={r2}, &(0x7f00000028c0)=0x8)

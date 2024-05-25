@@ -1,0 +1,7 @@
+syz_mount_image$msdos(&(0x7f0000000240), &(0x7f0000000280)='./file0\x00', 0x0, &(0x7f0000000040)={[{@fat=@nfs}, {@dots}, {@nodots}, {@dots}, {@fat=@errors_remount}, {@fat=@discard}, {@nodots}]}, 0x1, 0x22a, &(0x7f00000026c0)="$eJzs3E1rY1UYB/DT9zbSNitBNx50o5uL1pXLKC2IAaU2oi6EW3qrITEpuRETcdG1Kz9HcelOEL9Av4W7MjB01dVkaJP0bdoZmJkmncnvB+E84U8u53A44bmB3KNv//y5tpsnu2k7TC/GMBvCfjgJoRimw0zomxqM02f1fLhsP3zwyS/Hf3z93fdflMrl9c0YN0pbH6/FGFfe+ffX3/9697/2G9/8vfLPQjgs/nD0cO3/wzcP3zp6tPVTNY/VPDaa7ZjG7WaznW4vDS4Z41f1LM2zWG3kWesir2dxt97c2+vGtLGzXNhrZXke00Y31rJubDdju9WN6Y9ptRGTJInLhcCzVA42N9PSuGfBXRme3FJ6epaXnsgrByOfEgAwdveo/69ncaea1xL9/8jo/ydBq1VKC4Pze5X+HwAAAAAAAAAAAAAAXgUnvd5qr9dbHY7D10IIYTGEMHw/7nlyN+z/ZLP/k83+T7ZLf9xdDOHBfqfSqfTHfr7xeXn9w3imePGp406nMnOef9TP49V8LhQG+dqN+Xx4/71+fpp99mX5Wr4Udu5++QAAADARknjuxvv7JLkt71eXfh+4dv8+G96eHdkyAAAAgKfIu7/V0no9a91WhOKtkULxuhZz4V5M4/mLqRe9zri/mQAAgJftoum/Of80jnpGAAAAAAAAAAAAAAAAAAAAMHlG8TSyca8RAAAAAAAAAAAAAAAAAAAAAADum8cBAAD//5fs/D4=")
+r0 = syz_io_uring_setup(0x3436, &(0x7f0000000080), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r3 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x20841, 0x0)
+syz_io_uring_submit(r1, r2, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd=r3, 0x0, &(0x7f0000000440)="fb", 0xfffffffffffffed6})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000180)='./file1\x00', 0x300, 0x0)

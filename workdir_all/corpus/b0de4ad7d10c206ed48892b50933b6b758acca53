@@ -1,0 +1,8 @@
+r0 = gettid()
+r1 = socket$inet_mptcp(0x2, 0x1, 0x106)
+r2 = epoll_create1(0x0)
+epoll_ctl$EPOLL_CTL_ADD(r2, 0x1, r1, &(0x7f00000000c0)={0xa000000d})
+r3 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0xa2041, 0x0)
+r4 = openat$sysfs(0xffffffffffffff9c, &(0x7f0000000080)='/sys/power/wakeup_count', 0x0, 0x0)
+sendfile(r3, r4, 0x0, 0xffff8000)
+tkill(r0, 0x21)

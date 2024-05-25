@@ -1,0 +1,6 @@
+r0 = socket$inet6_tcp(0xa, 0x1, 0x0)
+setsockopt$inet6_IPV6_HOPOPTS(r0, 0x29, 0x36, &(0x7f0000000440)={0x0, 0x13, '\x00', [@padn={0x1, 0x3, [0x0, 0x0, 0x0]}, @generic={0x0, 0x87, "38ef3a46c3ba8c3f12a3d6f635aba79ebf63c2afeb69ec6bb6cb2f6450db1e8ac326305d64944124d08bbb58402f10015fa006beb9acb428c1b7d2ded30a288ee9af2876e79f085e652ffc98194f86e10add17d976ac10a38c9ba3980771e5521531bf398b30235db609ee4b326d52fad8119a36014d93151922d65df976a73a43dd95a5f0e407"}, @calipso={0x7, 0x8}]}, 0xa0)
+r1 = syz_io_uring_setup(0x33fd, &(0x7f00000003c0), &(0x7f0000000180)=<r2=>0x0, &(0x7f0000000200)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r2, r3, &(0x7f0000000140)=@IORING_OP_CONNECT={0x10, 0x0, 0x0, r0, 0x80, &(0x7f0000000080)=@in6={0xa, 0x0, 0x0, @dev, 0x45}})
+io_uring_enter(r1, 0x79e, 0x0, 0x0, 0x0, 0x0)

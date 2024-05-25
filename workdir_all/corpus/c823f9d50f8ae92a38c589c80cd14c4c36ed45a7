@@ -1,0 +1,7 @@
+syz_open_dev$ndb(0x0, 0x0, 0x0)
+r0 = syz_open_dev$loop(&(0x7f00000015c0), 0x0, 0x0)
+r1 = syz_open_dev$ndb(&(0x7f00000013c0), 0x0, 0x0)
+r2 = syz_open_dev$loop(&(0x7f00000015c0), 0x0, 0x0)
+ioctl$LOOP_SET_FD(r2, 0x4c00, r1)
+ioctl$LOOP_SET_STATUS64(r2, 0x4c04, &(0x7f0000000000)={0x0, 0x0, 0x0, 0x100, 0x0, 0x0, 0x0, 0x18, 0x0, "425e2d2a3784c9c9a656555c18c91e8d435ef837111c0323ea2cbda228ef7082a6529a958fa301b4c65310f91bf2159ec277990d789af8dd021dbf24daf72314", "8651567d694a67a23f25b1b00e3f3dc5af673b2e7d36702b45ca48b69abd70490bbfbfe78efd83cae465193aa107b312cb61032050d3ded31a5f1e8bb78ddf2b", "e42f719f4d50d8ca08291802d7612b8206b156246a768aa875f1d956b0c70817"})
+ioctl$LOOP_SET_CAPACITY(r0, 0x4c07)

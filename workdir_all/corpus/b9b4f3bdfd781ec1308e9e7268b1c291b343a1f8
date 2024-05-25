@@ -1,0 +1,5 @@
+r0 = add_key$keyring(&(0x7f0000000100), &(0x7f0000000140)={'syz', 0x0}, 0x0, 0x0, 0xfffffffffffffffd)
+r1 = add_key$fscrypt_v1(&(0x7f0000000000), &(0x7f0000000040)={'fscrypt:', @desc1}, &(0x7f0000000080)={0x0, "2f87b4c1797b478bc8200b8066702094f25b9a9cbbb9c867032995849c0fb54890802eb75a0d557c6be8c7a527b51c14760371a0c632847eded601dc4dd19c5b"}, 0x48, r0)
+pipe2$watch_queue(&(0x7f0000000180)={<r2=>0xffffffffffffffff}, 0x80)
+keyctl$KEYCTL_WATCH_KEY(0x20, r1, r2, 0x0)
+keyctl$update(0x2, r1, &(0x7f00000001c0)="d9", 0x1)

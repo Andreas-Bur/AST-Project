@@ -1,0 +1,7 @@
+openat$fuse(0xffffffffffffff9c, 0x0, 0x2, 0x0)
+openat$ttynull(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+syz_open_dev$tty20(0xc, 0x4, 0x1)
+r0 = socket$nl_generic(0x10, 0x3, 0x10)
+ioctl$sock_SIOCGIFINDEX_80211(r0, 0x8933, &(0x7f0000000080)={'wlan0\x00', <r1=>0x0})
+r2 = syz_genetlink_get_family_id$nl80211(&(0x7f00000002c0), 0xffffffffffffffff)
+sendmsg$NL80211_CMD_JOIN_MESH(r0, &(0x7f0000000180)={0x0, 0x0, &(0x7f00000001c0)={&(0x7f0000000300)=ANY=[@ANYBLOB='@\x00\x00\x00', @ANYRES16=r2, @ANYBLOB="050000000000000000004400000008000300", @ANYRES32=r1, @ANYBLOB="2400238005001100010000000800140058ffffff06001b000000000008001a0002000000e9716694c2d3c17b374b4c326ea5be"], 0x40}}, 0x0)

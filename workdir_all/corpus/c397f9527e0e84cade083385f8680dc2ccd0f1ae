@@ -1,0 +1,5 @@
+r0 = syz_init_net_socket$nl_generic(0x10, 0x3, 0x10)
+sendmsg$NL802154_CMD_NEW_SEC_LEVEL(0xffffffffffffffff, 0x0, 0x0)
+sendmsg$ETHTOOL_MSG_FEATURES_SET(0xffffffffffffffff, 0x0, 0x0)
+r1 = syz_genetlink_get_family_id$ieee802154(&(0x7f00000015c0), r0)
+sendmsg$IEEE802154_LLSEC_DEL_SECLEVEL(r0, &(0x7f00000016c0)={0x0, 0x0, &(0x7f0000001680)={&(0x7f0000001600)={0x38, r1, 0x1, 0x0, 0x0, {}, [@IEEE802154_ATTR_LLSEC_SECLEVELS={0x5}, @IEEE802154_ATTR_DEV_NAME={0xa, 0x1, 'wpan1\x00'}, @IEEE802154_ATTR_LLSEC_FRAME_TYPE={0x5}, @IEEE802154_ATTR_LLSEC_DEV_OVERRIDE={0x5}]}, 0x38}}, 0x0)

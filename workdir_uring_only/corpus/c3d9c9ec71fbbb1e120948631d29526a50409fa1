@@ -1,0 +1,8 @@
+r0 = socket$packet(0x11, 0x3, 0x300)
+setsockopt$SO_ATTACH_FILTER(r0, 0x1, 0x1a, &(0x7f00000000c0)={0x2, &(0x7f0000000040)=[{0x20, 0x0, 0x0, 0xfffff00c}, {0x6}]}, 0x10)
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+ioctl$sock_inet_SIOCSIFADDR(0xffffffffffffffff, 0x8916, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000003200)=0x80000001, 0x0, 0x4)
+r4 = socket$inet(0x2, 0x3, 0x21)
+syz_io_uring_submit(r2, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f00000006c0)=[{&(0x7f0000000280)="6e9e1dce3fe60772070bb974263c666cc8f0c63fa81b0fc7c6795f572a45313996c7d907b639945b6adfec034feae882d1768a0ac82ba6cce3f4036618584a5e6bb1a1ae9532f352ca34136f98d22166eaa8ca1f6601f74b86c257da764388b4e569e6fe2469ed658ccc25d76f0918677dc7103ebb57be6328b319306f3b83a8c9b886dfdb305199cb258e207f6f5e8bbfc7378354c4a2a81c15303d1236afcbe3a527d93e21c412a071", 0xfdc8}, {&(0x7f0000000340)="9d5da69371b0c1e90f6154fe44af9bce980c77e7d85beb72555ddd9c2ee12c649a435a13acea143dba916306a6dee20e07d1f08390bc551e148a8095e4393dc3f618d481b59f19e4a77e4af5e5b31bfdc4db", 0x52}], 0x2}})
+io_uring_enter(r1, 0x79e, 0x0, 0x0, 0x0, 0x0)

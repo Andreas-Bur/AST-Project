@@ -1,0 +1,5 @@
+r0 = socket$nl_route(0x10, 0x3, 0x0)
+r1 = socket$can_j1939(0x1d, 0x2, 0x7)
+ioctl$ifreq_SIOCGIFINDEX_vcan(r1, 0x8933, &(0x7f0000000040)={'vxcan0\x00', <r2=>0x0})
+syz_io_uring_submit(0x0, 0x0, 0x0)
+sendmsg$nl_route(r0, &(0x7f0000000700)={0x0, 0x0, &(0x7f00000001c0)={&(0x7f0000000440)=ANY=[@ANYBLOB="54000000100057d600"/20, @ANYRES32=0x0, @ANYBLOB='\x00\x00\x00\x00\x00\x00\x00\x00\b\x00\n\x00', @ANYRES32, @ANYBLOB="2c0012800800010068737200200002800a00040053dba27b7d22000008000100", @ANYRES32=r2, @ANYBLOB="080002"], 0x54}}, 0x0)
