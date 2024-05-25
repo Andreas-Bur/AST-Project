@@ -1,0 +1,26 @@
+unregister_netdevice: waiting for netdevsim0 to become free. Usage count = 2
+ref_tracker: eth%d@000000009c10291f has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     ipv6_add_dev+0x224/0x8a0 net/ipv6/addrconf.c:406
+     addrconf_notify+0x44b/0xe90 net/ipv6/addrconf.c:3651
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     register_netdevice+0xaf2/0xc00 net/core/dev.c:10310
+     nsim_init_netdevsim drivers/net/netdevsim/netdev.c:376 [inline]
+     nsim_create+0x1d5/0x250 drivers/net/netdevsim/netdev.c:434
+     __nsim_dev_port_add+0x151/0x340 drivers/net/netdevsim/dev.c:1390
+     nsim_dev_port_add_all drivers/net/netdevsim/dev.c:1446 [inline]
+     nsim_drv_probe+0x76d/0x9b0 drivers/net/netdevsim/dev.c:1604
+     nsim_bus_probe+0x1a/0x30 drivers/net/netdevsim/bus.c:391
+     call_driver_probe drivers/base/dd.c:578 [inline]
+     really_probe+0x140/0x430 drivers/base/dd.c:656
+     __driver_probe_device+0xcd/0x1b0 drivers/base/dd.c:798
+     driver_probe_device+0x2f/0x130 drivers/base/dd.c:828
+     __device_attach_driver+0x109/0x160 drivers/base/dd.c:956
+     bus_for_each_drv+0xbc/0x100 drivers/base/bus.c:457
+     __device_attach+0x101/0x290 drivers/base/dd.c:1028
+

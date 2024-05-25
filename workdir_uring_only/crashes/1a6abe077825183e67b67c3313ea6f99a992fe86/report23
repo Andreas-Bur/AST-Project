@@ -1,0 +1,137 @@
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 1, t=10502 jiffies, g=48053, q=1712 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10425 (4294990826-4294980401), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10425 jiffies! g48053 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14344 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 9080 Comm: kworker/u8:9 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events_unbound cfg80211_wiphy_work
+RIP: 0010:__lock_is_held kernel/locking/lockdep.c:5497 [inline]
+RIP: 0010:lock_is_held_type+0xa7/0x110 kernel/locking/lockdep.c:5825
+Code: c7 01 45 3b bc 24 58 0a 00 00 7d 6f 49 63 c7 48 89 de 48 8d 04 80 4d 8d 74 c5 00 4c 89 f7 e8 80 fe ff ff 85 c0 74 d7 8b 55 cc <41> b8 01 00 00 00 83 fa ff 74 13 31 c0 41 f6 46 22 03 0f 95 c0 45
+RSP: 0018:ffff88807dc05460 EFLAGS: 00000002
+RAX: 0000000000000001 RBX: ffffffff865c3360 RCX: 0000000000000001
+RDX: 00000000ffffffff RSI: ffffffff865c3360 RDI: ffff888021298ad8
+RBP: ffff88807dc05498 R08: 00000000ffffffff R09: ffff88807dc0558b
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888021298000
+R13: ffff888021298a60 R14: ffff888021298ad8 R15: 0000000000000003
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f4d62ded6f4 CR3: 00000000106e6002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ lock_is_held include/linux/lockdep.h:231 [inline]
+ rcu_read_lock_held kernel/rcu/update.c:351 [inline]
+ rcu_read_lock_held+0x43/0x60 kernel/rcu/update.c:345
+ __find_rr_leaf+0x19a/0x6c0 net/ipv6/route.c:796
+ find_rr_leaf net/ipv6/route.c:852 [inline]
+ rt6_select net/ipv6/route.c:896 [inline]
+ fib6_table_lookup+0x31a/0x520 net/ipv6/route.c:2193
+ ip6_pol_route+0x10b/0xa40 net/ipv6/route.c:2229
+ ip6_pol_route_input+0x3e/0x50 net/ipv6/route.c:2286
+ pol_lookup_func include/net/ip6_fib.h:614 [inline]
+ fib6_rule_lookup+0x2e6/0x430 net/ipv6/fib6_rules.c:116
+ ip6_route_input_lookup net/ipv6/route.c:2298 [inline]
+ ip6_route_input+0x268/0x540 net/ipv6/route.c:2594
+ ip6_rcv_finish_core.constprop.0+0x10b/0x2e0 net/ipv6/ip6_input.c:66
+ ip6_rcv_finish+0xb0/0x2e0 net/ipv6/ip6_input.c:77
+ ip_sabotage_in+0xc9/0xd0 net/bridge/br_netfilter_hooks.c:989
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook.constprop.0+0x121/0x540 include/linux/netfilter.h:269
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ ipv6_rcv+0x6a/0x340 net/ipv6/ip6_input.c:310
+ __netif_receive_skb_one_core+0x7b/0xe0 net/core/dev.c:5538
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ netif_receive_skb_internal net/core/dev.c:5738 [inline]
+ netif_receive_skb+0xaf/0x4a0 net/core/dev.c:5798
+ br_netif_receive_skb+0x9d/0x110 net/bridge/br_input.c:30
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ br_pass_frame_up+0x15b/0x210 net/bridge/br_input.c:68
+ br_handle_frame_finish+0x784/0xc80 net/bridge/br_input.c:216
+ br_nf_hook_thresh+0x1ae/0x250 net/bridge/br_netfilter_hooks.c:1166
+ br_nf_pre_routing_finish_ipv6+0x282/0x6a0 net/bridge/br_netfilter_ipv6.c:154
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ br_nf_pre_routing_ipv6+0x142/0x4b0 net/bridge/br_netfilter_ipv6.c:184
+ br_nf_pre_routing+0x59e/0x920 net/bridge/br_netfilter_hooks.c:527
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_bridge_pre net/bridge/br_input.c:272 [inline]
+ br_handle_frame+0x38d/0x8b0 net/bridge/br_input.c:417
+ __netif_receive_skb_core.constprop.0+0x46e/0x1e70 net/core/dev.c:5432
+ __netif_receive_skb_one_core+0x3e/0xe0 net/core/dev.c:5536
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ __raw_spin_unlock_bh include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock_bh+0x30/0x40 kernel/locking/spinlock.c:210
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ cfg80211_put_bss+0xf1/0x190 net/wireless/scan.c:3186
+ ieee80211_rx_bss_put net/mac80211/scan.c:37 [inline]
+ ieee80211_rx_bss_put+0x2e/0x40 net/mac80211/scan.c:32
+ ieee80211_rx_bss_info net/mac80211/ibss.c:1171 [inline]
+ ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1578 [inline]
+ ieee80211_ibss_rx_queued_mgmt+0xc14/0x1690 net/mac80211/ibss.c:1605
+ ieee80211_iface_process_skb net/mac80211/iface.c:1605 [inline]
+ ieee80211_iface_work+0x712/0x850 net/mac80211/iface.c:1659
+ cfg80211_wiphy_work+0x125/0x150 net/wireless/core.c:437
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+net_ratelimit: 144595 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+ICMPv6: NA: aa:aa:aa:aa:aa:1a advertised our address fe80::a8aa:aaff:feaa:aa1a on !
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+ICMPv6: NA: aa:aa:aa:aa:aa:1a advertised our address fe80::a8aa:aaff:feaa:aa1a on !
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+ICMPv6: NA: aa:aa:aa:aa:aa:1a advertised our address fe80::a8aa:aaff:feaa:aa1a on !
+net_ratelimit: 146619 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+ICMPv6: NA: aa:aa:aa:aa:aa:1a advertised our address fe80::a8aa:aaff:feaa:aa1a on !
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+ICMPv6: NA: aa:aa:aa:aa:aa:1a advertised our address fe80::a8aa:aaff:feaa:aa1a on !
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)

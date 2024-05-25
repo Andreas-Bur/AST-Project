@@ -1,0 +1,60 @@
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/inode.c:904!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 21711 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:f2fs_evict_inode+0xa52/0xc50 fs/f2fs/inode.c:904
+Code: e8 f3 ed 24 ff e9 13 f9 ff ff e8 e9 ec 0a ff 4c 89 e7 e8 d1 f3 01 00 e9 e4 f8 ff ff e8 d7 ec 0a ff 90 0f 0b e8 cf ec 0a ff 90 <0f> 0b e8 c7 ec 0a ff 4d 8b 74 24 28 be 31 00 00 00 48 c7 c7 08 9c
+RSP: 0018:ffff88803dd93c70 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff821ecaff
+RDX: ffff88800e0421c0 RSI: ffffffff821ed231 RDI: 0000000000000007
+RBP: ffff88803dd93cb0 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880195110b0
+R13: ffff888012bae000 R14: 0000000000038e00 R15: 00000000ffffffff
+FS:  0000555589f5d480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c001cdb000 CR3: 0000000023c40004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ evict+0x132/0x2d0 fs/inode.c:667
+ dispose_list+0x67/0xb0 fs/inode.c:700
+ evict_inodes+0x20b/0x260 fs/inode.c:750
+ generic_shutdown_super+0x4e/0x180 fs/super.c:626
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ kill_f2fs_super+0x10d/0x1c0 fs/f2fs/super.c:4857
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc18a29178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffca343fc98 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007fc18a29178b
+RDX: 00007fc18a2292c0 RSI: 0000000000000009 RDI: 00007ffca343fd50
+RBP: 00007ffca343fd50 R08: 0000000000000000 R09: 00007ffca343fb20
+R10: 0000555589f5ea4b R11: 0000000000000246 R12: 00007fc18a2f0278
+R13: 00007ffca3440e30 R14: 0000555589f5e970 R15: 00007ffca3440e20
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:f2fs_evict_inode+0xa52/0xc50 fs/f2fs/inode.c:904
+Code: e8 f3 ed 24 ff e9 13 f9 ff ff e8 e9 ec 0a ff 4c 89 e7 e8 d1 f3 01 00 e9 e4 f8 ff ff e8 d7 ec 0a ff 90 0f 0b e8 cf ec 0a ff 90 <0f> 0b e8 c7 ec 0a ff 4d 8b 74 24 28 be 31 00 00 00 48 c7 c7 08 9c
+RSP: 0018:ffff88803dd93c70 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff821ecaff
+RDX: ffff88800e0421c0 RSI: ffffffff821ed231 RDI: 0000000000000007
+RBP: ffff88803dd93cb0 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880195110b0
+R13: ffff888012bae000 R14: 0000000000038e00 R15: 00000000ffffffff
+FS:  0000555589f5d480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c001cdb000 CR3: 0000000023c40004 CR4: 0000000000770ef0
+PKRU: 55555554

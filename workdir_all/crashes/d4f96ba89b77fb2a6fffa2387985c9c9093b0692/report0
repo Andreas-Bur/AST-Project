@@ -1,0 +1,257 @@
+kobject: kobject_add_internal failed for qgroups (error: -12 parent: d09153a9-5497-4f31-8e52-d2d02bbdf7fc)
+------------[ cut here ]------------
+kernfs: can not remove 'enabled', no directory
+WARNING: CPU: 0 PID: 10406 at fs/kernfs/dir.c:1683 kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Modules linked in:
+CPU: 0 PID: 10406 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Code: b6 c8 b7 ff 4c 89 ef 41 bc fe ff ff ff e8 d8 0f a6 ff eb d4 e8 a1 c8 b7 ff 90 48 c7 c7 30 24 0b 86 4c 89 f6 e8 21 15 9b ff 90 <0f> 0b 90 90 41 bc fe ff ff ff eb b2 0f 1f 40 00 90 90 90 90 90 90
+RSP: 0018:ffff88802ed6bbc8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffffffff8670d0a8 RCX: ffffffff810d0c60
+RDX: ffff88802c3ea1c0 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff88802ed6bbf0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff85ff44cd R15: 0000000000000000
+FS:  00007fb425e18640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4251c8000 CR3: 000000002c0f2002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kernfs_remove_by_name include/linux/kernfs.h:625 [inline]
+ remove_files+0x43/0xa0 fs/sysfs/group.c:28
+ sysfs_remove_group+0x4f/0x90 fs/sysfs/group.c:319
+ sysfs_remove_groups fs/sysfs/group.c:343 [inline]
+ sysfs_remove_groups+0x42/0x70 fs/sysfs/group.c:335
+ __kobject_del+0x30/0xa0 lib/kobject.c:595
+ kobject_del lib/kobject.c:627 [inline]
+ kobject_del+0x2b/0x50 lib/kobject.c:619
+ btrfs_sysfs_del_qgroups fs/btrfs/sysfs.c:2370 [inline]
+ btrfs_sysfs_del_qgroups+0x169/0x1c0 fs/btrfs/sysfs.c:2358
+ btrfs_sysfs_add_qgroups+0x162/0x1a0 fs/btrfs/sysfs.c:2409
+ btrfs_quota_enable+0x137/0x1240 fs/btrfs/qgroup.c:1037
+ btrfs_ioctl_quota_ctl fs/btrfs/ioctl.c:3766 [inline]
+ btrfs_ioctl+0x3db2/0x4770 fs/btrfs/ioctl.c:4735
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb42508fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb425e18028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb4251cbf80 RCX: 00007fb42508fd6d
+RDX: 00000000200005c0 RSI: 00000000c0109428 RDI: 0000000000000004
+RBP: 00007fb425e180a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fb4251cbf80 R15: 00007fb425df8000
+ </TASK>
+irq event stamp: 64757
+hardirqs last  enabled at (64767): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (64767): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (64767): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (64776): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (64776): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (64776): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (64444): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (64444): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (64429): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (64429): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (64429): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernfs: can not remove 'inconsistent', no directory
+WARNING: CPU: 0 PID: 10406 at fs/kernfs/dir.c:1683 kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Modules linked in:
+CPU: 0 PID: 10406 Comm: syz-executor.5 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Code: b6 c8 b7 ff 4c 89 ef 41 bc fe ff ff ff e8 d8 0f a6 ff eb d4 e8 a1 c8 b7 ff 90 48 c7 c7 30 24 0b 86 4c 89 f6 e8 21 15 9b ff 90 <0f> 0b 90 90 41 bc fe ff ff ff eb b2 0f 1f 40 00 90 90 90 90 90 90
+RSP: 0018:ffff88802ed6bbc8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffffffff8670d0b0 RCX: ffffffff810d0c60
+RDX: ffff88802c3ea1c0 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff88802ed6bbf0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff85fe7923 R15: 0000000000000000
+FS:  00007fb425e18640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4251c8000 CR3: 000000002c0f2002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kernfs_remove_by_name include/linux/kernfs.h:625 [inline]
+ remove_files+0x43/0xa0 fs/sysfs/group.c:28
+ sysfs_remove_group+0x4f/0x90 fs/sysfs/group.c:319
+ sysfs_remove_groups fs/sysfs/group.c:343 [inline]
+ sysfs_remove_groups+0x42/0x70 fs/sysfs/group.c:335
+ __kobject_del+0x30/0xa0 lib/kobject.c:595
+ kobject_del lib/kobject.c:627 [inline]
+ kobject_del+0x2b/0x50 lib/kobject.c:619
+ btrfs_sysfs_del_qgroups fs/btrfs/sysfs.c:2370 [inline]
+ btrfs_sysfs_del_qgroups+0x169/0x1c0 fs/btrfs/sysfs.c:2358
+ btrfs_sysfs_add_qgroups+0x162/0x1a0 fs/btrfs/sysfs.c:2409
+ btrfs_quota_enable+0x137/0x1240 fs/btrfs/qgroup.c:1037
+ btrfs_ioctl_quota_ctl fs/btrfs/ioctl.c:3766 [inline]
+ btrfs_ioctl+0x3db2/0x4770 fs/btrfs/ioctl.c:4735
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb42508fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb425e18028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb4251cbf80 RCX: 00007fb42508fd6d
+RDX: 00000000200005c0 RSI: 00000000c0109428 RDI: 0000000000000004
+RBP: 00007fb425e180a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fb4251cbf80 R15: 00007fb425df8000
+ </TASK>
+irq event stamp: 65883
+hardirqs last  enabled at (65893): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (65893): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (65893): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (65932): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (65932): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (65932): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (65928): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (65928): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (65901): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (65901): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (65901): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernfs: can not remove 'drop_subtree_threshold', no directory
+WARNING: CPU: 0 PID: 10406 at fs/kernfs/dir.c:1683 kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Modules linked in:
+CPU: 0 PID: 10406 Comm: syz-executor.5 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Code: b6 c8 b7 ff 4c 89 ef 41 bc fe ff ff ff e8 d8 0f a6 ff eb d4 e8 a1 c8 b7 ff 90 48 c7 c7 30 24 0b 86 4c 89 f6 e8 21 15 9b ff 90 <0f> 0b 90 90 41 bc fe ff ff ff eb b2 0f 1f 40 00 90 90 90 90 90 90
+RSP: 0018:ffff88802ed6bbc8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffffffff8670d0b8 RCX: ffffffff810d0c60
+RDX: ffff88802c3ea1c0 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff88802ed6bbf0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff85fc51f7 R15: 0000000000000000
+FS:  00007fb425e18640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4251c8000 CR3: 000000002c0f2002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kernfs_remove_by_name include/linux/kernfs.h:625 [inline]
+ remove_files+0x43/0xa0 fs/sysfs/group.c:28
+ sysfs_remove_group+0x4f/0x90 fs/sysfs/group.c:319
+ sysfs_remove_groups fs/sysfs/group.c:343 [inline]
+ sysfs_remove_groups+0x42/0x70 fs/sysfs/group.c:335
+ __kobject_del+0x30/0xa0 lib/kobject.c:595
+ kobject_del lib/kobject.c:627 [inline]
+ kobject_del+0x2b/0x50 lib/kobject.c:619
+ btrfs_sysfs_del_qgroups fs/btrfs/sysfs.c:2370 [inline]
+ btrfs_sysfs_del_qgroups+0x169/0x1c0 fs/btrfs/sysfs.c:2358
+ btrfs_sysfs_add_qgroups+0x162/0x1a0 fs/btrfs/sysfs.c:2409
+ btrfs_quota_enable+0x137/0x1240 fs/btrfs/qgroup.c:1037
+ btrfs_ioctl_quota_ctl fs/btrfs/ioctl.c:3766 [inline]
+ btrfs_ioctl+0x3db2/0x4770 fs/btrfs/ioctl.c:4735
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb42508fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb425e18028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb4251cbf80 RCX: 00007fb42508fd6d
+RDX: 00000000200005c0 RSI: 00000000c0109428 RDI: 0000000000000004
+RBP: 00007fb425e180a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fb4251cbf80 R15: 00007fb425df8000
+ </TASK>
+irq event stamp: 66725
+hardirqs last  enabled at (66735): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (66735): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (66735): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (66744): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (66744): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (66744): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (66656): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (66656): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (66641): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (66641): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (66641): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernfs: can not remove 'mode', no directory
+WARNING: CPU: 0 PID: 10406 at fs/kernfs/dir.c:1683 kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Modules linked in:
+CPU: 0 PID: 10406 Comm: syz-executor.5 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:kernfs_remove_by_name_ns+0xf0/0x100 fs/kernfs/dir.c:1683
+Code: b6 c8 b7 ff 4c 89 ef 41 bc fe ff ff ff e8 d8 0f a6 ff eb d4 e8 a1 c8 b7 ff 90 48 c7 c7 30 24 0b 86 4c 89 f6 e8 21 15 9b ff 90 <0f> 0b 90 90 41 bc fe ff ff ff eb b2 0f 1f 40 00 90 90 90 90 90 90
+RSP: 0018:ffff88802ed6bbc8 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffffffff8670d0c0 RCX: ffffffff810d0c60
+RDX: ffff88802c3ea1c0 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff88802ed6bbf0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff85fd6162 R15: 0000000000000000
+FS:  00007fb425e18640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4251c8000 CR3: 000000002c0f2002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kernfs_remove_by_name include/linux/kernfs.h:625 [inline]
+ remove_files+0x43/0xa0 fs/sysfs/group.c:28
+ sysfs_remove_group+0x4f/0x90 fs/sysfs/group.c:319
+ sysfs_remove_groups fs/sysfs/group.c:343 [inline]
+ sysfs_remove_groups+0x42/0x70 fs/sysfs/group.c:335
+ __kobject_del+0x30/0xa0 lib/kobject.c:595
+ kobject_del lib/kobject.c:627 [inline]
+ kobject_del+0x2b/0x50 lib/kobject.c:619
+ btrfs_sysfs_del_qgroups fs/btrfs/sysfs.c:2370 [inline]
+ btrfs_sysfs_del_qgroups+0x169/0x1c0 fs/btrfs/sysfs.c:2358
+ btrfs_sysfs_add_qgroups+0x162/0x1a0 fs/btrfs/sysfs.c:2409
+ btrfs_quota_enable+0x137/0x1240 fs/btrfs/qgroup.c:1037
+ btrfs_ioctl_quota_ctl fs/btrfs/ioctl.c:3766 [inline]
+ btrfs_ioctl+0x3db2/0x4770 fs/btrfs/ioctl.c:4735
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb42508fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb425e18028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb4251cbf80 RCX: 00007fb42508fd6d
+RDX: 00000000200005c0 RSI: 00000000c0109428 RDI: 0000000000000004
+RBP: 00007fb425e180a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fb4251cbf80 R15: 00007fb425df8000
+ </TASK>
+irq event stamp: 67523
+hardirqs last  enabled at (67533): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (67533): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (67533): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (67542): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (67542): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (67542): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (67110): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (67110): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (67561): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (67561): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (67561): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

@@ -1,0 +1,42 @@
+BTRFS info (device loop3): first mount of filesystem a830dcec-d20e-42dc-8160-bf13f3286f97
+BTRFS info (device loop3): using xxhash64 (xxhash64-generic) checksum algorithm
+BTRFS info (device loop3): using free-space-tree
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 16711 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ down_read+0x40/0x170 kernel/locking/rwsem.c:1526
+ inode_lock_shared include/linux/fs.h:805 [inline]
+ btrfs_inode_lock+0xe8/0x100 fs/btrfs/inode.c:377
+ btrfs_file_llseek+0xb4/0x9f0 fs/btrfs/file.c:3706
+ vfs_llseek fs/read_write.c:289 [inline]
+ ksys_lseek+0xe0/0x130 fs/read_write.c:302
+ __do_sys_lseek fs/read_write.c:313 [inline]
+ __se_sys_lseek fs/read_write.c:311 [inline]
+ __x64_sys_lseek+0x20/0x30 fs/read_write.c:311
+ x64_sys_call+0x1919/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:9
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7facf4c8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007facf5a7f028 EFLAGS: 00000246 ORIG_RAX: 0000000000000008
+RAX: ffffffffffffffda RBX: 00007facf4dcbf80 RCX: 00007facf4c8fd6d
+RDX: 0000000000000004 RSI: 000000000000000a RDI: 0000000000000006
+RBP: 00007facf4cf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007facf4dcbf80 R15: 00007facf5a5f000
+ </TASK>

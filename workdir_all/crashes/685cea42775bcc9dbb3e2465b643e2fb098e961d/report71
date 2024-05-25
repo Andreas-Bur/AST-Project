@@ -1,0 +1,25 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 46 Comm: kworker/u8:2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btrfs-endio-meta btrfs_end_bio_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ mark_lock+0x18a/0x940 kernel/locking/lockdep.c:4673
+ mark_usage kernel/locking/lockdep.c:4587 [inline]
+ __lock_acquire+0x3a9/0x15f0 kernel/locking/lockdep.c:5091
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ process_one_work+0x78e/0xa00 kernel/workqueue.c:3229
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+BTRFS warning (device loop2): checksum verify failed on logical 5332992 mirror 1 wanted 0x33f655566130d6b7c72bade295c76323faa712eda1e2eb9c56acdd4dc7fa9a5d found 0x9bcfb500abc68290cf78b976cd779391c039a5f2044f87393463c8bed5e1a257 level 0
+BTRFS warning (device loop2): checksum verify failed on logical 5316608 mirror 1 wanted 0xcc485edc262292fa3217fe8a4c6b57038bf567844693d2d27a0e82bfb19e392f found 0x5697ba845bbd6a6eff4fc91744c18c426bfbc3ae0d6b978cc4bb8e483ebbee58 level 0

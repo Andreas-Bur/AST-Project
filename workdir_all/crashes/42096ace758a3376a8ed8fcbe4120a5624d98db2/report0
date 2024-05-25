@@ -1,0 +1,95 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2679 jiffies s: 4913 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 16137 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:lockdep_hardirqs_on+0x52/0x110 kernel/locking/lockdep.c:4409
+Code: 00 f0 00 49 89 fc 75 41 65 8b 05 c1 5f 10 7b 85 c0 75 5d 65 8b 05 aa 5c 10 7b 85 c0 75 52 8b 35 9c 61 32 04 85 f6 75 21 9c 58 <f6> c4 02 75 61 8b 15 8b 61 32 04 85 d2 75 10 48 8b 83 50 0a 00 00
+RSP: 0018:ffff88807dc05978 EFLAGS: 00000046
+RAX: 0000000000000046 RBX: ffff88803fe44380 RCX: 0000000000000004
+RDX: 0000000000000003 RSI: 0000000000000000 RDI: ffffffff84f1773f
+RBP: ffff88807dc05988 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc058f8 R11: 0000000000000000 R12: ffffffff84f1773f
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007ff4dd69e640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005555675bd968 CR3: 0000000010018006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ trace_hardirqs_on+0x61/0xe0 kernel/trace/trace_preemptirq.c:62
+ irqentry_exit+0x3f/0xa0 kernel/entry/common.c:357
+ sysvec_apic_timer_interrupt+0x4c/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__memcg_slab_free_hook+0xc8/0x220 mm/slub.c:1996
+Code: 04 24 48 2b 45 d0 8b 4b 20 89 c2 48 0f af d1 0f b6 4b 24 48 c1 ea 20 29 d0 d3 e8 0f b6 4b 25 01 d0 d3 e8 49 8d 04 c6 4c 8b 28 <4d> 85 ed 74 c1 48 c7 00 00 00 00 00 8b 73 18 4c 89 ef 48 83 c6 08
+RSP: 0018:ffff88807dc05a88 EFLAGS: 00000212
+RAX: ffff8880311b2010 RBX: ffff8880099e7300 RCX: 0000000000000007
+RDX: 0000000000000000 RSI: ffffea0000a8b6c0 RDI: ffff8880099e7300
+RBP: ffff88807dc05ac0 R08: ffff8880311b2000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88807dc05ad8
+R13: 0000000000000000 R14: ffff8880311b2000 R15: ffffea0000a8b6c0
+ memcg_slab_free_hook mm/slub.c:2020 [inline]
+ slab_free mm/slub.c:4278 [inline]
+ kmem_cache_free+0x238/0x2a0 mm/slub.c:4344
+ kfree_skbmem+0xca/0x140 net/core/skbuff.c:1159
+ __kfree_skb net/core/skbuff.c:1217 [inline]
+ consume_skb net/core/skbuff.c:1432 [inline]
+ consume_skb+0xb3/0x220 net/core/skbuff.c:1426
+ vxcan_xmit drivers/net/can/vxcan.c:60 [inline]
+ vxcan_xmit+0x12d/0x4e0 drivers/net/can/vxcan.c:37
+ __netdev_start_xmit include/linux/netdevice.h:4903 [inline]
+ netdev_start_xmit include/linux/netdevice.h:4917 [inline]
+ xmit_one net/core/dev.c:3531 [inline]
+ dev_hard_start_xmit+0xd6/0x410 net/core/dev.c:3547
+ __dev_queue_xmit+0x1408/0x1f10 net/core/dev.c:4335
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ can_send+0x1ec/0x500 net/can/af_can.c:276
+ can_can_gw_rcv+0x348/0x410 net/can/gw.c:561
+ deliver net/can/af_can.c:572 [inline]
+ can_rcv_filter+0x91/0x2d0 net/can/af_can.c:599
+ can_receive+0x149/0x2e0 net/can/af_can.c:663
+ can_rcv+0x102/0x130 net/can/af_can.c:687
+ __netif_receive_skb_one_core+0xd8/0xe0 net/core/dev.c:5538
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:debug_lockdep_rcu_enabled+0x0/0x40 kernel/rcu/update.c:319
+Code: 1e 00 45 31 c0 eb c8 90 0f 0b 90 65 c7 05 cc 5a 10 7b 00 00 00 00 eb c9 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 8b 05 4a 48 aa 01 85 c0 74 20 8b 05 54 7a aa 01 85 c0
+RSP: 0018:ffff88802754bdf8 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: ffff88803fe44380 RCX: 0000000000000001
+RDX: 0000000000000000 RSI: 00000000ffffffff RDI: ffffffff865c3320
+RBP: ffff88802754be98 R08: 0000000000000000 R09: 0000000000000001
+R10: ffff88802754bd50 R11: 0000000000000000 R12: ffff88807dc32540
+R13: ffff88802754bf58 R14: ffff88803fe44380 R15: 0000000000000000
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ exit_to_user_mode_loop kernel/entry/common.c:102 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ irqentry_exit_to_user_mode+0xc1/0x200 kernel/entry/common.c:231
+ irqentry_exit+0x73/0xa0 kernel/entry/common.c:334
+ exc_page_fault+0x3e1/0x1250 arch/x86/mm/fault.c:1566
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7ff4dc8285e7
+Code: 70 48 63 d5 48 01 c2 49 3b 55 08 77 4e 8d 55 ff 85 ed 74 35 0f 1f 80 00 00 00 00 48 39 c6 77 1c 49 8b 7d 00 49 89 c1 49 29 f1 <46> 0f b6 0c 0f 45 84 c9 74 08 44 88 0c 07 49 8b 45 10 48 83 c0 01
+RSP: 002b:00007ff4dd69d4b0 EFLAGS: 00010206
+RAX: 00000000005d9001 RBX: 00007ff4dd69d510 RCX: 0000000000000000
+RDX: 00000000000000d0 RSI: 0000000000000001 RDI: 00007ff4d2600000
+RBP: 0000000000000102 R08: 0000000000000001 R09: 00000000005d9000
+R10: 0000000000000000 R11: 00007ff4dd69d520 R12: 00007ff4dd69d520
+R13: 00007ff4dd69d5b0 R14: 0000000000000001 R15: 0000000000000000
+ </TASK>

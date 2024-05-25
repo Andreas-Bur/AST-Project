@@ -1,0 +1,123 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.0/13730 is trying to acquire lock:
+ffff8880391f8788 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+
+but task is already holding lock:
+ffff88802aab50b0 (&tree->tree_lock#2){+.+.}-{3:3}, at: hfsplus_find_init+0x98/0x110 fs/hfsplus/bfind.c:30
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&tree->tree_lock#2){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_truncate+0x366/0x380 fs/hfsplus/extents.c:595
+       hfsplus_delete_inode+0xd2/0x100 fs/hfsplus/inode.c:450
+       hfsplus_file_release+0xe4/0xf0 fs/hfsplus/inode.c:238
+       __fput+0x135/0x540 fs/file_table.c:422
+       ____fput+0x1a/0x30 fs/file_table.c:450
+       task_work_run+0xa1/0x110 kernel/task_work.c:180
+       resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+       exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+       exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+       __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+       syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+       do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+       hfsplus_bmap_reserve+0xd5/0x110 fs/hfsplus/btree.c:358
+       hfsplus_rename_cat+0xd5/0x5f0 fs/hfsplus/catalog.c:456
+       hfsplus_rename+0xb7/0x120 fs/hfsplus/dir.c:552
+       vfs_rename+0x104a/0x14b0 fs/namei.c:4880
+       do_renameat2+0x877/0x8d0 fs/namei.c:5037
+       __do_sys_renameat2 fs/namei.c:5071 [inline]
+       __se_sys_renameat2 fs/namei.c:5068 [inline]
+       __x64_sys_renameat2+0x62/0x80 fs/namei.c:5068
+       x64_sys_call+0x1945/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:317
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&tree->tree_lock#2);
+                               lock(&HFSPLUS_I(inode)->extents_lock);
+                               lock(&tree->tree_lock#2);
+  lock(&HFSPLUS_I(inode)->extents_lock);
+
+ *** DEADLOCK ***
+
+4 locks held by syz-executor.0/13730:
+ #0: ffff88802aab7420 (sb_writers#20){.+.+}-{0:0}, at: do_renameat2+0x26a/0x8d0 fs/namei.c:4967
+ #1: ffff8880391f9d00 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:830 [inline]
+ #1: ffff8880391f9d00 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: lock_rename fs/namei.c:3066 [inline]
+ #1: ffff8880391f9d00 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: lock_rename fs/namei.c:3063 [inline]
+ #1: ffff8880391f9d00 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: do_renameat2+0x812/0x8d0 fs/namei.c:4972
+ #2: ffff8880391fa380 (&sb->s_type->i_mutex_key#26/4){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:830 [inline]
+ #2: ffff8880391fa380 (&sb->s_type->i_mutex_key#26/4){+.+.}-{3:3}, at: lock_two_nondirectories+0x12f/0x190 fs/inode.c:1113
+ #3: ffff88802aab50b0 (&tree->tree_lock#2){+.+.}-{3:3}, at: hfsplus_find_init+0x98/0x110 fs/hfsplus/bfind.c:30
+
+stack backtrace:
+CPU: 0 PID: 13730 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+ hfsplus_bmap_reserve+0xd5/0x110 fs/hfsplus/btree.c:358
+ hfsplus_rename_cat+0xd5/0x5f0 fs/hfsplus/catalog.c:456
+ hfsplus_rename+0xb7/0x120 fs/hfsplus/dir.c:552
+ vfs_rename+0x104a/0x14b0 fs/namei.c:4880
+ do_renameat2+0x877/0x8d0 fs/namei.c:5037
+ __do_sys_renameat2 fs/namei.c:5071 [inline]
+ __se_sys_renameat2 fs/namei.c:5068 [inline]
+ __x64_sys_renameat2+0x62/0x80 fs/namei.c:5068
+ x64_sys_call+0x1945/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:317
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2112a8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f21138e9028 EFLAGS: 00000246 ORIG_RAX: 000000000000013c
+RAX: ffffffffffffffda RBX: 00007f2112bcbf80 RCX: 00007f2112a8fd6d
+RDX: ffffffffffffff9c RSI: 0000000020000580 RDI: ffffffffffffff9c
+RBP: 00007f2112af14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 00000000200005c0 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f2112bcbf80 R15: 00007f21138c9000
+ </TASK>

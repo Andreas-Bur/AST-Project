@@ -1,0 +1,105 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2656 jiffies s: 29273 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 72551 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hlock_class+0x4/0x80 kernel/locking/lockdep.c:223
+Code: f4 ff 90 0f 0b 90 90 eb dc 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f b7 47 20 <66> 25 ff 1f 0f b7 c0 48 0f a3 05 6d 4d 05 07 73 12 48 69 c0 c8 00
+RSP: 0018:ffff88807dc05948 EFLAGS: 00000082
+RAX: 0000000000006044 RBX: ffff88800f8ea1c0 RCX: ffff88800f8eac20
+RDX: 0000000000000040 RSI: ffff88800f8eac70 RDI: ffff88800f8eac70
+RBP: ffff88807dc059c8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: ffff88800f8eac70
+R13: 0000000000000001 R14: 0000000000000044 R15: 0000000000000000
+FS:  00007f0f232c1640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff9d1497000 CR3: 0000000050d06005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ seqcount_lockdep_reader_access include/linux/seqlock.h:72 [inline]
+ ktime_get+0x78/0x1c0 kernel/time/timekeeping.c:846
+ hrtimer_forward_now include/linux/hrtimer.h:355 [inline]
+ perf_swevent_hrtimer+0xcb/0x180 kernel/events/core.c:11067
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0x288/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_interrupt+0x129/0x2c0 kernel/time/hrtimer.c:1818
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x3b/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:rcu_is_watching+0x0/0x40 kernel/rcu/tree.c:696
+Code: 04 fd 40 fa 28 86 48 89 90 70 01 00 00 e9 63 5f f3 03 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 65 ff 05 bd 30 e6 7e 65 48 8b 05 45 78 e4 7e 8b 80 a0
+RSP: 0018:ffff88807dc05dc0 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff845cdaee
+RDX: ffff88800f8ea1c0 RSI: ffffffff845cdce3 RDI: 0000000000000005
+RBP: ffff88807dc05e00 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888028bb4000
+R13: 0000000000000003 R14: 0000000000000040 R15: ffff888028bb4000
+ addrconf_rs_timer+0x12e/0x3f0 net/ipv6/addrconf.c:4037
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:finish_task_switch.isra.0+0x11d/0x340 kernel/sched/core.c:5283
+Code: 48 8b 1b 48 c7 02 00 00 00 00 e8 7e 45 df 03 48 85 db 75 e2 4c 89 e7 e8 01 fd ff ff e8 0c d2 18 00 fb 65 48 8b 05 a3 00 ef 7e <81> a0 60 15 00 00 ff ff ff bf 4d 85 f6 74 17 4c 3b b0 38 05 00 00
+RSP: 0018:ffff88802f327930 EFLAGS: 00000202
+RAX: ffff88800f8ea1c0 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811411d4
+RBP: ffff88802f327958 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88802f327880 R11: 0000000000000000 R12: ffff88807dc32540
+R13: ffff88802975c380 R14: ffff888009853600 R15: 0000000000000002
+ context_switch kernel/sched/core.c:5412 [inline]
+ __schedule+0x3f8/0x17d0 kernel/sched/core.c:6746
+ preempt_schedule_common kernel/sched/core.c:6925 [inline]
+ __cond_resched+0x34/0x60 kernel/sched/core.c:8590
+ _cond_resched include/linux/sched.h:1988 [inline]
+ shmem_undo_range+0x2d5/0xc00 mm/shmem.c:1012
+ shmem_truncate_range mm/shmem.c:1120 [inline]
+ shmem_evict_inode+0x16d/0x400 mm/shmem.c:1248
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ dput.part.0+0x3c6/0x760 fs/dcache.c:845
+ dput+0x24/0x40 fs/dcache.c:835
+ __fput+0x1e5/0x540 fs/file_table.c:430
+ __fput_sync+0x44/0x60 fs/file_table.c:507
+ __do_sys_close fs/open.c:1556 [inline]
+ __se_sys_close fs/open.c:1541 [inline]
+ __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+ x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0f2248ec4b
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 fd 02 00 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 d1 fd 02 00 8b 44
+RSP: 002b:00007f0f232c0dd0 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000010 RCX: 00007f0f2248ec4b
+RDX: 0000000000000000 RSI: 0000000000000010 RDI: 0000000000000006
+RBP: 00000000ffffffff R08: 0000000000000000 R09: 000000000000940e
+R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000006
+R13: 00007f0f232c0e8c R14: 00007f0f232c15f0 R15: 00007f0f18200000
+ </TASK>

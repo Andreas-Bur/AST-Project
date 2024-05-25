@@ -1,0 +1,67 @@
+bcachefs (loop1): bch2_fs_start(): error starting filesystem invalid_sb_journal_seq_blacklist
+bcachefs (loop1): shutting down
+bcachefs (loop1): shutdown complete
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 19190 at fs/bcachefs/six.c:832 six_lock_exit+0x16c/0x180 fs/bcachefs/six.c:832
+Modules linked in:
+CPU: 1 PID: 19190 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:six_lock_exit+0x16c/0x180 fs/bcachefs/six.c:832
+Code: bf 07 00 00 00 f3 4d 0f bc ff 44 89 fe 44 89 fb e8 19 a7 e8 fe 41 83 ff 07 0f 86 1b ff ff ff e9 6f ff ff ff e8 b5 ab e8 fe 90 <0f> 0b 90 eb 9f 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90
+RSP: 0018:ffff888050e2b8e8 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 00000000020c8698 RCX: ffffc9000187c000
+RDX: 0000000000040000 RSI: ffffffff8241134b RDI: 0000000000000005
+RBP: ffff888050e2b928 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000020c8698 R11: 0000000000000000 R12: ffff888020180000
+R13: ffff88802a428a28 R14: 0000000000000000 R15: ffff888029215828
+FS:  00007f7819bd0640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000080 CR3: 000000002dae2002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_fs_btree_cache_exit+0x3f6/0x510 fs/bcachefs/btree_cache.c:452
+ __bch2_fs_free fs/bcachefs/super.c:563 [inline]
+ bch2_fs_release+0xf4/0x300 fs/bcachefs/super.c:609
+ kobject_cleanup lib/kobject.c:689 [inline]
+ kobject_release lib/kobject.c:720 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ kobject_put+0x10f/0x190 lib/kobject.c:737
+ bch2_fs_free+0x131/0x180 fs/bcachefs/super.c:674
+ bch2_fs_stop fs/bcachefs/super.c:680 [inline]
+ bch2_fs_open+0x12c8/0x1ec0 fs/bcachefs/super.c:2117
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7818e91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7819bcfe38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000000599a RCX: 00007f7818e91b3e
+RDX: 00000000200058c0 RSI: 0000000020000040 RDI: 00007f7819bcfe90
+RBP: 00007f7819bcfed0 R08: 00007f7819bcfed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00000000200058c0
+R13: 0000000020000040 R14: 00007f7819bcfe90 R15: 00000000200000c0
+ </TASK>
+irq event stamp: 143097
+hardirqs last  enabled at (143107): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (143107): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (143107): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (143116): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (143116): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (143116): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (142922): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (142922): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (143135): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (143135): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (143135): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

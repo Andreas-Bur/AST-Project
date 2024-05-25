@@ -1,0 +1,65 @@
+bcachefs (loop1): journal_replay...
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/recovery.c:115!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 11880 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:replay_now_at fs/bcachefs/recovery.c:115 [inline]
+RIP: 0010:replay_now_at fs/bcachefs/recovery.c:113 [inline]
+RIP: 0010:bch2_journal_replay+0x898/0x9f0 fs/bcachefs/recovery.c:252
+Code: 34 c3 4b 8d 04 76 48 8d 3c c3 e8 13 bf b1 02 49 8b 9c 24 20 af 04 00 4d 8b ac 24 10 af 04 00 e9 5b f8 ff ff e8 39 f4 e9 fe 90 <0f> 0b e8 31 f4 e9 fe 90 0f 0b e8 29 f4 e9 fe 48 c7 c7 90 26 3a 85
+RSP: 0018:ffff8880337c77d8 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 000000fffffff901 RCX: ffffc9000b33f000
+RDX: 0000000000040000 RSI: ffffffff823fcac7 RDI: 0000000000000006
+RBP: ffff8880337c7830 R08: 0000000000000000 R09: ffff8880337c7790
+R10: 000000fffffff901 R11: 0000000000000000 R12: ffff888032300000
+R13: 00000000ffffffff R14: 0000000000000001 R15: ffff88802dce8000
+FS:  00007f80f976f640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020005440 CR3: 0000000030040006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_run_recovery_pass+0x50/0xd0 fs/bcachefs/recovery_passes.c:187
+ bch2_run_recovery_passes+0x1d2/0x340 fs/bcachefs/recovery_passes.c:230
+ bch2_fs_recovery+0x1c19/0x2b20 fs/bcachefs/recovery.c:786
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f80f8a91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f80f976ee38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000000f60a RCX: 00007f80f8a91b3e
+RDX: 000000002000f640 RSI: 000000002000f680 RDI: 00007f80f976ee90
+RBP: 00007f80f976eed0 R08: 00007f80f976eed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 000000002000f640
+R13: 000000002000f680 R14: 00007f80f976ee90 R15: 0000000020000080
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:replay_now_at fs/bcachefs/recovery.c:115 [inline]
+RIP: 0010:replay_now_at fs/bcachefs/recovery.c:113 [inline]
+RIP: 0010:bch2_journal_replay+0x898/0x9f0 fs/bcachefs/recovery.c:252
+Code: 34 c3 4b 8d 04 76 48 8d 3c c3 e8 13 bf b1 02 49 8b 9c 24 20 af 04 00 4d 8b ac 24 10 af 04 00 e9 5b f8 ff ff e8 39 f4 e9 fe 90 <0f> 0b e8 31 f4 e9 fe 90 0f 0b e8 29 f4 e9 fe 48 c7 c7 90 26 3a 85
+RSP: 0018:ffff8880337c77d8 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 000000fffffff901 RCX: ffffc9000b33f000
+RDX: 0000000000040000 RSI: ffffffff823fcac7 RDI: 0000000000000006
+RBP: ffff8880337c7830 R08: 0000000000000000 R09: ffff8880337c7790
+R10: 000000fffffff901 R11: 0000000000000000 R12: ffff888032300000
+R13: 00000000ffffffff R14: 0000000000000001 R15: ffff88802dce8000
+FS:  00007f80f976f640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020005440 CR3: 0000000030040006 CR4: 0000000000770ef0
+PKRU: 55555554

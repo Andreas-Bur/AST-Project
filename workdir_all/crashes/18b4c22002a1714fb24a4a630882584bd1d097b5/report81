@@ -1,0 +1,86 @@
+bcachefs (loop5): journal_replay... done
+bcachefs (loop5): resume_logged_ops... done
+bcachefs (loop5): reading quotas
+=============================
+WARNING: suspicious RCU usage
+6.9.0-rc4 #2 Not tainted
+-----------------------------
+fs/bcachefs/snapshot.h:45 suspicious rcu_dereference_check() usage!
+
+other info that might help us debug this:
+
+
+rcu_scheduler_active = 2, debug_locks = 1
+4 locks held by syz-executor.5/13670:
+ #0: ffff88800fe80278 (&c->state_lock){+.+.}-{3:3}, at: bch2_fs_start+0x3c/0x3d0 fs/bcachefs/super.c:1012
+ #1: ffff88800fe84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ #1: ffff88800fe84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
+ #1: ffff88800fe84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: __bch2_trans_get+0x3af/0x4d0 fs/bcachefs/btree_iter.c:3069
+ #2: ffff88802b8dc870 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #2: ffff88802b8dc870 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #2: ffff88802b8dc870 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #2: ffff88802b8dc870 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+ #3: ffff88802a4a8470 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #3: ffff88802a4a8470 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #3: ffff88802a4a8470 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #3: ffff88802a4a8470 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+
+stack backtrace:
+CPU: 1 PID: 13670 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x111/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ lockdep_rcu_suspicious+0x156/0x1c0 kernel/locking/lockdep.c:6712
+ snapshot_t fs/bcachefs/snapshot.h:45 [inline]
+ bch2_fs_quota_read_inode.isra.0+0x6e5/0x700 fs/bcachefs/quota.c:567
+ bch2_fs_quota_read+0x5a1/0x700 fs/bcachefs/quota.c:613
+ bch2_fs_recovery+0x1ce4/0x2b20 fs/bcachefs/recovery.c:825
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7d97691b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7d984afe38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000000593a RCX: 00007f7d97691b3e
+RDX: 00000000200058c0 RSI: 0000000020005900 RDI: 00007f7d984afe90
+RBP: 00007f7d984afed0 R08: 00007f7d984afed0 R09: 0000000000000014
+R10: 0000000000000014 R11: 0000000000000202 R12: 00000000200058c0
+R13: 0000000020005900 R14: 00007f7d984afe90 R15: 0000000020000040
+ </TASK>
+bcachefs (loop5): bch2_fs_quota_read_inode: snapshot tree 0 not found
+bcachefs (loop5): inconsistency detected - emergency read only at journal seq 10
+bcachefs (loop5): bch2_fs_quota_read(): error ENOENT_snapshot_tree
+bcachefs (loop5): bch2_fs_recovery(): error ENOENT_snapshot_tree
+bcachefs (loop5): bch2_fs_start(): error starting filesystem ENOENT_snapshot_tree
+bcachefs (loop5): shutting down
+bcachefs (loop5): shutdown complete
+loop5: detected capacity change from 0 to 32768
+bcachefs (loop5): mounting version 1.7: (unknown version) opts=metadata_checksum=none,data_checksum=none,compression=lz4,nojournal_transaction_names
+bcachefs (loop5): recovering from clean shutdown, journal seq 10
+bcachefs (loop5): Version downgrade required:
+bcachefs (loop5): error validating btree node at btree backpointers level 0/0
+  u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 4a8b0fa43a9980a6 written 24 min_key POS_MIN durability: 1 ptr: 0:37:0 gen 0
+  node offset 8/24 bset u64s 42: invalid bkey: nonzero snapshot
+  u64s 9 type backpointer 0:8921088:2130706432 len 0 ver 0: bucket=0:34:0 btree=extents l=0 offset=8:0 len=8 pos=536870913:24:U32_MAX, shutting down
+bcachefs (loop5): inconsistency detected - emergency read only at journal seq 10
+bcachefs (loop5): flagging btree backpointers lost data
+error reading btree root backpointers l=0: btree_node_read_error, shutting down
+bcachefs (loop5): bch2_fs_recovery(): error fsck_errors_not_fixed
+bcachefs (loop5): bch2_fs_start(): error starting filesystem fsck_errors_not_fixed
+bcachefs (loop5): shutting down
+bcachefs (loop5): shutdown complete

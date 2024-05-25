@@ -1,0 +1,63 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 90144 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ lock_timer_base+0x3a/0x120 kernel/time/timer.c:1052
+ __mod_timer+0x21f/0x6c0 kernel/time/timer.c:1133
+ mod_timer+0x24/0x30 kernel/time/timer.c:1243
+ __br_multicast_open_query net/bridge/br_multicast.c:4167 [inline]
+ __br_multicast_open_query net/bridge/br_multicast.c:4159 [inline]
+ __br_multicast_open+0x54/0xc0 net/bridge/br_multicast.c:4172
+ br_multicast_open+0x60/0x210 net/bridge/br_multicast.c:4198
+ br_dev_open+0x5e/0xc0 net/bridge/br_device.c:163
+ __dev_open+0x15b/0x270 net/core/dev.c:1430
+ dev_open net/core/dev.c:1466 [inline]
+ dev_open+0x64/0xc0 net/core/dev.c:1459
+ team_port_add drivers/net/team/team.c:1214 [inline]
+ team_add_slave+0x568/0xf20 drivers/net/team/team.c:1974
+ do_set_master+0xf8/0x110 net/core/rtnetlink.c:2685
+ rtnl_newlink_create net/core/rtnetlink.c:3511 [inline]
+ __rtnl_newlink+0xdae/0xf10 net/core/rtnetlink.c:3714
+ rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+ rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+ netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+ rtnetlink_rcv+0x21/0x30 net/core/rtnetlink.c:6613
+ netlink_unicast_kernel net/netlink/af_netlink.c:1335 [inline]
+ netlink_unicast+0x2db/0x420 net/netlink/af_netlink.c:1361
+ netlink_sendmsg+0x31a/0x650 net/netlink/af_netlink.c:1905
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x4ed/0x520 net/socket.c:2584
+ ___sys_sendmsg+0x9d/0xf0 net/socket.c:2638
+ __sys_sendmsg+0x8d/0x100 net/socket.c:2667
+ __do_sys_sendmsg net/socket.c:2676 [inline]
+ __se_sys_sendmsg net/socket.c:2674 [inline]
+ __x64_sys_sendmsg+0x25/0x30 net/socket.c:2674
+ x64_sys_call+0x922/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:47
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f983108fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9831df6028 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007f98311cbf80 RCX: 00007f983108fd6d
+RDX: 0000000000000000 RSI: 0000000020000700 RDI: 0000000000000003
+RBP: 00007f98310f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f98311cbf80 R15: 00007f9831dd6000
+ </TASK>
+team0: Port device bridge1 added

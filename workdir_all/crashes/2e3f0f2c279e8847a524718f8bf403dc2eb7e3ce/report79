@@ -1,0 +1,5 @@
+r1 = syz_io_uring_setup(0x5d00, &(0x7f0000000180), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000340)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r2, r3, &(0x7f0000000140)=@IORING_OP_WRITEV={0x2, 0x0, 0x0, @fd_index=0x3, 0x0, 0x0})
+io_uring_enter(r1, 0x79a, 0x0, 0x20000000, 0x0, 0x0)
+2033/05/18 03:35:26 SYZFATAL: executor 0 failed 11 times: failed to start executor binary: fork/exec /syz-executor.0: resource temporarily unavailable

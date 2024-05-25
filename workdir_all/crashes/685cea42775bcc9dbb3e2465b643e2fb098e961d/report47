@@ -1,0 +1,43 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 3413 Comm: kworker/u8:6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ drain_workqueue+0x119/0x1f0 kernel/workqueue.c:4107
+ destroy_workqueue+0x6c/0x580 kernel/workqueue.c:5673
+ ieee80211_unregister_hw+0x156/0x180 net/mac80211/main.c:1676
+ mac80211_hwsim_del_radio+0x130/0x160 drivers/net/wireless/virtual/mac80211_hwsim.c:5560
+ hwsim_exit_net+0x250/0x2e0 drivers/net/wireless/virtual/mac80211_hwsim.c:6437
+ ops_exit_list+0x4d/0xb0 net/core/net_namespace.c:170
+ cleanup_net+0x37d/0x5d0 net/core/net_namespace.c:637
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+hsr_slave_0: left promiscuous mode
+hsr_slave_1: left promiscuous mode
+veth1_macvtap: left promiscuous mode
+veth0_macvtap: left promiscuous mode
+veth1_vlan: left promiscuous mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+IPVS: stop unused estimator thread 0...
+wlan1: Created IBSS using preconfigured BSSID 50:50:50:50:50:50
+wlan1: Creating new IBSS network, BSSID 50:50:50:50:50:50

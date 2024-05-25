@@ -1,0 +1,119 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 11574 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 11574 Comm: systemd-udevd Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88801b8e21c0 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff88802ac0cc10
+R13: ffffffff81114da0 R14: ffff888029a36c00 R15: 0000000000200000
+FS:  00007f8ad2b128c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0ef40f5690 CR3: 0000000035f2e002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__sanitizer_cov_trace_const_cmp8+0x17/0x30 kernel/kcov.c:311
+Code: 86 e6 03 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 f2 48 89 fe bf 07 00 00 00 48 89 e5 48 8b 4d 08 <e8> b4 fd ff ff 5d e9 69 86 e6 03 66 66 2e 0f 1f 84 00 00 00 00 00
+RSP: 0018:ffff88803c0ff8a8 EFLAGS: 00000212
+RAX: 0000000000000000 RBX: ffff88803c0ff998 RCX: ffffffff84f03076
+RDX: 0000000000000034 RSI: 000000000000003f RDI: 0000000000000007
+RBP: ffff88803c0ff8a8 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff8880673bdb62 R11: 0000000000000000 R12: ffff8880673bdb62
+R13: 0000000000000034 R14: 0000000000000002 R15: 0000000000000d14
+ xas_start+0x106/0x4d0 lib/xarray.c:195
+ xas_load+0x21/0xd0 lib/xarray.c:237
+ xas_find+0x429/0x4d0 lib/xarray.c:1250
+ find_get_entry mm/filemap.c:1966 [inline]
+ find_lock_entries+0xbe/0x510 mm/filemap.c:2067
+ shmem_undo_range+0x156/0xc00 mm/shmem.c:993
+ shmem_truncate_range mm/shmem.c:1120 [inline]
+ shmem_evict_inode+0x16d/0x400 mm/shmem.c:1248
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ dput.part.0+0x3c6/0x760 fs/dcache.c:845
+ dput+0x24/0x40 fs/dcache.c:835
+ __fput+0x1e5/0x540 fs/file_table.c:430
+ ____fput+0x1a/0x30 fs/file_table.c:450
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8ad2dc50f3
+Code: 8b 15 d9 ae 00 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8
+RSP: 002b:00007ffea10c57c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 00007f8ad2b126c0 RCX: 00007f8ad2dc50f3
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000010
+RBP: 0000000000000010 R08: 000055722f306400 R09: 0000000000000000
+R10: 00007f8ad2b126c0 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00000000000046e8 R15: 00007ffea10c5840
+ </TASK>
+irq event stamp: 630311
+hardirqs last  enabled at (630310): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (630310): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (630311): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (630311): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (629666): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (629666): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (630191): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (630191): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (630191): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	86 e6                	xchg   %ah,%dh
+   2:	03 90 90 90 90 90    	add    -0x6f6f6f70(%rax),%edx
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	f3 0f 1e fa          	endbr64
+  17:	55                   	push   %rbp
+  18:	48 89 f2             	mov    %rsi,%rdx
+  1b:	48 89 fe             	mov    %rdi,%rsi
+  1e:	bf 07 00 00 00       	mov    $0x7,%edi
+  23:	48 89 e5             	mov    %rsp,%rbp
+  26:	48 8b 4d 08          	mov    0x8(%rbp),%rcx
+* 2a:	e8 b4 fd ff ff       	call   0xfffffde3 <-- trapping instruction
+  2f:	5d                   	pop    %rbp
+  30:	e9 69 86 e6 03       	jmp    0x3e6869e
+  35:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  3c:	00 00 00 00

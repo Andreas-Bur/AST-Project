@@ -1,0 +1,44 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 56 Comm: kworker/u8:3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btrfs-endio-write btrfs_work_helper
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_read_lock include/linux/rwlock_api_smp.h:150 [inline]
+ _raw_read_lock+0x69/0x80 kernel/locking/spinlock.c:228
+ first_logical_byte fs/btrfs/extent-tree.c:2610 [inline]
+ find_free_extent+0x1f2/0x2850 fs/btrfs/extent-tree.c:4440
+ btrfs_reserve_extent+0x193/0x3a0 fs/btrfs/extent-tree.c:4717
+ btrfs_alloc_tree_block+0xe2/0x700 fs/btrfs/extent-tree.c:5173
+ btrfs_force_cow_block+0x17e/0xb40 fs/btrfs/ctree.c:571
+ btrfs_cow_block+0x137/0x460 fs/btrfs/ctree.c:749
+ push_leaf_left+0x16d/0x280 fs/btrfs/ctree.c:3494
+ split_leaf+0x565/0x870 fs/btrfs/ctree.c:3690
+ search_leaf fs/btrfs/ctree.c:1953 [inline]
+ btrfs_search_slot+0x1307/0x15d0 fs/btrfs/ctree.c:2140
+ btrfs_insert_empty_items+0x49/0xd0 fs/btrfs/ctree.c:4298
+ btrfs_insert_empty_item fs/btrfs/ctree.h:650 [inline]
+ insert_reserved_file_extent+0x188/0x480 fs/btrfs/inode.c:2936
+ insert_ordered_extent_file_extent fs/btrfs/inode.c:3034 [inline]
+ btrfs_finish_one_ordered+0xa3b/0x10c0 fs/btrfs/inode.c:3142
+ btrfs_finish_ordered_io+0x7d/0xa0 fs/btrfs/inode.c:3286
+ finish_ordered_fn+0x1d/0x30 fs/btrfs/ordered-data.c:302
+ btrfs_work_helper+0x1a5/0x5b0 fs/btrfs/async-thread.c:314
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

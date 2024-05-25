@@ -1,0 +1,63 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 16843 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ get_partial_node.part.0+0x22/0x390 mm/slub.c:2586
+ get_partial_node mm/slub.c:2583 [inline]
+ get_partial mm/slub.c:2701 [inline]
+ ___slab_alloc+0xa09/0x10f0 mm/slub.c:3505
+ __slab_alloc mm/slub.c:3610 [inline]
+ __slab_alloc_node mm/slub.c:3663 [inline]
+ slab_alloc_node mm/slub.c:3835 [inline]
+ kmem_cache_alloc+0x239/0x290 mm/slub.c:3852
+ kmem_cache_zalloc include/linux/slab.h:739 [inline]
+ alloc_buffer_head+0x28/0xe0 fs/buffer.c:3001
+ folio_alloc_buffers+0x141/0x270 fs/buffer.c:924
+ create_empty_buffers+0x2f/0x180 fs/buffer.c:1650
+ __nilfs_get_folio_block fs/nilfs2/page.c:37 [inline]
+ nilfs_grab_buffer+0x185/0x1a0 fs/nilfs2/page.c:61
+ nilfs_mdt_submit_block+0x3c/0x3d0 fs/nilfs2/mdt.c:121
+ nilfs_mdt_read_block+0x37/0x240 fs/nilfs2/mdt.c:176
+ nilfs_mdt_get_block+0x5f/0x530 fs/nilfs2/mdt.c:251
+ nilfs_cpfile_get_checkpoint_block fs/nilfs2/cpfile.c:139 [inline]
+ nilfs_cpfile_read_checkpoint+0xa9/0x210 fs/nilfs2/cpfile.c:217
+ nilfs_ifile_read+0x113/0x150 fs/nilfs2/ifile.c:210
+ nilfs_attach_checkpoint+0xc0/0x130 fs/nilfs2/super.c:558
+ nilfs_fill_super fs/nilfs2/super.c:1075 [inline]
+ nilfs_mount+0x652/0x860 fs/nilfs2/super.c:1298
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f358ec91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f358f9dee38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000d99 RCX: 00007f358ec91b3e
+RDX: 0000000020000dc0 RSI: 0000000020000e00 RDI: 00007f358f9dee90
+RBP: 00007f358f9deed0 R08: 00007f358f9deed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000dc0
+R13: 0000000020000e00 R14: 00007f358f9dee90 R15: 0000000020000040
+ </TASK>

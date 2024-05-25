@@ -1,0 +1,79 @@
+BUG: unable to handle page fault for address: ffffffff78c179f8
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 64b4067 P4D 64b4067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 107 Comm: jfsCommit Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:variable_test_bit arch/x86/include/asm/bitops.h:227 [inline]
+RIP: 0010:arch_test_bit arch/x86/include/asm/bitops.h:239 [inline]
+RIP: 0010:_test_bit include/asm-generic/bitops/instrumented-non-atomic.h:142 [inline]
+RIP: 0010:__lock_acquire+0x3fc/0x15f0 kernel/locking/lockdep.c:5107
+Code: 02 00 00 ba 08 00 00 00 4c 89 e6 48 89 df e8 8b f0 ff ff 85 c0 0f 84 41 02 00 00 44 8b 2d 44 41 0b 08 45 85 ed 75 11 4d 63 f6 <4c> 0f a3 35 1c ea 04 07 0f 83 11 06 00 00 8b 7d c0 48 8b 83 50 0a
+RSP: 0018:ffff88800af63cc8 EFLAGS: 00010046
+RAX: 0000000000000001 RBX: ffff88800af9a1c0 RCX: 0000000000000100
+RDX: 0000000000000008 RSI: ffff88800af9ac20 RDI: ffff88800af9a1c0
+RBP: ffff88800af63d40 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800af9ac20
+R13: 0000000000000000 R14: ffffffff852026ce R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffff78c179f8 CR3: 00000000204be004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ txUnlock+0x4e1/0x5d0 fs/jfs/jfs_txnmgr.c:974
+ txLazyCommit fs/jfs/jfs_txnmgr.c:2682 [inline]
+ jfs_lazycommit+0x361/0x530 fs/jfs/jfs_txnmgr.c:2733
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: ffffffff78c179f8
+---[ end trace 0000000000000000 ]---
+RIP: 0010:variable_test_bit arch/x86/include/asm/bitops.h:227 [inline]
+RIP: 0010:arch_test_bit arch/x86/include/asm/bitops.h:239 [inline]
+RIP: 0010:_test_bit include/asm-generic/bitops/instrumented-non-atomic.h:142 [inline]
+RIP: 0010:__lock_acquire+0x3fc/0x15f0 kernel/locking/lockdep.c:5107
+Code: 02 00 00 ba 08 00 00 00 4c 89 e6 48 89 df e8 8b f0 ff ff 85 c0 0f 84 41 02 00 00 44 8b 2d 44 41 0b 08 45 85 ed 75 11 4d 63 f6 <4c> 0f a3 35 1c ea 04 07 0f 83 11 06 00 00 8b 7d c0 48 8b 83 50 0a
+RSP: 0018:ffff88800af63cc8 EFLAGS: 00010046
+RAX: 0000000000000001 RBX: ffff88800af9a1c0 RCX: 0000000000000100
+RDX: 0000000000000008 RSI: ffff88800af9ac20 RDI: ffff88800af9a1c0
+RBP: ffff88800af63d40 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800af9ac20
+R13: 0000000000000000 R14: ffffffff852026ce R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffff78c179f8 CR3: 00000000204be004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	02 00                	add    (%rax),%al
+   2:	00 ba 08 00 00 00    	add    %bh,0x8(%rdx)
+   8:	4c 89 e6             	mov    %r12,%rsi
+   b:	48 89 df             	mov    %rbx,%rdi
+   e:	e8 8b f0 ff ff       	call   0xfffff09e
+  13:	85 c0                	test   %eax,%eax
+  15:	0f 84 41 02 00 00    	je     0x25c
+  1b:	44 8b 2d 44 41 0b 08 	mov    0x80b4144(%rip),%r13d        # 0x80b4166
+  22:	45 85 ed             	test   %r13d,%r13d
+  25:	75 11                	jne    0x38
+  27:	4d 63 f6             	movslq %r14d,%r14
+* 2a:	4c 0f a3 35 1c ea 04 	bt     %r14,0x704ea1c(%rip)        # 0x704ea4e <-- trapping instruction
+  31:	07
+  32:	0f 83 11 06 00 00    	jae    0x649
+  38:	8b 7d c0             	mov    -0x40(%rbp),%edi
+  3b:	48                   	rex.W
+  3c:	8b                   	.byte 0x8b
+  3d:	83                   	.byte 0x83
+  3e:	50                   	push   %rax
+  3f:	0a                   	.byte 0xa

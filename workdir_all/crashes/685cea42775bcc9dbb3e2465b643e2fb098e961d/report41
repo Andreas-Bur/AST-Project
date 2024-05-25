@@ -1,0 +1,107 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 52898 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ lock_timer_base+0x3a/0x120 kernel/time/timer.c:1052
+ __mod_timer+0x21f/0x6c0 kernel/time/timer.c:1133
+ add_timer_global+0x3c/0x70 kernel/time/timer.c:1331
+ __queue_delayed_work+0xe6/0x1f0 kernel/workqueue.c:2567
+ queue_delayed_work_on+0xc4/0xd0 kernel/workqueue.c:2595
+ queue_delayed_work include/linux/workqueue.h:620 [inline]
+ schedule_delayed_work include/linux/workqueue.h:734 [inline]
+ nsim_dev_traps_init+0x22e/0x290 drivers/net/netdevsim/dev.c:910
+ nsim_drv_probe+0x3f8/0x9b0 drivers/net/netdevsim/dev.c:1574
+ nsim_bus_probe+0x1a/0x30 drivers/net/netdevsim/bus.c:391
+ call_driver_probe drivers/base/dd.c:578 [inline]
+ really_probe+0x140/0x430 drivers/base/dd.c:656
+ __driver_probe_device+0xcd/0x1b0 drivers/base/dd.c:798
+ driver_probe_device+0x2f/0x130 drivers/base/dd.c:828
+ __device_attach_driver+0x109/0x160 drivers/base/dd.c:956
+ bus_for_each_drv+0xbc/0x100 drivers/base/bus.c:457
+ __device_attach+0x101/0x290 drivers/base/dd.c:1028
+ device_initial_probe+0x1f/0x30 drivers/base/dd.c:1077
+ bus_probe_device+0xf6/0x100 drivers/base/bus.c:532
+ device_add+0x981/0xc60 drivers/base/core.c:3720
+ device_register+0x22/0x30 drivers/base/core.c:3802
+ nsim_bus_dev_new drivers/net/netdevsim/bus.c:442 [inline]
+ new_device_store+0x1d8/0x3b0 drivers/net/netdevsim/bus.c:173
+ bus_attr_store+0x47/0x70 drivers/base/bus.c:170
+ sysfs_kf_write+0x65/0x80 fs/sysfs/file.c:136
+ kernfs_fop_write_iter+0x1b4/0x270 fs/kernfs/file.c:334
+ call_write_iter include/linux/fs.h:2110 [inline]
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0x61f/0x880 fs/read_write.c:590
+ ksys_write+0xa1/0x160 fs/read_write.c:643
+ __do_sys_write fs/read_write.c:655 [inline]
+ __se_sys_write fs/read_write.c:652 [inline]
+ __x64_sys_write+0x21/0x30 fs/read_write.c:652
+ x64_sys_call+0x1679/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:2
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f226488ea8f
+Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 49 ff 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 8c ff 02 00 48
+RSP: 002b:00007ffd449fda50 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f226488ea8f
+RDX: 0000000000000003 RSI: 00007ffd449fdaa0 RDI: 0000000000000005
+RBP: 0000000000000005 R08: 0000000000000000 R09: 00007ffd449fd9f0
+R10: 0000000000000000 R11: 0000000000000293 R12: 00007f22648f1133
+R13: 00007ffd449fdaa0 R14: 0000000000000000 R15: 00007ffd449fe680
+ </TASK>
+netdevsim netdevsim3 netdevsim0: renamed from eth0
+netdevsim netdevsim3 netdevsim1: renamed from eth1
+netdevsim netdevsim3 netdevsim2: renamed from eth2
+netdevsim netdevsim3 netdevsim3: renamed from eth3
+8021q: adding VLAN 0 to HW filter on device bond0
+8021q: adding VLAN 0 to HW filter on device team0
+8021q: adding VLAN 0 to HW filter on device batadv0
+veth0_vlan: entered promiscuous mode
+veth1_vlan: entered promiscuous mode
+veth0_macvtap: entered promiscuous mode
+veth1_macvtap: entered promiscuous mode
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_0
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_1
+netdevsim netdevsim3 netdevsim0: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0
+ieee80211 phy68: Selected rate control algorithm 'minstrel_ht'
+ieee80211 phy69: Selected rate control algorithm 'minstrel_ht'

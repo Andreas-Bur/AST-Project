@@ -1,0 +1,5 @@
+r9 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+r10 = openat$nci(0xffffffffffffff9c, &(0x7f0000000000), 0x2, 0x0)
+io_uring_register$IORING_REGISTER_FILES(r4, 0x2, &(0x7f0000000180)=[r9, r8, r10], 0x3)
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)
+2024/05/22 01:31:57 SYZFATAL: executor 7 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir171108781: operation not permitted

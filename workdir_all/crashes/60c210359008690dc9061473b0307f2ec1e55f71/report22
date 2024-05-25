@@ -1,0 +1,49 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 16698 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ css_task_iter_start+0x36/0xb0 kernel/cgroup/cgroup.c:4926
+ __cgroup_procs_start+0xb9/0x150 kernel/cgroup/cgroup.c:5036
+ cgroup_procs_start kernel/cgroup/cgroup.c:5060 [inline]
+ cgroup_procs_start+0x9e/0xb0 kernel/cgroup/cgroup.c:5047
+ cgroup_seqfile_start+0x3b/0x50 kernel/cgroup/cgroup.c:4133
+ kernfs_seq_start+0x67/0xe0 fs/kernfs/file.c:160
+ traverse.part.0+0x3b/0x270 fs/seq_file.c:106
+ traverse fs/seq_file.c:101 [inline]
+ seq_read_iter+0x392/0x760 fs/seq_file.c:195
+ kernfs_fop_read_iter+0x1dd/0x260 fs/kernfs/file.c:279
+ call_read_iter include/linux/fs.h:2104 [inline]
+ new_sync_read fs/read_write.c:395 [inline]
+ vfs_read+0x3be/0x590 fs/read_write.c:476
+ ksys_read+0xa1/0x160 fs/read_write.c:619
+ __do_sys_read fs/read_write.c:629 [inline]
+ __se_sys_read fs/read_write.c:627 [inline]
+ __x64_sys_read+0x21/0x30 fs/read_write.c:627
+ x64_sys_call+0x1761/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:1
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f73bfa8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f73c073f028 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 00007f73bfbcc050 RCX: 00007f73bfa8fd6d
+RDX: 0000000000002020 RSI: 0000000020000240 RDI: 0000000000000004
+RBP: 00007f73bfaf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f73bfbcc050 R15: 00007f73c071f000
+ </TASK>

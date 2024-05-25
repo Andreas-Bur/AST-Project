@@ -1,0 +1,108 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2663 jiffies s: 1857 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 9867 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:apic_mem_wait_icr_idle+0xf/0x20 arch/x86/kernel/apic/ipi.c:130
+Code: b8 00 10 00 00 c9 e9 8b 62 06 04 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa eb 02 f3 90 8b 04 25 00 c3 5f ff <f6> c4 10 75 f2 e9 62 62 06 04 0f 1f 80 00 00 00 00 90 90 90 90 90
+RSP: 0000:ffff88807dc054c8 EFLAGS: 00000006
+RAX: 00000000000400f6 RBX: 0000000000000001 RCX: ffffffff81059735
+RDX: ffff88802b338000 RSI: ffffffff8105973e RDI: 00000000000400f6
+RBP: ffff88807dc054d8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff888029fd1ff8 R14: 0000000007a2ea01 R15: 0000000000000020
+FS:  00007fb4d7fb2640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb4cd054000 CR3: 000000002b05e002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ irq_work_raise kernel/irq_work.c:84 [inline]
+ __irq_work_queue_local+0x9c/0x220 kernel/irq_work.c:112
+ irq_work_queue kernel/irq_work.c:124 [inline]
+ irq_work_queue+0x79/0xc0 kernel/irq_work.c:116
+ perf_output_wakeup kernel/events/ring_buffer.c:25 [inline]
+ perf_output_put_handle+0xe8/0x160 kernel/events/ring_buffer.c:131
+ perf_output_end+0x1b/0xd0 kernel/events/ring_buffer.c:305
+ __perf_event_output kernel/events/core.c:7882 [inline]
+ perf_event_output_forward+0xca/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x1d8/0x2c0 kernel/events/core.c:9730
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_lock_acquire+0x16b/0x1c0 include/trace/events/lock.h:24
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ hrtimer_interrupt+0x6a/0x2c0 kernel/time/hrtimer.c:1799
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x3b/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__sanitizer_cov_trace_pc+0x0/0x70 kernel/kcov.c:200
+Code: 8b be b0 01 00 00 48 89 e5 e8 7c ff ff ff 31 c0 5d e9 1f 82 e6 03 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 48 89 e5 65 48 8b 15 70 53 d9 7e 65 8b 05 71 53 d9
+RSP: 0000:ffff88807dc05b38 EFLAGS: 00000206
+RAX: 00000000005d43b8 RBX: 0000000000000200 RCX: 0000000000000004
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811147db
+RBP: ffff88807dc05b70 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05a90 R11: 0000000000466aa9 R12: ffff88802a910660
+R13: 0000000000000200 R14: ffff888009864800 R15: 0000000000000001
+ queue_work include/linux/workqueue.h:605 [inline]
+ wiphy_work_queue+0x6e/0xf0 net/wireless/core.c:1618
+ __ieee80211_queue_skb_to_iface net/mac80211/rx.c:233 [inline]
+ ieee80211_queue_skb_to_iface net/mac80211/rx.c:244 [inline]
+ ieee80211_rx_h_mgmt net/mac80211/rx.c:4035 [inline]
+ ieee80211_rx_handlers+0x3063/0x48c0 net/mac80211/rx.c:4193
+ ieee80211_invoke_rx_handlers net/mac80211/rx.c:4223 [inline]
+ ieee80211_prepare_and_rx_handle+0x1035/0x26e0 net/mac80211/rx.c:5071
+ ieee80211_rx_for_interface+0x84/0x100 net/mac80211/rx.c:5156
+ __ieee80211_rx_handle_packet net/mac80211/rx.c:5312 [inline]
+ ieee80211_rx_list+0xb8b/0x1870 net/mac80211/rx.c:5447
+ ieee80211_rx_napi+0x8a/0x280 net/mac80211/rx.c:5470
+ ieee80211_rx include/net/mac80211.h:5083 [inline]
+ ieee80211_tasklet_handler+0xb6/0x110 net/mac80211/main.c:438
+ tasklet_action_common.constprop.0+0xcf/0x120 kernel/softirq.c:781
+ tasklet_action+0x28/0x30 kernel/softirq.c:807
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0xb4/0xc0 arch/x86/kernel/irq_work.c:17
+ </IRQ>
+ <TASK>
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:rcu_preempt_deferred_qs_irqrestore+0x88/0x3a0 kernel/rcu/tree_plugin.h:575
+Code: 84 f6 75 35 41 f7 c5 00 02 00 00 75 13 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 9d 2a f3 03 e8 6d cd 0f 00 fb 48 83 c4 10 <5b> 41 5c 41 5d 41 5e 41 5f 5d e9 84 2a f3 03 4c 8b a3 50 04 00 00
+RSP: 0000:ffff88802ad2bd58 EFLAGS: 00000282
+RAX: 000000000027f8af RBX: ffff88802b338000 RCX: 0000000000000080
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d1673
+RBP: ffff88802ad2bd80 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88802ad2bc98 R11: 0000000000000000 R12: ffff88807dc33400
+R13: 0000000000000246 R14: 0000000000010100 R15: 0000000000000200
+ rcu_read_unlock_special kernel/rcu/tree_plugin.h:681 [inline]
+ __rcu_read_unlock+0x12c/0x1b0 kernel/rcu/tree_plugin.h:426
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ pte_unmap include/linux/pgtable.h:113 [inline]
+ handle_pte_fault mm/memory.c:5294 [inline]
+ __handle_mm_fault+0xa6b/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7fb4d72285e7
+Code: 70 48 63 d5 48 01 c2 49 3b 55 08 77 4e 8d 55 ff 85 ed 74 35 0f 1f 80 00 00 00 00 48 39 c6 77 1c 49 8b 7d 00 49 89 c1 49 29 f1 <46> 0f b6 0c 0f 45 84 c9 74 08 44 88 0c 07 49 8b 45 10 48 83 c0 01
+RSP: 002b:00007fb4d7fb14b0 EFLAGS: 00010206
+RAX: 0000000000054001 RBX: 00007fb4d7fb1510 RCX: 0000000000000000
+RDX: 00000000000000f2 RSI: 0000000000000001 RDI: 00007fb4cd000000
+RBP: 0000000000000102 R08: 0000000000000001 R09: 0000000000054000
+R10: 0000000000000000 R11: 00007fb4d7fb1520 R12: 00007fb4d7fb1520
+R13: 00007fb4d7fb15b0 R14: 0000000000000001 R15: 0000000000000000
+ </TASK>

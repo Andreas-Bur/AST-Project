@@ -1,0 +1,81 @@
+============================================
+WARNING: possible recursive locking detected
+6.9.0-rc4 #2 Not tainted
+--------------------------------------------
+syz-executor.1/15558 is trying to acquire lock:
+ffff888013fa3158
+ (&ni->ni_lock
+/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+/4){+.+.}-{3:3}, at: mi_read+0x148/0x370 fs/ntfs3/record.c:148
+
+but task is already holding lock:
+ffff888013fa5ac8 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+ffff888013fa5ac8 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_lookup+0xe6/0x140 fs/ntfs3/namei.c:84
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&ni->ni_lock/4);
+  lock(&ni->ni_lock/4);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+2 locks held by syz-executor.1/15558:
+ #0: ffff888013fa5d68 (&type->i_mutex_dir_key#9){++++}-{3:3}, at: inode_lock_shared include/linux/fs.h:805 [inline]
+ #0: ffff888013fa5d68 (&type->i_mutex_dir_key#9){++++}-{3:3}, at: lookup_slow fs/namei.c:1708 [inline]
+ #0: ffff888013fa5d68 (&type->i_mutex_dir_key#9){++++}-{3:3}, at: walk_component+0x192/0x250 fs/namei.c:2004
+ #1: ffff888013fa5ac8 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+ #1: ffff888013fa5ac8 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_lookup+0xe6/0x140 fs/ntfs3/namei.c:84
+
+stack backtrace:
+CPU: 0 PID: 15558 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_deadlock_bug+0x27c/0x3d0 kernel/locking/lockdep.c:3012
+ check_deadlock kernel/locking/lockdep.c:3062 [inline]
+ validate_chain kernel/locking/lockdep.c:3856 [inline]
+ __lock_acquire+0x1125/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+ mi_read+0x148/0x370 fs/ntfs3/record.c:148
+ ntfs_read_mft fs/ntfs3/inode.c:70 [inline]
+ ntfs_iget5+0x19e/0x1a50 fs/ntfs3/inode.c:532
+ dir_search_u+0x277/0x2d0 fs/ntfs3/dir.c:264
+ ntfs_lookup+0xf3/0x140 fs/ntfs3/namei.c:85
+ __lookup_slow+0x13f/0x270 fs/namei.c:1692
+ lookup_slow fs/namei.c:1709 [inline]
+ walk_component+0x1a0/0x250 fs/namei.c:2004
+ lookup_last fs/namei.c:2461 [inline]
+ path_lookupat+0xc6/0x320 fs/namei.c:2485
+ filename_lookup+0xf2/0x270 fs/namei.c:2514
+ user_path_at_empty+0x4a/0x70 fs/namei.c:2921
+ user_path_at include/linux/namei.h:57 [inline]
+ ksys_umount fs/namespace.c:1916 [inline]
+ __do_sys_umount fs/namespace.c:1924 [inline]
+ __se_sys_umount fs/namespace.c:1922 [inline]
+ __x64_sys_umount+0x7a/0xd0 fs/namespace.c:1922
+ x64_sys_call+0x153/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:167
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f975849178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffd109ecd08 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f975849178b
+RDX: 00007f97584292c0 RSI: 0000000000000009 RDI: 00007ffd109ecdc0
+RBP: 00007ffd109ecdc0 R08: 0000000000000000 R09: 00007ffd109ecb90
+R10: 000055557660ba63 R11: 0000000000000246 R12: 00007f97584f0278
+R13: 00007ffd109edec0 R14: 000055557660b9b0 R15: 00007ffd109eef90
+ </TASK>

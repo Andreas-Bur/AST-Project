@@ -1,0 +1,46 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 4641 at fs/bcachefs/super.c:531 bch2_fs_read_write_early+0x6d/0x80 fs/bcachefs/super.c:531
+Modules linked in:
+CPU: 0 PID: 4641 Comm: kworker/0:3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: bcachefs_write_ref bch2_delete_dead_snapshots_work
+RIP: 0010:bch2_fs_read_write_early+0x6d/0x80 fs/bcachefs/super.c:531
+Code: f8 e6 fe 49 8d bc 24 78 02 00 00 be ff ff ff ff e8 b8 a7 ae 02 31 ff 89 c3 89 c6 e8 8d f3 e6 fe 85 db 75 bf e8 34 f8 e6 fe 90 <0f> 0b 90 eb b4 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 90 90 90
+RSP: 0018:ffff88800f63bbe8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8242c6c3
+RDX: ffff88800f57c380 RSI: ffffffff8242c6cc RDI: 0000000000000005
+RBP: ffff88800f63bbf8 R08: 0000000000000000 R09: ffffffff886219c0
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff888057e80000
+R13: ffff88801052e600 R14: ffff888057e80000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f762d0c3000 CR3: 000000000fe2a006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_delete_dead_snapshots+0x514/0x3270 fs/bcachefs/snapshot.c:1547
+ bch2_delete_dead_snapshots_work+0x23/0xe0 fs/bcachefs/snapshot.c:1681
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 1232773
+hardirqs last  enabled at (1232783): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (1232783): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (1232783): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (1232792): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (1232792): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (1232792): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (1232728): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (1232728): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (1232711): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (1232711): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (1232711): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+bcachefs (loop1): bch2_delete_dead_snapshots(): error deleting keys from dying snapshots erofs_trans_commit
+bcachefs (loop1): bch2_delete_dead_snapshots(): error erofs_trans_commit

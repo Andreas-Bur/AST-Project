@@ -1,0 +1,112 @@
+hfs: new node 0 already hashed?
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 12892 at fs/hfs/bnode.c:422 hfs_bnode_create+0xb0/0x260 fs/hfs/bnode.c:422
+Modules linked in:
+CPU: 1 PID: 12892 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hfs_bnode_create+0xb0/0x260 fs/hfs/bnode.c:422
+Code: 44 89 ee e8 42 b2 99 ff 45 39 ee 75 d7 e8 d8 b7 99 ff 4c 89 ff e8 e0 3a 63 03 44 89 f6 48 c7 c7 e8 69 0c 86 e8 31 26 8a ff 90 <0f> 0b 90 e8 b8 b7 99 ff 4c 89 e0 5b 41 5c 41 5d 41 5e 41 5f 5d e9
+RSP: 0018:ffff88803411bb70 EFLAGS: 00010212
+RAX: 000000000000001f RBX: ffff888032bb7000 RCX: ffffc90007d24000
+RDX: 0000000000040000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88803411bb98 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888028cc9d80
+R13: 0000000000000000 R14: 0000000000000000 R15: ffff888032bb70e0
+FS:  00007ff2d6392640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc3e7b0e6f4 CR3: 000000000f658004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfs_bmap_alloc+0x41c/0x440 fs/hfs/btree.c:291
+ hfs_bnode_split+0x2e/0x490 fs/hfsplus/brec.c:245
+ hfs_brec_insert+0xe5/0x4b0 fs/hfs/brec.c:102
+ hfs_cat_create+0x3e4/0x470 fs/hfs/catalog.c:131
+ hfs_create+0x51/0xc0 fs/hfs/dir.c:202
+ vfs_create fs/namei.c:3199 [inline]
+ vfs_create+0x276/0x360 fs/namei.c:3183
+ do_mknodat+0x2a1/0x3a0 fs/namei.c:4051
+ __do_sys_mknodat fs/namei.c:4079 [inline]
+ __se_sys_mknodat fs/namei.c:4076 [inline]
+ __x64_sys_mknodat+0x42/0x60 fs/namei.c:4076
+ x64_sys_call+0xe20/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:260
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff2d568fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ff2d6392028 EFLAGS: 00000246 ORIG_RAX: 0000000000000103
+RAX: ffffffffffffffda RBX: 00007ff2d57cbf80 RCX: 00007ff2d568fd6d
+RDX: 0000000000000000 RSI: 0000000020000180 RDI: ffffffffffffff9c
+RBP: 00007ff2d56f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007ff2d57cbf80 R15: 00007ff2d6372000
+ </TASK>
+irq event stamp: 292621
+hardirqs last  enabled at (292647): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (292647): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (292647): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (292656): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (292656): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (292656): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (292642): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (292642): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (292629): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (292629): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (292629): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernel BUG at fs/hfs/bnode.c:467!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 12892 Comm: syz-executor.5 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hfs_bnode_put+0x14c/0x150 fs/hfs/bnode.c:467
+Code: 4c 89 e7 e8 76 2d 00 00 4c 89 e7 e8 9e fc ff ff e8 29 c0 99 ff 5b 41 5c 41 5d 41 5e 41 5f 5d e9 25 42 80 03 e8 15 c0 99 ff 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f
+RSP: 0018:ffff88803411bc68 EFLAGS: 00010216
+RAX: 000000000003f34e RBX: 0000000000000000 RCX: ffffc90007d24000
+RDX: 0000000000040000 RSI: ffffffff818ffeeb RDI: 0000000000000005
+RBP: ffff88803411bc90 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888028cc9d80
+R13: ffff88803411bd28 R14: ffff888032bb7000 R15: ffff888032bb7000
+FS:  00007ff2d6392640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc3e7b0e6f4 CR3: 000000000f658004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfs_brec_insert+0x337/0x4b0 fs/hfs/brec.c:162
+ hfs_cat_create+0x3e4/0x470 fs/hfs/catalog.c:131
+ hfs_create+0x51/0xc0 fs/hfs/dir.c:202
+ vfs_create fs/namei.c:3199 [inline]
+ vfs_create+0x276/0x360 fs/namei.c:3183
+ do_mknodat+0x2a1/0x3a0 fs/namei.c:4051
+ __do_sys_mknodat fs/namei.c:4079 [inline]
+ __se_sys_mknodat fs/namei.c:4076 [inline]
+ __x64_sys_mknodat+0x42/0x60 fs/namei.c:4076
+ x64_sys_call+0xe20/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:260
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff2d568fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ff2d6392028 EFLAGS: 00000246 ORIG_RAX: 0000000000000103
+RAX: ffffffffffffffda RBX: 00007ff2d57cbf80 RCX: 00007ff2d568fd6d
+RDX: 0000000000000000 RSI: 0000000020000180 RDI: ffffffffffffff9c
+RBP: 00007ff2d56f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007ff2d57cbf80 R15: 00007ff2d6372000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:hfs_bnode_put+0x14c/0x150 fs/hfs/bnode.c:467
+Code: 4c 89 e7 e8 76 2d 00 00 4c 89 e7 e8 9e fc ff ff e8 29 c0 99 ff 5b 41 5c 41 5d 41 5e 41 5f 5d e9 25 42 80 03 e8 15 c0 99 ff 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f
+RSP: 0018:ffff88803411bc68 EFLAGS: 00010216
+RAX: 000000000003f34e RBX: 0000000000000000 RCX: ffffc90007d24000
+RDX: 0000000000040000 RSI: ffffffff818ffeeb RDI: 0000000000000005
+RBP: ffff88803411bc90 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888028cc9d80
+R13: ffff88803411bd28 R14: ffff888032bb7000 R15: ffff888032bb7000
+FS:  00007ff2d6392640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc3e7b0e6f4 CR3: 000000000f658004 CR4: 0000000000770ef0
+PKRU: 55555554

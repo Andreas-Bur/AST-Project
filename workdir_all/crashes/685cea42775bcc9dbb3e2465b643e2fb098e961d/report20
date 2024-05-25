@@ -1,0 +1,53 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 57289 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ perf_ctx_lock kernel/events/core.c:161 [inline]
+ perf_event_context_sched_in kernel/events/core.c:3961 [inline]
+ __perf_event_task_sched_in+0xc1/0x4a0 kernel/events/core.c:4012
+ perf_event_task_sched_in include/linux/perf_event.h:1484 [inline]
+ finish_task_switch.isra.0+0x1cf/0x340 kernel/sched/core.c:5278
+ context_switch kernel/sched/core.c:5412 [inline]
+ __schedule+0x3f8/0x17d0 kernel/sched/core.c:6746
+ preempt_schedule_common kernel/sched/core.c:6925 [inline]
+ __cond_resched+0x34/0x60 kernel/sched/core.c:8590
+ _cond_resched include/linux/sched.h:1988 [inline]
+ vm_area_alloc_pages mm/vmalloc.c:3536 [inline]
+ __vmalloc_area_node mm/vmalloc.c:3637 [inline]
+ __vmalloc_node_range+0x347/0xb60 mm/vmalloc.c:3818
+ vmalloc_user+0x51/0x60 mm/vmalloc.c:3972
+ xskq_create+0x82/0xd0 net/xdp/xsk_queue.c:49
+ xsk_init_queue net/xdp/xsk.c:1031 [inline]
+ xsk_setsockopt+0x419/0x590 net/xdp/xsk.c:1373
+ do_sock_setsockopt+0x108/0x220 net/socket.c:2311
+ __sys_setsockopt+0xba/0x110 net/socket.c:2334
+ __do_sys_setsockopt net/socket.c:2343 [inline]
+ __se_sys_setsockopt net/socket.c:2340 [inline]
+ __x64_sys_setsockopt+0x27/0x40 net/socket.c:2340
+ x64_sys_call+0x1dc8/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:55
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbd2208fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fbd22d7d028 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 00007fbd221cbf80 RCX: 00007fbd2208fd6d
+RDX: 0000000000000002 RSI: 000000000000011b RDI: 000000000000000a
+RBP: 00007fbd220f14cd R08: 0000000000000004 R09: 0000000000000000
+R10: 0000000020000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fbd221cbf80 R15: 00007fbd22d5d000
+ </TASK>

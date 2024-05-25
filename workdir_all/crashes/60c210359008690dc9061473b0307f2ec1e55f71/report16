@@ -1,0 +1,71 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 15629 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ __netif_tx_lock include/linux/netdevice.h:4371 [inline]
+ __dev_queue_xmit+0xc58/0x1f10 net/core/dev.c:4331
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ neigh_direct_output+0x1c/0x30 net/core/neighbour.c:1603
+ neigh_output include/net/neighbour.h:542 [inline]
+ ip_finish_output2+0x3ec/0x10c0 net/ipv4/ip_output.c:235
+ ip_do_fragment+0x31a/0x880 net/ipv4/ip_output.c:916
+ ip_fragment.constprop.0+0x96/0x110 net/ipv4/ip_output.c:584
+ __ip_finish_output net/ipv4/ip_output.c:311 [inline]
+ __ip_finish_output+0x140/0x4b0 net/ipv4/ip_output.c:295
+ ip_finish_output+0x38/0x1a0 net/ipv4/ip_output.c:323
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip_output+0x93/0x150 net/ipv4/ip_output.c:433
+ dst_output include/net/dst.h:450 [inline]
+ ip_local_out+0x200/0x270 net/ipv4/ip_output.c:129
+ __ip_queue_xmit+0x319/0xb30 net/ipv4/ip_output.c:535
+ sctp_v4_xmit+0x33a/0x390 net/sctp/protocol.c:1075
+ sctp_packet_transmit+0x9d6/0xd70 net/sctp/output.c:653
+ sctp_packet_singleton+0x82/0x100 net/sctp/outqueue.c:783
+ sctp_outq_flush_ctrl.constprop.0+0x25f/0x3d0 net/sctp/outqueue.c:914
+ sctp_outq_flush net/sctp/outqueue.c:1212 [inline]
+ sctp_outq_uncork+0x72/0xc0 net/sctp/outqueue.c:764
+ sctp_cmd_interpreter net/sctp/sm_sideeffect.c:1818 [inline]
+ sctp_side_effects net/sctp/sm_sideeffect.c:1198 [inline]
+ sctp_do_sm+0x1499/0x24d0 net/sctp/sm_sideeffect.c:1169
+ sctp_primitive_ASSOCIATE+0x5b/0x80 net/sctp/primitive.c:73
+ __sctp_connect+0x483/0x4e0 net/sctp/socket.c:1234
+ sctp_connect net/sctp/socket.c:4819 [inline]
+ sctp_inet_connect+0xad/0xf0 net/sctp/socket.c:4834
+ __sys_connect_file+0xa9/0xb0 net/socket.c:2048
+ io_connect+0x72/0x460 io_uring/net.c:1536
+ io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+ io_queue_sqe io_uring/io_uring.c:2111 [inline]
+ io_submit_sqe io_uring/io_uring.c:2377 [inline]
+ io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+ __do_sys_io_uring_enter+0x4df/0xaa0 io_uring/io_uring.c:3668
+ __se_sys_io_uring_enter io_uring/io_uring.c:3603 [inline]
+ __x64_sys_io_uring_enter+0x2a/0x40 io_uring/io_uring.c:3603
+ x64_sys_call+0x14b9/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:427
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9bd5c8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9bd6a73028 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: ffffffffffffffda RBX: 00007f9bd5dcbf80 RCX: 00007f9bd5c8fd6d
+RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000005
+RBP: 00007f9bd5cf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f9bd5dcbf80 R15: 00007f9bd6a53000
+ </TASK>

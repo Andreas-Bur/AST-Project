@@ -1,0 +1,93 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2679 jiffies s: 3809 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 13092 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__hrtimer_run_queues+0x17e/0x530 kernel/time/hrtimer.c:1753
+Code: 4d 85 e4 0f 84 48 03 00 00 e8 6e c3 09 00 4c 8b 6d d0 e8 65 c3 09 00 4d 8b 7c 24 20 4c 89 ee 4c 89 ff e8 e5 bd 09 00 4d 39 ef <0f> 8f 21 03 00 00 e8 47 c3 09 00 44 8b 2d 38 ee 7b 05 31 ff 44 89
+RSP: 0018:ffff88807dc05a50 EFLAGS: 00000087
+RAX: 0000000000000000 RBX: ffff88807dc20940 RCX: ffffffff811ffbab
+RDX: ffff8880224721c0 RSI: 00000018908935e9 RDI: 0000000000000006
+RBP: ffff88807dc05aa0 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000001890893e07 R11: 0000000000000000 R12: ffff88802f8638b8
+R13: 0000001890893e07 R14: ffff88807dc208c0 R15: 00000018908935e9
+FS:  00007f668ad1f640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe38b1c9000 CR3: 0000000022696003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ hrtimer_interrupt+0x129/0x2c0 kernel/time/hrtimer.c:1818
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x3b/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:arch_local_irq_enable arch/x86/include/asm/irqflags.h:78 [inline]
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:135 [inline]
+RIP: 0010:seqcount_lockdep_reader_access include/linux/seqlock.h:74 [inline]
+RIP: 0010:read_seqbegin include/linux/seqlock.h:772 [inline]
+RIP: 0010:neigh_hh_output include/net/neighbour.h:496 [inline]
+RIP: 0010:neigh_output include/net/neighbour.h:540 [inline]
+RIP: 0010:ip6_finish_output2+0xa14/0xba0 net/ipv6/ip6_output.c:137
+Code: 00 00 00 31 d2 ff 75 08 b9 02 00 00 00 31 f6 4c 89 ff e8 df 82 bd fc 48 8b 75 08 4c 89 ff e8 a3 7f bd fc e8 3e c2 d1 fc fb 5a <e9> ac f9 ff ff e8 52 9d ce fc 48 8b 75 c8 49 8d 55 08 4c 89 f7 e8
+RSP: 0018:ffff88807dc05c00 EFLAGS: 00000206
+RAX: 00000000004c6a72 RBX: 0000000000000200 RCX: 0000000000000004
+RDX: ffffffff845b384b RSI: 0000000000000000 RDI: ffffffff845b21a2
+RBP: ffff88807dc05c60 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05b48 R11: 0000000000000000 R12: ffff88800f9b0600
+R13: ffff888027b5e800 R14: ffff88802dd83000 R15: ffff888027b5e9d8
+ __ip6_finish_output net/ipv6/ip6_output.c:211 [inline]
+ ip6_finish_output+0x4ab/0x890 net/ipv6/ip6_output.c:222
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip6_output+0xc9/0x260 net/ipv6/ip6_output.c:243
+ dst_output include/net/dst.h:450 [inline]
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ ndisc_send_skb+0x39a/0xe00 net/ipv6/ndisc.c:509
+ ndisc_send_rs+0x7f/0x2c0 net/ipv6/ndisc.c:719
+ addrconf_rs_timer+0x15c/0x3f0 net/ipv6/addrconf.c:4038
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x38/0x60 kernel/locking/spinlock.c:194
+Code: 83 c7 18 53 48 89 f3 48 8b 75 08 e8 02 5e 25 fc 4c 89 e7 e8 7a 8f 25 fc 80 e7 02 74 06 e8 90 a0 39 fc fb 65 ff 0d 30 cf 0f 7b <74> 09 5b 41 5c 5d e9 a8 fd 1c 00 0f 1f 44 00 00 5b 41 5c 5d e9 9a
+RSP: 0018:ffff88802e723dd8 EFLAGS: 00000286
+RAX: 00000000000001a3 RBX: 0000000000000286 RCX: 0000000000000040
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff84f34350
+RBP: ffff88802e723de8 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88802e723d28 R11: 0000000000000000 R12: ffff888022d21400
+R13: ffff88802f863750 R14: ffff8880224721c0 R15: ffff88803bd60580
+ perf_unpin_context kernel/events/core.c:1445 [inline]
+ __do_sys_perf_event_open+0x1207/0x1c30 kernel/events/core.c:12765
+ __se_sys_perf_event_open kernel/events/core.c:12416 [inline]
+ __x64_sys_perf_event_open+0x27/0x40 kernel/events/core.c:12416
+ x64_sys_call+0x15ea/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:299
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f668a08fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f668ad1f028 EFLAGS: 00000246 ORIG_RAX: 000000000000012a
+RAX: ffffffffffffffda RBX: 00007f668a1cbf80 RCX: 00007f668a08fd6d
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000200000c0
+RBP: 00007f668a0f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffffffffffff R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f668a1cbf80 R15: 00007f668acff000
+ </TASK>

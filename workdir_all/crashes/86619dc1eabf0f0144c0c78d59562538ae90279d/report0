@@ -1,0 +1,111 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 16431 at kernel/rcu/tree_stall.h:990 rcu_check_gp_start_stall.part.0+0x21b/0x2c0 kernel/rcu/tree_stall.h:990
+Modules linked in:
+CPU: 1 PID: 16431 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:rcu_check_gp_start_stall.part.0+0x21b/0x2c0 kernel/rcu/tree_stall.h:990
+Code: ff ff ff 48 8b 05 75 0f 3f 05 48 01 c3 48 39 da 0f 88 4b ff ff ff b8 01 00 00 00 87 05 ea a1 0a 08 85 c0 0f 85 93 00 00 00 90 <0f> 0b 90 49 81 fc c0 37 5c 86 74 38 8b 15 bb b8 7e 05 85 d2 74 1a
+RSP: 0018:ffff88807dd05ee0 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 00000000ffffe7a1 RCX: 0000000000006208
+RDX: 00000000ffffe801 RSI: 0000000000000246 RDI: ffffffff865c37c0
+RBP: ffff88807dd05ef8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000028 R11: 0000000000000001 R12: ffffffff865c37c0
+R13: ffffffff865c37c0 R14: 0000000000000004 R15: ffffffff86406108
+FS:  00007f029352b640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2e645000 CR3: 00000000296ba002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ rcu_check_gp_start_stall kernel/rcu/tree_stall.h:953 [inline]
+ rcu_core+0x1c0/0x910 kernel/rcu/tree.c:2466
+ rcu_core_si+0xd/0x20 kernel/rcu/tree.c:2488
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:write_comp_data+0x31/0x80 kernel/kcov.c:236
+Code: 5a d9 7e 65 48 8b 15 1e 5a d9 7e a9 00 01 ff 00 74 0f f6 c4 01 74 59 8b 82 84 15 00 00 85 c0 74 4f 8b 82 60 15 00 00 83 f8 03 <75> 44 48 8b 82 68 15 00 00 8b 92 64 15 00 00 4c 8b 08 48 c1 e2 03
+RSP: 0018:ffff8880326db638 EFLAGS: 00000297
+RAX: 0000000000000002 RBX: ffff88800f2ac008 RCX: ffffffff823bfcf2
+RDX: ffff88802bdf21c0 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: ffff8880326db640 R08: 0000001eec0cab39 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888047000000
+R13: 0000000000000000 R14: ffff88800f2ac008 R15: ffff88800f2ac008
+ __bch2_write_index+0x32/0x4a0 fs/bcachefs/io_write.c:510
+ __bch2_write+0x1474/0x20d0 fs/bcachefs/io_write.c:1487
+ bch2_write+0x241/0x660 fs/bcachefs/io_write.c:1610
+ closure_queue include/linux/closure.h:257 [inline]
+ closure_call include/linux/closure.h:390 [inline]
+ bch2_writepage_do_io+0x43/0x50 fs/bcachefs/fs-io-buffered.c:468
+ bch2_writepages+0x6a/0xc0 fs/bcachefs/fs-io-buffered.c:660
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ file_write_and_wait_range+0x93/0xf0 mm/filemap.c:788
+ bch2_fsync+0x40/0xe0 fs/bcachefs/fs-io.c:197
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ bch2_buffered_write fs/bcachefs/fs-io-buffered.c:1136 [inline]
+ bch2_write_iter+0x248/0x17d0 fs/bcachefs/fs-io-buffered.c:1144
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev fs/read_write.c:1072 [inline]
+ __do_sys_pwritev fs/read_write.c:1119 [inline]
+ __se_sys_pwritev fs/read_write.c:1114 [inline]
+ __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+ x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f029288fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f029352b028 EFLAGS: 00000246 ORIG_RAX: 0000000000000128
+RAX: ffffffffffffffda RBX: 00007f02929cc050 RCX: 00007f029288fd6d
+RDX: 0000000000000001 RSI: 0000000020001680 RDI: 0000000000000008
+RBP: 00007f02928f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000000ffff R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f02929cc050 R15: 00007f029350b000
+ </TASK>
+irq event stamp: 513113
+hardirqs last  enabled at (513112): [<ffffffff811d8d7c>] rcu_nocb_unlock_irqrestore kernel/rcu/tree_nocb.h:1747 [inline]
+hardirqs last  enabled at (513112): [<ffffffff811d8d7c>] rcu_core+0x61c/0x910 kernel/rcu/tree.c:2463
+hardirqs last disabled at (513113): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (513113): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (513040): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (513040): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (513043): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (513043): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (513043): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+rcu: rcu_preempt: wait state: RCU_GP_WAIT_GPS(1) ->state: 0x0 ->rt_priority 0 delta ->gp_start 10603 ->gp_activity 10601 ->gp_req_activity 10594 ->gp_wake_time 10594 ->gp_wake_seq 25096 ->gp_seq 25096 ->gp_seq_needed 25100 ->gp_max 34 ->gp_flags 0x1
+rcu: 	rcu_node 0:1 ->gp_seq 25096 ->gp_seq_needed 25100 ->qsmask 0x0 .... ->n_boosts 0
+rcu: RCU callbacks invoked since boot: 482183
+rcu_tasks: RTGS_WAIT_CBS(11) since 22625 g:8 i:0/0 k.u. l:25 
+rcu_tasks_trace: RTGS_WAIT_CBS(11) since 12541 g:16 i:0/1 k.u. l:25 N0 h:0/0/0
+----------------
+Code disassembly (best guess):
+   0:	5a                   	pop    %rdx
+   1:	d9 7e 65             	fnstcw 0x65(%rsi)
+   4:	48 8b 15 1e 5a d9 7e 	mov    0x7ed95a1e(%rip),%rdx        # 0x7ed95a29
+   b:	a9 00 01 ff 00       	test   $0xff0100,%eax
+  10:	74 0f                	je     0x21
+  12:	f6 c4 01             	test   $0x1,%ah
+  15:	74 59                	je     0x70
+  17:	8b 82 84 15 00 00    	mov    0x1584(%rdx),%eax
+  1d:	85 c0                	test   %eax,%eax
+  1f:	74 4f                	je     0x70
+  21:	8b 82 60 15 00 00    	mov    0x1560(%rdx),%eax
+  27:	83 f8 03             	cmp    $0x3,%eax
+* 2a:	75 44                	jne    0x70 <-- trapping instruction
+  2c:	48 8b 82 68 15 00 00 	mov    0x1568(%rdx),%rax
+  33:	8b 92 64 15 00 00    	mov    0x1564(%rdx),%edx
+  39:	4c 8b 08             	mov    (%rax),%r9
+  3c:	48 c1 e2 03          	shl    $0x3,%rdx

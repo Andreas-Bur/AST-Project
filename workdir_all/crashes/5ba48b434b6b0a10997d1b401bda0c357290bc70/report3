@@ -1,0 +1,63 @@
+BUG: kernel NULL pointer dereference, address: 00000000000001e8
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 2d6bd067 P4D 2d6bd067 PUD f487067 PMD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 107 Comm: jfsCommit Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__lock_acquire+0x5ec/0x15f0 kernel/locking/lockdep.c:5006
+Code: 00 83 c0 01 83 f8 2f 89 83 58 0a 00 00 0f 87 64 06 00 00 3b 05 29 e8 04 07 0f 87 5a 04 00 00 41 bd 01 00 00 00 eb 48 45 31 c9 <48> 81 3f c0 74 9d 87 44 0f 45 c8 83 fe 01 0f 87 49 fa ff ff 89 f0
+RSP: 0018:ffff88800bcb7d38 EFLAGS: 00010046
+RAX: 0000000000000001 RBX: ffff88800bce8000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000000001e8
+RBP: ffff88800bcb7db0 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 00000000000001e8 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000001e8 CR3: 000000003d014004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irq include/linux/spinlock_api_smp.h:119 [inline]
+ _raw_spin_lock_irq+0x38/0x60 kernel/locking/spinlock.c:170
+ spin_lock_irq include/linux/spinlock.h:376 [inline]
+ txLazyCommit fs/jfs/jfs_txnmgr.c:2668 [inline]
+ jfs_lazycommit+0x2de/0x530 fs/jfs/jfs_txnmgr.c:2733
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: 00000000000001e8
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__lock_acquire+0x5ec/0x15f0 kernel/locking/lockdep.c:5006
+Code: 00 83 c0 01 83 f8 2f 89 83 58 0a 00 00 0f 87 64 06 00 00 3b 05 29 e8 04 07 0f 87 5a 04 00 00 41 bd 01 00 00 00 eb 48 45 31 c9 <48> 81 3f c0 74 9d 87 44 0f 45 c8 83 fe 01 0f 87 49 fa ff ff 89 f0
+RSP: 0018:ffff88800bcb7d38 EFLAGS: 00010046
+RAX: 0000000000000001 RBX: ffff88800bce8000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000000001e8
+RBP: ffff88800bcb7db0 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 00000000000001e8 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000000001e8 CR3: 000000003d014004 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	83 c0 01             	add    $0x1,%eax
+   3:	83 f8 2f             	cmp    $0x2f,%eax
+   6:	89 83 58 0a 00 00    	mov    %eax,0xa58(%rbx)
+   c:	0f 87 64 06 00 00    	ja     0x676
+  12:	3b 05 29 e8 04 07    	cmp    0x704e829(%rip),%eax        # 0x704e841
+  18:	0f 87 5a 04 00 00    	ja     0x478
+  1e:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+  24:	eb 48                	jmp    0x6e
+  26:	45 31 c9             	xor    %r9d,%r9d
+* 29:	48 81 3f c0 74 9d 87 	cmpq   $0xffffffff879d74c0,(%rdi) <-- trapping instruction
+  30:	44 0f 45 c8          	cmovne %eax,%r9d
+  34:	83 fe 01             	cmp    $0x1,%esi
+  37:	0f 87 49 fa ff ff    	ja     0xfffffa86
+  3d:	89 f0                	mov    %esi,%eax

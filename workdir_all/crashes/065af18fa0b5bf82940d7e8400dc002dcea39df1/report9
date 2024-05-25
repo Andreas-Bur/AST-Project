@@ -1,0 +1,68 @@
+  u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c6c25c03258c59c5 written 0 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0
+  node offset 0/0 bset u64s 0: invalid bkey format: field 1 too large: 18446744073709551615 + 2250700302057472 > 18446744073709551615
+  u64s 3 fields 64:0, 64:2250700302057472, 32:0, 0:0, 0:0, 0:0
+BUG: unable to handle page fault for address: fffffffffffff7af
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 64b4067 P4D 64b4067 PUD 64b6067 PMD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 47611 Comm: read_btree_node Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:btree_node_root fs/bcachefs/btree_cache.h:128 [inline]
+RIP: 0010:found_btree_node_is_readable+0x9c/0x170 fs/bcachefs/btree_node_scan.c:82
+Code: e8 99 fb f8 fe 31 f6 48 89 df 41 bf 01 00 00 00 48 8d 15 00 00 00 00 e8 d2 40 10 00 e8 7d fb f8 fe 49 8b 45 00 bf 13 00 00 00 <44> 0f b6 b3 99 00 00 00 48 89 85 60 ff ff ff 44 89 f6 4d 89 f4 e8
+RSP: 0018:ffff88802aa97d50 EFLAGS: 00010293
+RAX: ffff888079f00000 RBX: fffffffffffff716 RCX: ffffffff8230c355
+RDX: ffff8880779921c0 RSI: ffffffff8230c383 RDI: 0000000000000013
+RBP: ffff88802aa97df8 R08: ffffffff85fcb05d R09: 0000000000000001
+R10: fffffffffffff716 R11: 0000000000000000 R12: 0000000000000039
+R13: ffff88803e99c000 R14: ffff888079c5c000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: fffffffffffff7af CR3: 000000002ce06001 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ try_read_btree_node fs/bcachefs/btree_node_scan.c:155 [inline]
+ read_btree_nodes_worker+0x5c5/0xc90 fs/bcachefs/btree_node_scan.c:198
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: fffffffffffff7af
+---[ end trace 0000000000000000 ]---
+RIP: 0010:btree_node_root fs/bcachefs/btree_cache.h:128 [inline]
+RIP: 0010:found_btree_node_is_readable+0x9c/0x170 fs/bcachefs/btree_node_scan.c:82
+Code: e8 99 fb f8 fe 31 f6 48 89 df 41 bf 01 00 00 00 48 8d 15 00 00 00 00 e8 d2 40 10 00 e8 7d fb f8 fe 49 8b 45 00 bf 13 00 00 00 <44> 0f b6 b3 99 00 00 00 48 89 85 60 ff ff ff 44 89 f6 4d 89 f4 e8
+RSP: 0018:ffff88802aa97d50 EFLAGS: 00010293
+RAX: ffff888079f00000 RBX: fffffffffffff716 RCX: ffffffff8230c355
+RDX: ffff8880779921c0 RSI: ffffffff8230c383 RDI: 0000000000000013
+RBP: ffff88802aa97df8 R08: ffffffff85fcb05d R09: 0000000000000001
+R10: fffffffffffff716 R11: 0000000000000000 R12: 0000000000000039
+R13: ffff88803e99c000 R14: ffff888079c5c000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: fffffffffffff7af CR3: 000000002ce06001 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	e8 99 fb f8 fe       	call   0xfef8fb9e
+   5:	31 f6                	xor    %esi,%esi
+   7:	48 89 df             	mov    %rbx,%rdi
+   a:	41 bf 01 00 00 00    	mov    $0x1,%r15d
+  10:	48 8d 15 00 00 00 00 	lea    0x0(%rip),%rdx        # 0x17
+  17:	e8 d2 40 10 00       	call   0x1040ee
+  1c:	e8 7d fb f8 fe       	call   0xfef8fb9e
+  21:	49 8b 45 00          	mov    0x0(%r13),%rax
+  25:	bf 13 00 00 00       	mov    $0x13,%edi
+* 2a:	44 0f b6 b3 99 00 00 	movzbl 0x99(%rbx),%r14d <-- trapping instruction
+  31:	00
+  32:	48 89 85 60 ff ff ff 	mov    %rax,-0xa0(%rbp)
+  39:	44 89 f6             	mov    %r14d,%esi
+  3c:	4d 89 f4             	mov    %r14,%r12
+  3f:	e8                   	.byte 0xe8

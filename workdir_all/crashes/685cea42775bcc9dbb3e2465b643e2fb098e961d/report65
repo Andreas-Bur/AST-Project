@@ -1,0 +1,66 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 11476 Comm: kworker/u8:9 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+ _raw_spin_lock_bh+0x37/0x50 kernel/locking/spinlock.c:178
+ spin_lock_bh include/linux/spinlock.h:356 [inline]
+ batadv_softif_vlan_release+0x2b/0x90 net/batman-adv/soft-interface.c:515
+ kref_put include/linux/kref.h:65 [inline]
+ batadv_softif_vlan_put net/batman-adv/soft-interface.h:39 [inline]
+ batadv_tt_local_entry_release net/batman-adv/translation-table.c:237 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ batadv_tt_local_entry_put net/batman-adv/translation-table.c:253 [inline]
+ batadv_tt_local_remove+0x397/0x3b0 net/batman-adv/translation-table.c:1296
+ batadv_mcast_mla_tt_retract+0xae/0x120 net/batman-adv/multicast.c:697
+ batadv_mcast_free+0x5f/0x70 net/batman-adv/multicast.c:2182
+ batadv_mesh_free+0x5e/0xa0 net/batman-adv/main.c:274
+ batadv_softif_free+0x1a/0x30 net/batman-adv/soft-interface.c:1003
+ netdev_run_todo+0x34a/0x860 net/core/dev.c:10587
+ rtnl_unlock+0x12/0x20 net/core/rtnetlink.c:152
+ default_device_exit_batch+0x3d8/0x440 net/core/dev.c:11635
+ ops_exit_list+0x93/0xb0 net/core/net_namespace.c:175
+ cleanup_net+0x37d/0x5d0 net/core/net_namespace.c:637
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+IPVS: stop unused estimator thread 0...
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+dvmrp0 (unregistering): left allmulticast mode
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond1 (unregistering): Released all slaves
+tipc: Disabling bearer <udp:syz2>
+tipc: Left network mode
+IPVS: stopping master sync thread 29418 ...
+veth0_macvtap: left promiscuous mode
+: left promiscuous mode
+veth0_vlan: left promiscuous mode
+pimreg (unregistering): left allmulticast mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+smc: removing net device bond_slave_1 with user defined pnetid SYZ2
+IPVS: stop unused estimator thread 0...

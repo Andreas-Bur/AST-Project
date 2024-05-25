@@ -1,0 +1,7 @@
+sendmsg$nl_route(r0, &(0x7f00000001c0)={0x0, 0x0, &(0x7f0000000180)={&(0x7f0000000100)=ANY=[@ANYBLOB="130000001600"], 0x20}}, 0x0)
+r1 = openat$cdrom(0xffffffffffffff9c, &(0x7f0000000000), 0x81, 0x0)
+ioctl$CDROMREADTOCENTRY(r1, 0x5306, &(0x7f0000000040)={0xca, 0x5, 0x9, 0x2, @msf={0x1, 0x80}})
+2033/05/18 03:37:27 SYZFATAL: executor 5 failed 11 times: executor 5: failed to write control pipe: write |1: broken pipe
+SYZFAIL: tun: can't open /dev/net/tun
+ (errno 2: No such file or directory)
+loop exited with status 67

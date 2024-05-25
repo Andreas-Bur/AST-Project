@@ -1,0 +1,142 @@
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 PID: 17208 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ assign_lock_key kernel/locking/lockdep.c:976 [inline]
+ register_lock_class+0x55a/0x590 kernel/locking/lockdep.c:1289
+ __lock_acquire+0x5f/0x15f0 kernel/locking/lockdep.c:5014
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
+ __sb_start_write include/linux/fs.h:1664 [inline]
+ sb_start_write include/linux/fs.h:1800 [inline]
+ mnt_want_write+0x50/0x2e0 fs/namespace.c:409
+ open_last_lookups fs/namei.c:3555 [inline]
+ path_openat+0x11e6/0x1210 fs/namei.c:3796
+ do_filp_open+0xb9/0x190 fs/namei.c:3826
+ do_sys_openat2+0xc4/0x110 fs/open.c:1406
+ do_sys_open fs/open.c:1421 [inline]
+ __do_sys_openat fs/open.c:1437 [inline]
+ __se_sys_openat fs/open.c:1432 [inline]
+ __x64_sys_openat+0x78/0xd0 fs/open.c:1432
+ x64_sys_call+0x1b08/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f813ce8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f813db53028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f813cfcbf80 RCX: 00007f813ce8fd6d
+RDX: 0000000000101042 RSI: 0000000020000100 RDI: ffffffffffffff9c
+RBP: 00007f813cef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f813cfcbf80 R15: 00007f813db33000
+ </TASK>
+BUG: unable to handle page fault for address: ffff888003b9c5a6
+#PF: supervisor write access in kernel mode
+#PF: error_code(0x0003) - permissions violation
+PGD 9601067 P4D 9601067 PUD 9602067 PMD 8000000003a001a1 
+Oops: 0003 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 17208 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__percpu_down_read_trylock kernel/locking/percpu-rwsem.c:50 [inline]
+RIP: 0010:__percpu_down_read+0x11/0x1d0 kernel/locking/percpu-rwsem.c:169
+Code: 2a ff ff ff 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 55 41 54 53 48 8b 47 68 <65> ff 00 f0 83 44 24 fc 00 8b 87 c8 00 00 00 85 c0 75 14 41 bd 01
+RSP: 0018:ffff888029bb7c90 EFLAGS: 00010246
+RAX: ffffffff85f9c5a6 RBX: ffff888027e79b20 RCX: ffffc9001046f000
+RDX: 0000000000040000 RSI: 0000000000000000 RDI: ffff88802b6b3350
+RBP: ffff888029bb7ca8 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000ffffffff R11: 0000000000000000 R12: 00000000ffffffff
+R13: ffff88802b6b3000 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007f813db53640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888003b9c5a6 CR3: 000000001eb3e001 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ percpu_down_read include/linux/percpu-rwsem.h:65 [inline]
+ __sb_start_write include/linux/fs.h:1664 [inline]
+ sb_start_write include/linux/fs.h:1800 [inline]
+ mnt_want_write+0x2a1/0x2e0 fs/namespace.c:409
+ open_last_lookups fs/namei.c:3555 [inline]
+ path_openat+0x11e6/0x1210 fs/namei.c:3796
+ do_filp_open+0xb9/0x190 fs/namei.c:3826
+ do_sys_openat2+0xc4/0x110 fs/open.c:1406
+ do_sys_open fs/open.c:1421 [inline]
+ __do_sys_openat fs/open.c:1437 [inline]
+ __se_sys_openat fs/open.c:1432 [inline]
+ __x64_sys_openat+0x78/0xd0 fs/open.c:1432
+ x64_sys_call+0x1b08/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f813ce8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f813db53028 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f813cfcbf80 RCX: 00007f813ce8fd6d
+RDX: 0000000000101042 RSI: 0000000020000100 RDI: ffffffffffffff9c
+RBP: 00007f813cef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f813cfcbf80 R15: 00007f813db33000
+ </TASK>
+Modules linked in:
+CR2: ffff888003b9c5a6
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__percpu_down_read_trylock kernel/locking/percpu-rwsem.c:50 [inline]
+RIP: 0010:__percpu_down_read+0x11/0x1d0 kernel/locking/percpu-rwsem.c:169
+Code: 2a ff ff ff 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 55 41 54 53 48 8b 47 68 <65> ff 00 f0 83 44 24 fc 00 8b 87 c8 00 00 00 85 c0 75 14 41 bd 01
+RSP: 0018:ffff888029bb7c90 EFLAGS: 00010246
+RAX: ffffffff85f9c5a6 RBX: ffff888027e79b20 RCX: ffffc9001046f000
+RDX: 0000000000040000 RSI: 0000000000000000 RDI: ffff88802b6b3350
+RBP: ffff888029bb7ca8 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000ffffffff R11: 0000000000000000 R12: 00000000ffffffff
+R13: ffff88802b6b3000 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007f813db53640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888003b9c5a6 CR3: 000000001eb3e001 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess), 4 bytes skipped:
+   0:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	f3 0f 1e fa          	endbr64
+  19:	55                   	push   %rbp
+  1a:	48 89 e5             	mov    %rsp,%rbp
+  1d:	41 55                	push   %r13
+  1f:	41 54                	push   %r12
+  21:	53                   	push   %rbx
+  22:	48 8b 47 68          	mov    0x68(%rdi),%rax
+* 26:	65 ff 00             	incl   %gs:(%rax) <-- trapping instruction
+  29:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%rsp)
+  2f:	8b 87 c8 00 00 00    	mov    0xc8(%rdi),%eax
+  35:	85 c0                	test   %eax,%eax
+  37:	75 14                	jne    0x4d
+  39:	41                   	rex.B
+  3a:	bd                   	.byte 0xbd
+  3b:	01                   	.byte 0x1

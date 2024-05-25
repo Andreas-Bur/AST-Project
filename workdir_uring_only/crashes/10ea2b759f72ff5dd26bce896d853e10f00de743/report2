@@ -1,0 +1,256 @@
+unregister_netdevice: waiting for syz_tun to become free. Usage count = 14
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     dst_init+0xb9/0x1d0 net/core/dst.c:52
+     dst_alloc+0x83/0xf0 net/core/dst.c:93
+     rt_dst_alloc+0x39/0xf0 net/ipv4/route.c:1633
+     __mkroute_output net/ipv4/route.c:2591 [inline]
+     ip_route_output_key_hash_rcu+0x478/0x1120 net/ipv4/route.c:2813
+     ip_route_output_key_hash+0xc0/0x210 net/ipv4/route.c:2642
+     __ip_route_output_key include/net/route.h:131 [inline]
+     ip_route_connect include/net/route.h:311 [inline]
+     tcp_v4_connect+0x456/0x870 net/ipv4/tcp_ipv4.c:233
+     mptcp_connect+0x1f1/0x530 net/mptcp/protocol.c:3747
+     __inet_stream_connect+0x159/0x650 net/ipv4/af_inet.c:679
+     inet_stream_connect+0x3f/0x60 net/ipv4/af_inet.c:750
+     __sys_connect_file+0xa9/0xb0 net/socket.c:2048
+     io_connect+0x72/0x460 io_uring/net.c:1536
+     io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+     io_queue_sqe io_uring/io_uring.c:2111 [inline]
+     io_submit_sqe io_uring/io_uring.c:2377 [inline]
+     io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+     __do_sys_io_uring_enter+0x4df/0xaa0 io_uring/io_uring.c:3668
+     __se_sys_io_uring_enter io_uring/io_uring.c:3603 [inline]
+     __x64_sys_io_uring_enter+0x2a/0x40 io_uring/io_uring.c:3603
+     x64_sys_call+0x14b9/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:427
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     dst_init+0xb9/0x1d0 net/core/dst.c:52
+     dst_alloc+0x83/0xf0 net/core/dst.c:93
+     ip6_dst_alloc+0x31/0x80 net/ipv6/route.c:343
+     ip6_rt_pcpu_alloc net/ipv6/route.c:1380 [inline]
+     rt6_make_pcpu_route net/ipv6/route.c:1428 [inline]
+     ip6_pol_route+0x59c/0xa40 net/ipv6/route.c:2265
+     ip6_pol_route_output+0x3b/0x50 net/ipv6/route.c:2604
+     pol_lookup_func include/net/ip6_fib.h:614 [inline]
+     fib6_rule_lookup+0x1fe/0x430 net/ipv6/fib6_rules.c:121
+     ip6_route_output_flags_noref net/ipv6/route.c:2637 [inline]
+     ip6_route_output_flags+0x16e/0x410 net/ipv6/route.c:2649
+     ip6_route_output include/net/ip6_route.h:93 [inline]
+     icmpv6_rt_has_prefsrc net/ipv6/icmp.c:242 [inline]
+     icmp6_send+0xdda/0x14d0 net/ipv6/icmp.c:556
+     __icmpv6_send include/linux/icmpv6.h:28 [inline]
+     icmpv6_send include/linux/icmpv6.h:49 [inline]
+     ip6_link_failure+0x30/0x420 net/ipv6/route.c:2797
+     dst_link_failure include/net/dst.h:429 [inline]
+     ndisc_error_report+0x71/0xf0 net/ipv6/ndisc.c:729
+     neigh_invalidate+0xbb/0x180 net/core/neighbour.c:1059
+     neigh_timer_handler+0x69a/0x730 net/core/neighbour.c:1146
+     call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+     expire_timers kernel/time/timer.c:1844 [inline]
+     __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+     __run_timer_base kernel/time/timer.c:2429 [inline]
+     __run_timer_base kernel/time/timer.c:2422 [inline]
+     run_timer_base kernel/time/timer.c:2438 [inline]
+     run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+     __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     dst_init+0xb9/0x1d0 net/core/dst.c:52
+     dst_alloc+0x83/0xf0 net/core/dst.c:93
+     ip6_dst_alloc+0x31/0x80 net/ipv6/route.c:343
+     ip6_rt_pcpu_alloc net/ipv6/route.c:1380 [inline]
+     rt6_make_pcpu_route net/ipv6/route.c:1428 [inline]
+     ip6_pol_route+0x59c/0xa40 net/ipv6/route.c:2265
+     ip6_pol_route_output+0x3b/0x50 net/ipv6/route.c:2604
+     pol_lookup_func include/net/ip6_fib.h:614 [inline]
+     fib6_rule_lookup+0x152/0x430 net/ipv6/fib6_rules.c:116
+     ip6_route_output_flags_noref net/ipv6/route.c:2637 [inline]
+     ip6_route_output_flags+0x16e/0x410 net/ipv6/route.c:2649
+     ip6_route_output include/net/ip6_route.h:93 [inline]
+     ip6_dst_lookup_tail.constprop.0+0x2bb/0xea0 net/ipv6/ip6_output.c:1120
+     ip6_dst_lookup_flow+0x3f/0xb0 net/ipv6/ip6_output.c:1250
+     rawv6_sendmsg+0x7a9/0x2350 net/ipv6/raw.c:898
+     inet_sendmsg+0xba/0xc0 net/ipv4/af_inet.c:851
+     sock_sendmsg_nosec net/socket.c:730 [inline]
+     __sock_sendmsg net/socket.c:745 [inline]
+     ____sys_sendmsg+0x48c/0x520 net/socket.c:2584
+     __sys_sendmsg_sock+0x2f/0x40 net/socket.c:2650
+     io_sendmsg+0x12a/0x3e0 io_uring/net.c:453
+     io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+     io_queue_sqe io_uring/io_uring.c:2111 [inline]
+     io_submit_sqe io_uring/io_uring.c:2377 [inline]
+     io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     dst_init+0xb9/0x1d0 net/core/dst.c:52
+     dst_alloc+0x83/0xf0 net/core/dst.c:93
+     ip6_dst_alloc+0x31/0x80 net/ipv6/route.c:343
+     ip6_rt_pcpu_alloc net/ipv6/route.c:1380 [inline]
+     rt6_make_pcpu_route net/ipv6/route.c:1428 [inline]
+     ip6_pol_route+0x59c/0xa40 net/ipv6/route.c:2265
+     ip6_pol_route_output+0x3b/0x50 net/ipv6/route.c:2604
+     pol_lookup_func include/net/ip6_fib.h:614 [inline]
+     fib6_rule_lookup+0x152/0x430 net/ipv6/fib6_rules.c:116
+     ip6_route_output_flags_noref net/ipv6/route.c:2637 [inline]
+     ip6_route_output_flags+0x16e/0x410 net/ipv6/route.c:2649
+     ip6_route_output include/net/ip6_route.h:93 [inline]
+     ip6_dst_lookup_tail.constprop.0+0x2bb/0xea0 net/ipv6/ip6_output.c:1120
+     ip6_dst_lookup_flow+0x3f/0xb0 net/ipv6/ip6_output.c:1250
+     ip6_datagram_dst_update+0x281/0x690 net/ipv6/datagram.c:96
+     __ip6_datagram_connect+0x290/0x880 net/ipv6/datagram.c:255
+     ip6_datagram_connect+0x34/0x50 net/ipv6/datagram.c:279
+     inet_dgram_connect+0xa2/0x160 net/ipv4/af_inet.c:594
+     __sys_connect_file+0xa9/0xb0 net/socket.c:2048
+     io_connect+0x72/0x460 io_uring/net.c:1536
+     io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     ip6_route_add+0x2d/0x140 net/ipv6/route.c:3851
+     addrconf_prefix_route+0x1c8/0x340 net/ipv6/addrconf.c:2484
+     addrconf_add_linklocal+0x110/0x260 net/ipv6/addrconf.c:3315
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     ipv6_add_addr+0x28e/0xe00 net/ipv6/addrconf.c:1119
+     addrconf_add_linklocal+0xca/0x260 net/ipv6/addrconf.c:3313
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     ip6_route_add+0x2d/0x140 net/ipv6/route.c:3851
+     addrconf_add_mroute+0x145/0x260 net/ipv6/addrconf.c:2548
+     addrconf_add_dev+0xe1/0x130 net/ipv6/addrconf.c:2566
+     addrconf_dev_config net/ipv6/addrconf.c:3480 [inline]
+     addrconf_init_auto_addrs+0x2b7/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+     rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     ip6_route_add+0x2d/0x140 net/ipv6/route.c:3851
+     addrconf_prefix_route+0x1c8/0x340 net/ipv6/addrconf.c:2484
+     fixup_permanent_addr net/ipv6/addrconf.c:3599 [inline]
+     addrconf_permanent_addr net/ipv6/addrconf.c:3623 [inline]
+     addrconf_notify+0xaff/0xe90 net/ipv6/addrconf.c:3695
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+     rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+     rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+     netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     fixup_permanent_addr net/ipv6/addrconf.c:3584 [inline]
+     addrconf_permanent_addr net/ipv6/addrconf.c:3623 [inline]
+     addrconf_notify+0x9cf/0xe90 net/ipv6/addrconf.c:3695
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+     rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+     rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+     netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+     rtnetlink_rcv+0x21/0x30 net/core/rtnetlink.c:6613
+
+ref_tracker: syz_tun@000000003e278bca has 1/13 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     netdev_hold include/linux/netdevice.h:4088 [inline]
+     fib_check_nh_nongw net/ipv4/fib_semantics.c:1239 [inline]
+     fib_check_nh+0x196/0x410 net/ipv4/fib_semantics.c:1259
+     fib_create_info+0xf3e/0x1f80 net/ipv4/fib_semantics.c:1558
+     fib_table_insert+0xd8/0x9a0 net/ipv4/fib_trie.c:1237
+     fib_magic+0x335/0x380 net/ipv4/fib_frontend.c:1104
+     fib_add_ifaddr+0x299/0x2b0 net/ipv4/fib_frontend.c:1148
+     fib_netdev_event+0x277/0x470 net/ipv4/fib_frontend.c:1486
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+     rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+     rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+     netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+
+ref_tracker: syz_tun@000000003e278bca skipped reports about 3/13 users.

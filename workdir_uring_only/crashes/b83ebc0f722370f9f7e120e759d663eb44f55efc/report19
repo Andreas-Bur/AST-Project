@@ -1,0 +1,97 @@
+lsm_file_cache            55KB         86KB
+key_jar                   23KB         23KB
+uts_namespace             15KB         15KB
+nsproxy                    7KB          7KB
+vma_lock                  89KB        185KB
+files_cache              154KB        154KB
+signal_cache             520KB        875KB
+sighand_cache            662KB        765KB
+task_struct             2244KB       2607KB
+anon_vma                  84KB        102KB
+Acpi-State                30KB         47KB
+shared_policy_node        434KB        661KB
+numa_policy                8KB          8KB
+trace_event_file         358KB        358KB
+ftrace_event_field        542KB        542KB
+pool_workqueue           280KB        280KB
+maple_node               766KB        908KB
+task_group                31KB         31KB
+mm_struct                220KB        220KB
+vmap_area                 57KB         98KB
+page->ptl                 27KB         48KB
+kmalloc-cg-8k            992KB       1096KB
+kmalloc-cg-4k           9084KB      10376KB
+kmalloc-cg-2k           6418KB       7776KB
+kmalloc-cg-1k           1498KB       1888KB
+kmalloc-cg-512           808KB        984KB
+kmalloc-cg-256           203KB        252KB
+kmalloc-cg-192           296KB        685KB
+kmalloc-cg-128           377KB        468KB
+kmalloc-cg-96             15KB         15KB
+kmalloc-cg-64             42KB         92KB
+kmalloc-cg-32        1346612KB    1346612KB
+kmalloc-cg-16             15KB         32KB
+kmalloc-cg-8               8KB          8KB
+kmalloc-8k              2528KB       3008KB
+kmalloc-4k              2180KB       2816KB
+kmalloc-2k              4892KB       5504KB
+kmalloc-1k            340432KB     340432KB
+kmalloc-512             6961KB       7720KB
+kmalloc-256             1348KB       1564KB
+kmalloc-192              709KB        897KB
+kmalloc-128              736KB       1516KB
+kmalloc-96               752KB       1047KB
+kmalloc-64               710KB        952KB
+kmalloc-32               837KB       1052KB
+kmalloc-16               110KB        152KB
+kmalloc-8                 87KB         96KB
+kmem_cache_node           40KB         40KB
+kmem_cache                80KB         80KB
+Out of memory and no killable processes...
+Kernel panic - not syncing: System is deadlocked on memory
+CPU: 0 PID: 56 Comm: kworker/u8:3 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x42/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ panic+0x4d5/0x520 kernel/panic.c:348
+ out_of_memory+0xaa6/0xab0 mm/oom_kill.c:1171
+ __alloc_pages_may_oom mm/page_alloc.c:3489 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4251 [inline]
+ __alloc_pages+0x117f/0x13b0 mm/page_alloc.c:4588
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ alloc_slab_page mm/slub.c:2175 [inline]
+ allocate_slab mm/slub.c:2346 [inline]
+ new_slab+0x365/0x3d0 mm/slub.c:2391
+ ___slab_alloc+0x63b/0x10f0 mm/slub.c:3525
+ __slab_alloc mm/slub.c:3610 [inline]
+ __slab_alloc_node mm/slub.c:3663 [inline]
+ slab_alloc_node mm/slub.c:3835 [inline]
+ __do_kmalloc_node mm/slub.c:3965 [inline]
+ __kmalloc_node+0x145/0x370 mm/slub.c:3973
+ kmalloc_node include/linux/slab.h:648 [inline]
+ kvmalloc_node+0xb1/0x190 mm/util.c:634
+ kvmalloc include/linux/slab.h:766 [inline]
+ kvzalloc include/linux/slab.h:774 [inline]
+ allocate_hook_entries_size net/netfilter/core.c:61 [inline]
+ __nf_hook_entries_try_shrink+0xfb/0x210 net/netfilter/core.c:260
+ __nf_unregister_net_hook+0x111/0x3d0 net/netfilter/core.c:520
+ nf_unregister_net_hook net/netfilter/core.c:539 [inline]
+ nf_unregister_net_hooks+0xc6/0x100 net/netfilter/core.c:613
+ ipt_unregister_table_pre_exit+0x4b/0x60 net/ipv4/netfilter/ip_tables.c:1797
+ iptable_mangle_net_pre_exit+0x21/0x30 net/ipv4/netfilter/iptable_mangle.c:99
+ ops_pre_exit_list net/core/net_namespace.c:160 [inline]
+ cleanup_net+0x2ce/0x5d0 net/core/net_namespace.c:617
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..

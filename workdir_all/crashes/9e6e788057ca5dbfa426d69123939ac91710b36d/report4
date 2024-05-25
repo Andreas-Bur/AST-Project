@@ -1,0 +1,45 @@
+path: idx  2 ref 0:0 P S btree=inodes l=0 pos 0:4096:U32_MAX locks 0 bch2_trans_iter_init fs/bcachefs/btree_iter.h:489 [inline]
+path: idx  2 ref 0:0 P S btree=inodes l=0 pos 0:4096:U32_MAX locks 0 __bch2_bkey_get_iter fs/bcachefs/btree_iter.h:543 [inline]
+path: idx  2 ref 0:0 P S btree=inodes l=0 pos 0:4096:U32_MAX locks 0 bch2_bkey_get_iter fs/bcachefs/btree_iter.h:558 [inline]
+path: idx  2 ref 0:0 P S btree=inodes l=0 pos 0:4096:U32_MAX locks 0 bch2_inode_peek_nowarn+0xb1/0x1b0 fs/bcachefs/inode.c:340
+path: idx  1 ref 0:0 P S btree=subvolumes l=0 pos 0:1:0 locks 0 bch2_trans_iter_init fs/bcachefs/btree_iter.h:489 [inline]
+path: idx  1 ref 0:0 P S btree=subvolumes l=0 pos 0:1:0 locks 0 __bch2_bkey_get_iter fs/bcachefs/btree_iter.h:543 [inline]
+path: idx  1 ref 0:0 P S btree=subvolumes l=0 pos 0:1:0 locks 0 __bch2_bkey_get_val_typed.constprop.0+0x87/0x240 fs/bcachefs/btree_iter.h:574
+transaction updates for bch2_vfs_inode_get journal seq 0
+Kernel panic - not syncing: not locked: inodes 0:4096:0 cached
+CPU: 1 PID: 9630 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x42/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ panic+0x4d5/0x520 kernel/panic.c:348
+ bch2_assert_pos_locked+0x30c/0x3a0 fs/bcachefs/btree_iter.c:367
+ bch2_inode_update_after_write+0xaf/0x300 fs/bcachefs/fs.c:59
+ bch2_vfs_inode_init.isra.0+0x4f/0x1f0 fs/bcachefs/fs.c:1445
+ bch2_vfs_inode_get+0x1c7/0x290 fs/bcachefs/fs.c:256
+ bch2_mount+0x5fe/0x8a0 fs/bcachefs/fs.c:1982
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f717fe91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7180c2ee38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00000000000119fc RCX: 00007f717fe91b3e
+RDX: 0000000020000000 RSI: 0000000020011a40 RDI: 00007f7180c2ee90
+RBP: 00007f7180c2eed0 R08: 00007f7180c2eed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020000000
+R13: 0000000020011a40 R14: 00007f7180c2ee90 R15: 0000000020000080
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..

@@ -1,0 +1,8 @@
+syz_io_uring_submit(r15, r16, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd_index=0xa, 0x0, 0x0, 0xffffffffffffff58})
+io_uring_enter(r14, 0x76ee, 0x0, 0x0, 0x0, 0x0)
+r17 = socket$inet(0x2, 0x2, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r17, 0x890b, &(0x7f0000000040))
+2024/05/21 13:50:06 SYZFATAL: executor 2 failed 11 times: executor 2: EOF
+SYZFAIL: failed to mkdtemp
+ (errno 28: No space left on device)
+

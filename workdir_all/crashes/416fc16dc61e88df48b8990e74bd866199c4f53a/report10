@@ -1,0 +1,88 @@
+------------[ cut here ]------------
+no supported rates for sta (null) (0xffffffff, band 0) in rate_mask 0x0 with flags 0x0
+WARNING: CPU: 0 PID: 42444 at net/mac80211/rate.c:380 __rate_control_send_low+0x27f/0x320 net/mac80211/rate.c:380
+Modules linked in:
+CPU: 0 PID: 42444 Comm: xfsaild/loop1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__rate_control_send_low+0x27f/0x320 net/mac80211/rate.c:380
+Code: 8b b4 87 d4 00 00 00 e8 df f6 72 fc 44 8b 45 b4 41 89 d9 44 89 e1 48 8b 75 b8 44 89 f2 48 c7 c7 30 d6 26 86 e8 52 43 56 fc 90 <0f> 0b 90 90 e9 fe fe ff ff e8 b3 f6 72 fc 48 8b 45 a8 44 0f b6 60
+RSP: 0018:ffff88807dc05af8 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff810d0c60
+RDX: ffff88800a6d4380 RSI: ffffffff810d0c69 RDI: 0000000000000001
+RBP: ffff88807dc05b50 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000000
+R13: ffff888011409428 R14: 00000000ffffffff R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd9f8647000 CR3: 0000000011166003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ rate_control_send_low+0x128/0x2d0 net/mac80211/rate.c:405
+ rate_control_get_rate+0x9a/0x1e0 net/mac80211/rate.c:917
+ ieee80211_beacon_get_finish+0x170/0x1b0 net/mac80211/tx.c:5249
+ ieee80211_beacon_get_ap+0x35a/0x610 net/mac80211/tx.c:5350
+ __ieee80211_beacon_get+0x8f2/0xbd0 net/mac80211/tx.c:5446
+ ieee80211_beacon_get_tim+0x53/0x120 net/mac80211/tx.c:5588
+ ieee80211_beacon_get include/net/mac80211.h:5552 [inline]
+ mac80211_hwsim_beacon_tx+0x2b8/0x4b0 drivers/net/wireless/virtual/mac80211_hwsim.c:2296
+ __iterate_interfaces+0x133/0x390 net/mac80211/util.c:772
+ ieee80211_iterate_active_interfaces_atomic+0x78/0x1d0 net/mac80211/util.c:808
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:kthread+0x12a/0x160 kernel/kthread.c:388
+Code: ff ff e8 69 78 17 00 4c 89 ef 65 48 8b 05 de cb f0 7e 80 a0 70 05 00 00 7f e8 32 ce ff ff 4c 89 ff 2e e8 49 12 e1 03 41 89 c4 <eb> c9 e8 3f 78 17 00 49 8b 3c 24 e8 f6 06 3e 00 4c 89 e7 e8 ee 06
+RSP: 0018:ffff88800e153ee8 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff81decd60
+RDX: ffff88800a6d4380 RSI: ffffffff81d82d6d RDI: ffff888029522b90
+RBP: ffff88800e153f18 R08: ffffffff85fbbad1 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff8880250e3b00 R14: ffffffff81deccc0 R15: ffff888029522b00
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 632
+hardirqs last  enabled at (638): [<ffffffff811a8f90>] console_trylock_spinning kernel/printk/printk.c:1992 [inline]
+hardirqs last  enabled at (638): [<ffffffff811a8f90>] vprintk_emit kernel/printk/printk.c:2347 [inline]
+hardirqs last  enabled at (638): [<ffffffff811a8f90>] vprintk_emit+0x4f0/0x540 kernel/printk/printk.c:2303
+hardirqs last disabled at (643): [<ffffffff811a8f27>] console_trylock_spinning kernel/printk/printk.c:1971 [inline]
+hardirqs last disabled at (643): [<ffffffff811a8f27>] vprintk_emit kernel/printk/printk.c:2347 [inline]
+hardirqs last disabled at (643): [<ffffffff811a8f27>] vprintk_emit+0x487/0x540 kernel/printk/printk.c:2303
+softirqs last  enabled at (0): [<ffffffff810cc596>] copy_process+0xd16/0x3aa0 kernel/fork.c:2334
+softirqs last disabled at (109): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (109): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (109): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+bridge0: received packet on bridge_slave_1 with own address as source address (addr:aa:aa:aa:aa:aa:1c, vlan:0)
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	e8 69 78 17 00       	call   0x17786e
+   5:	4c 89 ef             	mov    %r13,%rdi
+   8:	65 48 8b 05 de cb f0 	mov    %gs:0x7ef0cbde(%rip),%rax        # 0x7ef0cbee
+   f:	7e
+  10:	80 a0 70 05 00 00 7f 	andb   $0x7f,0x570(%rax)
+  17:	e8 32 ce ff ff       	call   0xffffce4e
+  1c:	4c 89 ff             	mov    %r15,%rdi
+  1f:	2e e8 49 12 e1 03    	cs call 0x3e1126e
+  25:	41 89 c4             	mov    %eax,%r12d
+* 28:	eb c9                	jmp    0xfffffff3 <-- trapping instruction
+  2a:	e8 3f 78 17 00       	call   0x17786e
+  2f:	49 8b 3c 24          	mov    (%r12),%rdi
+  33:	e8 f6 06 3e 00       	call   0x3e072e
+  38:	4c 89 e7             	mov    %r12,%rdi
+  3b:	e8                   	.byte 0xe8
+  3c:	ee                   	out    %al,(%dx)
+  3d:	06                   	(bad)

@@ -1,0 +1,144 @@
+ntfs3: loop3: Different NTFS sector size (4096) and media sector size (512).
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.3/52661 is trying to acquire lock:
+ffff88800fc8e4a0 (&mm->mmap_lock){++++}-{3:3}, at: __might_fault mm/memory.c:6220 [inline]
+ffff88800fc8e4a0 (&mm->mmap_lock){++++}-{3:3}, at: __might_fault+0x8d/0xc0 mm/memory.c:6213
+
+but task is already holding lock:
+ffff888035cb46c0 (&ni->file.run_lock){++++}-{3:3}, at: ni_fiemap+0x182/0x760 fs/ntfs3/frecord.c:1961
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (&ni->file.run_lock){++++}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       down_write+0x3f/0xd0 kernel/locking/rwsem.c:1579
+       ntfs_set_size+0xa1/0x140 fs/ntfs3/inode.c:837
+       ntfs_extend+0x28a/0x300 fs/ntfs3/file.c:335
+       ntfs_file_write_iter+0x1f2/0x1320 fs/ntfs3/file.c:1115
+       call_write_iter include/linux/fs.h:2110 [inline]
+       do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+       vfs_writev+0x1a8/0x750 fs/read_write.c:971
+       do_pwritev fs/read_write.c:1072 [inline]
+       __do_sys_pwritev fs/read_write.c:1119 [inline]
+       __se_sys_pwritev fs/read_write.c:1114 [inline]
+       __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+       x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&ni->ni_lock/4){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+       attr_data_get_block+0x140/0xfb0 fs/ntfs3/attrib.c:914
+       ntfs_file_mmap+0x1ed/0x350 fs/ntfs3/file.c:294
+       call_mmap include/linux/fs.h:2115 [inline]
+       mmap_region+0x34e/0x1130 mm/mmap.c:2820
+       do_mmap+0x5ff/0x970 mm/mmap.c:1385
+       vm_mmap_pgoff+0xf9/0x210 mm/util.c:573
+       ksys_mmap_pgoff+0x264/0x2f0 mm/mmap.c:1431
+       __do_sys_mmap arch/x86/kernel/sys_x86_64.c:86 [inline]
+       __se_sys_mmap arch/x86/kernel/sys_x86_64.c:79 [inline]
+       __x64_sys_mmap+0x7e/0xb0 arch/x86/kernel/sys_x86_64.c:79
+       x64_sys_call+0x190e/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:10
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&mm->mmap_lock){++++}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __might_fault mm/memory.c:6220 [inline]
+       __might_fault+0x9b/0xc0 mm/memory.c:6213
+       _copy_to_user+0x30/0xc0 lib/usercopy.c:36
+       copy_to_user include/linux/uaccess.h:191 [inline]
+       fiemap_fill_next_extent+0x12c/0x1c0 fs/ioctl.c:145
+       ni_fiemap+0x58d/0x760 fs/ntfs3/frecord.c:2044
+       ntfs_fiemap+0x81/0xb0 fs/ntfs3/file.c:1206
+       ioctl_fiemap fs/ioctl.c:220 [inline]
+       do_vfs_ioctl+0x214/0xdd0 fs/ioctl.c:838
+       __do_sys_ioctl fs/ioctl.c:902 [inline]
+       __se_sys_ioctl fs/ioctl.c:890 [inline]
+       __x64_sys_ioctl+0xc2/0x160 fs/ioctl.c:890
+       x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &mm->mmap_lock --> &ni->ni_lock/4 --> &ni->file.run_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&ni->file.run_lock);
+                               lock(&ni->ni_lock/4);
+                               lock(&ni->file.run_lock);
+  rlock(&mm->mmap_lock);
+
+ *** DEADLOCK ***
+
+2 locks held by syz-executor.3/52661:
+ #0: ffff888035cb4610 (&ni->ni_lock/4){+.+.}-{3:3}, at: ni_lock fs/ntfs3/ntfs_fs.h:1121 [inline]
+ #0: ffff888035cb4610 (&ni->ni_lock/4){+.+.}-{3:3}, at: ntfs_fiemap+0x6f/0xb0 fs/ntfs3/file.c:1204
+ #1: ffff888035cb46c0 (&ni->file.run_lock){++++}-{3:3}, at: ni_fiemap+0x182/0x760 fs/ntfs3/frecord.c:1961
+
+stack backtrace:
+CPU: 0 PID: 52661 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __might_fault mm/memory.c:6220 [inline]
+ __might_fault+0x9b/0xc0 mm/memory.c:6213
+ _copy_to_user+0x30/0xc0 lib/usercopy.c:36
+ copy_to_user include/linux/uaccess.h:191 [inline]
+ fiemap_fill_next_extent+0x12c/0x1c0 fs/ioctl.c:145
+ ni_fiemap+0x58d/0x760 fs/ntfs3/frecord.c:2044
+ ntfs_fiemap+0x81/0xb0 fs/ntfs3/file.c:1206
+ ioctl_fiemap fs/ioctl.c:220 [inline]
+ do_vfs_ioctl+0x214/0xdd0 fs/ioctl.c:838
+ __do_sys_ioctl fs/ioctl.c:902 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0xc2/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb05b08fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb05be4b028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb05b1cbf80 RCX: 00007fb05b08fd6d
+RDX: 00000000200001c0 RSI: 00000000c020660b RDI: 000000000000000c
+RBP: 00007fb05b0f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fb05b1cbf80 R15: 00007fb05be2b000
+ </TASK>

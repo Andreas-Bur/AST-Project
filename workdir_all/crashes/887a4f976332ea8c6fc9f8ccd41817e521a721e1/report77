@@ -1,0 +1,55 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 12388 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 12388 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0000:ffff88802635bd40 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff888024538000 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88802635bd88 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff88800f070c10
+R13: ffffffff81114da0 R14: ffff88800a40e800 R15: 0000000000200000
+FS:  00005555635e7480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd299ba5878 CR3: 00000000487a8006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x40/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0033:0x7ff64288fa9f
+Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
+RSP: 002b:00007ffd1f8f24d0 EFLAGS: 00000246
+RAX: ffffffffffffffe7 RBX: 0000000000000972 RCX: 00007ff64288fa9f
+RDX: 00007ffd1f8f2548 RSI: 0000000040086602 RDI: 0000000000000005
+RBP: 00007ffd1f8f25e0 R08: 0000000000000000 R09: 00007ffd1f8f23b0
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff6428f0278
+R13: 00007ffd1f8f36c0 R14: 00005555635e8970 R15: 00005555635e7430
+ </TASK>
+irq event stamp: 2010171
+hardirqs last  enabled at (2010170): [<ffffffff84f35414>] __do_softirq+0xa4/0x3c8 kernel/softirq.c:538
+hardirqs last disabled at (2010171): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (2010171): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (2007510): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (2007510): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (2010169): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (2010169): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (2010169): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+vkms_vblank_simulate: vblank timer overrun
+bridge0: received packet on bridge_slave_1 with own address as source address (addr:aa:aa:aa:aa:aa:1c, vlan:0)

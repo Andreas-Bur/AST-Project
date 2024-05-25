@@ -1,0 +1,95 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2659 jiffies s: 2377 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 10511 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:native_apic_mem_eoi+0xd/0x20 arch/x86/include/asm/apic.h:108
+Code: 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 31 c0 89 04 25 b0 c0 5f ff <e9> 09 04 06 04 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 90 90 90
+RSP: 0018:ffff88807dc05d48 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff810a982b
+RDX: ffff888029564380 RSI: ffffffff810a9834 RDI: 0000000000000001
+RBP: ffff88807dc05d58 R08: 000000159a618ca1 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88807dc05da8
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+FS:  00007f5798a69640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000561c6d53b0a8 CR3: 0000000033644002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ apic_eoi arch/x86/include/asm/apic.h:414 [inline]
+ __sysvec_irq_work+0x13/0x250 arch/x86/kernel/irq_work.c:19
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0x66/0xc0 arch/x86/kernel/irq_work.c:17
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:get_current arch/x86/include/asm/current.h:49 [inline]
+RIP: 0010:__rcu_read_unlock+0x30/0x1b0 kernel/rcu/tree_plugin.h:429
+Code: 89 e5 41 57 41 56 41 55 41 54 65 4c 8b 25 c8 f8 e5 7e 53 41 83 ac 24 34 04 00 00 01 75 0c 41 8b 84 24 38 04 00 00 85 c0 75 28 <65> 48 8b 05 a8 f8 e5 7e 8b 80 34 04 00 00 3d ff ff ff 3f 0f 87 ae
+RSP: 0018:ffff88807dc05e58 EFLAGS: 00000202
+RAX: 000000000019e4c4 RBX: 0000000000000100 RCX: 0000000000000008
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d1a91
+RBP: ffff88807dc05e80 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05da8 R11: 0000000000000000 R12: ffff888029564380
+R13: 0000000000000246 R14: ffffffff834f1100 R15: 0000000000000200
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ ieee80211_iterate_active_interfaces_atomic+0x9a/0x1d0 net/mac80211/util.c:810
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:rcu_preempt_deferred_qs_irqrestore+0x88/0x3a0 kernel/rcu/tree_plugin.h:575
+Code: 84 f6 75 35 41 f7 c5 00 02 00 00 75 13 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 9d 2a f3 03 e8 6d cd 0f 00 fb 48 83 c4 10 <5b> 41 5c 41 5d 41 5e 41 5f 5d e9 84 2a f3 03 4c 8b a3 50 04 00 00
+RSP: 0018:ffff888030d97698 EFLAGS: 00000282
+RAX: 0000000000199f73 RBX: ffff888029564380 RCX: 0000000000000080
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d1673
+RBP: ffff888030d976c0 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff888030d975d8 R11: 0000000000000000 R12: ffff88807dc33400
+R13: 0000000000000246 R14: 0000000000010000 R15: 0000000000000200
+ rcu_read_unlock_special kernel/rcu/tree_plugin.h:681 [inline]
+ __rcu_read_unlock+0x12c/0x1b0 kernel/rcu/tree_plugin.h:426
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ folio_evictable+0xc1/0x1f0 mm/internal.h:258
+ shrink_folio_list+0x228/0x1ad0 mm/vmscan.c:1051
+ reclaim_folio_list+0x5e/0x140 mm/vmscan.c:2108
+ reclaim_pages+0x189/0x1f0 mm/vmscan.c:2145
+ madvise_cold_or_pageout_pte_range+0xc3f/0x12c0 mm/madvise.c:413
+ walk_pmd_range mm/pagewalk.c:143 [inline]
+ walk_pud_range mm/pagewalk.c:221 [inline]
+ walk_p4d_range mm/pagewalk.c:256 [inline]
+ walk_pgd_range+0x953/0xea0 mm/pagewalk.c:293
+ __walk_page_range+0x2f2/0x300 mm/pagewalk.c:395
+ walk_page_range+0x206/0x3f0 mm/pagewalk.c:521
+ madvise_pageout_page_range mm/madvise.c:586 [inline]
+ madvise_pageout+0x1c2/0x490 mm/madvise.c:613
+ madvise_vma_behavior+0x350/0x1340 mm/madvise.c:1032
+ madvise_walk_vmas+0x11d/0x1b0 mm/madvise.c:1261
+ do_madvise.part.0+0x3c2/0x440 mm/madvise.c:1441
+ do_madvise mm/madvise.c:1452 [inline]
+ __do_sys_madvise mm/madvise.c:1454 [inline]
+ __se_sys_madvise mm/madvise.c:1452 [inline]
+ __x64_sys_madvise+0xac/0xc0 mm/madvise.c:1452
+ x64_sys_call+0x1caa/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:29
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5797c8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5798a69028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
+RAX: ffffffffffffffda RBX: 00007f5797dcbf80 RCX: 00007f5797c8fd6d
+RDX: 0000000000000015 RSI: 0000000000c00000 RDI: 0000000020000000
+RBP: 00007f5797cf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f5797dcbf80 R15: 00007f5798a49000
+ </TASK>

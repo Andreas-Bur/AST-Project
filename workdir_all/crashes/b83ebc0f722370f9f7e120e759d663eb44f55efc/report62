@@ -1,0 +1,56 @@
+kmem_cache                84KB         84KB
+oom-kill:constraint=CONSTRAINT_NONE,nodemask=(null),cpuset=/,mems_allowed=0,global_oom,task_memcg=/system.slice/systemd-journald.service,task=systemd-journal,pid=3467,uid=0
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 3467 Comm: systemd-journal Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ cgroup_file_notify+0x25/0xd0 kernel/cgroup/cgroup.c:4473
+ memcg_memory_event include/linux/memcontrol.h:1132 [inline]
+ memcg_memory_event_mm include/linux/memcontrol.h:1160 [inline]
+ __oom_kill_process+0x1b0/0xc70 mm/oom_kill.c:941
+ oom_kill_process+0x9d/0x6e0 mm/oom_kill.c:1047
+ out_of_memory+0x597/0xab0 mm/oom_kill.c:1156
+ __alloc_pages_may_oom mm/page_alloc.c:3489 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4251 [inline]
+ __alloc_pages+0x117f/0x13b0 mm/page_alloc.c:4588
+ alloc_pages_mpol+0x1a5/0x310 mm/mempolicy.c:2264
+ alloc_pages+0x7d/0xf0 mm/mempolicy.c:2335
+ folio_alloc+0x25/0x40 mm/mempolicy.c:2342
+ filemap_alloc_folio+0x1ea/0x240 mm/filemap.c:984
+ __filemap_get_folio+0x330/0x5c0 mm/filemap.c:1926
+ filemap_fault+0xd16/0x2090 mm/filemap.c:3299
+ __do_fault+0x55/0x1b0 mm/memory.c:4531
+ do_read_fault mm/memory.c:4894 [inline]
+ do_fault mm/memory.c:5024 [inline]
+ do_pte_missing mm/memory.c:3880 [inline]
+ handle_pte_fault mm/memory.c:5300 [inline]
+ __handle_mm_fault+0x26f6/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7f0b07127d96
+Code: Unable to access opcode bytes at 0x7f0b07127d6c.
+RSP: 002b:00007ffe7ed70430 EFLAGS: 00010293
+RAX: 0000000000000001 RBX: 000055db866253c0 RCX: 00007f0b07127d96
+RDX: 0000000000000015 RSI: 000055db8662d960 RDI: 0000000000000008
+RBP: ffffffffffffffff R08: 0000000000000000 R09: 00007f0b0762f080
+R10: 00000000ffffffff R11: 0000000000000293 R12: 0000000000000001
+R13: 0000000000000015 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+Out of memory (oom_kill_allocating_task): Killed process 3467 (systemd-journal) total-vm:56480kB, anon-rss:896kB, file-rss:128kB, shmem-rss:0kB, UID:0 pgtables:132kB oom_score_adj:-250

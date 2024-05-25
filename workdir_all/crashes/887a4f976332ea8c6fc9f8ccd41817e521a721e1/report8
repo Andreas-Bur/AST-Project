@@ -1,0 +1,86 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 32003 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 1 PID: 32003 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0000:ffff88807dd05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88800f630000 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dd05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff8880233c4c10
+R13: ffffffff81114da0 R14: ffff888047e71c00 R15: 0000000000200000
+FS:  00007f5507792640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f54ffba9000 CR3: 000000004589a003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:perf_sw_event include/linux/perf_event.h:1449 [inline]
+RIP: 0010:do_user_addr_fault arch/x86/mm/fault.c:1310 [inline]
+RIP: 0010:handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+RIP: 0010:exc_page_fault+0x659/0x1250 arch/x86/mm/fault.c:1563
+Code: 85 7b fd ff ff 0f 1f 44 00 00 48 8b 1b 31 ff 48 c1 eb 02 83 e3 01 89 de 0f 1f 44 00 00 84 db 0f 84 73 fc ff ff e9 56 fd ff ff <0f> 1f 44 00 00 4c 89 f1 4c 89 e2 be 01 00 00 00 bf 02 00 00 00 e8
+RSP: 0000:ffff88806acdff00 EFLAGS: 00000202
+RAX: 0000000000028a43 RBX: 00007f54ffba9000 RCX: 0000000000028a41
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff84f158a5
+RBP: ffff88806acdff48 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88806acdff58
+R13: 0000000000000004 R14: 00007f54ffba9000 R15: 0000000000000000
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7f5506a285e7
+Code: 70 48 63 d5 48 01 c2 49 3b 55 08 77 4e 8d 55 ff 85 ed 74 35 0f 1f 80 00 00 00 00 48 39 c6 77 1c 49 8b 7d 00 49 89 c1 49 29 f1 <46> 0f b6 0c 0f 45 84 c9 74 08 44 88 0c 07 49 8b 45 10 48 83 c0 01
+RSP: 002b:00007f55077914b0 EFLAGS: 00010206
+RAX: 00000000033a9001 RBX: 00007f5507791510 RCX: 0000000000000000
+RDX: 0000000000000095 RSI: 0000000000000001 RDI: 00007f54fc800000
+RBP: 0000000000000102 R08: 0000000000000001 R09: 00000000033a9000
+R10: 0000000000000000 R11: 00007f5507791520 R12: 00007f5507791520
+R13: 00007f55077915b0 R14: 0000000000000001 R15: 0000000000000000
+ </TASK>
+irq event stamp: 166475
+hardirqs last  enabled at (166474): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (166474): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (166475): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (166475): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (162372): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (162372): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (166469): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (166469): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (166469): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess), 5 bytes skipped:
+   0:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+   5:	48 8b 1b             	mov    (%rbx),%rbx
+   8:	31 ff                	xor    %edi,%edi
+   a:	48 c1 eb 02          	shr    $0x2,%rbx
+   e:	83 e3 01             	and    $0x1,%ebx
+  11:	89 de                	mov    %ebx,%esi
+  13:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  18:	84 db                	test   %bl,%bl
+  1a:	0f 84 73 fc ff ff    	je     0xfffffc93
+  20:	e9 56 fd ff ff       	jmp    0xfffffd7b
+* 25:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1) <-- trapping instruction
+  2a:	4c 89 f1             	mov    %r14,%rcx
+  2d:	4c 89 e2             	mov    %r12,%rdx
+  30:	be 01 00 00 00       	mov    $0x1,%esi
+  35:	bf 02 00 00 00       	mov    $0x2,%edi
+  3a:	e8                   	.byte 0xe8

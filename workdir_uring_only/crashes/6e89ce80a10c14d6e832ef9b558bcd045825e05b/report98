@@ -1,0 +1,390 @@
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+BUG: MAX_LOCKDEP_KEYS too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 14497 Comm: iou-wrk-14462 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ register_lock_class+0x3e5/0x590 kernel/locking/lockdep.c:1321
+ __lock_acquire+0x5f/0x15f0 kernel/locking/lockdep.c:5014
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ drain_workqueue+0x119/0x1f0 kernel/workqueue.c:4107
+ destroy_workqueue+0x6c/0x580 kernel/workqueue.c:5673
+ alloc_workqueue+0xae5/0xca0 kernel/workqueue.c:5629
+ sb_init_dio_done_wq+0x2f/0x80 fs/super.c:2196
+ __iomap_dio_rw+0x790/0xf60 fs/iomap/direct-io.c:650
+ iomap_dio_rw+0x48/0xb0 fs/iomap/direct-io.c:749
+ ext4_dio_write_iter fs/ext4/file.c:577 [inline]
+ ext4_file_write_iter+0x8e2/0xd70 fs/ext4/file.c:696
+ call_write_iter include/linux/fs.h:2110 [inline]
+ io_write+0x1e2/0xa30 io_uring/rw.c:1057
+ io_issue_sqe+0xa1/0x5b0 io_uring/io_uring.c:1897
+ io_wq_submit_work+0x124/0x580 io_uring/io_uring.c:2006
+ io_worker_handle_work+0x33b/0x920 io_uring/io-wq.c:596
+ io_wq_worker+0x58b/0x610 io_uring/io-wq.c:683
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+RIP: 0033:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 002b:0000000000000000 EFLAGS: 00000246
+ ORIG_RAX: 00000000000001aa
+RAX: 0000000000000000 RBX: 00007fe765bcc050 RCX: 00007fe765a8fd6d
+RDX: 0000000000000000 RSI: 0000000000004baa RDI: 0000000000000006
+RBP: 00007fe765af14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007fe765bcc050 R15: 00007fe766715000
+ </TASK>
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR
+workqueue: Failed to create a rescuer kthread for wq "dio/sda": -EINTR

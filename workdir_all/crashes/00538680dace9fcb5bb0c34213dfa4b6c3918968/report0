@@ -1,0 +1,172 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+kswapd0/83 is trying to acquire lock:
+ffff88800db0d950 (jbd2_handle){++++}-{0:0}, at: start_this_handle+0x748/0x8e0 fs/jbd2/transaction.c:463
+
+but task is already holding lock:
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0xa5/0xec0 mm/vmscan.c:6782
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (fs_reclaim){+.+.}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __fs_reclaim_acquire mm/page_alloc.c:3698 [inline]
+       fs_reclaim_acquire+0xad/0x100 mm/page_alloc.c:3712
+       might_alloc include/linux/sched/mm.h:312 [inline]
+       slab_pre_alloc_hook mm/slub.c:3746 [inline]
+       slab_alloc_node mm/slub.c:3827 [inline]
+       __do_kmalloc_node mm/slub.c:3965 [inline]
+       __kmalloc_node+0x8b/0x370 mm/slub.c:3973
+       kmalloc_node include/linux/slab.h:648 [inline]
+       kvmalloc_node+0xb1/0x190 mm/util.c:634
+       kvmalloc include/linux/slab.h:766 [inline]
+       ext4_xattr_inode_cache_find fs/ext4/xattr.c:1535 [inline]
+       ext4_xattr_inode_lookup_create fs/ext4/xattr.c:1581 [inline]
+       ext4_xattr_set_entry+0x65b/0x1c70 fs/ext4/xattr.c:1718
+       ext4_xattr_block_set+0x5ad/0x1580 fs/ext4/xattr.c:2037
+       ext4_xattr_move_to_block fs/ext4/xattr.c:2654 [inline]
+       ext4_xattr_make_inode_space fs/ext4/xattr.c:2729 [inline]
+       ext4_expand_extra_isize_ea+0x89f/0xcb0 fs/ext4/xattr.c:2821
+       __ext4_expand_extra_isize+0x1a1/0x210 fs/ext4/inode.c:5789
+       ext4_try_to_expand_extra_isize fs/ext4/inode.c:5832 [inline]
+       __ext4_mark_inode_dirty+0x250/0x3c0 fs/ext4/inode.c:5910
+       ext4_setattr+0x8d5/0x1050 fs/ext4/inode.c:5337
+       notify_change+0x69f/0x9d0 fs/attr.c:497
+       chown_common+0x2f5/0x300 fs/open.c:790
+       do_fchownat+0xd6/0x160 fs/open.c:821
+       __do_sys_lchown fs/open.c:846 [inline]
+       __se_sys_lchown fs/open.c:844 [inline]
+       __x64_sys_lchown+0x2b/0x40 fs/open.c:844
+       x64_sys_call+0x47a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:95
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&ei->xattr_sem){++++}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       down_write+0x3f/0xd0 kernel/locking/rwsem.c:1579
+       ext4_write_lock_xattr fs/ext4/xattr.h:155 [inline]
+       ext4_xattr_set_handle+0xdc/0xbb0 fs/ext4/xattr.c:2358
+       ext4_xattr_set+0x8b/0x1b0 fs/ext4/xattr.c:2545
+       ext4_xattr_user_set+0x5f/0x80 fs/ext4/xattr_user.c:41
+       __vfs_removexattr+0xcf/0x100 fs/xattr.c:518
+       __vfs_removexattr_locked+0x131/0x240 fs/xattr.c:553
+       vfs_removexattr+0x57/0x130 fs/xattr.c:575
+       removexattr+0x126/0x130 fs/xattr.c:917
+       __do_sys_fremovexattr fs/xattr.c:964 [inline]
+       __se_sys_fremovexattr fs/xattr.c:954 [inline]
+       __x64_sys_fremovexattr+0xf0/0x120 fs/xattr.c:954
+       x64_sys_call+0x1987/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:200
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (jbd2_handle){++++}-{0:0}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       start_this_handle+0x74e/0x8e0 fs/jbd2/transaction.c:463
+       jbd2__journal_start+0x142/0x220 fs/jbd2/transaction.c:520
+       __ext4_journal_start_sb+0x1f1/0x3b0 fs/ext4/ext4_jbd2.c:112
+       __ext4_journal_start fs/ext4/ext4_jbd2.h:326 [inline]
+       ext4_dirty_inode+0x41/0xa0 fs/ext4/inode.c:5939
+       __mark_inode_dirty+0xfb/0x8b0 fs/fs-writeback.c:2477
+       mark_inode_dirty_sync include/linux/fs.h:2410 [inline]
+       iput fs/inode.c:1764 [inline]
+       iput+0x72/0x520 fs/inode.c:1753
+       dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+       __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+       shrink_kill fs/dcache.c:1048 [inline]
+       shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+       prune_dcache_sb+0x58/0x70 fs/dcache.c:1156
+       super_cache_scan+0x1ad/0x270 fs/super.c:221
+       do_shrink_slab+0x240/0xa90 mm/shrinker.c:435
+       shrink_slab_memcg mm/shrinker.c:548 [inline]
+       shrink_slab+0x78f/0xed0 mm/shrinker.c:626
+       shrink_one+0x1de/0x2d0 mm/vmscan.c:4774
+       shrink_many mm/vmscan.c:4835 [inline]
+       lru_gen_shrink_node mm/vmscan.c:4935 [inline]
+       shrink_node+0x11a7/0x1d50 mm/vmscan.c:5894
+       kswapd_shrink_node mm/vmscan.c:6704 [inline]
+       balance_pgdat+0x5df/0xec0 mm/vmscan.c:6895
+       kswapd+0x2fa/0x660 mm/vmscan.c:7164
+       kthread+0x127/0x160 kernel/kthread.c:388
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+other info that might help us debug this:
+
+Chain exists of:
+  jbd2_handle --> &ei->xattr_sem --> fs_reclaim
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(fs_reclaim);
+                               lock(&ei->xattr_sem);
+                               lock(fs_reclaim);
+  rlock(jbd2_handle);
+
+ *** DEADLOCK ***
+
+2 locks held by kswapd0/83:
+ #0: ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0xa5/0xec0 mm/vmscan.c:6782
+ #1: ffff88800db080e0 (&type->s_umount_key#43){++++}-{3:3}, at: super_trylock_shared fs/super.c:561 [inline]
+ #1: ffff88800db080e0 (&type->s_umount_key#43){++++}-{3:3}, at: super_cache_scan+0x53/0x270 fs/super.c:196
+
+stack backtrace:
+CPU: 0 PID: 83 Comm: kswapd0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ start_this_handle+0x74e/0x8e0 fs/jbd2/transaction.c:463
+ jbd2__journal_start+0x142/0x220 fs/jbd2/transaction.c:520
+ __ext4_journal_start_sb+0x1f1/0x3b0 fs/ext4/ext4_jbd2.c:112
+ __ext4_journal_start fs/ext4/ext4_jbd2.h:326 [inline]
+ ext4_dirty_inode+0x41/0xa0 fs/ext4/inode.c:5939
+ __mark_inode_dirty+0xfb/0x8b0 fs/fs-writeback.c:2477
+ mark_inode_dirty_sync include/linux/fs.h:2410 [inline]
+ iput fs/inode.c:1764 [inline]
+ iput+0x72/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ shrink_kill fs/dcache.c:1048 [inline]
+ shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+ prune_dcache_sb+0x58/0x70 fs/dcache.c:1156
+ super_cache_scan+0x1ad/0x270 fs/super.c:221
+ do_shrink_slab+0x240/0xa90 mm/shrinker.c:435
+ shrink_slab_memcg mm/shrinker.c:548 [inline]
+ shrink_slab+0x78f/0xed0 mm/shrinker.c:626
+ shrink_one+0x1de/0x2d0 mm/vmscan.c:4774
+ shrink_many mm/vmscan.c:4835 [inline]
+ lru_gen_shrink_node mm/vmscan.c:4935 [inline]
+ shrink_node+0x11a7/0x1d50 mm/vmscan.c:5894
+ kswapd_shrink_node mm/vmscan.c:6704 [inline]
+ balance_pgdat+0x5df/0xec0 mm/vmscan.c:6895
+ kswapd+0x2fa/0x660 mm/vmscan.c:7164
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

@@ -1,0 +1,67 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/replicas.c:29!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 22759 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:verify_replicas_entry+0xda/0x100 fs/bcachefs/replicas.c:29
+Code: e8 8b 6d e9 fe 90 0f 0b e8 83 6d e9 fe 5b 41 5c 41 5d 41 5e 41 5f 5d e9 7f ef cf 02 e8 6f 6d e9 fe 90 0f 0b e8 67 6d e9 fe 90 <0f> 0b e8 5f 6d e9 fe 44 89 e6 44 89 f7 e8 34 67 e9 fe 45 38 e6 0f
+RSP: 0018:ffff888064d177c8 EFLAGS: 00010206
+RAX: 00000000000394b0 RBX: ffff888029b50768 RCX: ffffc90003701000
+RDX: 0000000000040000 RSI: ffffffff82405199 RDI: 0000000000000001
+RBP: ffff888064d177f0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000006 R14: 0000000000000000 R15: ffff888029b50768
+FS:  00007ff8ff987640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9b40401000 CR3: 0000000043ba0006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __replicas_entry_idx fs/bcachefs/replicas.c:233 [inline]
+ bch2_replicas_entry_idx fs/bcachefs/replicas.c:248 [inline]
+ bch2_replicas_set_usage+0x61/0x300 fs/bcachefs/replicas.c:625
+ journal_replay_entry_early+0x2b8/0x4a0 fs/bcachefs/recovery.c:354
+ journal_replay_early fs/bcachefs/recovery.c:408 [inline]
+ bch2_fs_recovery+0x1080/0x2b20 fs/bcachefs/recovery.c:744
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff8fec91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ff8ff986e38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000000f62a RCX: 00007ff8fec91b3e
+RDX: 000000002000f640 RSI: 00000000200001c0 RDI: 00007ff8ff986e90
+RBP: 00007ff8ff986ed0 R08: 00007ff8ff986ed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 000000002000f640
+R13: 00000000200001c0 R14: 00007ff8ff986e90 R15: 0000000020000100
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:verify_replicas_entry+0xda/0x100 fs/bcachefs/replicas.c:29
+Code: e8 8b 6d e9 fe 90 0f 0b e8 83 6d e9 fe 5b 41 5c 41 5d 41 5e 41 5f 5d e9 7f ef cf 02 e8 6f 6d e9 fe 90 0f 0b e8 67 6d e9 fe 90 <0f> 0b e8 5f 6d e9 fe 44 89 e6 44 89 f7 e8 34 67 e9 fe 45 38 e6 0f
+RSP: 0018:ffff888064d177c8 EFLAGS: 00010206
+RAX: 00000000000394b0 RBX: ffff888029b50768 RCX: ffffc90003701000
+RDX: 0000000000040000 RSI: ffffffff82405199 RDI: 0000000000000001
+RBP: ffff888064d177f0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000006 R14: 0000000000000000 R15: ffff888029b50768
+FS:  00007ff8ff987640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9b40401000 CR3: 0000000043ba0006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554

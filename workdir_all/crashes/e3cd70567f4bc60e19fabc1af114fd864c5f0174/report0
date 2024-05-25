@@ -1,0 +1,106 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2667 jiffies s: 5497 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 17852 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__sanitizer_cov_trace_pc+0x0/0x70 kernel/kcov.c:200
+Code: 8b be b0 01 00 00 48 89 e5 e8 7c ff ff ff 31 c0 5d e9 1f 82 e6 03 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 48 89 e5 65 48 8b 15 70 53 d9 7e 65 8b 05 71 53 d9
+RSP: 0018:ffff88807dc058d8 EFLAGS: 00000002
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff813f7c7d
+RDX: ffff88800f1221c0 RSI: 0000000000000000 RDI: 0000000000000001
+RBP: ffff88807dc05950 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88807dc05ac0
+R13: 0000000000000001 R14: 0000000000000020 R15: 0000000000000000
+FS:  00007fdd1d7ff640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f8cd7465000 CR3: 00000000239c6005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ __perf_event_output kernel/events/core.c:7876 [inline]
+ perf_event_output_forward+0x9a/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x1d8/0x2c0 kernel/events/core.c:9730
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_preemptirq_template+0xaa/0xd0 include/trace/events/preemptirq.h:14
+ trace_irq_enable include/trace/events/preemptirq.h:40 [inline]
+ trace_hardirqs_on+0x96/0xe0 kernel/trace/trace_preemptirq.c:56
+ irqentry_exit+0x3f/0xa0 kernel/entry/common.c:357
+ sysvec_apic_timer_interrupt+0x4c/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:arch_local_irq_enable arch/x86/include/asm/irqflags.h:78 [inline]
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:135 [inline]
+RIP: 0010:seqcount_lockdep_reader_access include/linux/seqlock.h:74 [inline]
+RIP: 0010:ktime_get_with_offset+0x1c4/0x1e0 kernel/time/timekeeping.c:889
+Code: 00 00 31 f6 48 c7 c7 48 7d 5c 86 ff 75 08 e8 33 59 f8 ff 48 8b 75 08 48 c7 c7 48 7d 5c 86 e8 f3 55 f8 ff e8 8e 98 0c 00 fb 5a <e9> ca fe ff ff e8 a2 73 09 00 90 0f 0b 90 e9 64 fe ff ff 66 0f 1f
+RSP: 0018:ffff88807dc05dc8 EFLAGS: 00000202
+RAX: 00000000005469dc RBX: 0000000000000200 RCX: 0000000000000000
+RDX: ffffffff8403dd00 RSI: 0000000000000000 RDI: ffffffff81204b52
+RBP: ffff88807dc05e10 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05d10 R11: 0000000000000000 R12: ffff88807dc05ec8
+R13: ffff888028130200 R14: 0000000000000000 R15: ffffffff865c7e08
+ ktime_get_real include/linux/timekeeping.h:82 [inline]
+ netif_receive_skb_list_internal+0x320/0x610 net/core/dev.c:5750
+ netif_receive_skb_list+0x35/0x290 net/core/dev.c:5825
+ ieee80211_rx_napi+0x26d/0x280 net/mac80211/rx.c:5474
+ ieee80211_rx include/net/mac80211.h:5083 [inline]
+ ieee80211_tasklet_handler+0xb6/0x110 net/mac80211/main.c:438
+ tasklet_action_common.constprop.0+0xcf/0x120 kernel/softirq.c:781
+ tasklet_action+0x28/0x30 kernel/softirq.c:807
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:srso_alias_safe_ret+0x0/0x7 arch/x86/lib/retpoline.S:171
+Code: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc <48> 8d 64 24 08 c3 cc e8 f4 ff ff ff 0f 0b cc cc cc cc cc cc cc cc
+RSP: 0018:ffff88802a36b940 EFLAGS: 00000297
+RAX: 0000000000000002 RBX: 0000000000000000 RCX: ffffffff8146baef
+RDX: ffff88800f1221c0 RSI: 0000000000000000 RDI: 0000000000000007
+RBP: ffff88802a36b950 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88801003d2e0
+R13: ffffea0000caf2c0 R14: ffff88802a36bb68 R15: 0000000000000000
+ folio_mapping+0xaf/0xe0 mm/util.c:800
+ __folio_cancel_dirty+0x25/0x2c0 mm/page-writeback.c:2878
+ folio_cancel_dirty include/linux/pagemap.h:1158 [inline]
+ truncate_cleanup_folio+0x131/0x150 mm/truncate.c:185
+ truncate_inode_folio+0x2a/0x50 mm/truncate.c:194
+ shmem_undo_range+0x251/0xc00 mm/shmem.c:1007
+ shmem_truncate_range mm/shmem.c:1120 [inline]
+ shmem_evict_inode+0x16d/0x400 mm/shmem.c:1248
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ dput.part.0+0x3c6/0x760 fs/dcache.c:845
+ dput+0x24/0x40 fs/dcache.c:835
+ __fput+0x1e5/0x540 fs/file_table.c:430
+ ____fput+0x1a/0x30 fs/file_table.c:450
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdd1dc8fa9f
+Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <41> 89 c0 3d 00 f0 ff ff 77 1f 48 8b 44 24 18 64 48 2b 04 25 28 00
+RSP: 002b:00007fdd1d7fede0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: 0000000000000000 RBX: 00000000000055c1 RCX: 00007fdd1dc8fa9f
+RDX: 0000000000000000 RSI: 0000000000004c01 RDI: 0000000000000008
+RBP: 00007fdd1d7ff5f0 R08: 0000000000000000 R09: 0000000001000000
+R10: 0000000000000000 R11: 0000000000000246 R12: ffffffffffffffff
+R13: 0000000000000016 R14: 0000000000000008 R15: 0000000020000580
+ </TASK>

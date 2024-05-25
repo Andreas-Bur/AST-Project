@@ -1,0 +1,100 @@
+netdevsim netdevsim5 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+unregister_netdevice: waiting for netdevsim3 to become free. Usage count = 3
+ref_tracker: eth%d@00000000cf5c61a4 has 1/2 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     ipv6_add_addr+0x28e/0xe00 net/ipv6/addrconf.c:1119
+     addrconf_add_linklocal+0xca/0x260 net/ipv6/addrconf.c:3313
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+
+ref_tracker: eth%d@00000000cf5c61a4 has 1/2 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     ipv6_add_dev+0x224/0x8a0 net/ipv6/addrconf.c:406
+     addrconf_notify+0x44b/0xe90 net/ipv6/addrconf.c:3651
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     register_netdevice+0xaf2/0xc00 net/core/dev.c:10310
+     nsim_init_netdevsim drivers/net/netdevsim/netdev.c:376 [inline]
+     nsim_create+0x1d5/0x250 drivers/net/netdevsim/netdev.c:434
+     __nsim_dev_port_add+0x151/0x340 drivers/net/netdevsim/dev.c:1390
+     nsim_dev_port_add_all drivers/net/netdevsim/dev.c:1446 [inline]
+     nsim_drv_probe+0x76d/0x9b0 drivers/net/netdevsim/dev.c:1604
+     nsim_bus_probe+0x1a/0x30 drivers/net/netdevsim/bus.c:391
+     call_driver_probe drivers/base/dd.c:578 [inline]
+     really_probe+0x140/0x430 drivers/base/dd.c:656
+     __driver_probe_device+0xcd/0x1b0 drivers/base/dd.c:798
+     driver_probe_device+0x2f/0x130 drivers/base/dd.c:828
+     __device_attach_driver+0x109/0x160 drivers/base/dd.c:956
+     bus_for_each_drv+0xbc/0x100 drivers/base/bus.c:457
+     __device_attach+0x101/0x290 drivers/base/dd.c:1028
+
+netdevsim netdevsim5 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim0: renamed from eth0
+netdevsim netdevsim5 netdevsim1: renamed from eth1
+netdevsim netdevsim5 netdevsim2: renamed from eth2
+netdevsim netdevsim5 netdevsim3: renamed from eth3
+8021q: adding VLAN 0 to HW filter on device bond0
+8021q: adding VLAN 0 to HW filter on device team0
+8021q: adding VLAN 0 to HW filter on device batadv0
+veth0_vlan: entered promiscuous mode
+veth1_vlan: entered promiscuous mode
+veth0_macvtap: entered promiscuous mode
+veth1_macvtap: entered promiscuous mode
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_0
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_1
+netdevsim netdevsim5 netdevsim0: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0

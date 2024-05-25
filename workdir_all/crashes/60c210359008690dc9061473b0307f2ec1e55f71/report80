@@ -1,0 +1,49 @@
+BTRFS info (device loop7): last unmount of filesystem d09153a9-5497-4f31-8e52-d2d02bbdf7fc
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 13462 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ drain_workqueue+0x119/0x1f0 kernel/workqueue.c:4107
+ destroy_workqueue+0x6c/0x580 kernel/workqueue.c:5673
+ btrfs_stop_all_workers+0x4c/0x120 fs/btrfs/disk-io.c:1788
+ close_ctree+0x25c/0x790 fs/btrfs/disk-io.c:4371
+ btrfs_put_super+0x39/0x50 fs/btrfs/super.c:73
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ kill_anon_super+0x20/0x50 fs/super.c:1225
+ btrfs_kill_super+0x24/0x40 fs/btrfs/super.c:2091
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f16f409178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffc40e2c228 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f16f409178b
+RDX: 00007f16f40292c0 RSI: 0000000000000009 RDI: 00007ffc40e2c2e0
+RBP: 00007ffc40e2c2e0 R08: 0000000000000000 R09: 00007ffc40e2c0b0
+R10: 0000555568024a4b R11: 0000000000000246 R12: 00007f16f40f0278
+R13: 00007ffc40e2d3c0 R14: 0000555568024970 R15: 00007ffc40e2d3b0
+ </TASK>

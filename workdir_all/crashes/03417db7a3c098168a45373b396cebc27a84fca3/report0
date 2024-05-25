@@ -1,0 +1,163 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+kswapd0/83 is trying to acquire lock:
+ffff888059360920 (&(imap->im_aglock[index])){+.+.}-{3:3}, at: diFree+0xaa/0xee0 fs/jfs/jfs_imap.c:886
+
+but task is already holding lock:
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0xa5/0xec0 mm/vmscan.c:6782
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (fs_reclaim){+.+.}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __fs_reclaim_acquire mm/page_alloc.c:3698 [inline]
+       fs_reclaim_acquire+0xad/0x100 mm/page_alloc.c:3712
+       might_alloc include/linux/sched/mm.h:312 [inline]
+       prepare_alloc_pages.constprop.0+0x7f/0x170 mm/page_alloc.c:4346
+       __alloc_pages+0xb5/0x13b0 mm/page_alloc.c:4564
+       __alloc_pages_node include/linux/gfp.h:238 [inline]
+       alloc_pages_node include/linux/gfp.h:261 [inline]
+       __kmalloc_large_node+0x69/0x140 mm/slub.c:3911
+       kmalloc_large+0x1c/0x70 mm/slub.c:3928
+       kmalloc include/linux/slab.h:625 [inline]
+       diMount+0x30/0x1c0 fs/jfs/jfs_imap.c:105
+       jfs_mount_rw+0xc6/0x290 fs/jfs/jfs_mount.c:240
+       jfs_remount+0x240/0x290 fs/jfs/super.c:454
+       legacy_reconfigure+0x64/0x90 fs/fs_context.c:685
+       reconfigure_super+0x25d/0x430 fs/super.c:1071
+       do_remount fs/namespace.c:2892 [inline]
+       path_mount+0xf64/0x11d0 fs/namespace.c:3671
+       do_mount fs/namespace.c:3692 [inline]
+       __do_sys_mount fs/namespace.c:3898 [inline]
+       __se_sys_mount fs/namespace.c:3875 [inline]
+       __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+       x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (&jfs_ip->rdwrlock/1){++++}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       down_read_nested+0x46/0x180 kernel/locking/rwsem.c:1651
+       diFree+0xc5/0xee0 fs/jfs/jfs_imap.c:891
+       jfs_evict_inode+0x1bd/0x1f0 fs/jfs/inode.c:156
+       evict+0x132/0x2d0 fs/inode.c:667
+       iput_final fs/inode.c:1741 [inline]
+       iput fs/inode.c:1767 [inline]
+       iput+0x2e2/0x520 fs/inode.c:1753
+       txUpdateMap+0x4e5/0x5b0 fs/jfs/jfs_txnmgr.c:2367
+       txLazyCommit fs/jfs/jfs_txnmgr.c:2664 [inline]
+       jfs_lazycommit+0x2bf/0x530 fs/jfs/jfs_txnmgr.c:2733
+       kthread+0x127/0x160 kernel/kthread.c:388
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+-> #0 (&(imap->im_aglock[index])){+.+.}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       diFree+0xaa/0xee0 fs/jfs/jfs_imap.c:886
+       jfs_evict_inode+0x1bd/0x1f0 fs/jfs/inode.c:156
+       evict+0x132/0x2d0 fs/inode.c:667
+       iput_final fs/inode.c:1741 [inline]
+       iput fs/inode.c:1767 [inline]
+       iput+0x2e2/0x520 fs/inode.c:1753
+       dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+       __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+       shrink_kill fs/dcache.c:1048 [inline]
+       shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+       prune_dcache_sb+0x58/0x70 fs/dcache.c:1156
+       super_cache_scan+0x1ad/0x270 fs/super.c:221
+       do_shrink_slab+0x240/0xa90 mm/shrinker.c:435
+       shrink_slab_memcg mm/shrinker.c:548 [inline]
+       shrink_slab+0x78f/0xed0 mm/shrinker.c:626
+       shrink_one+0x1de/0x2d0 mm/vmscan.c:4774
+       shrink_many mm/vmscan.c:4835 [inline]
+       lru_gen_shrink_node mm/vmscan.c:4935 [inline]
+       shrink_node+0x11a7/0x1d50 mm/vmscan.c:5894
+       kswapd_shrink_node mm/vmscan.c:6704 [inline]
+       balance_pgdat+0x5df/0xec0 mm/vmscan.c:6895
+       kswapd+0x2fa/0x660 mm/vmscan.c:7164
+       kthread+0x127/0x160 kernel/kthread.c:388
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+other info that might help us debug this:
+
+Chain exists of:
+  &(imap->im_aglock[index]) --> &jfs_ip->rdwrlock/1 --> fs_reclaim
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(fs_reclaim);
+                               lock(&jfs_ip->rdwrlock/1);
+                               lock(fs_reclaim);
+  lock(&(imap->im_aglock[index]));
+
+ *** DEADLOCK ***
+
+2 locks held by kswapd0/83:
+ #0: ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0xa5/0xec0 mm/vmscan.c:6782
+ #1: ffff8880219590e0 (&type->s_umount_key#88){++++}-{3:3}, at: super_trylock_shared fs/super.c:561 [inline]
+ #1: ffff8880219590e0 (&type->s_umount_key#88){++++}-{3:3}, at: super_cache_scan+0x53/0x270 fs/super.c:196
+
+stack backtrace:
+CPU: 0 PID: 83 Comm: kswapd0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ diFree+0xaa/0xee0 fs/jfs/jfs_imap.c:886
+ jfs_evict_inode+0x1bd/0x1f0 fs/jfs/inode.c:156
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ shrink_kill fs/dcache.c:1048 [inline]
+ shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+ prune_dcache_sb+0x58/0x70 fs/dcache.c:1156
+ super_cache_scan+0x1ad/0x270 fs/super.c:221
+ do_shrink_slab+0x240/0xa90 mm/shrinker.c:435
+ shrink_slab_memcg mm/shrinker.c:548 [inline]
+ shrink_slab+0x78f/0xed0 mm/shrinker.c:626
+ shrink_one+0x1de/0x2d0 mm/vmscan.c:4774
+ shrink_many mm/vmscan.c:4835 [inline]
+ lru_gen_shrink_node mm/vmscan.c:4935 [inline]
+ shrink_node+0x11a7/0x1d50 mm/vmscan.c:5894
+ kswapd_shrink_node mm/vmscan.c:6704 [inline]
+ balance_pgdat+0x5df/0xec0 mm/vmscan.c:6895
+ kswapd+0x2fa/0x660 mm/vmscan.c:7164
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

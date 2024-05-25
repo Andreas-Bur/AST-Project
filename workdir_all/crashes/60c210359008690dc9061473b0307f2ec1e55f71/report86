@@ -1,0 +1,50 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 23 Comm: kworker/1:0 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ fs_reclaim_acquire mm/page_alloc.c:3715 [inline]
+ fs_reclaim_acquire+0x70/0x100 mm/page_alloc.c:3706
+ might_alloc include/linux/sched/mm.h:312 [inline]
+ slab_pre_alloc_hook mm/slub.c:3746 [inline]
+ slab_alloc_node mm/slub.c:3827 [inline]
+ kmalloc_trace+0x35/0x2b0 mm/slub.c:3992
+ kmalloc include/linux/slab.h:628 [inline]
+ usb_control_msg+0x48/0x170 drivers/usb/core/message.c:144
+ usb_get_descriptor+0xa2/0x160 drivers/usb/core/message.c:794
+ usb_get_configuration+0x16d/0x2a90 drivers/usb/core/config.c:898
+ usb_enumerate_device drivers/usb/core/hub.c:2484 [inline]
+ usb_new_device+0x4f9/0x8e0 drivers/usb/core/hub.c:2622
+ hub_port_connect drivers/usb/core/hub.c:5521 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
+ port_event drivers/usb/core/hub.c:5821 [inline]
+ hub_event+0x17d2/0x2560 drivers/usb/core/hub.c:5903
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+usb 1-1: config 1 interface 0 has no altsetting 0
+usb 1-1: New USB device found, idVendor=05ac, idProduct=024f, bcdDevice= 0.40
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: П
+usb 1-1: Manufacturer: 穹俞닥鵪쥓ߏჍ넦ᚦ⼮绀ﯿ뉘ߠ킅ꆋ偌䅱矎稍⇒㷉෨Ꟶ⯁⩕∏劑䬯ر衞㧀焳⼳︈ꃁ裠ོ♋蒦ᎇﵹ૊ؑᏙ㱿⇷䴇촍劳㥼ଥ獯븱쒨롈⑫棞
+usb 1-1: SerialNumber: ᠉
+usbhid 1-1:1.0: can't add hid device: -71
+usbhid 1-1:1.0: probe with driver usbhid failed with error -71
+usb 1-1: USB disconnect, device number 2

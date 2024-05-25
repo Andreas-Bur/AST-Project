@@ -1,0 +1,86 @@
+BUG: kernel NULL pointer dereference, address: 0000000000000200
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 299e5067 P4D 299e5067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 107 Comm: jfsCommit Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:trace_event_get_offsets_lock_acquire include/trace/events/lock.h:24 [inline]
+RIP: 0010:perf_trace_lock_acquire+0x1f/0x1c0 include/trace/events/lock.h:24
+Code: 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 49 89 fd 41 54 53 48 89 f3 48 83 ec 30 44 89 45 bc <4c> 8b 46 18 89 4d c0 4d 85 c0 0f 84 65 01 00 00 4c 89 c7 4c 89 45
+RSP: 0018:ffff88800b6dfd70 EFLAGS: 00010082
+RAX: ffff88802a30f710 RBX: 00000000000001e8 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 00000000000001e8 RDI: ffffffff864df440
+RBP: ffff88800b6dfdc8 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff864df440 R14: 00000000000001e8 R15: ffffffff893405c0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000200 CR3: 00000000352c8005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ __raw_spin_lock_irq include/linux/spinlock_api_smp.h:119 [inline]
+ _raw_spin_lock_irq+0x38/0x60 kernel/locking/spinlock.c:170
+ spin_lock_irq include/linux/spinlock.h:376 [inline]
+ txLazyCommit fs/jfs/jfs_txnmgr.c:2668 [inline]
+ jfs_lazycommit+0x2de/0x530 fs/jfs/jfs_txnmgr.c:2733
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: 0000000000000200
+---[ end trace 0000000000000000 ]---
+RIP: 0010:trace_event_get_offsets_lock_acquire include/trace/events/lock.h:24 [inline]
+RIP: 0010:perf_trace_lock_acquire+0x1f/0x1c0 include/trace/events/lock.h:24
+Code: 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 49 89 fd 41 54 53 48 89 f3 48 83 ec 30 44 89 45 bc <4c> 8b 46 18 89 4d c0 4d 85 c0 0f 84 65 01 00 00 4c 89 c7 4c 89 45
+RSP: 0018:ffff88800b6dfd70 EFLAGS: 00010082
+RAX: ffff88802a30f710 RBX: 00000000000001e8 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 00000000000001e8 RDI: ffffffff864df440
+RBP: ffff88800b6dfdc8 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff864df440 R14: 00000000000001e8 R15: ffffffff893405c0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000200 CR3: 00000000352c8005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	f3 0f 1e fa          	endbr64
+   f:	55                   	push   %rbp
+  10:	48 89 e5             	mov    %rsp,%rbp
+  13:	41 57                	push   %r15
+  15:	41 56                	push   %r14
+  17:	41 55                	push   %r13
+  19:	49 89 fd             	mov    %rdi,%r13
+  1c:	41 54                	push   %r12
+  1e:	53                   	push   %rbx
+  1f:	48 89 f3             	mov    %rsi,%rbx
+  22:	48 83 ec 30          	sub    $0x30,%rsp
+  26:	44 89 45 bc          	mov    %r8d,-0x44(%rbp)
+* 2a:	4c 8b 46 18          	mov    0x18(%rsi),%r8 <-- trapping instruction
+  2e:	89 4d c0             	mov    %ecx,-0x40(%rbp)
+  31:	4d 85 c0             	test   %r8,%r8
+  34:	0f 84 65 01 00 00    	je     0x19f
+  3a:	4c 89 c7             	mov    %r8,%rdi
+  3d:	4c                   	rex.WR
+  3e:	89                   	.byte 0x89
+  3f:	45                   	rex.RB

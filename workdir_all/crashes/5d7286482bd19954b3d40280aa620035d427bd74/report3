@@ -1,0 +1,71 @@
+BUG: unable to handle page fault for address: ffff88813f9c9f6c
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 9601067 P4D 9601067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 107 Comm: jfsCommit Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:dbJoin+0xdf/0x180 fs/jfs/jfs_dmap.c:2805
+Code: 83 c4 01 89 de 44 8b 28 44 89 ef e8 7b b8 60 ff 41 39 dd 76 76 e8 11 be 60 ff 48 8b 55 c8 45 89 fe 44 89 e6 41 31 de 49 63 c6 <44> 0f be 2c 02 44 89 ef e8 54 b8 60 ff 45 39 e5 7c 4f e8 ea bd 60
+RSP: 0018:ffff88800bbb7c48 EFLAGS: 00010206
+RAX: 0000000000000041 RBX: 0000000000000040 RCX: ffffffff81c9008f
+RDX: ffff88813f9c9f2b RSI: 0000000000000005 RDI: 0000000000000004
+RBP: ffff88800bbb7c90 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000040 R11: 0000000000000000 R12: 0000000000000005
+R13: 0000000000000000 R14: 0000000000000041 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88813f9c9f6c CR3: 0000000021284001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ dbFreeBits+0xc1/0x460 fs/jfs/jfs_dmap.c:2338
+ dbFreeDmap+0x3b/0x110 fs/jfs/jfs_dmap.c:2087
+ dbFree+0x10f/0x2d0 fs/jfs/jfs_dmap.c:409
+ txFreeMap+0x32a/0x600 fs/jfs/jfs_txnmgr.c:2534
+ txUpdateMap+0x1c1/0x5b0 fs/jfs/jfs_txnmgr.c:2330
+ txLazyCommit fs/jfs/jfs_txnmgr.c:2664 [inline]
+ jfs_lazycommit+0x2bf/0x530 fs/jfs/jfs_txnmgr.c:2733
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: ffff88813f9c9f6c
+---[ end trace 0000000000000000 ]---
+RIP: 0010:dbJoin+0xdf/0x180 fs/jfs/jfs_dmap.c:2805
+Code: 83 c4 01 89 de 44 8b 28 44 89 ef e8 7b b8 60 ff 41 39 dd 76 76 e8 11 be 60 ff 48 8b 55 c8 45 89 fe 44 89 e6 41 31 de 49 63 c6 <44> 0f be 2c 02 44 89 ef e8 54 b8 60 ff 45 39 e5 7c 4f e8 ea bd 60
+RSP: 0018:ffff88800bbb7c48 EFLAGS: 00010206
+RAX: 0000000000000041 RBX: 0000000000000040 RCX: ffffffff81c9008f
+RDX: ffff88813f9c9f2b RSI: 0000000000000005 RDI: 0000000000000004
+RBP: ffff88800bbb7c90 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000040 R11: 0000000000000000 R12: 0000000000000005
+R13: 0000000000000000 R14: 0000000000000041 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff88813f9c9f6c CR3: 0000000021284001 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	83 c4 01             	add    $0x1,%esp
+   3:	89 de                	mov    %ebx,%esi
+   5:	44 8b 28             	mov    (%rax),%r13d
+   8:	44 89 ef             	mov    %r13d,%edi
+   b:	e8 7b b8 60 ff       	call   0xff60b88b
+  10:	41 39 dd             	cmp    %ebx,%r13d
+  13:	76 76                	jbe    0x8b
+  15:	e8 11 be 60 ff       	call   0xff60be2b
+  1a:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+  1e:	45 89 fe             	mov    %r15d,%r14d
+  21:	44 89 e6             	mov    %r12d,%esi
+  24:	41 31 de             	xor    %ebx,%r14d
+  27:	49 63 c6             	movslq %r14d,%rax
+* 2a:	44 0f be 2c 02       	movsbl (%rdx,%rax,1),%r13d <-- trapping instruction
+  2f:	44 89 ef             	mov    %r13d,%edi
+  32:	e8 54 b8 60 ff       	call   0xff60b88b
+  37:	45 39 e5             	cmp    %r12d,%r13d
+  3a:	7c 4f                	jl     0x8b
+  3c:	e8                   	.byte 0xe8
+  3d:	ea                   	(bad)
+  3e:	bd                   	.byte 0xbd
+  3f:	60                   	(bad)

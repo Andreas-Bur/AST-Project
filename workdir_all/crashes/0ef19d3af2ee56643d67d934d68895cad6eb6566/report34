@@ -1,0 +1,78 @@
+============================================
+WARNING: possible recursive locking detected
+6.9.0-rc4 #2 Not tainted
+--------------------------------------------
+syz-executor.4/14051 is trying to acquire lock:
+ffff888027be4f08 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_get_block+0x137/0x390 fs/hfsplus/extents.c:260
+
+but task is already holding lock:
+ffff888027be4888 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_truncate+0x96/0x380 fs/hfsplus/extents.c:576
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&HFSPLUS_I(inode)->extents_lock);
+  lock(&HFSPLUS_I(inode)->extents_lock);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+3 locks held by syz-executor.4/14051:
+ #0: ffff888027be4a80 (&sb->s_type->i_mutex_key#31){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:795 [inline]
+ #0: ffff888027be4a80 (&sb->s_type->i_mutex_key#31){+.+.}-{3:3}, at: hfsplus_file_release+0x82/0xf0 fs/hfsplus/inode.c:233
+ #1: ffff888027be4888 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_truncate+0x96/0x380 fs/hfsplus/extents.c:576
+ #2: ffff888029d370f8 (&sbi->alloc_mutex){+.+.}-{3:3}, at: hfsplus_block_free+0x82/0x310 fs/hfsplus/bitmap.c:182
+
+stack backtrace:
+CPU: 0 PID: 14051 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_deadlock_bug+0x27c/0x3d0 kernel/locking/lockdep.c:3012
+ check_deadlock kernel/locking/lockdep.c:3062 [inline]
+ validate_chain kernel/locking/lockdep.c:3856 [inline]
+ __lock_acquire+0x1125/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ hfsplus_get_block+0x137/0x390 fs/hfsplus/extents.c:260
+ block_read_full_folio+0x1ca/0x550 fs/buffer.c:2384
+ hfsplus_read_folio+0x21/0x30 fs/hfsplus/inode.c:28
+ filemap_read_folio+0x51/0x140 mm/filemap.c:2331
+ do_read_cache_folio+0x18c/0x2f0 mm/filemap.c:3747
+ do_read_cache_page mm/filemap.c:3813 [inline]
+ read_cache_page+0x3b/0xb0 mm/filemap.c:3822
+ read_mapping_page include/linux/pagemap.h:888 [inline]
+ hfsplus_block_free+0xa1/0x310 fs/hfsplus/bitmap.c:185
+ hfsplus_free_extents+0x144/0x1d0 fs/hfsplus/extents.c:363
+ hfsplus_file_truncate+0x34f/0x380 fs/hfsplus/extents.c:591
+ hfsplus_delete_inode+0xd2/0x100 fs/hfsplus/inode.c:450
+ hfsplus_file_release+0xe4/0xf0 fs/hfsplus/inode.c:238
+ __fput+0x135/0x540 fs/file_table.c:422
+ __fput_sync+0x44/0x60 fs/file_table.c:507
+ __do_sys_close fs/open.c:1556 [inline]
+ __se_sys_close fs/open.c:1541 [inline]
+ __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+ x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa7f328ec4b
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 fd 02 00 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 d1 fd 02 00 8b 44
+RSP: 002b:00007ffe039a7d50 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000008 RCX: 00007fa7f328ec4b
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000007
+RBP: 00007ffe039a7e28 R08: 0000000000000000 R09: 00007fa7f2e022d1
+R10: 0000000000000001 R11: 0000000000000293 R12: 0000000000000032
+R13: 0000000000016e44 R14: 00007fa7f33cbf8c R15: 00007ffe039a7e50
+ </TASK>
+hfsplus: unable to mark blocks free: error -5
+hfsplus: can't free extent

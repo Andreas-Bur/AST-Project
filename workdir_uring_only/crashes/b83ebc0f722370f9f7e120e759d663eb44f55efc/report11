@@ -1,0 +1,91 @@
+lsm_file_cache            41KB         79KB
+key_jar                   31KB         31KB
+uts_namespace             15KB         15KB
+nsproxy                    7KB          7KB
+vma_lock                 113KB        177KB
+files_cache              138KB        138KB
+signal_cache             478KB        750KB
+sighand_cache            605KB        673KB
+task_struct             2210KB       2607KB
+anon_vma                  71KB         94KB
+Acpi-State                20KB         35KB
+shared_policy_node        408KB        621KB
+numa_policy                8KB          8KB
+trace_event_file         358KB        358KB
+ftrace_event_field        542KB        542KB
+pool_workqueue           264KB        264KB
+maple_node               551KB        784KB
+task_group                15KB         15KB
+mm_struct                189KB        189KB
+vmap_area                 55KB         86KB
+page->ptl                 37KB         52KB
+kmalloc-cg-8k            528KB        640KB
+kmalloc-cg-4k           4460KB       6400KB
+kmalloc-cg-2k           3266KB       5312KB
+kmalloc-cg-1k            791KB       1456KB
+kmalloc-cg-512           432KB        860KB
+kmalloc-cg-256           139KB        236KB
+kmalloc-cg-192           216KB        582KB
+kmalloc-cg-128           201KB        444KB
+kmalloc-cg-96             19KB         19KB
+kmalloc-cg-64             35KB        100KB
+kmalloc-cg-32        1364004KB    1364004KB
+kmalloc-cg-16             17KB         28KB
+kmalloc-cg-8               8KB          8KB
+kmalloc-8k              1520KB       1984KB
+kmalloc-4k              1952KB       2560KB
+kmalloc-2k              4312KB       4864KB
+kmalloc-1k            343412KB     343412KB
+kmalloc-512             5074KB       6660KB
+kmalloc-256              866KB       1384KB
+kmalloc-192              497KB        779KB
+kmalloc-128              497KB        976KB
+kmalloc-96               653KB        826KB
+kmalloc-64               561KB        768KB
+kmalloc-32               396KB        892KB
+kmalloc-16               100KB        124KB
+kmalloc-8                 66KB         88KB
+kmem_cache_node           40KB         40KB
+kmem_cache                76KB         76KB
+Out of memory and no killable processes...
+Kernel panic - not syncing: System is deadlocked on memory
+CPU: 0 PID: 3483 Comm: systemd-udevd Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x42/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ panic+0x4d5/0x520 kernel/panic.c:348
+ out_of_memory+0xaa6/0xab0 mm/oom_kill.c:1171
+ __alloc_pages_may_oom mm/page_alloc.c:3489 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4251 [inline]
+ __alloc_pages+0x117f/0x13b0 mm/page_alloc.c:4588
+ alloc_pages_mpol+0x1a5/0x310 mm/mempolicy.c:2264
+ alloc_pages+0x7d/0xf0 mm/mempolicy.c:2335
+ folio_alloc+0x25/0x40 mm/mempolicy.c:2342
+ filemap_alloc_folio+0x1ea/0x240 mm/filemap.c:984
+ __filemap_get_folio+0x330/0x5c0 mm/filemap.c:1926
+ filemap_fault+0xd16/0x2090 mm/filemap.c:3299
+ __do_fault+0x55/0x1b0 mm/memory.c:4531
+ do_read_fault mm/memory.c:4894 [inline]
+ do_fault mm/memory.c:5024 [inline]
+ do_pte_missing mm/memory.c:3880 [inline]
+ handle_pte_fault mm/memory.c:5300 [inline]
+ __handle_mm_fault+0x26f6/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x55e4a1aadd75
+Code: Unable to access opcode bytes at 0x55e4a1aadd4b.
+RSP: 002b:00007fffa3265db0 EFLAGS: 00010206
+RAX: 0000000000000000 RBX: 0000000000000006 RCX: 000055e4df595010
+RDX: 000055e4a1a42bd0 RSI: 000055e4a1a42bd0 RDI: 000055e4df600ed8
+RBP: 000055e4df600ed8 R08: 0000000000000007 R09: cad5ae15f6daec31
+R10: b83f153f3dfaaa62 R11: 0000000000000246 R12: 00007fffa3265eb0
+R13: 00007fffa3265e60 R14: 00007fffa3265e5f R15: 0000000000000000
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..

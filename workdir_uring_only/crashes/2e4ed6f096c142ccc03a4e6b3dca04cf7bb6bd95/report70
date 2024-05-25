@@ -1,0 +1,8 @@
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r9, &(0x7f0000000180)=@IORING_OP_TIMEOUT={0xb, 0x0, 0x0, 0x0, 0x0, &(0x7f0000000140), 0x1, 0x1})
+socket$unix(0xa, 0x1, 0x0)
+io_uring_enter(r6, 0x5d60, 0x0, 0x0, 0x0, 0x0)
+2024/05/21 20:28:26 SYZFATAL: executor 6 failed 11 times: executor 6: EOF
+SYZFAIL: failed to mkdtemp
+ (errno 28: No space left on device)
+

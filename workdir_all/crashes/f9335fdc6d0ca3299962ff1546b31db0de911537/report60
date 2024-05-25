@@ -1,0 +1,130 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.7/43461 is trying to acquire lock:
+ffff88802d16cf08 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+
+but task is already holding lock:
+ffff88804f83b0b0 (&tree->tree_lock#2){+.+.}-{3:3}, at: hfsplus_find_init+0x98/0x110 fs/hfsplus/bfind.c:30
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&tree->tree_lock#2){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_truncate+0x366/0x380 fs/hfsplus/extents.c:595
+       hfsplus_write_failed fs/hfsplus/inode.c:37 [inline]
+       hfsplus_write_begin+0xbf/0xd0 fs/hfsplus/inode.c:51
+       cont_expand_zero fs/buffer.c:2494 [inline]
+       cont_write_begin+0x164/0x400 fs/buffer.c:2557
+       hfsplus_write_begin+0x5a/0xd0 fs/hfsplus/inode.c:47
+       generic_perform_write+0x100/0x2b0 mm/filemap.c:3974
+       __generic_file_write_iter+0x133/0x140 mm/filemap.c:4069
+       generic_file_write_iter+0x91/0x170 mm/filemap.c:4095
+       call_write_iter include/linux/fs.h:2110 [inline]
+       do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+       vfs_writev+0x1a8/0x750 fs/read_write.c:971
+       do_pwritev fs/read_write.c:1072 [inline]
+       __do_sys_pwritev fs/read_write.c:1119 [inline]
+       __se_sys_pwritev fs/read_write.c:1114 [inline]
+       __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+       x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+       hfsplus_bmap_reserve+0xd5/0x110 fs/hfsplus/btree.c:358
+       hfsplus_rename_cat+0xd5/0x5f0 fs/hfsplus/catalog.c:456
+       hfsplus_rename+0xb7/0x120 fs/hfsplus/dir.c:552
+       vfs_rename+0x104a/0x14b0 fs/namei.c:4880
+       do_renameat2+0x877/0x8d0 fs/namei.c:5037
+       __do_sys_renameat2 fs/namei.c:5071 [inline]
+       __se_sys_renameat2 fs/namei.c:5068 [inline]
+       __x64_sys_renameat2+0x62/0x80 fs/namei.c:5068
+       x64_sys_call+0x1945/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:317
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&tree->tree_lock#2);
+                               lock(&HFSPLUS_I(inode)->extents_lock);
+                               lock(&tree->tree_lock#2);
+  lock(&HFSPLUS_I(inode)->extents_lock);
+
+ *** DEADLOCK ***
+
+4 locks held by syz-executor.7/43461:
+ #0: ffff88804f83a420 (sb_writers#18){.+.+}-{0:0}, at: do_renameat2+0x26a/0x8d0 fs/namei.c:4967
+ #1: ffff88802d16d780 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:830 [inline]
+ #1: ffff88802d16d780 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: lock_rename fs/namei.c:3066 [inline]
+ #1: ffff88802d16d780 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: lock_rename fs/namei.c:3063 [inline]
+ #1: ffff88802d16d780 (&type->i_mutex_dir_key#14/1){+.+.}-{3:3}, at: do_renameat2+0x812/0x8d0 fs/namei.c:4972
+ #2: ffff88802d16b080 (&sb->s_type->i_mutex_key#24/4){+.+.}-{3:3}, at: inode_lock_nested include/linux/fs.h:830 [inline]
+ #2: ffff88802d16b080 (&sb->s_type->i_mutex_key#24/4){+.+.}-{3:3}, at: lock_two_nondirectories+0x12f/0x190 fs/inode.c:1113
+ #3: ffff88804f83b0b0 (&tree->tree_lock#2){+.+.}-{3:3}, at: hfsplus_find_init+0x98/0x110 fs/hfsplus/bfind.c:30
+
+stack backtrace:
+CPU: 0 PID: 43461 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+ hfsplus_bmap_reserve+0xd5/0x110 fs/hfsplus/btree.c:358
+ hfsplus_rename_cat+0xd5/0x5f0 fs/hfsplus/catalog.c:456
+ hfsplus_rename+0xb7/0x120 fs/hfsplus/dir.c:552
+ vfs_rename+0x104a/0x14b0 fs/namei.c:4880
+ do_renameat2+0x877/0x8d0 fs/namei.c:5037
+ __do_sys_renameat2 fs/namei.c:5071 [inline]
+ __se_sys_renameat2 fs/namei.c:5068 [inline]
+ __x64_sys_renameat2+0x62/0x80 fs/namei.c:5068
+ x64_sys_call+0x1945/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:317
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f423b08fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f423bdeb028 EFLAGS: 00000246 ORIG_RAX: 000000000000013c
+RAX: ffffffffffffffda RBX: 00007f423b1cbf80 RCX: 00007f423b08fd6d
+RDX: ffffffffffffff9c RSI: 00000000200001c0 RDI: ffffffffffffff9c
+RBP: 00007f423b0f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000020000180 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f423b1cbf80 R15: 00007f423bdcb000
+ </TASK>

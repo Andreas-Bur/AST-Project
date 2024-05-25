@@ -1,0 +1,7 @@
+close_range(r0, r1, 0x0)
+r13 = syz_open_dev$evdev(&(0x7f00000002c0), 0x0, 0x0)
+ioctl$EVIOCGBITSND(r13, 0x80404532, &(0x7f0000000000)=""/144)
+2024/05/10 21:42:26 SYZFATAL: executor 5 failed 11 times: executor 5: failed to write control pipe: write |1: broken pipe
+SYZFAIL: tun: ioctl(TUNSETIFF) failed
+ (errno 25: Inappropriate ioctl for device)
+loop exited with status 67

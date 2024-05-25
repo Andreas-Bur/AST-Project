@@ -1,0 +1,88 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 8788 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 8788 Comm: kworker/0:5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events iterate_cleanup_work
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff888027c10000 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff888070590c10
+R13: ffffffff81114da0 R14: ffff88801ec27c00 R15: 0000000000200000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2fc23000 CR3: 0000000026e14001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:get_next_corpse net/netfilter/nf_conntrack_core.c:2355 [inline]
+RIP: 0010:nf_ct_iterate_cleanup+0xb7/0x3c0 net/netfilter/nf_conntrack_core.c:2406
+Code: 02 00 00 e8 ab 5d 07 fd 48 8b 15 14 fe 79 02 44 89 e0 31 ff 48 8d 1c c2 4c 8b 33 41 83 e6 01 44 89 f6 e8 dc 58 07 fd 45 85 f6 <75> b5 e8 82 5d 07 fd 48 8b 7d c0 45 89 e7 be 00 02 00 00 41 81 e7
+RSP: 0018:ffff88802978bd40 EFLAGS: 00000202
+RAX: 0000000000000000 RBX: ffff88800e23f078 RCX: ffffffff84226174
+RDX: ffff888027c10000 RSI: 0000000000000000 RDI: 0000000000000005
+RBP: ffff88802978bd88 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000007e0f
+R13: ffff88802978bdc0 R14: 0000000000000001 R15: 00000000000075c0
+ nf_ct_iterate_cleanup_net+0x5f/0x70 net/netfilter/nf_conntrack_core.c:2427
+ iterate_cleanup_work+0x43/0xf0 net/netfilter/nf_nat_masquerade.c:87
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 72989
+hardirqs last  enabled at (72988): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (72988): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (72989): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (72989): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (72964): [<ffffffff842263ab>] local_bh_enable include/linux/bottom_half.h:33 [inline]
+softirqs last  enabled at (72964): [<ffffffff842263ab>] get_next_corpse net/netfilter/nf_conntrack_core.c:2385 [inline]
+softirqs last  enabled at (72964): [<ffffffff842263ab>] nf_ct_iterate_cleanup+0x2eb/0x3c0 net/netfilter/nf_conntrack_core.c:2406
+softirqs last disabled at (72967): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (72967): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (72967): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	00 00                	add    %al,(%rax)
+   2:	e8 ab 5d 07 fd       	call   0xfd075db2
+   7:	48 8b 15 14 fe 79 02 	mov    0x279fe14(%rip),%rdx        # 0x279fe22
+   e:	44 89 e0             	mov    %r12d,%eax
+  11:	31 ff                	xor    %edi,%edi
+  13:	48 8d 1c c2          	lea    (%rdx,%rax,8),%rbx
+  17:	4c 8b 33             	mov    (%rbx),%r14
+  1a:	41 83 e6 01          	and    $0x1,%r14d
+  1e:	44 89 f6             	mov    %r14d,%esi
+  21:	e8 dc 58 07 fd       	call   0xfd075902
+  26:	45 85 f6             	test   %r14d,%r14d
+* 29:	75 b5                	jne    0xffffffe0 <-- trapping instruction
+  2b:	e8 82 5d 07 fd       	call   0xfd075db2
+  30:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+  34:	45 89 e7             	mov    %r12d,%r15d
+  37:	be 00 02 00 00       	mov    $0x200,%esi
+  3c:	41                   	rex.B
+  3d:	81                   	.byte 0x81
+  3e:	e7                   	.byte 0xe7

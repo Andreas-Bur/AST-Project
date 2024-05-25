@@ -1,0 +1,52 @@
+ieee802154 phy0 wpan0: encryption failed: -22
+ieee802154 phy1 wpan1: encryption failed: -22
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 1233 at include/linux/skbuff.h:3051 skb_network_header_len include/linux/skbuff.h:3051 [inline]
+WARNING: CPU: 1 PID: 1233 at include/linux/skbuff.h:3051 lowpan_header net/ieee802154/6lowpan/tx.c:236 [inline]
+WARNING: CPU: 1 PID: 1233 at include/linux/skbuff.h:3051 lowpan_xmit+0x5f8/0x690 net/ieee802154/6lowpan/tx.c:282
+Modules linked in:
+CPU: 1 PID: 1233 Comm: aoe_tx0 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:skb_network_header_len include/linux/skbuff.h:3051 [inline]
+RIP: 0010:lowpan_header net/ieee802154/6lowpan/tx.c:236 [inline]
+RIP: 0010:lowpan_xmit+0x5f8/0x690 net/ieee802154/6lowpan/tx.c:282
+Code: 00 00 00 e9 6c fd ff ff e8 35 82 56 fc 90 0f 0b 90 e9 69 fa ff ff e8 27 82 56 fc 90 0f 0b 90 e9 bf fb ff ff e8 19 82 56 fc 90 <0f> 0b 90 e9 1f fc ff ff 4c 8b a5 70 ff ff ff e8 04 82 56 fc 48 8b
+RSP: 0018:ffff88800c8bfcb0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 000000000000ffff RCX: ffffffff84d33905
+RDX: ffff88800cb1a1c0 RSI: ffffffff84d33ce7 RDI: 0000000000000003
+RBP: ffff88800c8bfd50 R08: ffff888028d7c880 R09: 0000000000000001
+R10: 000000000000ffff R11: 0000000000000001 R12: ffff888028c40800
+R13: ffff88800cbdacb0 R14: 00000000000000b0 R15: 0000000000000012
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f51be8bb6f4 CR3: 000000002b0da004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __netdev_start_xmit include/linux/netdevice.h:4903 [inline]
+ netdev_start_xmit include/linux/netdevice.h:4917 [inline]
+ xmit_one net/core/dev.c:3531 [inline]
+ dev_hard_start_xmit+0xd6/0x410 net/core/dev.c:3547
+ __dev_queue_xmit+0x1408/0x1f10 net/core/dev.c:4335
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ tx+0xa7/0x150 drivers/block/aoe/aoenet.c:62
+ kthread+0xd1/0x150 drivers/block/aoe/aoecmd.c:1229
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 1312
+hardirqs last  enabled at (1324): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (1324): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (1324): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (1333): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (1333): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (1333): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (792): [<ffffffff8403833d>] rcu_lock_release include/linux/rcupdate.h:339 [inline]
+softirqs last  enabled at (792): [<ffffffff8403833d>] rcu_read_unlock_bh include/linux/rcupdate.h:849 [inline]
+softirqs last  enabled at (792): [<ffffffff8403833d>] __dev_queue_xmit+0x49d/0x1f10 net/core/dev.c:4362
+softirqs last disabled at (796): [<ffffffff84037f3c>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (796): [<ffffffff84037f3c>] rcu_read_lock_bh include/linux/rcupdate.h:833 [inline]
+softirqs last disabled at (796): [<ffffffff84037f3c>] __dev_queue_xmit+0x9c/0x1f10 net/core/dev.c:4260
+---[ end trace 0000000000000000 ]---
+aoe: packet could not be sent on lowpan0.  consider increasing tx_queue_len

@@ -1,0 +1,63 @@
+loop4: detected capacity change from 0 to 128
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 16618 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irq include/linux/spinlock_api_smp.h:119 [inline]
+ _raw_spin_lock_irq+0x38/0x60 kernel/locking/spinlock.c:170
+ spin_lock_irq include/linux/spinlock.h:376 [inline]
+ loop_queue_work drivers/block/loop.c:823 [inline]
+ loop_queue_rq+0x10e/0x850 drivers/block/loop.c:1874
+ __blk_mq_issue_directly+0x3a/0xd0 block/blk-mq.c:2595
+ blk_mq_request_issue_directly+0xb1/0xc0 block/blk-mq.c:2680
+ blk_mq_plug_issue_direct+0xb2/0x2b0 block/blk-mq.c:2701
+ blk_mq_flush_plug_list.part.0+0xd5a/0x11d0 block/blk-mq.c:2810
+ blk_mq_flush_plug_list+0x3d/0x50 block/blk-mq.c:2787
+ __blk_flush_plug+0x151/0x1b0 block/blk-core.c:1190
+ blk_finish_plug block/blk-core.c:1217 [inline]
+ blk_finish_plug+0x41/0x60 block/blk-core.c:1214
+ mpage_writepages+0x89/0xa0 fs/mpage.c:676
+ fat_writepages+0x29/0x40 fs/fat/inode.c:200
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ file_write_and_wait_range+0x93/0xf0 mm/filemap.c:788
+ __generic_file_fsync+0x3e/0x150 fs/libfs.c:1473
+ fat_file_fsync+0x3e/0xc0 fs/fat/file.c:191
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ generic_file_write_iter+0x129/0x170 mm/filemap.c:4099
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_writev+0xa2/0x1a0 fs/read_write.c:1018
+ __do_sys_writev fs/read_write.c:1091 [inline]
+ __se_sys_writev fs/read_write.c:1088 [inline]
+ __x64_sys_writev+0x24/0x30 fs/read_write.c:1088
+ x64_sys_call+0x1c7e/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:21
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3128a8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f31297ca028 EFLAGS: 00000246 ORIG_RAX: 0000000000000014
+RAX: ffffffffffffffda RBX: 00007f3128bcbf80 RCX: 00007f3128a8fd6d
+RDX: 0000000000000001 RSI: 00000000200001c0 RDI: 0000000000000005
+RBP: 00007f3128af14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f3128bcbf80 R15: 00007f31297aa000
+ </TASK>

@@ -1,0 +1,104 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6502 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 6502 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88802327c380 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff888025668c10
+R13: ffffffff81114da0 R14: ffff888023cdf800 R15: 0000000000200000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f296e7a5878 CR3: 00000000151da006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__flush_workqueue+0x32/0x6c0 kernel/workqueue.c:3933
+Code: 41 57 41 56 41 55 49 89 fd 41 54 53 48 83 e4 f0 48 81 ec 90 00 00 00 e8 0c b8 18 00 48 c7 c2 d0 3e 9d 87 48 c7 c6 58 83 f8 85 <48> 8d 5c 24 20 c7 44 24 30 ff ff ff ff 48 8d 7c 24 40 48 89 5c 24
+RSP: 0018:ffff888025677ae0 EFLAGS: 00000293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffffffff879d3ed0 RSI: ffffffff85f88358 RDI: ffff888023cdf800
+RBP: ffff888025677b98 R08: 0000000000000008 R09: ffffffff87f57ca8
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff888023cdf800 R14: ffff888023cdf820 R15: ffff88800bdf0320
+ drain_workqueue+0x119/0x1f0 kernel/workqueue.c:4107
+ hci_dev_close_sync+0x1a3/0x760 net/bluetooth/hci_sync.c:5144
+ hci_dev_do_close net/bluetooth/hci_core.c:554 [inline]
+ hci_unregister_dev+0xff/0x240 net/bluetooth/hci_core.c:2773
+ vhci_release+0x4c/0x90 drivers/bluetooth/hci_vhci.c:674
+ __fput+0x135/0x540 fs/file_table.c:422
+ ____fput+0x1a/0x30 fs/file_table.c:450
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ get_signal+0x1318/0x1350 kernel/signal.c:2911
+ arch_do_signal_or_restart+0x26/0x470 arch/x86/kernel/signal.c:310
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x128/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd446e8e9ec
+Code: Unable to access opcode bytes at 0x7fd446e8e9c2.
+RSP: 002b:00007fff6196db00 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: fffffffffffffe00 RBX: 00007fff6196dc00 RCX: 00007fd446e8e9ec
+RDX: 0000000000000040 RSI: 00007fd446fc8020 RDI: 00000000000000f9
+RBP: 0000000000000003 R08: 0000000000000000 R09: 00007fff6196d9c0
+R10: 00007fd446fa65a0 R11: 0000000000000246 R12: 0000000000000032
+R13: 000000000000ad4c R14: 000000000000001d R15: 00007fff6196dbb0
+ </TASK>
+irq event stamp: 103591
+hardirqs last  enabled at (103590): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (103590): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (103591): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (103591): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (103340): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (103340): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (103585): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (103585): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (103585): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	41 57                	push   %r15
+   2:	41 56                	push   %r14
+   4:	41 55                	push   %r13
+   6:	49 89 fd             	mov    %rdi,%r13
+   9:	41 54                	push   %r12
+   b:	53                   	push   %rbx
+   c:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+  10:	48 81 ec 90 00 00 00 	sub    $0x90,%rsp
+  17:	e8 0c b8 18 00       	call   0x18b828
+  1c:	48 c7 c2 d0 3e 9d 87 	mov    $0xffffffff879d3ed0,%rdx
+  23:	48 c7 c6 58 83 f8 85 	mov    $0xffffffff85f88358,%rsi
+* 2a:	48 8d 5c 24 20       	lea    0x20(%rsp),%rbx <-- trapping instruction
+  2f:	c7 44 24 30 ff ff ff 	movl   $0xffffffff,0x30(%rsp)
+  36:	ff
+  37:	48 8d 7c 24 40       	lea    0x40(%rsp),%rdi
+  3c:	48                   	rex.W
+  3d:	89                   	.byte 0x89
+  3e:	5c                   	pop    %rsp
+  3f:	24                   	.byte 0x24

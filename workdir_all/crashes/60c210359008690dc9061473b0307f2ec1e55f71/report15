@@ -1,0 +1,42 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 14 Comm: ksoftirqd/0 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ __wake_up_common_lock kernel/sched/wait.c:105 [inline]
+ __wake_up kernel/sched/wait.c:127 [inline]
+ __wake_up_bit kernel/sched/wait_bit.c:126 [inline]
+ wake_up_bit+0x72/0xb0 kernel/sched/wait_bit.c:149
+ unlock_buffer fs/buffer.c:79 [inline]
+ end_buffer_async_read+0xbd/0x1c0 fs/buffer.c:272
+ end_buffer_async_read_io+0x1a1/0x250 fs/buffer.c:371
+ end_bio_bh_io_sync+0x5c/0x80 fs/buffer.c:2756
+ bio_endio+0x21e/0x350 block/bio.c:1603
+ req_bio_endio block/blk-mq.c:786 [inline]
+ blk_update_request+0x30b/0x8a0 block/blk-mq.c:931
+ blk_mq_end_request+0x2b/0x60 block/blk-mq.c:1054
+ lo_complete_rq+0x118/0x170 drivers/block/loop.c:366
+ blk_complete_reqs+0x49/0x70 block/blk-mq.c:1129
+ blk_done_softirq+0x21/0x30 block/blk-mq.c:1134
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ run_ksoftirqd kernel/softirq.c:924 [inline]
+ run_ksoftirqd+0x2e/0x60 kernel/softirq.c:916
+ smpboot_thread_fn+0x1e4/0x390 kernel/smpboot.c:164
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

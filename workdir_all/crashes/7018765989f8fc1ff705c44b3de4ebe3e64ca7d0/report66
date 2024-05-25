@@ -1,0 +1,60 @@
+------------[ cut here ]------------
+kernel BUG at fs/hfsplus/xattr.c:175!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 14809 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hfsplus_create_attributes_file fs/hfsplus/xattr.c:175 [inline]
+RIP: 0010:__hfsplus_setxattr+0xfc0/0x1110 fs/hfsplus/xattr.c:331
+Code: 3b fe ff ff e8 51 f3 99 ff 49 8d 5d ff e9 2d fe ff ff e8 43 f3 99 ff 48 89 df e8 1b ad b3 ff e9 4a fe ff ff e8 31 f3 99 ff 90 <0f> 0b e8 29 f3 99 ff 48 c7 c7 30 5e 0c 86 e8 8d 61 8a ff 8b 9d 80
+RSP: 0018:ffff88803dee3830 EFLAGS: 00010216
+RAX: 000000000000b445 RBX: ffff8880268e5c00 RCX: ffffc90006518000
+RDX: 0000000000040000 RSI: ffffffff818fcbcf RDI: 0000000000000007
+RBP: ffff88803dee3af0 R08: 0000000000000002 R09: ffff8880273fe000
+R10: 0000000000010000 R11: 0000000000000001 R12: ffff888044d5a8b0
+R13: 0000000000000000 R14: ffff888029ca7400 R15: ffff888029892c30
+FS:  00007f50bf857640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6a41281000 CR3: 00000000100c6005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfsplus_setxattr+0x84/0xc0 fs/hfsplus/xattr.c:434
+ hfsplus_trusted_setxattr+0x3b/0x50 fs/hfsplus/xattr_trusted.c:30
+ __vfs_setxattr+0x109/0x140 fs/xattr.c:200
+ __vfs_setxattr_noperm+0xa9/0x310 fs/xattr.c:234
+ __vfs_setxattr_locked+0x15f/0x190 fs/xattr.c:295
+ vfs_setxattr+0xb8/0x1e0 fs/xattr.c:321
+ do_setxattr+0xbc/0xd0 fs/xattr.c:629
+ setxattr+0xbb/0xd0 fs/xattr.c:652
+ path_setxattr+0xd0/0x110 fs/xattr.c:671
+ __do_sys_lsetxattr fs/xattr.c:694 [inline]
+ __se_sys_lsetxattr fs/xattr.c:690 [inline]
+ __x64_sys_lsetxattr+0x2d/0x40 fs/xattr.c:690
+ x64_sys_call+0x1735/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:190
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f50bea8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f50bf857028 EFLAGS: 00000246 ORIG_RAX: 00000000000000bd
+RAX: ffffffffffffffda RBX: 00007f50bebcbf80 RCX: 00007f50bea8fd6d
+RDX: 0000000020000140 RSI: 0000000020000100 RDI: 00000000200000c0
+RBP: 00007f50beaf14cd R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000002 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f50bebcbf80 R15: 00007f50bf837000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:hfsplus_create_attributes_file fs/hfsplus/xattr.c:175 [inline]
+RIP: 0010:__hfsplus_setxattr+0xfc0/0x1110 fs/hfsplus/xattr.c:331
+Code: 3b fe ff ff e8 51 f3 99 ff 49 8d 5d ff e9 2d fe ff ff e8 43 f3 99 ff 48 89 df e8 1b ad b3 ff e9 4a fe ff ff e8 31 f3 99 ff 90 <0f> 0b e8 29 f3 99 ff 48 c7 c7 30 5e 0c 86 e8 8d 61 8a ff 8b 9d 80
+RSP: 0018:ffff88803dee3830 EFLAGS: 00010216
+RAX: 000000000000b445 RBX: ffff8880268e5c00 RCX: ffffc90006518000
+RDX: 0000000000040000 RSI: ffffffff818fcbcf RDI: 0000000000000007
+RBP: ffff88803dee3af0 R08: 0000000000000002 R09: ffff8880273fe000
+R10: 0000000000010000 R11: 0000000000000001 R12: ffff888044d5a8b0
+R13: 0000000000000000 R14: ffff888029ca7400 R15: ffff888029892c30
+FS:  00007f50bf857640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6a41281000 CR3: 00000000100c6005 CR4: 0000000000770ef0
+PKRU: 55555554

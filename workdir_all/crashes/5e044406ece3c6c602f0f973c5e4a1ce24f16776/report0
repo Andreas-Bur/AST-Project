@@ -1,0 +1,97 @@
+BUG: kernel NULL pointer dereference, address: 0000000000000038
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 4be21067 P4D 4be21067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 32920 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:slab_objcgs mm/slab.h:549 [inline]
+RIP: 0010:memcg_slab_free_hook mm/slub.c:2016 [inline]
+RIP: 0010:slab_free mm/slub.c:4278 [inline]
+RIP: 0010:kmem_cache_free+0xab/0x2a0 mm/slub.c:4344
+Code: c4 49 8b 44 24 08 a8 01 0f 85 8b 01 00 00 0f 1f 44 00 00 49 8b 04 24 4c 89 7c 24 08 f6 c4 08 b8 00 00 00 00 4c 0f 44 e0 66 90 <4d> 8b 44 24 38 49 83 e0 fc 0f 85 69 01 00 00 66 90 41 8b 76 1c 4c
+RSP: 0018:ffff88802c513a00 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88800a5b1f00 RCX: ffffffff8141e4c9
+RDX: ffff888032fca1c0 RSI: ffffffff8141e5e2 RDI: ffff88800b5de700
+RBP: ffff88802c513a40 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000020 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff8141e5e2 R14: ffff88800b5de700 R15: ffffffff89340300
+FS:  0000555567291480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000038 CR3: 000000007b540006 CR4: 0000000000770ef0
+DR0: ffffffffffffffff DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ mempool_free_slab+0x22/0x30 mm/mempool.c:572
+ mempool_free+0x53/0xe0 mm/mempool.c:554
+ free_metapage fs/jfs/jfs_metapage.c:191 [inline]
+ metapage_release_folio+0x108/0x1b0 fs/jfs/jfs_metapage.c:551
+ metapage_invalidate_folio+0xa3/0xc0 fs/jfs/jfs_metapage.c:563
+ folio_invalidate mm/truncate.c:158 [inline]
+ truncate_cleanup_folio+0xc6/0x150 mm/truncate.c:178
+ truncate_inode_pages_range+0x1ac/0x7b0 mm/truncate.c:358
+ truncate_inode_pages+0x29/0x40 mm/truncate.c:439
+ jfs_put_super+0xb5/0x100 fs/jfs/super.c:200
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0e4109178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffd5e3452f8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f0e4109178b
+RDX: 00007f0e410292c0 RSI: 0000000000000009 RDI: 00007ffd5e3453b0
+RBP: 00007ffd5e3453b0 R08: 0000000000000000 R09: 00007ffd5e345180
+R10: 0000555567292a4b R11: 0000000000000246 R12: 00007f0e410f0278
+R13: 00007ffd5e346490 R14: 0000555567292970 R15: 00007ffd5e346480
+ </TASK>
+Modules linked in:
+CR2: 0000000000000038
+---[ end trace 0000000000000000 ]---
+RIP: 0010:slab_objcgs mm/slab.h:549 [inline]
+RIP: 0010:memcg_slab_free_hook mm/slub.c:2016 [inline]
+RIP: 0010:slab_free mm/slub.c:4278 [inline]
+RIP: 0010:kmem_cache_free+0xab/0x2a0 mm/slub.c:4344
+Code: c4 49 8b 44 24 08 a8 01 0f 85 8b 01 00 00 0f 1f 44 00 00 49 8b 04 24 4c 89 7c 24 08 f6 c4 08 b8 00 00 00 00 4c 0f 44 e0 66 90 <4d> 8b 44 24 38 49 83 e0 fc 0f 85 69 01 00 00 66 90 41 8b 76 1c 4c
+RSP: 0018:ffff88802c513a00 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff88800a5b1f00 RCX: ffffffff8141e4c9
+RDX: ffff888032fca1c0 RSI: ffffffff8141e5e2 RDI: ffff88800b5de700
+RBP: ffff88802c513a40 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000020 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff8141e5e2 R14: ffff88800b5de700 R15: ffffffff89340300
+FS:  0000555567291480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000038 CR3: 000000007b540006 CR4: 0000000000770ef0
+DR0: ffffffffffffffff DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	49 8b 44 24 08       	mov    0x8(%r12),%rax
+   5:	a8 01                	test   $0x1,%al
+   7:	0f 85 8b 01 00 00    	jne    0x198
+   d:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  12:	49 8b 04 24          	mov    (%r12),%rax
+  16:	4c 89 7c 24 08       	mov    %r15,0x8(%rsp)
+  1b:	f6 c4 08             	test   $0x8,%ah
+  1e:	b8 00 00 00 00       	mov    $0x0,%eax
+  23:	4c 0f 44 e0          	cmove  %rax,%r12
+  27:	66 90                	xchg   %ax,%ax
+* 29:	4d 8b 44 24 38       	mov    0x38(%r12),%r8 <-- trapping instruction
+  2e:	49 83 e0 fc          	and    $0xfffffffffffffffc,%r8
+  32:	0f 85 69 01 00 00    	jne    0x1a1
+  38:	66 90                	xchg   %ax,%ax
+  3a:	41 8b 76 1c          	mov    0x1c(%r14),%esi
+  3e:	4c                   	rex.WR

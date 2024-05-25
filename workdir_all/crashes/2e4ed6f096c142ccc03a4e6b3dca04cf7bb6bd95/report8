@@ -1,0 +1,7 @@
+syz_io_uring_submit(r11, r12, &(0x7f0000000040)=@IORING_OP_WRITEV={0x2, 0x0, 0x0, @fd_index=0x6, 0x0, &(0x7f0000001680)=[{&(0x7f0000000300)="0890dd8594f07fa00700000000000000588e7c7d4a79285a56e54562fa", 0x1d}], 0x1})
+r13 = socket$inet(0x2, 0x2, 0x0)
+setsockopt$inet_int(r13, 0x88, 0x65, &(0x7f0000000040), 0x4)
+2024/05/09 11:14:24 SYZFATAL: executor 1 failed 11 times: executor 1: EOF
+SYZFAIL: failed to mkdtemp
+ (errno 28: No space left on device)
+

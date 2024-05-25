@@ -1,0 +1,85 @@
+BUG: unable to handle page fault for address: 000000000002f7a7
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 14 Comm: ksoftirqd/0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__ref_is_percpu include/linux/percpu-refcount.h:174 [inline]
+RIP: 0010:percpu_ref_get_many include/linux/percpu-refcount.h:204 [inline]
+RIP: 0010:percpu_ref_get include/linux/percpu-refcount.h:222 [inline]
+RIP: 0010:obj_cgroup_get include/linux/memcontrol.h:810 [inline]
+RIP: 0010:refill_obj_stock+0x9c/0x220 mm/memcontrol.c:3535
+Code: c0 48 8d 05 00 00 00 00 31 f6 50 b9 02 00 00 00 48 c7 c7 60 33 5c 86 e8 52 d4 bf ff e8 6d 9f 98 03 5a 85 c0 0f 85 01 01 00 00 <49> 8b 04 24 a8 03 0f 85 40 01 00 00 65 48 ff 00 e8 9f 8d ff ff 4d
+RSP: 0018:ffff888009adfcb8 EFLAGS: 00010002
+RAX: 0000000000000001 RBX: 0000000000000250 RCX: 00000000127905f0
+RDX: ffffffff8158d00a RSI: 00000000811f6294 RDI: ffff888009ac2c70
+RBP: ffff888009adfce8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: 000000000002f7a7
+R13: 0000000000000200 R14: 0000000000000001 R15: ffff88807dc2cfc0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000000002f7a7 CR3: 0000000029d88004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ obj_cgroup_uncharge+0x12/0x20 mm/memcontrol.c:3602
+ __memcg_slab_free_hook+0xe3/0x220 mm/slub.c:2000
+ memcg_slab_free_hook mm/slub.c:2020 [inline]
+ slab_free mm/slub.c:4278 [inline]
+ kmem_cache_free+0x238/0x2a0 mm/slub.c:4344
+ radix_tree_node_rcu_free+0x5a/0x70 lib/radix-tree.c:304
+ rcu_do_batch kernel/rcu/tree.c:2196 [inline]
+ rcu_core+0x37c/0x910 kernel/rcu/tree.c:2471
+ rcu_core_si+0xd/0x20 kernel/rcu/tree.c:2488
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ run_ksoftirqd kernel/softirq.c:924 [inline]
+ run_ksoftirqd+0x2e/0x60 kernel/softirq.c:916
+ smpboot_thread_fn+0x1e4/0x390 kernel/smpboot.c:164
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: 000000000002f7a7
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__ref_is_percpu include/linux/percpu-refcount.h:174 [inline]
+RIP: 0010:percpu_ref_get_many include/linux/percpu-refcount.h:204 [inline]
+RIP: 0010:percpu_ref_get include/linux/percpu-refcount.h:222 [inline]
+RIP: 0010:obj_cgroup_get include/linux/memcontrol.h:810 [inline]
+RIP: 0010:refill_obj_stock+0x9c/0x220 mm/memcontrol.c:3535
+Code: c0 48 8d 05 00 00 00 00 31 f6 50 b9 02 00 00 00 48 c7 c7 60 33 5c 86 e8 52 d4 bf ff e8 6d 9f 98 03 5a 85 c0 0f 85 01 01 00 00 <49> 8b 04 24 a8 03 0f 85 40 01 00 00 65 48 ff 00 e8 9f 8d ff ff 4d
+RSP: 0018:ffff888009adfcb8 EFLAGS: 00010002
+RAX: 0000000000000001 RBX: 0000000000000250 RCX: 00000000127905f0
+RDX: ffffffff8158d00a RSI: 00000000811f6294 RDI: ffff888009ac2c70
+RBP: ffff888009adfce8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: 000000000002f7a7
+R13: 0000000000000200 R14: 0000000000000001 R15: ffff88807dc2cfc0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000000002f7a7 CR3: 0000000029d88004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	c0 48 8d 05          	rorb   $0x5,-0x73(%rax)
+   4:	00 00                	add    %al,(%rax)
+   6:	00 00                	add    %al,(%rax)
+   8:	31 f6                	xor    %esi,%esi
+   a:	50                   	push   %rax
+   b:	b9 02 00 00 00       	mov    $0x2,%ecx
+  10:	48 c7 c7 60 33 5c 86 	mov    $0xffffffff865c3360,%rdi
+  17:	e8 52 d4 bf ff       	call   0xffbfd46e
+  1c:	e8 6d 9f 98 03       	call   0x3989f8e
+  21:	5a                   	pop    %rdx
+  22:	85 c0                	test   %eax,%eax
+  24:	0f 85 01 01 00 00    	jne    0x12b
+* 2a:	49 8b 04 24          	mov    (%r12),%rax <-- trapping instruction
+  2e:	a8 03                	test   $0x3,%al
+  30:	0f 85 40 01 00 00    	jne    0x176
+  36:	65 48 ff 00          	incq   %gs:(%rax)
+  3a:	e8 9f 8d ff ff       	call   0xffff8dde
+  3f:	4d                   	rex.WRB

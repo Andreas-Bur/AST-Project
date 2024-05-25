@@ -1,0 +1,81 @@
+BUG: unable to handle page fault for address: 00000000808000a0
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 16964 Comm: systemd-udevd Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:block_read_full_folio+0xc7/0x550 fs/buffer.c:2366
+Code: 28 48 85 c0 48 89 45 90 0f 84 4f 04 00 00 e8 f0 e2 c3 ff 48 8b 75 90 31 d2 45 31 f6 48 8b 45 88 c6 85 5f ff ff ff 00 45 31 e4 <48> 8b 7e 20 48 8b 40 20 89 f9 48 89 bd 78 ff ff ff 48 89 45 80 48
+RSP: 0018:ffff88804624ba68 EFLAGS: 00010246
+RAX: ffffea0000804d80 RBX: 0000000001000000 RCX: ffffffff8165dbe8
+RDX: 0000000000000000 RSI: 0000000080800080 RDI: 0000000000000001
+RBP: ffff88804624bb10 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88800f432600 R14: 0000000000000000 R15: ffff888009df6b80
+FS:  00007fa3cefc08c0(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000808000a0 CR3: 000000003a398003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ blkdev_read_folio+0x21/0x30 block/fops.c:438
+ filemap_read_folio+0x51/0x140 mm/filemap.c:2331
+ filemap_update_page mm/filemap.c:2415 [inline]
+ filemap_get_pages+0x84b/0xa90 mm/filemap.c:2529
+ filemap_read+0x18e/0x5e0 mm/filemap.c:2601
+ blkdev_read_iter+0xb4/0x280 block/fops.c:754
+ call_read_iter include/linux/fs.h:2104 [inline]
+ new_sync_read fs/read_write.c:395 [inline]
+ vfs_read+0x3be/0x590 fs/read_write.c:476
+ ksys_read+0xa1/0x160 fs/read_write.c:619
+ __do_sys_read fs/read_write.c:629 [inline]
+ __se_sys_read fs/read_write.c:627 [inline]
+ __x64_sys_read+0x21/0x30 fs/read_write.c:627
+ x64_sys_call+0x1761/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:1
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa3cf27304e
+Code: 0f 1f 40 00 48 8b 15 79 af 00 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb ba 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 0f 05 <48> 3d 00 f0 ff ff 77 5a c3 66 0f 1f 84 00 00 00 00 00 48 83 ec 28
+RSP: 002b:00007ffd375b0738 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 000056351455ce78 RCX: 00007fa3cf27304e
+RDX: 0000000000000400 RSI: 000056351455ce88 RDI: 000000000000000f
+RBP: 0000563514523870 R08: 000056351455ce60 R09: 00007fa3cf25bbe0
+R10: 0000000000200000 R11: 0000000000000246 R12: 0000000000003c00
+R13: 0000000000000400 R14: 000056351455ce60 R15: 00005635145238c0
+ </TASK>
+Modules linked in:
+CR2: 00000000808000a0
+---[ end trace 0000000000000000 ]---
+RIP: 0010:block_read_full_folio+0xc7/0x550 fs/buffer.c:2366
+Code: 28 48 85 c0 48 89 45 90 0f 84 4f 04 00 00 e8 f0 e2 c3 ff 48 8b 75 90 31 d2 45 31 f6 48 8b 45 88 c6 85 5f ff ff ff 00 45 31 e4 <48> 8b 7e 20 48 8b 40 20 89 f9 48 89 bd 78 ff ff ff 48 89 45 80 48
+RSP: 0018:ffff88804624ba68 EFLAGS: 00010246
+RAX: ffffea0000804d80 RBX: 0000000001000000 RCX: ffffffff8165dbe8
+RDX: 0000000000000000 RSI: 0000000080800080 RDI: 0000000000000001
+RBP: ffff88804624bb10 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88800f432600 R14: 0000000000000000 R15: ffff888009df6b80
+FS:  00007fa3cefc08c0(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000808000a0 CR3: 000000003a398003 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	28 48 85             	sub    %cl,-0x7b(%rax)
+   3:	c0 48 89 45          	rorb   $0x45,-0x77(%rax)
+   7:	90                   	nop
+   8:	0f 84 4f 04 00 00    	je     0x45d
+   e:	e8 f0 e2 c3 ff       	call   0xffc3e303
+  13:	48 8b 75 90          	mov    -0x70(%rbp),%rsi
+  17:	31 d2                	xor    %edx,%edx
+  19:	45 31 f6             	xor    %r14d,%r14d
+  1c:	48 8b 45 88          	mov    -0x78(%rbp),%rax
+  20:	c6 85 5f ff ff ff 00 	movb   $0x0,-0xa1(%rbp)
+  27:	45 31 e4             	xor    %r12d,%r12d
+* 2a:	48 8b 7e 20          	mov    0x20(%rsi),%rdi <-- trapping instruction
+  2e:	48 8b 40 20          	mov    0x20(%rax),%rax
+  32:	89 f9                	mov    %edi,%ecx
+  34:	48 89 bd 78 ff ff ff 	mov    %rdi,-0x88(%rbp)
+  3b:	48 89 45 80          	mov    %rax,-0x80(%rbp)
+  3f:	48                   	rex.W

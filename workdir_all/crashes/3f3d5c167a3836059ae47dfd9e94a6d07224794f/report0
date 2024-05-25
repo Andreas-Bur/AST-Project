@@ -1,0 +1,67 @@
+BUG: unable to handle page fault for address: 0000000000125103
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 1fab9067 P4D 1fab9067 PUD 2f065067 PMD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 15341 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__timerqueue_less lib/timerqueue.c:22 [inline]
+RIP: 0010:rb_add_cached include/linux/rbtree.h:174 [inline]
+RIP: 0010:timerqueue_add+0x7d/0x160 lib/timerqueue.c:40
+Code: bf 01 00 00 00 4d 8b 6e 18 eb 1a e8 5d 7f 3a fc 4c 8d 63 10 e8 54 7f 3a fc 49 8b 04 24 48 85 c0 74 36 48 89 c3 e8 43 7f 3a fc <4c> 8b 63 18 4c 89 ef 4c 89 e6 e8 c4 79 3a fc 4d 39 e5 7c cd e8 2a
+RSP: 0018:ffff88807dc05ea0 EFLAGS: 00010046
+RAX: 0000000000010001 RBX: 00000000001250eb RCX: ffffffff84ef3fcc
+RDX: ffff8880106f8000 RSI: ffffffff84ef3fbd RDI: 0000000000000006
+RBP: ffff88807dc05ed0 R08: 0000000000080000 R09: 0000000000000001
+R10: 00000000001250ed R11: 0000000000000000 R12: ffff888028c23dd0
+R13: 0000001bf2f10a00 R14: ffff88807dc211f8 R15: 0000000000000000
+FS:  00007f1528b28640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000125103 CR3: 00000000389b8002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ enqueue_hrtimer+0x94/0x1a0 kernel/time/hrtimer.c:1098
+ __run_hrtimer kernel/time/hrtimer.c:1709 [inline]
+ __hrtimer_run_queues+0x512/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_interrupt+0x129/0x2c0 kernel/time/hrtimer.c:1818
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x79/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:bch2_dev_journal_init+0x22b/0x370 fs/bcachefs/journal.c:1337
+Code: c5 01 49 8b 97 d8 06 00 00 48 03 59 f8 48 89 1c c2 4c 8b 31 41 8d 5c 24 01 48 89 df 49 89 dc 4c 89 f6 e8 88 13 ed fe 4c 39 f3 <72> c6 e8 ee 18 ed fe 44 8b 75 bc 83 45 c8 01 8b 5d c8 44 89 f6 89
+RSP: 0018:ffff888030617930 EFLAGS: 00000213
+RAX: 0000000000000002 RBX: 0000000000146fcc RCX: ffffffff823ca608
+RDX: ffff8880106f8000 RSI: 0000000000146fcc RDI: 0000000000000006
+RBP: ffff888030617978 R08: 0000000000000dc0 R09: 00000000ffffffff
+R10: ffffffffffffffff R11: 0000000000000000 R12: 0000000000146fcc
+R13: 0000000000146fd3 R14: ffffffffffffffff R15: ffff888027a21000
+ __bch2_dev_attach_bdev+0xac/0x1e0 fs/bcachefs/super.c:1387
+ bch2_dev_attach_bdev+0x105/0x550 fs/bcachefs/super.c:1418
+ bch2_fs_open+0x1265/0x1ec0 fs/bcachefs/super.c:2087
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+----------------
+Code disassembly (best guess):
+   0:	bf 01 00 00 00       	mov    $0x1,%edi
+   5:	4d 8b 6e 18          	mov    0x18(%r14),%r13
+   9:	eb 1a                	jmp    0x25
+   b:	e8 5d 7f 3a fc       	call   0xfc3a7f6d
+  10:	4c 8d 63 10          	lea    0x10(%rbx),%r12
+  14:	e8 54 7f 3a fc       	call   0xfc3a7f6d
+  19:	49 8b 04 24          	mov    (%r12),%rax
+  1d:	48 85 c0             	test   %rax,%rax
+  20:	74 36                	je     0x58
+  22:	48 89 c3             	mov    %rax,%rbx
+  25:	e8 43 7f 3a fc       	call   0xfc3a7f6d
+* 2a:	4c 8b 63 18          	mov    0x18(%rbx),%r12 <-- trapping instruction
+  2e:	4c 89 ef             	mov    %r13,%rdi
+  31:	4c 89 e6             	mov    %r12,%rsi
+  34:	e8 c4 79 3a fc       	call   0xfc3a79fd
+  39:	4d 39 e5             	cmp    %r12,%r13
+  3c:	7c cd                	jl     0xb
+  3e:	e8                   	.byte 0xe8
+  3f:	2a                   	.byte 0x2a

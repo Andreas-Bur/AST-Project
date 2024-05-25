@@ -1,0 +1,71 @@
+bcachefs (loop2): snapshots_read... done
+bcachefs (loop2): check_allocations...
+bcachefs (loop2): different types of data in same bucket: sb, journal
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/buckets.c:528!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 23332 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:bch2_mark_metadata_bucket+0x6b8/0x770 fs/bcachefs/buckets.c:528
+Code: 0e 7f f6 fe 49 89 d8 4c 89 e9 4c 89 e7 49 8d 94 24 cc 01 00 00 48 c7 c6 18 ea 11 86 e8 31 66 0f 00 4c 89 e7 e8 a9 fd 02 00 90 <0f> 0b e8 e1 7e f6 fe 41 0f b6 46 01 31 ff d0 e8 89 c6 88 45 90 e8
+RSP: 0018:ffff88802ab97638 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffffff85fa3df1 RCX: ffffc90008327000
+RDX: 0000000000040000 RSI: ffffffff82363e12 RDI: 0000000000000001
+RBP: ffff88802ab976b0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888026800000
+R13: ffffffff85fd0427 R14: ffff888021122050 R15: 0000000000000001
+FS:  00007f612ee99640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f394784e610 CR3: 000000002b7b8005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_mark_dev_superblock fs/bcachefs/btree_gc.c:1143 [inline]
+ bch2_mark_superblocks+0x79d/0x8b0 fs/bcachefs/btree_gc.c:1155
+ bch2_gc+0x381/0xa80 fs/bcachefs/btree_gc.c:1764
+ bch2_check_allocations+0x21/0x30 fs/bcachefs/recovery_passes.c:31
+ bch2_run_recovery_pass+0x50/0xd0 fs/bcachefs/recovery_passes.c:187
+ bch2_run_recovery_passes+0x1d2/0x340 fs/bcachefs/recovery_passes.c:230
+ bch2_fs_recovery+0x1c19/0x2b20 fs/bcachefs/recovery.c:786
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f612e091b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f612ee98e38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000005971 RCX: 00007f612e091b3e
+RDX: 00000000200058c0 RSI: 0000000020000040 RDI: 00007f612ee98e90
+RBP: 00007f612ee98ed0 R08: 00007f612ee98ed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00000000200058c0
+R13: 0000000020000040 R14: 00007f612ee98e90 R15: 0000000020000000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_mark_metadata_bucket+0x6b8/0x770 fs/bcachefs/buckets.c:528
+Code: 0e 7f f6 fe 49 89 d8 4c 89 e9 4c 89 e7 49 8d 94 24 cc 01 00 00 48 c7 c6 18 ea 11 86 e8 31 66 0f 00 4c 89 e7 e8 a9 fd 02 00 90 <0f> 0b e8 e1 7e f6 fe 41 0f b6 46 01 31 ff d0 e8 89 c6 88 45 90 e8
+RSP: 0018:ffff88802ab97638 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffffffff85fa3df1 RCX: ffffc90008327000
+RDX: 0000000000040000 RSI: ffffffff82363e12 RDI: 0000000000000001
+RBP: ffff88802ab976b0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888026800000
+R13: ffffffff85fd0427 R14: ffff888021122050 R15: 0000000000000001
+FS:  00007f612ee99640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f394784e610 CR3: 000000002b7b8005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554

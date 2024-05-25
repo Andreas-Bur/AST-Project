@@ -1,0 +1,77 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 9498 at kernel/kcov.c:860 kcov_remote_start+0xe6/0x5a0 kernel/kcov.c:860
+Modules linked in:
+CPU: 1 PID: 9498 Comm: kworker/u8:10 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: nfc2_nci_rx_wq nci_rx_work
+RIP: 0010:kcov_remote_start+0xe6/0x5a0 kernel/kcov.c:860
+Code: 65 48 8b 05 3c 4a d9 7e 65 8b 15 3d 4a d9 7e 81 e2 00 01 ff 00 49 89 46 28 8b 8b 60 15 00 00 75 2e 81 e1 ff ff ff bf 74 26 90 <0f> 0b 90 8b 15 c9 b3 1a 07 65 4c 8b 2d a1 91 d7 7e 49 81 c5 28 15
+RSP: 0018:ffff888029a6bd80 EFLAGS: 00010002
+RAX: ffff8880212b4380 RBX: ffff8880212b4380 RCX: 0000000000000002
+RDX: 0000000000000000 RSI: 00000000993dda1b RDI: ffff8880212b4e30
+RBP: ffff888029a6bdb8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: 0000000000000200
+R13: 0000000000000005 R14: ffff88807dd21528 R15: 0000000000000005
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5bb57e4f88 CR3: 0000000021506001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kcov_remote_start_common include/linux/kcov.h:48 [inline]
+ nci_rx_work+0xbe/0x200 net/nfc/nci/core.c:1513
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 7012090
+hardirqs last  enabled at (7012089): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (7012089): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (7012090): [<ffffffff8129ca50>] kcov_remote_start+0x2d0/0x5a0 kernel/kcov.c:853
+softirqs last  enabled at (7012078): [<ffffffff84dbdb3c>] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+softirqs last  enabled at (7012078): [<ffffffff84dbdb3c>] batadv_nc_purge_paths+0x11c/0x220 net/batman-adv/network-coding.c:471
+softirqs last disabled at (7012076): [<ffffffff84dbda85>] spin_lock_bh include/linux/spinlock.h:356 [inline]
+softirqs last disabled at (7012076): [<ffffffff84dbda85>] batadv_nc_purge_paths+0x65/0x220 net/batman-adv/network-coding.c:442
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 9498 at kernel/kcov.c:860 kcov_remote_start+0xe6/0x5a0 kernel/kcov.c:860
+Modules linked in:
+CPU: 0 PID: 9498 Comm: kworker/u8:10 Tainted: G        W          6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events_unbound cfg80211_wiphy_work
+RIP: 0010:kcov_remote_start+0xe6/0x5a0 kernel/kcov.c:860
+Code: 65 48 8b 05 3c 4a d9 7e 65 8b 15 3d 4a d9 7e 81 e2 00 01 ff 00 49 89 46 28 8b 8b 60 15 00 00 75 2e 81 e1 ff ff ff bf 74 26 90 <0f> 0b 90 8b 15 c9 b3 1a 07 65 4c 8b 2d a1 91 d7 7e 49 81 c5 28 15
+RSP: 0018:ffff888029a6bd28 EFLAGS: 00010002
+RAX: ffff8880212b4380 RBX: ffff8880212b4380 RCX: 0000000000000002
+RDX: 0000000000000000 RSI: 000000000a7f4a2d RDI: ffff8880212b4e58
+RBP: ffff888029a6bd60 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000078 R11: 0000000000000000 R12: 0000000000000200
+R13: 0000000000000000 R14: ffff88807dc21528 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2b92ead268 CR3: 000000000f3b4002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kcov_remote_start_common include/linux/kcov.h:48 [inline]
+ ieee80211_iface_work+0x139/0x850 net/mac80211/iface.c:1654
+ cfg80211_wiphy_work+0x125/0x150 net/wireless/core.c:437
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 7101328
+hardirqs last  enabled at (7101327): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (7101327): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (7101328): [<ffffffff8129ca50>] kcov_remote_start+0x2d0/0x5a0 kernel/kcov.c:853
+softirqs last  enabled at (7101308): [<ffffffff84dcdcf0>] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+softirqs last  enabled at (7101308): [<ffffffff84dcdcf0>] batadv_forw_packet_steal+0x80/0xb0 net/batman-adv/send.c:588
+softirqs last disabled at (7101306): [<ffffffff84dcdc92>] spin_lock_bh include/linux/spinlock.h:356 [inline]
+softirqs last disabled at (7101306): [<ffffffff84dcdc92>] batadv_forw_packet_steal+0x22/0xb0 net/batman-adv/send.c:577
+---[ end trace 0000000000000000 ]---

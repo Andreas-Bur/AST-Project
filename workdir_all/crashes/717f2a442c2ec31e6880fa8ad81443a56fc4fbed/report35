@@ -1,0 +1,58 @@
+ERROR: (device loop3): diWrite: ixpxd invalid
+ERROR: (device loop3): remounting filesystem as read-only
+BUG at fs/jfs/jfs_txnmgr.c:2796 assert(mp->nohomeok)
+------------[ cut here ]------------
+kernel BUG at fs/jfs/jfs_txnmgr.c:2796!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 6233 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:LogSyncRelease fs/jfs/jfs_txnmgr.c:2796 [inline]
+RIP: 0010:txAbort+0x38f/0x3a0 fs/jfs/jfs_txnmgr.c:2621
+Code: 4f ff 90 0f 0b e8 e1 e9 5e ff 48 c7 c1 fd 90 fb 85 ba ec 0a 00 00 48 c7 c6 89 8f fb 85 48 c7 c7 e5 81 fb 85 e8 32 58 4f ff 90 <0f> 0b 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90
+RSP: 0018:ffff888021f27c90 EFLAGS: 00010293
+RAX: 0000000000000034 RBX: 0000000000000000 RCX: ffffffff811a8c5e
+RDX: ffff88800c240000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888021f27cd0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800b3aaac8
+R13: 0000000000000006 R14: ffffc90000640330 R15: ffff88802a0b1000
+FS:  00005555567ea480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd43d1ef98 CR3: 00000000133cc005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ txCommit+0xfd2/0x1c80 fs/jfs/jfs_txnmgr.c:1354
+ jfs_unlink+0x284/0x590 fs/jfs/namei.c:556
+ vfs_unlink+0x1f6/0x490 fs/namei.c:4335
+ do_unlinkat+0x35b/0x3f0 fs/namei.c:4399
+ __do_sys_unlink fs/namei.c:4447 [inline]
+ __se_sys_unlink fs/namei.c:4445 [inline]
+ __x64_sys_unlink+0x67/0x90 fs/namei.c:4445
+ x64_sys_call+0x2004/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:88
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7faa5ae8f4bb
+Code: 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 57 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd43d1f778 EFLAGS: 00000206 ORIG_RAX: 0000000000000057
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007faa5ae8f4bb
+RDX: 00007ffd43d1f7a0 RSI: 00007ffd43d1f830 RDI: 00007ffd43d1f830
+RBP: 00007ffd43d1f830 R08: 0000000000000000 R09: 00007ffd43d1f600
+R10: 0000000000000100 R11: 0000000000000206 R12: 00007faa5aef0278
+R13: 00007ffd43d20930 R14: 00005555567f39b0 R15: 00007ffd43d21a00
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:LogSyncRelease fs/jfs/jfs_txnmgr.c:2796 [inline]
+RIP: 0010:txAbort+0x38f/0x3a0 fs/jfs/jfs_txnmgr.c:2621
+Code: 4f ff 90 0f 0b e8 e1 e9 5e ff 48 c7 c1 fd 90 fb 85 ba ec 0a 00 00 48 c7 c6 89 8f fb 85 48 c7 c7 e5 81 fb 85 e8 32 58 4f ff 90 <0f> 0b 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90
+RSP: 0018:ffff888021f27c90 EFLAGS: 00010293
+RAX: 0000000000000034 RBX: 0000000000000000 RCX: ffffffff811a8c5e
+RDX: ffff88800c240000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888021f27cd0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800b3aaac8
+R13: 0000000000000006 R14: ffffc90000640330 R15: ffff88802a0b1000
+FS:  00005555567ea480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ffd43d1ef98 CR3: 00000000133cc005 CR4: 0000000000770ef0
+PKRU: 55555554

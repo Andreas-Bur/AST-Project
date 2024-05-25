@@ -1,0 +1,52 @@
+------------[ cut here ]------------
+no supported rates for sta (null) (0xffffffff, band 0) in rate_mask 0x0 with flags 0x0
+WARNING: CPU: 0 PID: 9034 at net/mac80211/rate.c:380 __rate_control_send_low+0x27f/0x320 net/mac80211/rate.c:380
+Modules linked in:
+CPU: 0 PID: 9034 Comm: kworker/u8:8 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events_unbound cfg80211_wiphy_work
+RIP: 0010:__rate_control_send_low+0x27f/0x320 net/mac80211/rate.c:380
+Code: 8b b4 87 d4 00 00 00 e8 df f6 72 fc 44 8b 45 b4 41 89 d9 44 89 e1 48 8b 75 b8 44 89 f2 48 c7 c7 30 d6 26 86 e8 52 43 56 fc 90 <0f> 0b 90 90 e9 fe fe ff ff e8 b3 f6 72 fc 48 8b 45 a8 44 0f b6 60
+RSP: 0018:ffff88802a393920 EFLAGS: 00010296
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff810d0c60
+RDX: ffff888028650000 RSI: ffffffff810d0c69 RDI: 0000000000000001
+RBP: ffff88802a393978 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff8880112dfa28 R14: 00000000ffffffff R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f89587a5878 CR3: 000000000f402005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ rate_control_send_low+0x128/0x2d0 net/mac80211/rate.c:405
+ rate_control_get_rate+0x9a/0x1e0 net/mac80211/rate.c:917
+ ieee80211_tx_h_rate_ctrl+0x371/0x7f0 net/mac80211/tx.c:758
+ invoke_tx_handlers_late+0x74d/0xf80 net/mac80211/tx.c:1843
+ ieee80211_tx+0x15b/0x1f0 net/mac80211/tx.c:1964
+ ieee80211_xmit+0x167/0x1c0 net/mac80211/tx.c:2057
+ __ieee80211_tx_skb_tid_band+0xef/0x4f0 net/mac80211/tx.c:6098
+ ieee80211_tx_skb_tid_band net/mac80211/ieee80211_i.h:2261 [inline]
+ ieee80211_send_scan_probe_req net/mac80211/scan.c:651 [inline]
+ ieee80211_scan_state_send_probe+0x1a9/0x560 net/mac80211/scan.c:679
+ ieee80211_scan_work+0x21d/0xea0 net/mac80211/scan.c:1143
+ cfg80211_wiphy_work+0x125/0x150 net/wireless/core.c:437
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 6016392
+hardirqs last  enabled at (6016402): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (6016402): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (6016402): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (6016411): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (6016411): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (6016411): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (6015694): [<ffffffff84dbdb3c>] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+softirqs last  enabled at (6015694): [<ffffffff84dbdb3c>] batadv_nc_purge_paths+0x11c/0x220 net/batman-adv/network-coding.c:471
+softirqs last disabled at (6015702): [<ffffffff84bb2dda>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (6015702): [<ffffffff84bb2dda>] __ieee80211_tx_skb_tid_band+0xca/0x4f0 net/mac80211/tx.c:6096
+---[ end trace 0000000000000000 ]---

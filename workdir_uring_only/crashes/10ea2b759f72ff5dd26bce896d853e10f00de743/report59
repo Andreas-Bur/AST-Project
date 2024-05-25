@@ -1,0 +1,23 @@
+unregister_netdevice: waiting for netdevsim0 to become free. Usage count = 2
+ref_tracker: eth%d@0000000059ab1d5c has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_hold include/linux/netdevice.h:4093 [inline]
+     netdev_hold include/linux/netdevice.h:4088 [inline]
+     ip6_route_check_nh+0x2ce/0x330 net/ipv6/route.c:3421
+     ip6_validate_gw net/ipv6/route.c:3472 [inline]
+     fib6_nh_init+0xc49/0xf80 net/ipv6/route.c:3591
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     ip6_route_add+0x2d/0x140 net/ipv6/route.c:3851
+     ipv6_route_ioctl+0x1bb/0x210 net/ipv6/route.c:4478
+     inet6_ioctl+0x147/0x160 net/ipv6/af_inet6.c:579
+     sock_do_ioctl+0x3c/0x150 net/socket.c:1222
+     sock_ioctl+0x14c/0x460 net/socket.c:1341
+     vfs_ioctl fs/ioctl.c:51 [inline]
+     __do_sys_ioctl fs/ioctl.c:904 [inline]
+     __se_sys_ioctl fs/ioctl.c:890 [inline]
+     __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+     x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+     do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+     do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+     entry_SYSCALL_64_after_hwframe+0x77/0x7f
+

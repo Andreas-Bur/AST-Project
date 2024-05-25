@@ -1,0 +1,5 @@
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000003200)=0x80000001, 0x0, 0x4)
+syz_io_uring_submit(r8, r9, &(0x7f0000000100)=@IORING_OP_WAITID={0x32, 0x0, 0x0, 0xffffffffffffffff, 0x0, 0x0, 0x3, 0x0, 0x0, {0x0, 0x0, 0x2}})
+io_uring_enter(r7, 0x79e, 0x0, 0x0, 0x0, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r6, 0x8923, &(0x7f0000000040))
+2024/05/21 12:44:13 SYZFATAL: executor 3 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir3898916608: operation not permitted

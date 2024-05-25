@@ -1,0 +1,103 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2635 jiffies s: 6981 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 21874 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hrtimer_update_next_event+0xd4/0x100 kernel/time/hrtimer.c:620
+Code: 49 89 44 24 70 49 89 c5 49 c7 44 24 68 00 00 00 00 83 e2 0f e8 0d f4 ff ff 4c 89 ef 48 89 c3 48 89 c6 e8 bf c9 09 00 49 39 dd <7d> 14 e8 25 cf 09 00 49 8b 44 24 78 49 89 44 24 68 e9 71 ff ff ff
+RSP: 0018:ffff88807dc05740 EFLAGS: 00000006
+RAX: 0000000000000000 RBX: 0000003493746d6a RCX: ffffffff811fefd1
+RDX: ffff88801a398000 RSI: 7fffffffffffffff RDI: 0000000000000006
+RBP: ffff88807dc05760 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000003493746d6a R11: 0000000000000001 R12: ffff88807dc208c0
+R13: 7fffffffffffffff R14: 7fffffffffffffff R15: ffff88807dc208c0
+FS:  00007f5397089640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2ff23000 CR3: 000000001121e006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ hrtimer_interrupt+0x131/0x2c0 kernel/time/hrtimer.c:1821
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x3b/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:update_stack_state+0x1e4/0x260 arch/x86/kernel/unwind_frame.c:234
+Code: 50 fa ff 31 ff 41 89 c4 89 c6 e8 57 c9 1e 00 45 85 e4 75 1c e8 fd cd 1e 00 44 8b 23 e9 c1 fe ff ff e8 f0 cd 1e 00 4c 39 75 b0 <0f> 86 37 ff ff ff 45 31 e4 e8 de cd 1e 00 44 89 e0 48 83 c4 28 5b
+RSP: 0018:ffff88807dc058c0 EFLAGS: 00000287
+RAX: 0000000000000000 RBX: ffff88807dc05990 RCX: ffffffff810af048
+RDX: ffff88801a398000 RSI: ffffffff810af110 RDI: 0000000000000004
+RBP: ffff88807dc05910 R08: 0000000000000001 R09: 00000000ffffffff
+R10: 0000000000000002 R11: 0000000000000000 R12: 0000000000000002
+R13: ffff88807dc05980 R14: ffff88807dc05bc0 R15: 0000000000000002
+ unwind_next_frame.part.0+0xcd/0x3c0 arch/x86/kernel/unwind_frame.c:315
+ unwind_next_frame+0x36/0x50 arch/x86/kernel/unwind_frame.c:269
+ arch_stack_walk+0xd7/0x140 arch/x86/kernel/stacktrace.c:25
+ stack_trace_save+0x3b/0x50 kernel/stacktrace.c:122
+ ref_tracker_alloc+0xf8/0x370 lib/ref_tracker.c:209
+ __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+ netdev_hold include/linux/netdevice.h:4093 [inline]
+ netdev_hold include/linux/netdevice.h:4088 [inline]
+ ___neigh_create+0x40d/0x1590 net/core/neighbour.c:657
+ __neigh_create+0x36/0x50 net/core/neighbour.c:737
+ ip6_finish_output2+0x940/0xba0 net/ipv6/ip6_output.c:128
+ __ip6_finish_output net/ipv6/ip6_output.c:211 [inline]
+ ip6_finish_output+0x4ab/0x890 net/ipv6/ip6_output.c:222
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip6_output+0xc9/0x260 net/ipv6/ip6_output.c:243
+ dst_output include/net/dst.h:450 [inline]
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ ndisc_send_skb+0x39a/0xe00 net/ipv6/ndisc.c:509
+ ndisc_send_rs+0x7f/0x2c0 net/ipv6/ndisc.c:719
+ addrconf_rs_timer+0x15c/0x3f0 net/ipv6/addrconf.c:4038
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:arch_local_irq_enable arch/x86/include/asm/irqflags.h:78 [inline]
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:135 [inline]
+RIP: 0010:generic_exec_single+0x13c/0x190 kernel/smp.c:406
+Code: da 83 09 00 31 f6 4c 89 e7 e8 50 e3 ff ff 4c 89 f7 2e e8 b7 f7 cf 03 31 f6 4c 89 e7 e8 7d e4 ff ff e8 c8 82 09 00 fb 45 31 e4 <e9> 40 ff ff ff e8 da 5d 06 00 90 0f 0b 90 e9 6e ff ff ff e8 cc 5d
+RSP: 0018:ffff88802de5bcd0 EFLAGS: 00000246
+RAX: 000000000000015d RBX: 0000000000000200 RCX: 0000000000000040
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff81236118
+RBP: ffff88802de5bcf0 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88802de5bc20 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88802de5bd00 R14: ffff88802de5bd58 R15: ffff88802de5bd58
+ smp_call_function_single+0x188/0x200 kernel/smp.c:647
+ task_function_call+0x6a/0xc0 kernel/events/core.c:120
+ perf_install_in_context+0x14f/0x2c0 kernel/events/core.c:2909
+ __do_sys_perf_event_open+0x11ed/0x1c30 kernel/events/core.c:12764
+ __se_sys_perf_event_open kernel/events/core.c:12416 [inline]
+ __x64_sys_perf_event_open+0x27/0x40 kernel/events/core.c:12416
+ x64_sys_call+0x15ea/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:299
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f539628fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5397089028 EFLAGS: 00000246 ORIG_RAX: 000000000000012a
+RAX: ffffffffffffffda RBX: 00007f53963cbf80 RCX: 00007f539628fd6d
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000200000c0
+RBP: 00007f53962f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffffffffffff R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f53963cbf80 R15: 00007f5397069000
+ </TASK>

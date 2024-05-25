@@ -1,0 +1,88 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 75 at net/mptcp/protocol.c:1003 __mptcp_clean_una+0x3f4/0x540 net/mptcp/protocol.c:1003
+Modules linked in:
+CPU: 1 PID: 75 Comm: kworker/1:1 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events mptcp_worker
+RIP: 0010:__mptcp_clean_una+0x3f4/0x540 net/mptcp/protocol.c:1003
+Code: 00 31 ff 89 de e8 ec a5 41 fc 84 db 0f 85 90 00 00 00 e8 0f ab 41 fc 4c 89 ef e8 c7 c7 ff ff e9 4b fe ff ff e8 fd aa 41 fc 90 <0f> 0b 90 49 8b 9d a8 08 00 00 e9 4e fd ff ff e8 e8 aa 41 fc 90 0f
+RSP: 0018:ffff8880098e3cc8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88802a9b9568 RCX: ffffffff84e810f7
+RDX: ffff888009ea8000 RSI: ffffffff84e81403 RDI: 0000000000000001
+RBP: ffff8880098e3d08 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88803302d550
+R13: ffff88802a9b8bc0 R14: 0000000000000000 R15: 0000000000000106
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001480 CR3: 0000000029782005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __mptcp_clean_una_wakeup+0x37/0x170 net/mptcp/protocol.c:1053
+ mptcp_clean_una_wakeup net/mptcp/protocol.c:1060 [inline]
+ __mptcp_retrans+0x6d/0x4a0 net/mptcp/protocol.c:2611
+ mptcp_worker+0x46a/0x7d0 net/mptcp/protocol.c:2763
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 425020
+hardirqs last  enabled at (425030): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (425030): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (425030): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (425039): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (425039): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (425039): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (423908): [<ffffffff83fef15a>] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+softirqs last  enabled at (423908): [<ffffffff83fef15a>] lock_sock_nested+0x8a/0xb0 net/core/sock.c:3542
+softirqs last disabled at (423910): [<ffffffff84e86b75>] spin_lock_bh include/linux/spinlock.h:356 [inline]
+softirqs last disabled at (423910): [<ffffffff84e86b75>] mptcp_clean_una_wakeup net/mptcp/protocol.c:1059 [inline]
+softirqs last disabled at (423910): [<ffffffff84e86b75>] __mptcp_retrans+0x65/0x4a0 net/mptcp/protocol.c:2611
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 75 at net/mptcp/protocol.c:1018 __mptcp_clean_una+0x537/0x540 net/mptcp/protocol.c:1018
+Modules linked in:
+CPU: 1 PID: 75 Comm: kworker/1:1 Tainted: G        W          6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events mptcp_worker
+RIP: 0010:__mptcp_clean_una+0x537/0x540 net/mptcp/protocol.c:1018
+Code: 98 02 00 00 29 c3 b8 00 00 00 00 0f 48 d8 41 29 dc e9 08 fe ff ff e8 c8 a9 41 fc 90 0f 0b 90 e9 c6 fc ff ff e8 ba a9 41 fc 90 <0f> 0b 90 e9 b8 fc ff ff 90 90 90 90 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffff8880098e3cc8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88803302d550 RCX: ffffffff84e814c9
+RDX: ffff888009ea8000 RSI: ffffffff84e81546 RDI: 0000000000000001
+RBP: ffff8880098e3d08 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: a65f8c0faa0f2a63
+R13: ffff88802a9b8bc0 R14: 0000000000000000 R15: 59a073f055f0d59d
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001480 CR3: 0000000029782005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __mptcp_clean_una_wakeup+0x37/0x170 net/mptcp/protocol.c:1053
+ mptcp_clean_una_wakeup net/mptcp/protocol.c:1060 [inline]
+ __mptcp_retrans+0x6d/0x4a0 net/mptcp/protocol.c:2611
+ mptcp_worker+0x46a/0x7d0 net/mptcp/protocol.c:2763
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 425584
+hardirqs last  enabled at (425594): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (425594): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (425594): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (425603): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (425603): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (425603): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (423908): [<ffffffff83fef15a>] spin_unlock_bh include/linux/spinlock.h:396 [inline]
+softirqs last  enabled at (423908): [<ffffffff83fef15a>] lock_sock_nested+0x8a/0xb0 net/core/sock.c:3542
+softirqs last disabled at (423910): [<ffffffff84e86b75>] spin_lock_bh include/linux/spinlock.h:356 [inline]
+softirqs last disabled at (423910): [<ffffffff84e86b75>] mptcp_clean_una_wakeup net/mptcp/protocol.c:1059 [inline]
+softirqs last disabled at (423910): [<ffffffff84e86b75>] __mptcp_retrans+0x65/0x4a0 net/mptcp/protocol.c:2611
+---[ end trace 0000000000000000 ]---

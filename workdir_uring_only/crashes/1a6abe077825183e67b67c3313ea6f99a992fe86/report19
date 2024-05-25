@@ -1,0 +1,130 @@
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 1, t=10502 jiffies, g=34073, q=1187 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10485 (4294977721-4294967236), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10485 jiffies! g34073 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=1
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14600 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 1 PID: 30709 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:rcu_read_lock_held_common kernel/rcu/update.c:109 [inline]
+RIP: 0010:rcu_read_lock_held+0x27/0x60 kernel/rcu/update.c:349
+Code: 90 90 90 f3 0f 1e fa 55 48 89 e5 e8 23 e1 d4 03 41 89 c0 b8 01 00 00 00 45 85 c0 75 06 5d e9 8b b2 f3 03 e8 3b 53 00 00 84 c0 <74> 20 e8 c2 61 00 00 84 c0 74 17 be ff ff ff ff 48 c7 c7 60 33 5c
+RSP: 0018:ffff88807dd054a8 EFLAGS: 00000202
+RAX: 0000000000000001 RBX: ffff888028017c00 RCX: ffffffff845e335d
+RDX: ffff888030f88000 RSI: ffffffff845e3405 RDI: 0000000000000005
+RBP: ffff88807dd054a8 R08: 0000000000000001 R09: ffff88807dd0558b
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000100 R14: ffff88807dd055f0 R15: ffff88802749bcb8
+FS:  00007ff447923640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000002000d000 CR3: 000000003d1a4006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ __find_rr_leaf+0x19a/0x6c0 net/ipv6/route.c:796
+ find_rr_leaf net/ipv6/route.c:852 [inline]
+ rt6_select net/ipv6/route.c:896 [inline]
+ fib6_table_lookup+0x31a/0x520 net/ipv6/route.c:2193
+ ip6_pol_route+0x10b/0xa40 net/ipv6/route.c:2229
+ ip6_pol_route_input+0x3e/0x50 net/ipv6/route.c:2286
+ pol_lookup_func include/net/ip6_fib.h:614 [inline]
+ fib6_rule_lookup+0x2e6/0x430 net/ipv6/fib6_rules.c:116
+ ip6_route_input_lookup net/ipv6/route.c:2298 [inline]
+ ip6_route_input+0x268/0x540 net/ipv6/route.c:2594
+ ip6_rcv_finish_core.constprop.0+0x10b/0x2e0 net/ipv6/ip6_input.c:66
+ ip6_rcv_finish+0xb0/0x2e0 net/ipv6/ip6_input.c:77
+ ip_sabotage_in+0xc9/0xd0 net/bridge/br_netfilter_hooks.c:989
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook.constprop.0+0x121/0x540 include/linux/netfilter.h:269
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ ipv6_rcv+0x6a/0x340 net/ipv6/ip6_input.c:310
+ __netif_receive_skb_one_core+0x7b/0xe0 net/core/dev.c:5538
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ netif_receive_skb_internal net/core/dev.c:5738 [inline]
+ netif_receive_skb+0xaf/0x4a0 net/core/dev.c:5798
+ br_netif_receive_skb+0x9d/0x110 net/bridge/br_input.c:30
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ br_pass_frame_up+0x15b/0x210 net/bridge/br_input.c:68
+ br_handle_frame_finish+0x784/0xc80 net/bridge/br_input.c:216
+ br_nf_hook_thresh+0x1ae/0x250 net/bridge/br_netfilter_hooks.c:1166
+ br_nf_pre_routing_finish_ipv6+0x282/0x6a0 net/bridge/br_netfilter_ipv6.c:154
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ br_nf_pre_routing_ipv6+0x142/0x4b0 net/bridge/br_netfilter_ipv6.c:184
+ br_nf_pre_routing+0x59e/0x920 net/bridge/br_netfilter_hooks.c:527
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_bridge_pre net/bridge/br_input.c:272 [inline]
+ br_handle_frame+0x38d/0x8b0 net/bridge/br_input.c:417
+ __netif_receive_skb_core.constprop.0+0x46e/0x1e70 net/core/dev.c:5432
+ __netif_receive_skb_one_core+0x3e/0xe0 net/core/dev.c:5536
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ rcu_read_unlock_bh include/linux/rcupdate.h:851 [inline]
+ __dev_queue_xmit+0x4b2/0x1f10 net/core/dev.c:4362
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ neigh_connected_output+0x1d9/0x2a0 net/core/neighbour.c:1592
+ neigh_output include/net/neighbour.h:542 [inline]
+ ip6_finish_output2+0x2e8/0xba0 net/ipv6/ip6_output.c:137
+ ip6_fragment+0xde0/0xfa0 net/ipv6/ip6_output.c:959
+ __ip6_finish_output net/ipv6/ip6_output.c:209 [inline]
+ ip6_finish_output+0x46a/0x890 net/ipv6/ip6_output.c:222
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip6_output+0xc9/0x260 net/ipv6/ip6_output.c:243
+ dst_output include/net/dst.h:450 [inline]
+ ip6_local_out+0x8e/0x270 net/ipv6/output_core.c:155
+ ip6_send_skb+0x56/0x140 net/ipv6/ip6_output.c:1955
+ ip6_push_pending_frames+0x81/0xa0 net/ipv6/ip6_output.c:1975
+ rawv6_push_pending_frames net/ipv6/raw.c:588 [inline]
+ rawv6_sendmsg+0x1918/0x2350 net/ipv6/raw.c:926
+ inet_sendmsg+0xba/0xc0 net/ipv4/af_inet.c:851
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x48c/0x520 net/socket.c:2584
+ __sys_sendmsg_sock+0x2f/0x40 net/socket.c:2650
+ io_sendmsg+0x12a/0x3e0 io_uring/net.c:453
+ io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+ io_queue_sqe io_uring/io_uring.c:2111 [inline]
+ io_submit_sqe io_uring/io_uring.c:2377 [inline]
+ io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+ __do_sys_io_uring_enter+0x4df/0xaa0 io_uring/io_uring.c:3668
+ __se_sys_io_uring_enter io_uring/io_uring.c:3603 [inline]
+ __x64_sys_io_uring_enter+0x2a/0x40 io_uring/io_uring.c:3603
+ x64_sys_call+0x14b9/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:427
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff446c8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ff447923028 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: ffffffffffffffda RBX: 00007ff446dcc050 RCX: 00007ff446c8fd6d
+RDX: 0000000000000000 RSI: 0000000000004d7b RDI: 0000000000000003
+RBP: 00007ff446cf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007ff446dcc050 R15: 00007ff447903000
+ </TASK>

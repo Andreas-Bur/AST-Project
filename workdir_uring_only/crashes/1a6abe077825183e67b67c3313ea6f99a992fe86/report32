@@ -1,0 +1,119 @@
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 0, t=10502 jiffies, g=8913, q=1116 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10502 (4295037902-4295027400), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10502 jiffies! g8913 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=1
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14528 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 PID: 9125 Comm: kworker/u8:12 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: bat_events batadv_dat_purge
+RIP: 0010:native_irq_disable arch/x86/include/asm/irqflags.h:37 [inline]
+RIP: 0010:arch_local_irq_disable arch/x86/include/asm/irqflags.h:72 [inline]
+RIP: 0010:__local_bh_enable_ip+0x39/0xe0 kernel/softirq.c:364
+Code: f3 65 8b 05 e1 11 f5 7e a9 00 00 0f 00 0f 85 af 00 00 00 8b 05 40 e9 8d 05 85 c0 74 0b 65 8b 05 85 c9 f3 7e 85 c0 74 56 9c 58 <fa> f6 c4 02 75 5f 65 8b 05 b2 11 f5 7e 25 00 ff 00 00 3d 00 02 00
+RSP: 0018:ffff88807dd05638 EFLAGS: 00000202
+RAX: 0000000000000202 RBX: 0000000000000200 RCX: ffffffff8468e547
+RDX: ffff888028ed21c0 RSI: 0000000000000200 RDI: ffffffff8468e350
+RBP: ffff88807dd05648 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000fffffffe R11: 0000000000000000 R12: ffffffff8468e350
+R13: 0000000000000000 R14: ffff88802860c288 R15: ffff88802860c1e0
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd522d366f4 CR3: 00000000064b0002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ ip6t_do_table+0x49c/0xa50 net/ipv6/netfilter/ip6_tables.c:375
+ ip6table_mangle_hook+0x50/0x1f0 net/ipv6/netfilter/ip6table_mangle.c:73
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook+0x13d/0x570 include/linux/netfilter.h:269
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ br_nf_forward_ip net/bridge/br_netfilter_hooks.c:728 [inline]
+ br_nf_forward_ip+0x35c/0x410 net/bridge/br_netfilter_hooks.c:680
+ br_nf_forward+0x53c/0x9f0 net/bridge/br_netfilter_hooks.c:785
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook_state_init include/linux/netfilter.h:172 [inline]
+ nf_hook+0x136/0x570 include/linux/netfilter.h:266
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ __br_forward+0xfd/0x300 net/bridge/br_forward.c:115
+ deliver_clone net/bridge/br_forward.c:131 [inline]
+ br_flood+0x251/0x390 net/bridge/br_forward.c:245
+ br_handle_frame_finish+0x75d/0xc80 net/bridge/br_input.c:210
+ br_nf_hook_thresh+0x1ae/0x250 net/bridge/br_netfilter_hooks.c:1166
+ br_nf_pre_routing_finish_ipv6+0x282/0x6a0 net/bridge/br_netfilter_ipv6.c:154
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ br_nf_pre_routing_ipv6+0x142/0x4b0 net/bridge/br_netfilter_ipv6.c:184
+ br_nf_pre_routing+0x59e/0x920 net/bridge/br_netfilter_hooks.c:527
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_bridge_pre net/bridge/br_input.c:272 [inline]
+ br_handle_frame+0x38d/0x8b0 net/bridge/br_input.c:417
+ __netif_receive_skb_core.constprop.0+0x46e/0x1e70 net/core/dev.c:5432
+ __netif_receive_skb_one_core+0x3e/0xe0 net/core/dev.c:5536
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ __raw_spin_unlock_bh include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock_bh+0x30/0x40 kernel/locking/spinlock.c:210
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ __batadv_dat_purge.part.0+0x18d/0x1f0 net/batman-adv/distributed-arp-table.c:186
+ __batadv_dat_purge net/batman-adv/distributed-arp-table.c:167 [inline]
+ batadv_dat_purge+0x38/0x60 net/batman-adv/distributed-arp-table.c:205
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+net_ratelimit: 65197 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+net_ratelimit: 63878 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1f, vlan:0)

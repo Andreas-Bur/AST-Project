@@ -1,0 +1,138 @@
+lsm_file_cache            51KB         75KB
+key_jar                   23KB         23KB
+uts_namespace             15KB         15KB
+nsproxy                    7KB          7KB
+vma_lock                 130KB        227KB
+files_cache              139KB        154KB
+signal_cache             440KB        781KB
+sighand_cache            636KB        704KB
+task_struct             2050KB       2404KB
+anon_vma                 112KB        136KB
+Acpi-State                36KB         51KB
+shared_policy_node        423KB        629KB
+numa_policy                8KB          8KB
+trace_event_file         354KB        354KB
+ftrace_event_field        542KB        542KB
+pool_workqueue           280KB        280KB
+maple_node               691KB        860KB
+task_group                31KB         31KB
+mm_struct                189KB        189KB
+vmap_area                 67KB         82KB
+page->ptl                 24KB         44KB
+kmalloc-cg-8k            736KB        864KB
+kmalloc-cg-4k           6896KB       8032KB
+kmalloc-cg-2k           4998KB       6016KB
+kmalloc-cg-1k           1187KB       1488KB
+kmalloc-cg-512           632KB        864KB
+kmalloc-cg-256           174KB        220KB
+kmalloc-cg-192           254KB        531KB
+kmalloc-cg-128           279KB        412KB
+kmalloc-cg-96             15KB         15KB
+kmalloc-cg-64             40KB         88KB
+kmalloc-cg-32        1365624KB    1365624KB
+kmalloc-cg-16             18KB         28KB
+kmalloc-cg-8               8KB          8KB
+kmalloc-8k              1984KB       2432KB
+kmalloc-4k              2060KB       2432KB
+kmalloc-2k              4532KB       5056KB
+kmalloc-1k            344580KB     344580KB
+kmalloc-512             6111KB       7032KB
+kmalloc-256             1105KB       1412KB
+kmalloc-192              599KB        767KB
+kmalloc-128              641KB       1104KB
+kmalloc-96               693KB        826KB
+kmalloc-64               636KB        744KB
+kmalloc-32               632KB        872KB
+kmalloc-16               107KB        148KB
+kmalloc-8                 74KB         84KB
+kmem_cache_node           44KB         44KB
+kmem_cache                80KB         80KB
+Out of memory and no killable processes...
+Kernel panic - not syncing: System is deadlocked on memory
+CPU: 0 PID: 3482 Comm: systemd-udevd Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x42/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ panic+0x4d5/0x520 kernel/panic.c:348
+ out_of_memory+0xaa6/0xab0 mm/oom_kill.c:1171
+ __alloc_pages_may_oom mm/page_alloc.c:3489 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4251 [inline]
+ __alloc_pages+0x117f/0x13b0 mm/page_alloc.c:4588
+ alloc_pages_mpol+0x1a5/0x310 mm/mempolicy.c:2264
+ __read_swap_cache_async+0x13d/0x2f0 mm/swap_state.c:470
+ swap_cluster_readahead+0x24b/0x4a0 mm/swap_state.c:678
+ swapin_readahead+0xaa/0x990 mm/swap_state.c:904
+ do_swap_page+0x8f2/0x18d0 mm/memory.c:4048
+ handle_pte_fault mm/memory.c:5303 [inline]
+ __handle_mm_fault+0xd54/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1413 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x330/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:__put_user_nocheck_4+0x7/0x20 arch/x86/lib/putuser.S:97
+Code: d9 0f 01 cb 89 01 31 c9 0f 01 ca e9 7e 5e 1f 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 0f 01 cb <89> 01 31 c9 0f 01 ca e9 58 5e 1f 00 66 66 2e 0f 1f 84 00 00 00 00
+RSP: 0018:ffff88800d01bdd8 EFLAGS: 00050293
+RAX: 0000000000000001 RBX: 0000000000000001 RCX: 000055926d4c5150
+RDX: ffff88800caa4380 RSI: ffffffff8167af9d RDI: 0000000000000005
+RBP: ffff88800d01beb8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88800e6dc080
+R13: ffff88800e6dc098 R14: ffff88800d01be30 R15: 000055926d41a960
+ __do_sys_epoll_wait fs/eventpoll.c:2440 [inline]
+ __se_sys_epoll_wait fs/eventpoll.c:2435 [inline]
+ __x64_sys_epoll_wait+0x83/0x110 fs/eventpoll.c:2435
+ x64_sys_call+0x1a00/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:233
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fee45a5dd56
+Code: Unable to access opcode bytes at 0x7fee45a5dd2c.
+RSP: 002b:00007ffc178513a8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e8
+RAX: ffffffffffffffda RBX: 000055926d419480 RCX: 00007fee45a5dd56
+RDX: 0000000000000012 RSI: 000055926d4c5150 RDI: 0000000000000009
+RBP: ffffffffffffffff R08: 0000000000000012 R09: 00007fee45c02080
+R10: 00000000ffffffff R11: 0000000000000246 R12: 0000000000000001
+R13: 0000000000000012 R14: 00005592339841e7 R15: 0000000000000000
+ </TASK>
+Kernel Offset: disabled
+----------------
+Code disassembly (best guess):
+   0:	d9 0f                	(bad)  (%rdi)
+   2:	01 cb                	add    %ecx,%ebx
+   4:	89 01                	mov    %eax,(%rcx)
+   6:	31 c9                	xor    %ecx,%ecx
+   8:	0f 01 ca             	clac
+   b:	e9 7e 5e 1f 00       	jmp    0x1f5e8e
+  10:	0f 1f 00             	nopl   (%rax)
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	90                   	nop
+  1b:	90                   	nop
+  1c:	90                   	nop
+  1d:	90                   	nop
+  1e:	90                   	nop
+  1f:	90                   	nop
+  20:	90                   	nop
+  21:	90                   	nop
+  22:	90                   	nop
+  23:	f3 0f 1e fa          	endbr64
+  27:	0f 01 cb             	stac
+* 2a:	89 01                	mov    %eax,(%rcx) <-- trapping instruction
+  2c:	31 c9                	xor    %ecx,%ecx
+  2e:	0f 01 ca             	clac
+  31:	e9 58 5e 1f 00       	jmp    0x1f5e8e
+  36:	66                   	data16
+  37:	66                   	data16
+  38:	2e                   	cs
+  39:	0f                   	.byte 0xf
+  3a:	1f                   	(bad)
+  3b:	84 00                	test   %al,(%rax)
+  3d:	00 00                	add    %al,(%rax)

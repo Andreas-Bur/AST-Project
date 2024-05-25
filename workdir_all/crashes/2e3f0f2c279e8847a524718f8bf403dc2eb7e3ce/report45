@@ -1,0 +1,6 @@
+r3 = shmget$private(0x0, 0x2000, 0x0, &(0x7f0000000000/0x2000)=nil)
+r4 = socket$nl_rdma(0x10, 0x3, 0x14)
+getsockopt$netlink(r4, 0x10e, 0x5, &(0x7f0000000300)=""/167, &(0x7f0000000280)=0xa7)
+shmctl$IPC_RMID(r3, 0x0)
+shmat(r3, &(0x7f0000002000/0x1000)=nil, 0x1000)
+2024/05/11 11:14:01 SYZFATAL: executor 3 failed 11 times: failed to start executor binary: fork/exec /syz-executor.3: resource temporarily unavailable

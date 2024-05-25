@@ -1,0 +1,39 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 23 Comm: kworker/1:0 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events free_ioctx
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ lock_timer_base+0x3a/0x120 kernel/time/timer.c:1052
+ __mod_timer+0x21f/0x6c0 kernel/time/timer.c:1133
+ add_timer_global+0x3c/0x70 kernel/time/timer.c:1331
+ __queue_delayed_work+0xe6/0x1f0 kernel/workqueue.c:2567
+ queue_delayed_work_on+0xc4/0xd0 kernel/workqueue.c:2595
+ queue_delayed_work include/linux/workqueue.h:620 [inline]
+ schedule_delayed_work include/linux/workqueue.h:734 [inline]
+ fput fs/file_table.c:492 [inline]
+ fput+0x118/0x200 fs/file_table.c:471
+ put_aio_ring_file fs/aio.c:323 [inline]
+ aio_free_ring+0x72/0x260 fs/aio.c:334
+ free_ioctx+0x1f/0x60 fs/aio.c:628
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

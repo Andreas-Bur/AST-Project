@@ -1,0 +1,78 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 11788 at fs/xfs/libxfs/xfs_bmap.c:4697 xfs_bmapi_convert_delalloc+0x656/0x670 fs/xfs/libxfs/xfs_bmap.c:4697
+Modules linked in:
+CPU: 1 PID: 11788 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:xfs_bmapi_convert_delalloc+0x656/0x670 fs/xfs/libxfs/xfs_bmap.c:4697
+Code: 89 03 e9 59 fd ff ff e8 28 bc 58 ff 8b 55 90 48 8b 75 98 48 8b bd 20 ff ff ff e8 45 6d 05 00 e9 2c ff ff ff e8 0b bc 58 ff 90 <0f> 0b 90 41 bc e4 ff ff ff e9 11 fd ff ff 66 66 2e 0f 1f 84 00 00
+RSP: 0018:ffff88800fceb688 EFLAGS: 00010216
+RAX: 00000000000182d5 RBX: ffff88802cede000 RCX: ffffc90006719000
+RDX: 0000000000040000 RSI: ffffffff81d102f5 RDI: 0000000000000007
+RBP: ffff88800fceb790 R08: 0000000000000000 R09: 0000000000000001
+R10: ffffffffffffffff R11: 0000000000000000 R12: ffffffffffffffff
+R13: 0000000000000000 R14: ffff88802b38ecc0 R15: ffff88802b38ed00
+FS:  00007f7baf3b2640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7baf3b1f88 CR3: 000000000f1ac003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ xfs_convert_blocks fs/xfs/xfs_aops.c:266 [inline]
+ xfs_map_blocks+0x3a9/0x850 fs/xfs/xfs_aops.c:390
+ iomap_writepage_map_blocks fs/iomap/buffered-io.c:1777 [inline]
+ iomap_writepage_map fs/iomap/buffered-io.c:1925 [inline]
+ iomap_do_writepage+0x41c/0x1080 fs/iomap/buffered-io.c:1964
+ write_cache_pages+0x5b/0xb0 mm/page-writeback.c:2569
+ iomap_writepages+0x66/0xa0 fs/iomap/buffered-io.c:1983
+ xfs_vm_writepages+0x68/0x80 fs/xfs/xfs_aops.c:507
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ filemap_write_and_wait_range mm/filemap.c:685 [inline]
+ filemap_write_and_wait_range+0x8a/0xf0 mm/filemap.c:676
+ xfs_flush_unmap_range+0x56/0xa0 fs/xfs/xfs_bmap_util.c:815
+ xfs_file_fallocate+0x123/0x8f0 fs/xfs/xfs_file.c:994
+ vfs_fallocate+0x370/0x8d0 fs/open.c:330
+ ioctl_preallocate+0xc3/0xf0 fs/ioctl.c:291
+ file_ioctl fs/ioctl.c:334 [inline]
+ do_vfs_ioctl+0xcb2/0xdd0 fs/ioctl.c:883
+ __do_sys_ioctl fs/ioctl.c:902 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0xc2/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7bae68fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7baf3b2028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f7bae7cc050 RCX: 00007f7bae68fd6d
+RDX: 0000000020000140 RSI: 0000000040305829 RDI: 0000000000000008
+RBP: 00007f7bae6f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f7bae7cc050 R15: 00007f7baf392000
+ </TASK>
+irq event stamp: 1643
+hardirqs last  enabled at (1653): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (1653): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (1653): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (1662): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (1662): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (1662): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (1614): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (1614): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (1601): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (1601): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (1601): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+XFS (loop5): page discard on page 000000004caf4e6e, inode 0x1d86, pos 8912896.
+XFS (loop5): page discard on page 0000000022e65d37, inode 0x1d86, pos 10485760.
+XFS (loop5): page discard on page 00000000d1822b81, inode 0x1d86, pos 12582912.
+XFS (loop5): page discard on page 00000000e065dd56, inode 0x1d86, pos 14680064.
+XFS (loop5): page discard on page 000000000a76930d, inode 0x1d86, pos 15728640.
+XFS (loop5): page discard on page 00000000402cc41d, inode 0x1d86, pos 16252928.
+XFS (loop5): page discard on page 000000006d4f4c1f, inode 0x1d86, pos 16515072.
+XFS (loop5): page discard on page 0000000083e97d90, inode 0x1d86, pos 16646144.
+XFS (loop5): page discard on page 00000000ffb1690f, inode 0x1d86, pos 16711680.
+XFS (loop5): page discard on page 00000000e5e1ec3a, inode 0x1d86, pos 16744448.

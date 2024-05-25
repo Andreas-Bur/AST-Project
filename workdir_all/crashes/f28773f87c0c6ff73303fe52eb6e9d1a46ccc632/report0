@@ -1,0 +1,119 @@
+BUG: unable to handle page fault for address: 00000000003fffe8
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 71770067 P4D 71770067 PUD 114cd067 PMD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 33072 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:vxlan_vni_cmp drivers/net/vxlan/vxlan_vnifilter.c:26 [inline]
+RIP: 0010:__rhashtable_lookup.constprop.0+0x119/0x3b0 include/linux/rhashtable.h:609
+Code: e8 ec 2d c1 fc 45 84 ff 75 78 e8 12 33 c1 fc 0f b7 43 16 4d 8b 7d 00 48 f7 d8 48 89 45 c0 e8 fe 32 c1 fc 48 8b 45 c0 4c 89 fe <49> 8b 44 04 08 48 89 c7 48 89 45 c8 e8 76 2d c1 fc 48 8b 45 c8 4c
+RSP: 0018:ffff88807dd05c88 EFLAGS: 00010246
+RAX: ffffffffffffffe0 RBX: ffff88802982f000 RCX: ffffffff84688be4
+RDX: ffff888075de21c0 RSI: 00000000000002ff RDI: 0000000000000001
+RBP: ffff88807dd05cd0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000400000
+R13: ffff888020ec67a8 R14: ffff888031780000 R15: 00000000000002ff
+FS:  00007fa64289e640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000003fffe8 CR3: 00000000143ec003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ rhashtable_lookup include/linux/rhashtable.h:646 [inline]
+ rhashtable_lookup_fast include/linux/rhashtable.h:672 [inline]
+ ila_lookup_wildcards net/ipv6/ila/ila_xlat.c:132 [inline]
+ ila_xlat_addr net/ipv6/ila/ila_xlat.c:652 [inline]
+ ila_nf_input+0xf0/0x430 net/ipv6/ila/ila_xlat.c:190
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook.constprop.0+0x121/0x540 include/linux/netfilter.h:269
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ ipv6_rcv+0x6a/0x340 net/ipv6/ip6_input.c:310
+ __netif_receive_skb_one_core+0x7b/0xe0 net/core/dev.c:5538
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__raw_spin_unlock_irq include/linux/spinlock_api_smp.h:160 [inline]
+RIP: 0010:_raw_spin_unlock_irq+0x2f/0x50 kernel/locking/spinlock.c:202
+Code: 48 89 e5 41 54 49 89 fc 48 83 c7 18 48 8b 75 08 e8 66 5e 25 fc 4c 89 e7 e8 de 8f 25 fc e8 f9 a0 39 fc fb 65 ff 0d 99 cf 0f 7b <74> 0a 4c 8b 65 f8 c9 e9 10 fe 1c 00 0f 1f 44 00 00 4c 8b 65 f8 c9
+RSP: 0018:ffff888077e93b90 EFLAGS: 00000286
+RAX: 000000000001e191 RBX: ffffea0001f07200 RCX: 0000000000000040
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff84f342e7
+RBP: ffff888077e93b98 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000078 R11: 0000000000000000 R12: ffff8880279e95f8
+R13: 0000000000000cc0 R14: 0000000000000000 R15: 0000000000000001
+ spin_unlock_irq include/linux/spinlock.h:401 [inline]
+ shmem_add_to_page_cache+0x209/0x450 mm/shmem.c:805
+ shmem_alloc_and_add_folio+0x185/0x400 mm/shmem.c:1695
+ shmem_get_folio_gfp+0x478/0x9b0 mm/shmem.c:2061
+ shmem_get_folio mm/shmem.c:2166 [inline]
+ shmem_write_begin+0x7d/0x160 mm/shmem.c:2750
+ generic_perform_write+0x100/0x2b0 mm/filemap.c:3974
+ shmem_file_write_iter+0xc3/0xd0 mm/shmem.c:2926
+ call_write_iter include/linux/fs.h:2110 [inline]
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0x61f/0x880 fs/read_write.c:590
+ ksys_write+0xa1/0x160 fs/read_write.c:643
+ __do_sys_write fs/read_write.c:655 [inline]
+ __se_sys_write fs/read_write.c:652 [inline]
+ __x64_sys_write+0x21/0x30 fs/read_write.c:652
+ x64_sys_call+0x1679/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:2
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa641a8ea8f
+Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 49 ff 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 8c ff 02 00 48
+RSP: 002b:00007fa64289ddc0 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fa641a8ea8f
+RDX: 0000000004000000 RSI: 00007fa637800000 RDI: 0000000000000003
+RBP: 00000000000105d4 R08: 0000000000000000 R09: 00000000000105d0
+R10: 0000000000000002 R11: 0000000000000293 R12: 0000000000000003
+R13: 00007fa64289de8c R14: 00007fa64289de90 R15: 00007fa637800000
+ </TASK>
+Modules linked in:
+CR2: 00000000003fffe8
+---[ end trace 0000000000000000 ]---
+RIP: 0010:vxlan_vni_cmp drivers/net/vxlan/vxlan_vnifilter.c:26 [inline]
+RIP: 0010:__rhashtable_lookup.constprop.0+0x119/0x3b0 include/linux/rhashtable.h:609
+Code: e8 ec 2d c1 fc 45 84 ff 75 78 e8 12 33 c1 fc 0f b7 43 16 4d 8b 7d 00 48 f7 d8 48 89 45 c0 e8 fe 32 c1 fc 48 8b 45 c0 4c 89 fe <49> 8b 44 04 08 48 89 c7 48 89 45 c8 e8 76 2d c1 fc 48 8b 45 c8 4c
+RSP: 0018:ffff88807dd05c88 EFLAGS: 00010246
+RAX: ffffffffffffffe0 RBX: ffff88802982f000 RCX: ffffffff84688be4
+RDX: ffff888075de21c0 RSI: 00000000000002ff RDI: 0000000000000001
+RBP: ffff88807dd05cd0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000400000
+R13: ffff888020ec67a8 R14: ffff888031780000 R15: 00000000000002ff
+FS:  00007fa64289e640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000003fffe8 CR3: 00000000143ec003 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	e8 ec 2d c1 fc       	call   0xfcc12df1
+   5:	45 84 ff             	test   %r15b,%r15b
+   8:	75 78                	jne    0x82
+   a:	e8 12 33 c1 fc       	call   0xfcc13321
+   f:	0f b7 43 16          	movzwl 0x16(%rbx),%eax
+  13:	4d 8b 7d 00          	mov    0x0(%r13),%r15
+  17:	48 f7 d8             	neg    %rax
+  1a:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+  1e:	e8 fe 32 c1 fc       	call   0xfcc13321
+  23:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+  27:	4c 89 fe             	mov    %r15,%rsi
+* 2a:	49 8b 44 04 08       	mov    0x8(%r12,%rax,1),%rax <-- trapping instruction
+  2f:	48 89 c7             	mov    %rax,%rdi
+  32:	48 89 45 c8          	mov    %rax,-0x38(%rbp)
+  36:	e8 76 2d c1 fc       	call   0xfcc12db1
+  3b:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+  3f:	4c                   	rex.WR

@@ -1,0 +1,91 @@
+BUG: kernel NULL pointer dereference, address: 0000000000000030
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 2c668067 P4D 2c668067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 6217 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:write_special_inodes+0x2a/0x70 fs/jfs/jfs_logmgr.c:207
+Code: 55 48 89 e5 41 55 49 89 fd 41 54 49 89 f4 53 e8 6c 71 5f ff 49 8b 45 00 49 39 c5 74 43 48 8d 58 c8 e8 5a 71 5f ff 48 8b 43 10 <48> 8b 78 30 2e e8 0c 0b 29 03 48 8b 43 28 48 8b 78 30 2e e8 fe 0a
+RSP: 0018:ffff88802290fce0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888028f40700 RCX: ffffffff8140fe2f
+RDX: ffff888010ca21c0 RSI: ffffffff81ca4da6 RDI: 0000000000000005
+RBP: ffff88802290fcf8 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff81415fd0
+R13: ffff88802995b800 R14: ffff88802995b8b8 R15: 0000000000000000
+FS:  0000555595004480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000030 CR3: 0000000010e7c004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ lmLogSync+0x231/0x310 fs/jfs/jfs_logmgr.c:937
+ jfs_syncpt+0x6f/0x80 fs/jfs/jfs_logmgr.c:1041
+ jfs_sync_fs+0x51/0x70 fs/jfs/super.c:685
+ sync_filesystem fs/sync.c:56 [inline]
+ sync_filesystem+0x8d/0x140 fs/sync.c:30
+ generic_shutdown_super+0x39/0x180 fs/super.c:620
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7faf1089178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffc2c0bd958 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007faf1089178b
+RDX: 00007faf108292c0 RSI: 0000000000000009 RDI: 00007ffc2c0bda10
+RBP: 00007ffc2c0bda10 R08: 0000000000000000 R09: 00007ffc2c0bd7e0
+R10: 0000555595005a4b R11: 0000000000000246 R12: 00007faf108f0278
+R13: 00007ffc2c0beaf0 R14: 0000555595005970 R15: 00007ffc2c0beae0
+ </TASK>
+Modules linked in:
+CR2: 0000000000000030
+---[ end trace 0000000000000000 ]---
+RIP: 0010:write_special_inodes+0x2a/0x70 fs/jfs/jfs_logmgr.c:207
+Code: 55 48 89 e5 41 55 49 89 fd 41 54 49 89 f4 53 e8 6c 71 5f ff 49 8b 45 00 49 39 c5 74 43 48 8d 58 c8 e8 5a 71 5f ff 48 8b 43 10 <48> 8b 78 30 2e e8 0c 0b 29 03 48 8b 43 28 48 8b 78 30 2e e8 fe 0a
+RSP: 0018:ffff88802290fce0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888028f40700 RCX: ffffffff8140fe2f
+RDX: ffff888010ca21c0 RSI: ffffffff81ca4da6 RDI: 0000000000000005
+RBP: ffff88802290fcf8 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff81415fd0
+R13: ffff88802995b800 R14: ffff88802995b8b8 R15: 0000000000000000
+FS:  0000555595004480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000030 CR3: 0000000010e7c004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	41 55                	push   %r13
+   6:	49 89 fd             	mov    %rdi,%r13
+   9:	41 54                	push   %r12
+   b:	49 89 f4             	mov    %rsi,%r12
+   e:	53                   	push   %rbx
+   f:	e8 6c 71 5f ff       	call   0xff5f7180
+  14:	49 8b 45 00          	mov    0x0(%r13),%rax
+  18:	49 39 c5             	cmp    %rax,%r13
+  1b:	74 43                	je     0x60
+  1d:	48 8d 58 c8          	lea    -0x38(%rax),%rbx
+  21:	e8 5a 71 5f ff       	call   0xff5f7180
+  26:	48 8b 43 10          	mov    0x10(%rbx),%rax
+* 2a:	48 8b 78 30          	mov    0x30(%rax),%rdi <-- trapping instruction
+  2e:	2e e8 0c 0b 29 03    	cs call 0x3290b40
+  34:	48 8b 43 28          	mov    0x28(%rbx),%rax
+  38:	48 8b 78 30          	mov    0x30(%rax),%rdi
+  3c:	2e                   	cs
+  3d:	e8                   	.byte 0xe8
+  3e:	fe 0a                	decb   (%rdx)

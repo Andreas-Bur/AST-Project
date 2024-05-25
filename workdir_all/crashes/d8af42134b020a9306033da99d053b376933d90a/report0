@@ -1,0 +1,54 @@
+=============================
+WARNING: suspicious RCU usage
+6.9.0-rc4 #2 Not tainted
+-----------------------------
+fs/bcachefs/buckets.h:103 suspicious rcu_dereference_check() usage!
+
+other info that might help us debug this:
+
+
+rcu_scheduler_active = 2, debug_locks = 1
+4 locks held by kworker/u8:7/3240:
+ #0: ffff88803c592148 ((wq_completion)btree_update){+.+.}-{0:0}, at: process_one_work+0x777/0xa00 kernel/workqueue.c:3229
+ #1: ffff88800dd37e38 ((work_completion)(&c->btree_interior_update_work)){+.+.}-{0:0}, at: process_one_work+0x299/0xa00 kernel/workqueue.c:3230
+ #2: ffff888067304240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ #2: ffff888067304240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
+ #2: ffff888067304240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: __bch2_trans_get+0x3af/0x4d0 fs/bcachefs/btree_iter.c:3069
+ #3: ffff888012b38b10 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #3: ffff888012b38b10 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+
+stack backtrace:
+CPU: 1 PID: 3240 Comm: kworker/u8:7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btree_update btree_interior_update_work
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x111/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ lockdep_rcu_suspicious+0x156/0x1c0 kernel/locking/lockdep.c:6712
+ bucket_gens fs/bcachefs/buckets.h:103 [inline]
+ bucket_gen fs/bcachefs/buckets.h:112 [inline]
+ bch2_check_bucket_ref+0xa1e/0xa30 fs/bcachefs/buckets.c:606
+ __mark_pointer fs/bcachefs/buckets.c:801 [inline]
+ bch2_trigger_pointer+0x49a/0x13a0 fs/bcachefs/buckets.c:837
+ __trigger_extent+0x1d4/0x9b0 fs/bcachefs/buckets.c:984
+ bch2_trigger_extent+0x220/0x240 fs/bcachefs/buckets.c:1066
+ bch2_key_trigger fs/bcachefs/bkey_methods.h:133 [inline]
+ bch2_key_trigger_old fs/bcachefs/bkey_methods.h:146 [inline]
+ btree_update_nodes_written_trans fs/bcachefs/btree_update_interior.c:627 [inline]
+ btree_update_nodes_written fs/bcachefs/btree_update_interior.c:696 [inline]
+ btree_interior_update_work+0x457/0xfd0 fs/bcachefs/btree_update_interior.c:833
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+bucket 0:41 gen 0 (mem gen 0) data type btree: stale dirty ptr (gen 184)
+while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 184 stale, continuing
+transaction updates for btree_update_nodes_written journal seq 0
+  btree_root: btree=dirents l=0 u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 346a31396f00771f written 8 min_key POS_MIN durability: 1 ptr: 0:25:0 gen 0
+bcachefs (loop0): btree_update_nodes_written(): fatal error EIO
+bcachefs (loop0): fatal error - emergency read only

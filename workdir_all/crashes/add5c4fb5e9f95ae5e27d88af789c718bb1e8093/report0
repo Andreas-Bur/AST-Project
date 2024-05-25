@@ -1,0 +1,58 @@
+BTRFS info (device loop2): 0 free space entries at or bigger than 4096 bytes
+BTRFS info (device loop2): 483328 bytes available across all block groups
+------------[ cut here ]------------
+BTRFS: Transaction aborted (error -28)
+WARNING: CPU: 0 PID: 10 at fs/btrfs/inode.c:3164 btrfs_finish_one_ordered+0x1083/0x10c0 fs/btrfs/inode.c:3164
+Modules linked in:
+CPU: 0 PID: 10 Comm: kworker/u8:0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btrfs-endio-write btrfs_work_helper
+RIP: 0010:btrfs_finish_one_ordered+0x1083/0x10c0 fs/btrfs/inode.c:3164
+Code: ff 90 0f 0b 90 90 41 bd 01 00 00 00 e9 02 fc ff ff e8 e1 08 25 ff 90 8b b5 5c ff ff ff 48 c7 c7 38 4d 10 86 e8 5e 55 08 ff 90 <0f> 0b 90 90 41 bd 01 00 00 00 8b 8d 5c ff ff ff e9 ea fd ff ff e8
+RSP: 0018:ffff888009a97c80 EFLAGS: 00010296
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff810d0c60
+RDX: ffff888009ab8000 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff888009a97d50 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880407ae000
+R13: 0000000000000000 R14: ffff888029d1e000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2df4b000 CR3: 000000004070a001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ btrfs_finish_ordered_io+0x7d/0xa0 fs/btrfs/inode.c:3286
+ finish_ordered_fn+0x1d/0x30 fs/btrfs/ordered-data.c:302
+ btrfs_work_helper+0x1a5/0x5b0 fs/btrfs/async-thread.c:314
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 2911733
+hardirqs last  enabled at (2911743): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (2911743): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (2911743): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (2911752): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (2911752): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (2911752): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (2911628): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (2911628): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (2911615): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (2911615): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (2911615): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+BTRFS info (device loop2: state A): dumping space info:
+BTRFS info (device loop2: state A): space_info DATA+METADATA has -2400256 free, is full
+BTRFS info (device loop2: state A): space_info total=9895936, used=49152, pinned=0, reserved=9363456, may_use=2400256, readonly=483328 zone_unusable=0
+BTRFS info (device loop2: state A): space_info SYSTEM has 4186112 free, is not full
+BTRFS info (device loop2: state A): space_info total=4194304, used=4096, pinned=0, reserved=4096, may_use=0, readonly=0 zone_unusable=0
+BTRFS info (device loop2: state A): global_block_rsv: size 983040 reserved 983040
+BTRFS info (device loop2: state A): trans_block_rsv: size 0 reserved 0
+BTRFS info (device loop2: state A): chunk_block_rsv: size 0 reserved 0
+BTRFS info (device loop2: state A): delayed_block_rsv: size 0 reserved 0
+BTRFS info (device loop2: state A): delayed_refs_rsv: size 1114112 reserved 1077248
+BTRFS: error (device loop2: state A) in btrfs_finish_one_ordered:3164: errno=-28 No space left
+BTRFS info (device loop2: state EA): forced readonly

@@ -1,0 +1,51 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 62332 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ device_links_write_lock drivers/base/core.c:245 [inline]
+ device_links_purge drivers/base/core.c:1640 [inline]
+ device_del+0x20a/0x490 drivers/base/core.c:3913
+ device_unregister drivers/base/core.c:3950 [inline]
+ device_destroy+0x4e/0x70 drivers/base/core.c:4514
+ tty_unregister_device+0x30/0x90 drivers/tty/tty_io.c:3321
+ gsm_unregister_devices drivers/tty/n_gsm.c:691 [inline]
+ gsm_cleanup_mux+0x3ef/0x420 drivers/tty/n_gsm.c:3097
+ gsmld_close+0x29/0x110 drivers/tty/n_gsm.c:3604
+ tty_ldisc_close+0x71/0xc0 drivers/tty/tty_ldisc.c:455
+ tty_ldisc_kill+0x43/0xa0 drivers/tty/tty_ldisc.c:607
+ tty_ldisc_release+0x1c8/0x260 drivers/tty/tty_ldisc.c:775
+ tty_release_struct+0x20/0xb0 drivers/tty/tty_io.c:1696
+ tty_release+0x6f3/0x7b0 drivers/tty/tty_io.c:1867
+ __fput+0x135/0x540 fs/file_table.c:422
+ __fput_sync+0x44/0x60 fs/file_table.c:507
+ __do_sys_close fs/open.c:1556 [inline]
+ __se_sys_close fs/open.c:1541 [inline]
+ __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+ x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f96c4a8ec4b
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 fd 02 00 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 d1 fd 02 00 8b 44
+RSP: 002b:00007ffe89e5d390 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000005 RCX: 00007f96c4a8ec4b
+RDX: 0000000000000000 RSI: 0000000000013deb RDI: 0000000000000004
+RBP: 00007f96c4bcd980 R08: 0000000000000000 R09: 000000008171c758
+R10: 0000000000000001 R11: 0000000000000293 R12: 00000000000b8be6
+R13: 00000000000b88f5 R14: 00007f96c4bcc05c R15: 00007ffe89e5d490
+ </TASK>

@@ -1,0 +1,66 @@
+bcachefs (loop2): inconsistency detected - emergency read only at journal seq 11
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/buckets.c:632!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 10394 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:bch2_check_bucket_ref+0x589/0xa30 fs/bcachefs/buckets.c:632
+Code: c1 80 eb 11 86 ba 9b 00 00 00 41 56 4c 8b 4d 98 be 06 00 00 00 41 55 48 8b 7d a0 41 57 50 45 0f b6 44 24 06 e8 d8 fa 02 00 90 <0f> 0b e8 90 78 f6 fe 8b 5d 90 bf 04 00 00 00 89 de e8 d1 73 f6 fe
+RSP: 0018:ffff88804331b520 EFLAGS: 00010286
+RAX: 00000000fffff75e RBX: 0000000000000001 RCX: ffffc90007f25000
+RDX: 0000000000040000 RSI: ffffffff82364848 RDI: 0000000000000005
+RBP: ffff88804331b5f0 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000fffff75e R11: 0000000000000000 R12: ffff88804331b810
+R13: ffffffff8607b601 R14: ffff888028ff7b00 R15: ffffffff85fd0427
+FS:  00007fa8960dc640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc27687ada0 CR3: 000000001a9e8002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __mark_pointer fs/bcachefs/buckets.c:801 [inline]
+ bch2_trigger_pointer+0x49a/0x13a0 fs/bcachefs/buckets.c:837
+ __trigger_extent+0x1d4/0x9b0 fs/bcachefs/buckets.c:984
+ bch2_trigger_extent+0x12c/0x240 fs/bcachefs/buckets.c:1066
+ bch2_key_trigger fs/bcachefs/bkey_methods.h:133 [inline]
+ run_one_trans_trigger fs/bcachefs/btree_trans_commit.c:487 [inline]
+ run_btree_triggers+0x33d/0x6b0 fs/bcachefs/btree_trans_commit.c:523
+ bch2_trans_commit_run_triggers fs/bcachefs/btree_trans_commit.c:556 [inline]
+ __bch2_trans_commit+0xed/0x2840 fs/bcachefs/btree_trans_commit.c:995
+ bch2_trans_commit fs/bcachefs/btree_update.h:168 [inline]
+ __bch2_resume_logged_op_finsert+0xa23/0x1300 fs/bcachefs/io_misc.c:450
+ bch2_fcollapse_finsert+0x1a7/0x1d0 fs/bcachefs/io_misc.c:511
+ bchfs_fcollapse_finsert+0x124/0x260 fs/bcachefs/fs-io.c:574
+ bch2_fallocate_dispatch+0x759/0x910 fs/bcachefs/fs-io.c:786
+ vfs_fallocate+0x370/0x8d0 fs/open.c:330
+ ksys_fallocate fs/open.c:353 [inline]
+ __do_sys_fallocate fs/open.c:361 [inline]
+ __se_sys_fallocate fs/open.c:359 [inline]
+ __x64_sys_fallocate+0x5f/0xb0 fs/open.c:359
+ x64_sys_call+0x1740/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:286
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa89528fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fa8960dc028 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
+RAX: ffffffffffffffda RBX: 00007fa8953cbf80 RCX: 00007fa89528fd6d
+RDX: 0000000000000000 RSI: 0000000000000020 RDI: 0000000000000008
+RBP: 00007fa8952f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000010000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fa8953cbf80 R15: 00007fa8960bc000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_check_bucket_ref+0x589/0xa30 fs/bcachefs/buckets.c:632
+Code: c1 80 eb 11 86 ba 9b 00 00 00 41 56 4c 8b 4d 98 be 06 00 00 00 41 55 48 8b 7d a0 41 57 50 45 0f b6 44 24 06 e8 d8 fa 02 00 90 <0f> 0b e8 90 78 f6 fe 8b 5d 90 bf 04 00 00 00 89 de e8 d1 73 f6 fe
+RSP: 0018:ffff88804331b520 EFLAGS: 00010286
+RAX: 00000000fffff75e RBX: 0000000000000001 RCX: ffffc90007f25000
+RDX: 0000000000040000 RSI: ffffffff82364848 RDI: 0000000000000005
+RBP: ffff88804331b5f0 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000fffff75e R11: 0000000000000000 R12: ffff88804331b810
+R13: ffffffff8607b601 R14: ffff888028ff7b00 R15: ffffffff85fd0427
+FS:  00007fa8960dc640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc27687ada0 CR3: 000000001a9e8002 CR4: 0000000000770ef0
+PKRU: 55555554

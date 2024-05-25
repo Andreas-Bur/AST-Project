@@ -1,0 +1,112 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2632 jiffies s: 1621 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 9474 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:default_send_IPI_self+0x2b/0x70 arch/x86/kernel/apic/ipi.c:248
+Code: 0f 1e fa 55 83 ff 02 48 89 e5 53 75 04 eb 25 f3 90 8b 04 25 00 c3 5f ff f6 c4 10 75 f2 81 cf 00 00 04 00 89 3c 25 00 c3 5f ff <48> 8b 5d f8 c9 e9 a6 5c 06 04 bb e8 03 00 00 eb 16 65 ff 05 59 2d
+RSP: 0018:ffff88807dc05908 EFLAGS: 00000006
+RAX: 00000000000400f6 RBX: 0000000000000001 RCX: ffffffff81059735
+RDX: ffff888024e18000 RSI: ffffffff8105973e RDI: 00000000000400f6
+RBP: ffff88807dc05910 R08: ffffffff85f8d8bf R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88807dc33430 R14: ffff88807dc33438 R15: 0000000000000001
+FS:  00007f3c04fbd640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f21f21986f4 CR3: 000000002e5e2005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ __apic_send_IPI_self arch/x86/include/asm/apic.h:459 [inline]
+ arch_irq_work_raise+0x38/0x50 arch/x86/kernel/irq_work.c:31
+ irq_work_raise kernel/irq_work.c:84 [inline]
+ __irq_work_queue_local+0x9c/0x220 kernel/irq_work.c:112
+ irq_work_queue_on+0x136/0x160 kernel/irq_work.c:175
+ rcu_read_unlock_special kernel/rcu/tree_plugin.h:675 [inline]
+ __rcu_read_unlock+0x197/0x1b0 kernel/rcu/tree_plugin.h:426
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ __perf_event_output kernel/events/core.c:7885 [inline]
+ perf_event_output_forward+0xf3/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x261/0x2c0 kernel/events/core.c:9720
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_preemptirq_template+0xaa/0xd0 include/trace/events/preemptirq.h:14
+ trace_irq_enable include/trace/events/preemptirq.h:40 [inline]
+ trace_hardirqs_on+0x96/0xe0 kernel/trace/trace_preemptirq.c:56
+ irqentry_exit+0x3f/0xa0 kernel/entry/common.c:357
+ sysvec_irq_work+0x7c/0xc0 arch/x86/kernel/irq_work.c:17
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:get_current arch/x86/include/asm/current.h:49 [inline]
+RIP: 0010:__rcu_read_unlock+0x30/0x1b0 kernel/rcu/tree_plugin.h:429
+Code: 89 e5 41 57 41 56 41 55 41 54 65 4c 8b 25 c8 f8 e5 7e 53 41 83 ac 24 34 04 00 00 01 75 0c 41 8b 84 24 38 04 00 00 85 c0 75 28 <65> 48 8b 05 a8 f8 e5 7e 8b 80 34 04 00 00 3d ff ff ff 3f 0f 87 ae
+RSP: 0018:ffff88807dc05e58 EFLAGS: 00000202
+RAX: 000000000001c51c RBX: 0000000080000102 RCX: 0000000000000004
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d1a91
+RBP: ffff88807dc05e80 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05da8 R11: 0000000000000000 R12: ffff888024e18000
+R13: 0000000000000246 R14: ffffffff834f1100 R15: 0000000000000200
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ ieee80211_iterate_active_interfaces_atomic+0x9a/0x1d0 net/mac80211/util.c:810
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__sanitizer_cov_trace_pc+0x4c/0x70 kernel/kcov.c:212
+Code: f6 c4 01 74 35 8b 82 84 15 00 00 85 c0 74 2b 8b 82 60 15 00 00 83 f8 02 75 20 48 8b 8a 68 15 00 00 8b 92 64 15 00 00 48 8b 01 <48> 83 c0 01 48 39 c2 76 07 48 89 01 48 89 34 c1 5d e9 a9 81 e6 03
+RSP: 0018:ffff88802ed7b8f0 EFLAGS: 00000246
+RAX: 000000000003ffff RBX: ffff88802a7a8060 RCX: ffffc9000a136000
+RDX: 0000000000040000 RSI: ffffffff813e018f RDI: 0000000000000005
+RBP: ffff88802ed7b8f0 R08: ffff88807dc2b9c0 R09: ffffe8ffffc96020
+R10: 0000000080000002 R11: 0000000000000000 R12: 0000000000000081
+R13: 0000000000000024 R14: ffff88807dc2b9c0 R15: ffffe8ffffcf8000
+ perf_tp_event+0xdf/0xa00 kernel/events/core.c:10228
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_lock_acquire+0x16b/0x1c0 include/trace/events/lock.h:24
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ shmem_recalc_inode+0x2b/0xf0 mm/shmem.c:429
+ shmem_alloc_and_add_folio+0x398/0x400 mm/shmem.c:1727
+ shmem_get_folio_gfp+0x478/0x9b0 mm/shmem.c:2061
+ shmem_get_folio mm/shmem.c:2166 [inline]
+ shmem_write_begin+0x7d/0x160 mm/shmem.c:2750
+ generic_perform_write+0x100/0x2b0 mm/filemap.c:3974
+ shmem_file_write_iter+0xc3/0xd0 mm/shmem.c:2926
+ call_write_iter include/linux/fs.h:2110 [inline]
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0x61f/0x880 fs/read_write.c:590
+ ksys_write+0xa1/0x160 fs/read_write.c:643
+ __do_sys_write fs/read_write.c:655 [inline]
+ __se_sys_write fs/read_write.c:652 [inline]
+ __x64_sys_write+0x21/0x30 fs/read_write.c:652
+ x64_sys_call+0x1679/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:2
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f3c0428ea8f
+Code: 89 54 24 18 48 89 74 24 10 89 7c 24 08 e8 49 ff 02 00 48 8b 54 24 18 48 8b 74 24 10 41 89 c0 8b 7c 24 08 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 31 44 89 c7 48 89 44 24 08 e8 8c ff 02 00 48
+RSP: 002b:00007f3c04fbcdc0 EFLAGS: 00000293 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f3c0428ea8f
+RDX: 0000000000200000 RSI: 00007f3bfa000000 RDI: 000000000000000b
+RBP: 000000000001f80e R08: 0000000000000000 R09: 000000000001f80a
+R10: 0000000000003ffc R11: 0000000000000293 R12: 000000000000000b
+R13: 00007f3c04fbce8c R14: 00007f3c04fbce90 R15: 00007f3bfa000000
+ </TASK>

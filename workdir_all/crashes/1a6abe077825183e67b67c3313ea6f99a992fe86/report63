@@ -1,0 +1,19 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2633 jiffies s: 3137 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 12000 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:pvclock_read_begin arch/x86/include/asm/pvclock.h:24 [inline]
+RIP: 0010:__pvclock_clocksource_read arch/x86/kernel/pvclock.c:76 [inline]
+RIP: 0010:pvclock_clocksource_read_nowd+0x21/0x170 arch/x86/kernel/pvclock.c:120
+Code: 90 90 90 90 90 90 90 90 90 66 0f 1f 00 55 48 89 e5 41 57 41 56 41 55 41 54 49 89 fc 53 48 83 ec 08 0f 1f 44 00 00 45 8b 3c 24 <0f> 1f 44 00 00 41 83 e7 fe 45 89 fd 0f 01 f9 66 90 45 0f be 74 24
+RSP: 0018:ffff88807dc05de0 EFLAGS: 00000082
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8120085e
+RDX: ffff8880104a0000 RSI: ffffffff81064ce0 RDI: ffffffff879cf000
+RBP: ffff88807dc05e10 R08: ffffffff85f8ec26 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff879cf000
+R13: ffff88807dc1c8b0 R14: ffff8880104a0000 R15: 0000000000000006
+FS:  00007f883486e640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5dcb46aae0 CR3: 000000000fbfa005 CR4: 0000000000770ef0

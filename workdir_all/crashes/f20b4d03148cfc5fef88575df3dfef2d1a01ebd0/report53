@@ -1,0 +1,124 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2649 jiffies s: 9425 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 19021 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:rcu_read_lock_held_common kernel/rcu/update.c:113 [inline]
+RIP: 0010:rcu_read_lock_held_common kernel/rcu/update.c:103 [inline]
+RIP: 0010:rcu_read_lock_held+0x2e/0x60 kernel/rcu/update.c:349
+Code: 55 48 89 e5 e8 23 e1 d4 03 41 89 c0 b8 01 00 00 00 45 85 c0 75 06 5d e9 8b b2 f3 03 e8 3b 53 00 00 84 c0 74 20 e8 c2 61 00 00 <84> c0 74 17 be ff ff ff ff 48 c7 c7 60 33 5c 86 e8 cd df d4 03 5d
+RSP: 0018:ffff88807dc05450 EFLAGS: 00000006
+RAX: 0000000000000001 RBX: 0000000000000000 RCX: 0000000000000001
+RDX: ffff88807dc00000 RSI: ffffffff813f7be6 RDI: 0000000000000005
+RBP: ffff88807dc05450 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88807dc05640
+R13: 0000000000000001 R14: 0000000000000020 R15: 0000000000000000
+FS:  00007fc162321640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 0000000026504002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ __perf_output_begin kernel/events/ring_buffer.c:170 [inline]
+ perf_output_begin_forward+0x3eb/0x580 kernel/events/ring_buffer.c:272
+ __perf_event_output kernel/events/core.c:7876 [inline]
+ perf_event_output_forward+0x9a/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x261/0x2c0 kernel/events/core.c:9720
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_preemptirq_template+0xaa/0xd0 include/trace/events/preemptirq.h:14
+ trace_irq_enable include/trace/events/preemptirq.h:40 [inline]
+ trace_hardirqs_on+0x96/0xe0 kernel/trace/trace_preemptirq.c:56
+ irqentry_exit+0x3f/0xa0 kernel/entry/common.c:357
+ sysvec_apic_timer_interrupt+0x4c/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__call_rcu_common.constprop.0+0x197/0x2d0 kernel/rcu/tree.c:2757
+Code: 05 73 20 49 8b 94 24 e8 00 00 00 48 8b 05 01 c3 3e 05 49 03 84 24 18 01 00 00 48 39 c2 0f 8f 9a 00 00 00 e8 2b 6f 0f 00 fb 5b <41> 5c 41 5d 41 5e 41 5f 5d e9 46 cc f2 03 e8 06 70 0f 00 e9 89 fe
+RSP: 0018:ffff88807dc05928 EFLAGS: 00000206
+RAX: 00000000004aa45a RBX: ffff88800f928b00 RCX: 0000000000000004
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d74b5
+RBP: ffff88807dc05948 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05870 R11: 0000000000000000 R12: ffff88807dc33400
+R13: 0000000000000200 R14: ffffffff8404a100 R15: ffff88807dc334a0
+ call_rcu+0xd/0x20 kernel/rcu/tree.c:2838
+ call_rcu_hurry include/linux/rcupdate.h:114 [inline]
+ dst_release net/core/dst.c:165 [inline]
+ dst_release+0xc5/0x1d0 net/core/dst.c:162
+ refdst_drop include/net/dst.h:263 [inline]
+ skb_dst_drop include/net/dst.h:275 [inline]
+ skb_release_head_state+0x194/0x1b0 net/core/skbuff.c:1185
+ skb_release_all net/core/skbuff.c:1200 [inline]
+ __kfree_skb net/core/skbuff.c:1216 [inline]
+ kfree_skb_reason+0xa8/0x2a0 net/core/skbuff.c:1252
+ kfree_skb include/linux/skbuff.h:1262 [inline]
+ vti6_tnl_xmit+0x651/0xf90 net/ipv6/ip6_vti.c:594
+ __netdev_start_xmit include/linux/netdevice.h:4903 [inline]
+ netdev_start_xmit include/linux/netdevice.h:4917 [inline]
+ xmit_one net/core/dev.c:3531 [inline]
+ dev_hard_start_xmit+0xd6/0x410 net/core/dev.c:3547
+ __dev_queue_xmit+0x1408/0x1f10 net/core/dev.c:4335
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ neigh_connected_output+0x1d9/0x2a0 net/core/neighbour.c:1592
+ neigh_output include/net/neighbour.h:542 [inline]
+ ip6_finish_output2+0x2e8/0xba0 net/ipv6/ip6_output.c:137
+ __ip6_finish_output net/ipv6/ip6_output.c:211 [inline]
+ ip6_finish_output+0x4ab/0x890 net/ipv6/ip6_output.c:222
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip6_output+0xc9/0x260 net/ipv6/ip6_output.c:243
+ dst_output include/net/dst.h:450 [inline]
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ ndisc_send_skb+0x39a/0xe00 net/ipv6/ndisc.c:509
+ ndisc_send_rs+0x7f/0x2c0 net/ipv6/ndisc.c:719
+ addrconf_rs_timer+0x15c/0x3f0 net/ipv6/addrconf.c:4038
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:arch_local_irq_enable arch/x86/include/asm/irqflags.h:78 [inline]
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:135 [inline]
+RIP: 0010:generic_exec_single+0x13c/0x190 kernel/smp.c:406
+Code: da 83 09 00 31 f6 4c 89 e7 e8 50 e3 ff ff 4c 89 f7 2e e8 b7 f7 cf 03 31 f6 4c 89 e7 e8 7d e4 ff ff e8 c8 82 09 00 fb 45 31 e4 <e9> 40 ff ff ff e8 da 5d 06 00 90 0f 0b 90 e9 6e ff ff ff e8 cc 5d
+RSP: 0018:ffff88804c96fcd0 EFLAGS: 00000246
+RAX: 00000000000000e1 RBX: 0000000000000200 RCX: 0000000000000040
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff81236118
+RBP: ffff88804c96fcf0 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88804c96fc20 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88804c96fd00 R14: ffff88804c96fd58 R15: ffff88804c96fd58
+ smp_call_function_single+0x188/0x200 kernel/smp.c:647
+ task_function_call+0x6a/0xc0 kernel/events/core.c:120
+ perf_install_in_context+0x14f/0x2c0 kernel/events/core.c:2909
+ __do_sys_perf_event_open+0x11ed/0x1c30 kernel/events/core.c:12764
+ __se_sys_perf_event_open kernel/events/core.c:12416 [inline]
+ __x64_sys_perf_event_open+0x27/0x40 kernel/events/core.c:12416
+ x64_sys_call+0x15ea/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:299
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc16168fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fc162321028 EFLAGS: 00000246 ORIG_RAX: 000000000000012a
+RAX: ffffffffffffffda RBX: 00007fc1617cbf80 RCX: 00007fc16168fd6d
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00000000200000c0
+RBP: 00007fc1616f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: ffffffffffffffff R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fc1617cbf80 R15: 00007fc162301000
+ </TASK>

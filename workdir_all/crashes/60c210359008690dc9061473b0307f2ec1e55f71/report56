@@ -1,0 +1,41 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 6200 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ zswap_load+0x97/0x420 mm/zswap.c:1646
+ swap_read_folio+0x67/0x740 mm/page_io.c:518
+ swap_cluster_readahead+0x283/0x4a0 mm/swap_state.c:684
+ swapin_readahead+0xaa/0x990 mm/swap_state.c:904
+ do_swap_page+0x8f2/0x18d0 mm/memory.c:4048
+ handle_pte_fault mm/memory.c:5303 [inline]
+ __handle_mm_fault+0xd54/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7fee712574d0
+Code: 48 89 73 60 4c 8d 48 10 0f 95 c1 4c 29 ea 0f b6 c9 48 83 ca 01 48 c1 e1 02 4c 09 e9 48 83 c9 01 48 89 48 08 8b 05 3c 33 ca 00 <48> 89 56 08 85 c0 0f 84 0a f8 ff ff e9 84 fb ff ff 48 8d 3d 98 f8
+RSP: 002b:00007ffdcb7e8a80 EFLAGS: 00010206
+RAX: 0000000000000000 RBX: 00007fee713a94c0 RCX: 0000000000008041
+RDX: 0000000000010621 RSI: 000055555d03b9e0 RDI: 0000000000000003
+RBP: 0000000000008030 R08: 0000000000090800 R09: 000055555d0339b0
+R10: 0000000000000076 R11: 00007fee713a9520 R12: 00007fee713a94c0
+R13: 0000000000008040 R14: 0000000000000804 R15: 0000000000000802
+ </TASK>

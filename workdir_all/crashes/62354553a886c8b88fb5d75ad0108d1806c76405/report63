@@ -1,0 +1,124 @@
+WARNING: CPU: 1 PID: 6229 at include/linux/backing-dev.h:251 inode_to_wb include/linux/backing-dev.h:251 [inline]
+WARNING: CPU: 1 PID: 6229 at include/linux/backing-dev.h:251 folio_account_dirtied mm/page-writeback.c:2672 [inline]
+WARNING: CPU: 1 PID: 6229 at include/linux/backing-dev.h:251 __folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Modules linked in:
+CPU: 1 PID: 6229 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:inode_to_wb include/linux/backing-dev.h:251 [inline]
+RIP: 0010:folio_account_dirtied mm/page-writeback.c:2672 [inline]
+RIP: 0010:__folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Code: ff ff ff ff 48 8d 78 70 e8 be 85 ae 03 31 ff 89 c6 89 45 c0 e8 92 d1 e6 ff 8b 45 c0 85 c0 0f 85 98 fc ff ff e8 32 d6 e6 ff 90 <0f> 0b 90 e9 8a fc ff ff e8 24 d6 e6 ff 4c 89 e6 48 89 df e8 b9 c0
+RSP: 0018:ffff888020393c50 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: ffff888009cd3d58 RCX: ffffffff8142e8be
+RDX: ffff888010060000 RSI: ffffffff8142e8ce RDI: 0000000000000005
+RBP: ffff888020393c90 R08: 0000000000000000 R09: 0000000000000030
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffea0001b9fa80
+R13: 0000000000000293 R14: ffff88806dbb4778 R15: 0000000000000001
+FS:  000055556cd4e480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055556cd579a8 CR3: 000000001fb58005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ mark_buffer_dirty+0x1aa/0x260 fs/buffer.c:1200
+ gfs2_unpin+0xa7/0x4d0 fs/gfs2/lops.c:111
+ buf_lo_after_commit+0x87/0xc0 fs/gfs2/lops.c:738
+ lops_after_commit fs/gfs2/lops.h:51 [inline]
+ gfs2_log_flush+0x74a/0x11a0 fs/gfs2/log.c:1122
+ gfs2_kill_sb+0x45/0x210 fs/gfs2/ops_fstype.c:1786
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5bf1c9178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffc0a440f78 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f5bf1c9178b
+RDX: 00007f5bf1c292c0 RSI: 0000000000000009 RDI: 00007ffc0a441030
+RBP: 00007ffc0a441030 R08: 0000000000000000 R09: 00007ffc0a440e00
+R10: 000055556cd4fa4b R11: 0000000000000246 R12: 00007f5bf1cf0278
+R13: 00007ffc0a442110 R14: 000055556cd4f970 R15: 00007ffc0a442100
+ </TASK>
+irq event stamp: 2944086
+hardirqs last  enabled at (2944085): [<ffffffff8158f053>] folio_memcg_lock+0x123/0x1c0 mm/memcontrol.c:2207
+hardirqs last disabled at (2944086): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (2944086): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] local_bh_enable include/linux/bottom_half.h:33 [inline]
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] fpregs_unlock arch/x86/include/asm/fpu/api.h:80 [inline]
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] fpu_clone+0x125/0x5b0 arch/x86/kernel/fpu/core.c:634
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] fpregs_lock arch/x86/include/asm/fpu/api.h:72 [inline]
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] fpu_clone+0xe2/0x5b0 arch/x86/kernel/fpu/core.c:630
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 6229 at include/linux/backing-dev.h:251 inode_to_wb include/linux/backing-dev.h:251 [inline]
+WARNING: CPU: 1 PID: 6229 at include/linux/backing-dev.h:251 __folio_start_writeback+0x46d/0x480 mm/page-writeback.c:3063
+Modules linked in:
+CPU: 1 PID: 6229 Comm: syz-executor.3 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:inode_to_wb include/linux/backing-dev.h:251 [inline]
+RIP: 0010:__folio_start_writeback+0x46d/0x480 mm/page-writeback.c:3063
+Code: 48 8d 78 70 48 89 45 88 e8 c0 b2 ae 03 31 ff 89 c6 89 45 88 e8 94 fe e6 ff 8b 45 88 85 c0 0f 85 97 fe ff ff e8 34 03 e7 ff 90 <0f> 0b 90 e9 89 fe ff ff 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90
+RSP: 0018:ffff8880203939a8 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: ffffea0001b9fa80 RCX: ffffffff8142bbbc
+RDX: ffff888010060000 RSI: ffffffff8142bbcc RDI: 0000000000000005
+RBP: ffff888020393a30 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88806dbb4770
+R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000001
+FS:  000055556cd4e480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055556cd579a8 CR3: 000000001fb58005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ set_page_writeback+0x4a/0xc0 mm/folio-compat.c:51
+ gfs2_aspace_writepage+0x260/0x440 fs/gfs2/meta_io.c:73
+ __gfs2_writepage+0x30/0xc0 fs/gfs2/log.c:87
+ write_cache_pages+0x5b/0xb0 mm/page-writeback.c:2569
+ gfs2_ail1_start_one fs/gfs2/log.c:143 [inline]
+ gfs2_ail1_flush+0x301/0x680 fs/gfs2/log.c:223
+ gfs2_ail1_start+0x4d/0x60 fs/gfs2/log.c:254
+ empty_ail1_list fs/gfs2/log.c:986 [inline]
+ gfs2_log_flush+0xf21/0x11a0 fs/gfs2/log.c:1137
+ gfs2_kill_sb+0x45/0x210 fs/gfs2/ops_fstype.c:1786
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5bf1c9178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffc0a440f78 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f5bf1c9178b
+RDX: 00007f5bf1c292c0 RSI: 0000000000000009 RDI: 00007ffc0a441030
+RBP: 00007ffc0a441030 R08: 0000000000000000 R09: 00007ffc0a440e00
+R10: 000055556cd4fa4b R11: 0000000000000246 R12: 00007f5bf1cf0278
+R13: 00007ffc0a442110 R14: 000055556cd4f970 R15: 00007ffc0a442100
+ </TASK>
+irq event stamp: 2944108
+hardirqs last  enabled at (2944107): [<ffffffff8158f053>] folio_memcg_lock+0x123/0x1c0 mm/memcontrol.c:2207
+hardirqs last disabled at (2944108): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (2944108): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] local_bh_enable include/linux/bottom_half.h:33 [inline]
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] fpregs_unlock arch/x86/include/asm/fpu/api.h:80 [inline]
+softirqs last  enabled at (2930356): [<ffffffff81069ef5>] fpu_clone+0x125/0x5b0 arch/x86/kernel/fpu/core.c:634
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] local_bh_disable include/linux/bottom_half.h:20 [inline]
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] fpregs_lock arch/x86/include/asm/fpu/api.h:72 [inline]
+softirqs last disabled at (2930354): [<ffffffff81069eb2>] fpu_clone+0xe2/0x5b0 arch/x86/kernel/fpu/core.c:630
+---[ end trace 0000000000000000 ]---
+BTRFS info (device loop3): last unmount of filesystem d09153a9-5497-4f31-8e52-d2d02bbdf7fc

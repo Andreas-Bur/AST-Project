@@ -1,0 +1,75 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 16473 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ swake_up_one+0x15/0x80 kernel/sched/swait.c:51
+ swake_up_one_online+0x34/0x90 kernel/rcu/tree.c:1044
+ __rcu_report_exp_rnp+0x11f/0x170 kernel/rcu/tree_exp.h:202
+ rcu_report_exp_cpu_mult+0x73/0x110 kernel/rcu/tree_exp.h:251
+ rcu_report_exp_rdp kernel/rcu/tree_exp.h:260 [inline]
+ rcu_preempt_deferred_qs_irqrestore+0x209/0x3a0 kernel/rcu/tree_plugin.h:506
+ rcu_preempt_deferred_qs kernel/rcu/tree_plugin.h:607 [inline]
+ rcu_preempt_deferred_qs+0x4a/0x80 kernel/rcu/tree_plugin.h:600
+ rcu_note_context_switch+0xa0/0x540 kernel/rcu/tree_plugin.h:344
+ __schedule+0xab/0x17d0 kernel/sched/core.c:6635
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0x13b/0x140 kernel/time/timer.c:2558
+ do_wait_for_common kernel/sched/completion.c:95 [inline]
+ __wait_for_common+0xa6/0x200 kernel/sched/completion.c:116
+ wait_for_common kernel/sched/completion.c:127 [inline]
+ wait_for_completion_killable+0x23/0x40 kernel/sched/completion.c:254
+ __kthread_create_on_node+0x125/0x1c0 kernel/kthread.c:460
+ kthread_create_on_node+0x5d/0x70 kernel/kthread.c:512
+ bch2_journal_reclaim_start+0x63/0x1b0 fs/bcachefs/journal_reclaim.c:782
+ bch2_fs_journal_start+0x61a/0x690 fs/bcachefs/journal.c:1272
+ bch2_fs_recovery+0x13fe/0x2b20 fs/bcachefs/recovery.c:771
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7efdb7c91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007efdb8994e38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000005b36 RCX: 00007efdb7c91b3e
+RDX: 0000000020000580 RSI: 0000000020000040 RDI: 00007efdb8994e90
+RBP: 00007efdb8994ed0 R08: 00007efdb8994ed0 R09: 0000000000000003
+R10: 0000000000000003 R11: 0000000000000202 R12: 0000000020000580
+R13: 0000000020000040 R14: 00007efdb8994e90 R15: 0000000020006100
+ </TASK>
+bcachefs (loop4): error validating btree node on loop4 at btree extents level 0/0
+  u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 249e7ae2af8ee356 written 16 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0
+  node offset 0/16 bset u64s 0: bset at wrong sector offset, shutting down
+bcachefs (loop4): inconsistency detected - emergency read only at journal seq 8
+bcachefs (loop4): flagging btree extents lost data
+error reading btree root extents l=0: btree_node_read_error, shutting down
+bcachefs (loop4): bch2_fs_recovery(): error fsck_errors_not_fixed
+bcachefs (loop4): bch2_fs_start(): error starting filesystem fsck_errors_not_fixed
+bcachefs (loop4): shutting down
+bcachefs (loop4): shutdown complete

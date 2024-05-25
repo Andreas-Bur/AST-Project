@@ -1,0 +1,82 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 3 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 1 PID: 3 Comm: pool_workqueue_ Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dd05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff888009a54380 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dd05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff8880203c4c10
+R13: ffffffff81114da0 R14: ffff8880103b3000 R15: 0000000000200000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5a6bf51f10 CR3: 0000000022c8c003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:lockdep_unregister_key+0x15d/0x270 kernel/locking/lockdep.c:6475
+Code: 0b 08 0f 85 a1 00 00 00 48 c7 05 32 80 0b 08 00 00 00 00 c6 05 33 80 0b 08 00 65 ff 0d 64 90 e9 7e 41 f7 c6 00 02 00 00 75 31 <e8> ee 30 05 00 5b 41 5c 41 5d 41 5e 5d e9 0c 07 f8 03 44 8b 05 f2
+RSP: 0018:ffff888009a7be28 EFLAGS: 00000206
+RAX: ffff888009a54380 RBX: 0000000000000a5a RCX: 0000000000000001
+RDX: 0000000000000000 RSI: ffffffff88b1f9c0 RDI: 0000000000000000
+RBP: ffff888009a7be48 R08: 00000000ffffffff R09: 0000000000000001
+R10: 0000000000020000 R11: 0000000000000000 R12: ffff888029fbbd38
+R13: ffffffff88b279e8 R14: 0000000000000246 R15: ffff8880101d5c88
+ wq_unregister_lockdep kernel/workqueue.c:4655 [inline]
+ pwq_release_workfn+0x26c/0x3f0 kernel/workqueue.c:4958
+ kthread_worker_fn+0x14b/0x560 kernel/kthread.c:841
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 18501
+hardirqs last  enabled at (18500): [<ffffffff84f35414>] __do_softirq+0xa4/0x3c8 kernel/softirq.c:538
+hardirqs last disabled at (18501): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (18501): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (18454): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (18454): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (18499): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (18499): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (18499): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	0b 08                	or     (%rax),%ecx
+   2:	0f 85 a1 00 00 00    	jne    0xa9
+   8:	48 c7 05 32 80 0b 08 	movq   $0x0,0x80b8032(%rip)        # 0x80b8045
+   f:	00 00 00 00
+  13:	c6 05 33 80 0b 08 00 	movb   $0x0,0x80b8033(%rip)        # 0x80b804d
+  1a:	65 ff 0d 64 90 e9 7e 	decl   %gs:0x7ee99064(%rip)        # 0x7ee99085
+  21:	41 f7 c6 00 02 00 00 	test   $0x200,%r14d
+  28:	75 31                	jne    0x5b
+* 2a:	e8 ee 30 05 00       	call   0x5311d <-- trapping instruction
+  2f:	5b                   	pop    %rbx
+  30:	41 5c                	pop    %r12
+  32:	41 5d                	pop    %r13
+  34:	41 5e                	pop    %r14
+  36:	5d                   	pop    %rbp
+  37:	e9 0c 07 f8 03       	jmp    0x3f80748
+  3c:	44                   	rex.R
+  3d:	8b                   	.byte 0x8b
+  3e:	05                   	.byte 0x5
+  3f:	f2                   	repnz

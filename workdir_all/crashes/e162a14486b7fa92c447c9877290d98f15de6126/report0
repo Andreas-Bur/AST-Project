@@ -1,0 +1,74 @@
+------------[ cut here ]------------
+BTRFS: Transaction aborted (error -2)
+WARNING: CPU: 1 PID: 9393 at fs/btrfs/extent-tree.c:3017 do_free_extent_accounting fs/btrfs/extent-tree.c:3017 [inline]
+WARNING: CPU: 1 PID: 9393 at fs/btrfs/extent-tree.c:3017 __btrfs_free_extent.isra.0+0x1df7/0x1f70 fs/btrfs/extent-tree.c:3391
+Modules linked in:
+CPU: 1 PID: 9393 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:do_free_extent_accounting fs/btrfs/extent-tree.c:3017 [inline]
+RIP: 0010:__btrfs_free_extent.isra.0+0x1df7/0x1f70 fs/btrfs/extent-tree.c:3391
+Code: 8b 85 40 ff ff ff 89 85 7c ff ff ff e9 75 ee ff ff e8 bd 62 28 ff 90 8b b5 44 ff ff ff 48 c7 c7 38 4d 10 86 e8 3a af 0b ff 90 <0f> 0b 90 90 41 bf 01 00 00 00 e9 7a f5 ff ff e8 95 62 28 ff 90 8b
+RSP: 0018:ffff88802f127a10 EFLAGS: 00010296
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff810d0c60
+RDX: ffff88802c3a8000 RSI: ffffffff810d0cbd RDI: 0000000000000001
+RBP: ffff88802f127ad0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88800f4b5e00
+R13: 0000000000001000 R14: 00000000fffffffe R15: 0000000000000000
+FS:  0000555573e9e480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000560b7a0e4738 CR3: 000000002a020004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ run_delayed_data_ref fs/btrfs/extent-tree.c:1611 [inline]
+ run_one_delayed_ref fs/btrfs/extent-tree.c:1801 [inline]
+ btrfs_run_delayed_refs_for_head fs/btrfs/extent-tree.c:2062 [inline]
+ __btrfs_run_delayed_refs+0x5d9/0x1ac0 fs/btrfs/extent-tree.c:2132
+ btrfs_run_delayed_refs+0xe7/0x1e0 fs/btrfs/extent-tree.c:2244
+ btrfs_start_dirty_block_groups+0x4fc/0x830 fs/btrfs/block-group.c:3447
+ btrfs_commit_transaction+0x159/0x1b70 fs/btrfs/transaction.c:2215
+ btrfs_sync_fs+0xc2/0x500 fs/btrfs/super.c:1006
+ sync_filesystem fs/sync.c:66 [inline]
+ sync_filesystem+0xed/0x140 fs/sync.c:30
+ generic_shutdown_super+0x39/0x180 fs/super.c:620
+ kill_anon_super+0x20/0x50 fs/super.c:1225
+ btrfs_kill_super+0x24/0x40 fs/btrfs/super.c:2091
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0f37c9178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffdb7ab9438 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f0f37c9178b
+RDX: 00007f0f37c292c0 RSI: 0000000000000009 RDI: 00007ffdb7ab94f0
+RBP: 00007ffdb7ab94f0 R08: 0000000000000000 R09: 00007ffdb7ab92c0
+R10: 0000555573e9fa4b R11: 0000000000000246 R12: 00007f0f37cf0278
+R13: 00007ffdb7aba5d0 R14: 0000555573e9f970 R15: 00007ffdb7aba5c0
+ </TASK>
+irq event stamp: 276395
+hardirqs last  enabled at (276405): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (276405): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (276405): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (276414): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (276414): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (276414): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (276450): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (276450): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (276423): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (276423): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (276423): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+BTRFS: error (device loop1: state A) in do_free_extent_accounting:3017: errno=-2 No such entry
+BTRFS info (device loop1: state EA): forced readonly
+BTRFS error (device loop1: state EA): failed to run delayed ref for logical 6881280 num_bytes 4096 type 176 action 2 ref_mod 1: -2
+BTRFS: error (device loop1: state EA) in btrfs_run_delayed_refs:2246: errno=-2 No such entry
+BTRFS info (device loop1: state EA): last unmount of filesystem 9c2593b3-5c40-4e29-8ff3-7b58260955bc

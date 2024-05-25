@@ -1,0 +1,87 @@
+BUG: unable to handle page fault for address: 0000000000011844
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 44757067 P4D 44757067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 29602 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__list_add_valid include/linux/list.h:83 [inline]
+RIP: 0010:__list_add include/linux/list.h:150 [inline]
+RIP: 0010:list_add_tail include/linux/list.h:183 [inline]
+RIP: 0010:list_lru_add+0xbe/0x1e0 mm/list_lru.c:97
+Code: ff 0f b6 45 c8 84 c0 0f 85 9e 00 00 00 e8 ea c1 e0 ff 4c 03 33 49 83 c6 40 4c 89 75 c8 e8 da c1 e0 ff 4d 8b 7e 08 48 8b 45 c8 <49> 39 07 0f 85 cd 00 00 00 e8 c4 c1 e0 ff 4d 39 fc 0f 84 bf 00 00
+RSP: 0018:ffff88801eea3d88 EFLAGS: 00010293
+RAX: ffff88802af85a50 RBX: ffff88800e1f87a0 RCX: 0000000000000000
+RDX: ffff888027964380 RSI: ffffffff8148fd26 RDI: ffff888027964ea8
+RBP: ffff88801eea3dc8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803e503718
+R13: ffff88800d77dd00 R14: ffff88802af85a50 R15: 0000000000011844
+FS:  0000555570ec1480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000011844 CR3: 0000000043dee005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ list_lru_add_obj+0x9f/0xc0 mm/list_lru.c:116
+ d_lru_add+0x89/0xd0 fs/dcache.c:430
+ retain_dentry fs/dcache.c:712 [inline]
+ fast_dput fs/dcache.c:799 [inline]
+ fast_dput fs/dcache.c:746 [inline]
+ dput.part.0+0x6ba/0x760 fs/dcache.c:839
+ dput+0x24/0x40 fs/dcache.c:835
+ done_path_create fs/namei.c:3942 [inline]
+ do_mkdirat+0xf2/0x1e0 fs/namei.c:4149
+ __do_sys_mkdirat fs/namei.c:4161 [inline]
+ __se_sys_mkdirat fs/namei.c:4159 [inline]
+ __x64_sys_mkdirat+0x75/0xa0 fs/namei.c:4159
+ x64_sys_call+0x1abb/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:259
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f73ca08e84b
+Code: 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 02 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff918cf668 EFLAGS: 00000202 ORIG_RAX: 0000000000000102
+RAX: ffffffffffffffda RBX: 00007fff918cf700 RCX: 00007f73ca08e84b
+RDX: 00000000000001ff RSI: 00007fff918cf700 RDI: 00000000ffffff9c
+RBP: 00007fff918cf6cc R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000000000a R11: 0000000000000202 R12: 0000000000000032
+R13: 000000000007101f R14: 000000000000000b R15: 00007fff918cf6f0
+ </TASK>
+Modules linked in:
+CR2: 0000000000011844
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_add_valid include/linux/list.h:83 [inline]
+RIP: 0010:__list_add include/linux/list.h:150 [inline]
+RIP: 0010:list_add_tail include/linux/list.h:183 [inline]
+RIP: 0010:list_lru_add+0xbe/0x1e0 mm/list_lru.c:97
+Code: ff 0f b6 45 c8 84 c0 0f 85 9e 00 00 00 e8 ea c1 e0 ff 4c 03 33 49 83 c6 40 4c 89 75 c8 e8 da c1 e0 ff 4d 8b 7e 08 48 8b 45 c8 <49> 39 07 0f 85 cd 00 00 00 e8 c4 c1 e0 ff 4d 39 fc 0f 84 bf 00 00
+RSP: 0018:ffff88801eea3d88 EFLAGS: 00010293
+
+RAX: ffff88802af85a50 RBX: ffff88800e1f87a0 RCX: 0000000000000000
+RDX: ffff888027964380 RSI: ffffffff8148fd26 RDI: ffff888027964ea8
+RBP: ffff88801eea3dc8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803e503718
+R13: ffff88800d77dd00 R14: ffff88802af85a50 R15: 0000000000011844
+FS:  0000555570ec1480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000011844 CR3: 0000000043dee005 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess), 1 bytes skipped:
+   0:	0f b6 45 c8          	movzbl -0x38(%rbp),%eax
+   4:	84 c0                	test   %al,%al
+   6:	0f 85 9e 00 00 00    	jne    0xaa
+   c:	e8 ea c1 e0 ff       	call   0xffe0c1fb
+  11:	4c 03 33             	add    (%rbx),%r14
+  14:	49 83 c6 40          	add    $0x40,%r14
+  18:	4c 89 75 c8          	mov    %r14,-0x38(%rbp)
+  1c:	e8 da c1 e0 ff       	call   0xffe0c1fb
+  21:	4d 8b 7e 08          	mov    0x8(%r14),%r15
+  25:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+* 29:	49 39 07             	cmp    %rax,(%r15) <-- trapping instruction
+  2c:	0f 85 cd 00 00 00    	jne    0xff
+  32:	e8 c4 c1 e0 ff       	call   0xffe0c1fb
+  37:	4d 39 fc             	cmp    %r15,%r12
+  3a:	0f                   	.byte 0xf
+  3b:	84                   	.byte 0x84
+  3c:	bf                   	.byte 0xbf

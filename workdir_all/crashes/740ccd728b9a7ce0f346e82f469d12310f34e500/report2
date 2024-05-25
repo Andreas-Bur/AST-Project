@@ -1,0 +1,91 @@
+ntfs3: loop2: ino=9, ntfs_iget5
+============================================
+WARNING: possible recursive locking detected
+6.9.0-rc4 #2 Not tainted
+--------------------------------------------
+syz-executor.2/64006 is trying to acquire lock:
+ffff888029d553e0 (&ni->ni_lock){+.+.}-{3:3}, at: ntfs_set_state fs/ntfs3/fsntfs.c:947 [inline]
+ffff888029d553e0 (&ni->ni_lock){+.+.}-{3:3}, at: ntfs_set_state+0xc6/0x2e0 fs/ntfs3/fsntfs.c:921
+
+but task is already holding lock:
+ffff88802bf4ef80 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ffff88802bf4ef80 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0xce/0x1250 fs/ntfs3/frecord.c:3265
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&ni->ni_lock);
+  lock(&ni->ni_lock);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+3 locks held by syz-executor.2/64006:
+ #0: ffff8880525cf420 (sb_writers#17){.+.+}-{0:0}, at: do_pwritev fs/read_write.c:1072 [inline]
+ #0: ffff8880525cf420 (sb_writers#17){.+.+}-{0:0}, at: __do_sys_pwritev fs/read_write.c:1119 [inline]
+ #0: ffff8880525cf420 (sb_writers#17){.+.+}-{0:0}, at: __se_sys_pwritev fs/read_write.c:1114 [inline]
+ #0: ffff8880525cf420 (sb_writers#17){.+.+}-{0:0}, at: __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+ #1: ffff88802bf4f220 (&sb->s_type->i_mutex_key#43){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:795 [inline]
+ #1: ffff88802bf4f220 (&sb->s_type->i_mutex_key#43){+.+.}-{3:3}, at: __generic_file_fsync+0x7e/0x150 fs/libfs.c:1477
+ #2: ffff88802bf4ef80 (&ni->ni_lock){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ #2: ffff88802bf4ef80 (&ni->ni_lock){+.+.}-{3:3}, at: ni_write_inode+0xce/0x1250 fs/ntfs3/frecord.c:3265
+
+stack backtrace:
+CPU: 1 PID: 64006 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_deadlock_bug+0x27c/0x3d0 kernel/locking/lockdep.c:3012
+ check_deadlock kernel/locking/lockdep.c:3062 [inline]
+ validate_chain kernel/locking/lockdep.c:3856 [inline]
+ __lock_acquire+0x1125/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ ntfs_set_state fs/ntfs3/fsntfs.c:947 [inline]
+ ntfs_set_state+0xc6/0x2e0 fs/ntfs3/fsntfs.c:921
+ ntfs_bad_inode+0x4c/0x60 fs/ntfs3/fsntfs.c:911
+ ntfs_iget5+0xe9/0x1a50 fs/ntfs3/inode.c:535
+ ni_update_parent fs/ntfs3/frecord.c:3218 [inline]
+ ni_write_inode+0xbf6/0x1250 fs/ntfs3/frecord.c:3324
+ ntfs3_write_inode+0x3d/0x50 fs/ntfs3/inode.c:1040
+ write_inode fs/fs-writeback.c:1498 [inline]
+ __writeback_single_inode+0x66b/0x870 fs/fs-writeback.c:1715
+ writeback_single_inode+0x18c/0x340 fs/fs-writeback.c:1771
+ sync_inode_metadata+0x52/0x70 fs/fs-writeback.c:2833
+ __generic_file_fsync+0xf0/0x150 fs/libfs.c:1484
+ generic_file_fsync+0x3e/0x80 fs/libfs.c:1514
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ ntfs_file_write_iter+0x47c/0x1320 fs/ntfs3/file.c:1126
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev fs/read_write.c:1072 [inline]
+ __do_sys_pwritev fs/read_write.c:1119 [inline]
+ __se_sys_pwritev fs/read_write.c:1114 [inline]
+ __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+ x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fda9348fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fda942f4028 EFLAGS: 00000246 ORIG_RAX: 0000000000000128
+RAX: ffffffffffffffda RBX: 00007fda935cbf80 RCX: 00007fda9348fd6d
+RDX: 0000000000000001 RSI: 0000000020001680 RDI: 0000000000000005
+RBP: 00007fda934f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fda935cbf80 R15: 00007fda942d4000
+ </TASK>
+ntfs3: loop2: Mark volume as dirty due to NTFS errors
+ntfs3: loop2: MFT: r=9, expect seq=0 instead of 9!
+ntfs3: loop2: ino=1f, "file3" failed to open parent directory r=9 to update

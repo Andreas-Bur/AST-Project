@@ -1,0 +1,52 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/alloc_foreground.c:470!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 58 Comm: kworker/u8:4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btree_node_rewrite async_btree_node_rewrite_work
+RIP: 0010:bch2_bucket_alloc_freelist+0x514/0x520 fs/bcachefs/alloc_foreground.c:470
+Code: 48 89 9d 10 ff ff ff e9 93 fb ff ff e8 b5 dd ff fe 41 81 cc 08 01 00 00 e9 df fb ff ff 31 c0 e9 ac fe ff ff e8 9d dd ff fe 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffff88800af57310 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000019 RCX: ffffffff8229dcc2
+RDX: ffff88800af2a1c0 RSI: ffffffff8229e163 RDI: 0000000000000007
+RBP: ffff88800af57410 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000019 R11: 0000000000000001 R12: 0000000000000001
+R13: 0000000000000001 R14: ffff88800fcb0000 R15: ffff88800af57478
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff8269c9000 CR3: 000000000e494006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_bucket_alloc_trans+0x3e6/0x880 fs/bcachefs/alloc_foreground.c:566
+ bch2_bucket_alloc_set_trans+0x2b1/0xcc0 fs/bcachefs/alloc_foreground.c:741
+ __open_bucket_add_buckets+0x4a8/0x8c0 fs/bcachefs/alloc_foreground.c:991
+ open_bucket_add_buckets fs/bcachefs/alloc_foreground.c:1035 [inline]
+ bch2_alloc_sectors_start_trans+0x6d1/0xd10 fs/bcachefs/alloc_foreground.c:1386
+ __bch2_btree_node_alloc+0x393/0x660 fs/bcachefs/btree_update_interior.c:331
+ bch2_btree_reserve_get+0x101/0x190 fs/bcachefs/btree_update_interior.c:545
+ bch2_btree_update_start+0x5c6/0xbb0 fs/bcachefs/btree_update_interior.c:1220
+ bch2_btree_node_rewrite+0x98/0x530 fs/bcachefs/btree_update_interior.c:2086
+ async_btree_node_rewrite_trans+0x1ca/0x3a0 fs/bcachefs/btree_update_interior.c:2173
+ async_btree_node_rewrite_work+0x68/0x2c0 fs/bcachefs/btree_update_interior.c:2187
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_bucket_alloc_freelist+0x514/0x520 fs/bcachefs/alloc_foreground.c:470
+Code: 48 89 9d 10 ff ff ff e9 93 fb ff ff e8 b5 dd ff fe 41 81 cc 08 01 00 00 e9 df fb ff ff 31 c0 e9 ac fe ff ff e8 9d dd ff fe 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
+RSP: 0018:ffff88800af57310 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000019 RCX: ffffffff8229dcc2
+RDX: ffff88800af2a1c0 RSI: ffffffff8229e163 RDI: 0000000000000007
+RBP: ffff88800af57410 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000019 R11: 0000000000000001 R12: 0000000000000001
+R13: 0000000000000001 R14: ffff88800fcb0000 R15: ffff88800af57478
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff8269c9000 CR3: 000000000e494006 CR4: 0000000000770ef0
+PKRU: 55555554

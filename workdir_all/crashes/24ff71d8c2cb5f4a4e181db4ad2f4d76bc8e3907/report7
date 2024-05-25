@@ -1,0 +1,50 @@
+BUG: sleeping function called from invalid context at kernel/printk/printk.c:2659
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 10666, name: iou-wrk-10647
+preempt_count: 1, expected: 0
+RCU nest depth: 0, expected: 0
+3 locks held by iou-wrk-10647/10666:
+ #0: ffff888025c8a8a0 (&tty->ldisc_sem){++++}-{0:0}, at: ldsem_down_read+0x3a/0x50 drivers/tty/tty_ldsem.c:340
+ #1: ffff888025c8a930 (&tty->atomic_write_lock){+.+.}-{3:3}, at: tty_write_lock drivers/tty/tty_io.c:954 [inline]
+ #1: ffff888025c8a930 (&tty->atomic_write_lock){+.+.}-{3:3}, at: iterate_tty_write drivers/tty/tty_io.c:973 [inline]
+ #1: ffff888025c8a930 (&tty->atomic_write_lock){+.+.}-{3:3}, at: file_tty_write.constprop.0+0xe1/0x490 drivers/tty/tty_io.c:1096
+ #2: ffff88801a28bbe0 (&gsm->tx_lock){....}-{2:2}, at: gsmld_write+0x49/0xe0 drivers/tty/n_gsm.c:3721
+irq event stamp: 4
+hardirqs last  enabled at (3): [<ffffffff84f342e7>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+hardirqs last  enabled at (3): [<ffffffff84f342e7>] _raw_spin_unlock_irq+0x27/0x50 kernel/locking/spinlock.c:202
+hardirqs last disabled at (4): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (4): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (0): [<ffffffff810cc596>] copy_process+0xd16/0x3aa0 kernel/fork.c:2334
+softirqs last disabled at (0): [<0000000000000000>] 0x0
+CPU: 1 PID: 10666 Comm: iou-wrk-10647 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ __might_resched+0x168/0x280 kernel/sched/core.c:10197
+ __might_sleep+0x41/0x70 kernel/sched/core.c:10126
+ console_lock+0x21/0xd0 kernel/printk/printk.c:2659
+ do_con_write+0x70/0x3300 drivers/tty/vt/vt.c:3056
+ con_write+0x28/0x80 drivers/tty/vt/vt.c:3434
+ gsmld_write+0xc4/0xe0 drivers/tty/n_gsm.c:3724
+ iterate_tty_write drivers/tty/tty_io.c:1021 [inline]
+ file_tty_write.constprop.0+0x20a/0x490 drivers/tty/tty_io.c:1096
+ tty_write+0x21/0x30 drivers/tty/tty_io.c:1117
+ call_write_iter include/linux/fs.h:2110 [inline]
+ io_write+0x1e2/0xa30 io_uring/rw.c:1057
+ io_issue_sqe+0xa1/0x5b0 io_uring/io_uring.c:1897
+ io_wq_submit_work+0x124/0x580 io_uring/io_uring.c:2006
+ io_worker_handle_work+0x33b/0x920 io_uring/io-wq.c:596
+ io_wq_worker+0x140/0x610 io_uring/io-wq.c:649
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+RIP: 0033:0x0
+Code: Unable to access opcode bytes at 0xffffffffffffffd6.
+RSP: 002b:0000000000000000 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: 0000000000000000 RBX: 00007f1389dcbf80 RCX: 00007f1389c9002d
+RDX: 0000000000020000 RSI: 000000000000079e RDI: 0000000000000006
+RBP: 00007f1389cf14d0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f1389dcbf80 R15: 00007f13897df000
+ </TASK>

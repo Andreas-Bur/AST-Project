@@ -1,0 +1,53 @@
+------------[ cut here ]------------
+proc_dir_entry 'can-bcm/102976' already registered
+WARNING: CPU: 1 PID: 49851 at fs/proc/generic.c:375 proc_register+0x1b6/0x280 fs/proc/generic.c:375
+Modules linked in:
+CPU: 1 PID: 49851 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:proc_register+0x1b6/0x280 fs/proc/generic.c:375
+Code: a0 ed 82 03 e9 ab 00 00 00 e8 06 62 b9 ff 90 48 8b 45 c8 4c 89 fa 48 c7 c7 f8 1b 0b 86 48 8b b0 d8 00 00 00 e8 7b ae 9c ff 90 <0f> 0b 90 90 48 c7 c7 00 45 61 86 e8 6a ed 82 03 41 8b 86 94 00 00
+RSP: 0018:ffff888044a27d40 EFLAGS: 00010292
+RAX: 000000000000694e RBX: 0000000000000000 RCX: ffffc90004f0d000
+RDX: 0000000000040000 RSI: ffffffff810d0c69 RDI: 0000000000000001
+RBP: ffff888044a27d80 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000006
+R13: ffff88802adf46c0 R14: ffff888029f58000 R15: ffff888029f580e4
+FS:  00007f5d444c7640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5d444c6f88 CR3: 000000001e28c002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ proc_create_net_single+0x6b/0x90 fs/proc/proc_net.c:219
+ bcm_connect+0xf1/0x260 net/can/bcm.c:1673
+ __sys_connect_file+0xa9/0xb0 net/socket.c:2048
+ __sys_connect+0x105/0x130 net/socket.c:2065
+ __do_sys_connect net/socket.c:2075 [inline]
+ __se_sys_connect net/socket.c:2072 [inline]
+ __x64_sys_connect+0x20/0x30 net/socket.c:2072
+ x64_sys_call+0x1e15/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:43
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5d4368fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5d444c7028 EFLAGS: 00000246 ORIG_RAX: 000000000000002a
+RAX: ffffffffffffffda RBX: 00007f5d437cc050 RCX: 00007f5d4368fd6d
+RDX: 0000000000000010 RSI: 0000000020000080 RDI: 0000000000000003
+RBP: 00007f5d436f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f5d437cc050 R15: 00007f5d444a7000
+ </TASK>
+irq event stamp: 857
+hardirqs last  enabled at (867): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (867): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (867): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (876): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (876): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (876): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (832): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (832): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (769): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (769): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (769): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

@@ -1,0 +1,64 @@
+bcachefs (loop2): flushing journal and stopping allocators, journal seq 17
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 12524 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ srcu_read_lock include/linux/srcu.h:215 [inline]
+ bch2_trans_srcu_lock fs/bcachefs/btree_iter.c:2896 [inline]
+ bch2_btree_path_traverse_one+0x14c5/0x15a0 fs/bcachefs/btree_iter.c:1143
+ bch2_btree_path_traverse fs/bcachefs/btree_iter.h:225 [inline]
+ bch2_btree_path_traverse fs/bcachefs/btree_iter.h:219 [inline]
+ bch2_btree_iter_traverse+0x1df/0x360 fs/bcachefs/btree_iter.c:1741
+ wb_flush_one fs/bcachefs/btree_write_buffer.c:144 [inline]
+ bch2_btree_write_buffer_flush_locked+0x6dc/0x11b0 fs/bcachefs/btree_write_buffer.c:337
+ btree_write_buffer_flush_seq+0x333/0x3e0 fs/bcachefs/btree_write_buffer.c:432
+ bch2_btree_write_buffer_journal_flush+0x54/0x90 fs/bcachefs/btree_write_buffer.c:447
+ journal_flush_pins.constprop.0+0x2e2/0x500 fs/bcachefs/journal_reclaim.c:553
+ journal_flush_done+0x6a/0x1a0 fs/bcachefs/journal_reclaim.c:806
+ bch2_journal_flush_pins+0x74/0x150 fs/bcachefs/journal_reclaim.c:839
+ bch2_journal_flush_all_pins fs/bcachefs/journal_reclaim.h:76 [inline]
+ __bch2_fs_read_only+0xcb/0x2b0 fs/bcachefs/super.c:277
+ bch2_fs_read_only+0x2c2/0x690 fs/bcachefs/super.c:357
+ __bch2_fs_stop+0x65/0x2f0 fs/bcachefs/super.c:621
+ bch2_put_super+0x1d/0x30 fs/bcachefs/fs.c:1785
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ bch2_kill_sb+0x24/0x40 fs/bcachefs/fs.c:2009
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0f04a9178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffdd480abf8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f0f04a9178b
+RDX: 00007f0f04a292c0 RSI: 0000000000000009 RDI: 00007ffdd480acb0
+RBP: 00007ffdd480acb0 R08: 0000000000000000 R09: 00007ffdd480aa80
+R10: 0000555589681a4b R11: 0000000000000246 R12: 00007f0f04af0278
+R13: 00007ffdd480bd90 R14: 0000555589681970 R15: 00007ffdd480bd80
+ </TASK>
+bcachefs (loop2): flushing journal and stopping allocators complete, journal seq 20
+bcachefs (loop2): shutdown complete, journal seq 21
+bcachefs (loop2): marking filesystem clean
+bcachefs (loop2): shutdown complete

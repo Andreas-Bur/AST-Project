@@ -1,0 +1,69 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/alloc_background.h:136!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 16274 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:alloc_v4_u64s fs/bcachefs/alloc_background.h:136 [inline]
+RIP: 0010:alloc_v4_u64s fs/bcachefs/alloc_background.h:129 [inline]
+RIP: 0010:bch2_alloc_v4_invalid+0x42c/0x540 fs/bcachefs/alloc_background.c:247
+Code: c6 98 bc 11 86 41 bc 1b f7 ff ff e8 9e 56 16 00 48 8b 7c 24 10 be 68 00 00 00 e8 5f f2 17 00 e9 13 fe ff ff e8 65 e3 00 ff 90 <0f> 0b e8 5d e3 00 ff 48 8b 7c 24 08 4c 89 e9 44 89 fa 48 c7 c6 63
+RSP: 0018:ffff88803bd1b490 EFLAGS: 00010212
+RAX: 000000000003bb2d RBX: ffff888024720b58 RCX: ffffc9000d751000
+RDX: 0000000000040000 RSI: ffffffff8228db9b RDI: 0000000000000005
+RBP: ffff88803bd1b4e0 R08: ffff88803bd1b5f0 R09: 0000000000000001
+R10: 0000000000000103 R11: dead000000000100 R12: 0000000000000007
+R13: ffff88803bd1b618 R14: 0000000000003f1f R15: 0000000000000103
+FS:  00007f18137ff640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fef24fcd988 CR3: 0000000027b5e003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_bkey_val_invalid+0xad/0x100 fs/bcachefs/bkey_methods.c:140
+ bch2_btree_node_read_done+0x1728/0x2020 fs/bcachefs/btree_io.c:1212
+ btree_node_read_work+0x3b8/0x910 fs/bcachefs/btree_io.c:1323
+ bch2_btree_node_read+0x46a/0xb00 fs/bcachefs/btree_io.c:1706
+ __bch2_btree_root_read fs/bcachefs/btree_io.c:1745 [inline]
+ bch2_btree_root_read+0x1bd/0x380 fs/bcachefs/btree_io.c:1769
+ read_btree_roots fs/bcachefs/recovery.c:454 [inline]
+ bch2_fs_recovery+0x1512/0x2b20 fs/bcachefs/recovery.c:782
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f1813c91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f18137fee38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000005b25 RCX: 00007f1813c91b3e
+RDX: 0000000020005b00 RSI: 0000000020005b40 RDI: 00007f18137fee90
+RBP: 00007f18137feed0 R08: 00007f18137feed0 R09: 0000000000000003
+R10: 0000000000000003 R11: 0000000000000202 R12: 0000000020005b00
+R13: 0000000020005b40 R14: 00007f18137fee90 R15: 0000000020005b80
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:alloc_v4_u64s fs/bcachefs/alloc_background.h:136 [inline]
+RIP: 0010:alloc_v4_u64s fs/bcachefs/alloc_background.h:129 [inline]
+RIP: 0010:bch2_alloc_v4_invalid+0x42c/0x540 fs/bcachefs/alloc_background.c:247
+Code: c6 98 bc 11 86 41 bc 1b f7 ff ff e8 9e 56 16 00 48 8b 7c 24 10 be 68 00 00 00 e8 5f f2 17 00 e9 13 fe ff ff e8 65 e3 00 ff 90 <0f> 0b e8 5d e3 00 ff 48 8b 7c 24 08 4c 89 e9 44 89 fa 48 c7 c6 63
+RSP: 0018:ffff88803bd1b490 EFLAGS: 00010212
+RAX: 000000000003bb2d RBX: ffff888024720b58 RCX: ffffc9000d751000
+RDX: 0000000000040000 RSI: ffffffff8228db9b RDI: 0000000000000005
+RBP: ffff88803bd1b4e0 R08: ffff88803bd1b5f0 R09: 0000000000000001
+R10: 0000000000000103 R11: dead000000000100 R12: 0000000000000007
+R13: ffff88803bd1b618 R14: 0000000000003f1f R15: 0000000000000103
+FS:  00007f18137ff640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fef24fcd988 CR3: 0000000027b5e003 CR4: 0000000000770ef0
+PKRU: 55555554

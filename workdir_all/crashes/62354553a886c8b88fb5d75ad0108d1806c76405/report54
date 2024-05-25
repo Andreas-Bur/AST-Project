@@ -1,0 +1,61 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 18432 at include/linux/backing-dev.h:251 inode_to_wb include/linux/backing-dev.h:251 [inline]
+WARNING: CPU: 1 PID: 18432 at include/linux/backing-dev.h:251 folio_account_dirtied mm/page-writeback.c:2672 [inline]
+WARNING: CPU: 1 PID: 18432 at include/linux/backing-dev.h:251 __folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Modules linked in:
+CPU: 1 PID: 18432 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:inode_to_wb include/linux/backing-dev.h:251 [inline]
+RIP: 0010:folio_account_dirtied mm/page-writeback.c:2672 [inline]
+RIP: 0010:__folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Code: ff ff ff ff 48 8d 78 70 e8 be 85 ae 03 31 ff 89 c6 89 45 c0 e8 92 d1 e6 ff 8b 45 c0 85 c0 0f 85 98 fc ff ff e8 32 d6 e6 ff 90 <0f> 0b 90 e9 8a fc ff ff e8 24 d6 e6 ff 4c 89 e6 48 89 df e8 b9 c0
+RSP: 0018:ffff888022e03ae0 EFLAGS: 00010046
+RAX: 0000000000040000 RBX: ffff888009cd6958 RCX: ffffc9000d751000
+RDX: 0000000000040000 RSI: ffffffff8142e8ce RDI: 0000000000000005
+RBP: ffff888022e03b20 R08: 0000000000000000 R09: ffffffff888e2218
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffea0000c06e00
+R13: 0000000000000246 R14: ffff88802ae0e928 R15: 0000000000000001
+FS:  00007f8855ac7640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055e24b1fd030 CR3: 000000002adee004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ mark_buffer_dirty+0x1aa/0x260 fs/buffer.c:1200
+ gfs2_unpin+0xa7/0x4d0 fs/gfs2/lops.c:111
+ buf_lo_after_commit+0x87/0xc0 fs/gfs2/lops.c:738
+ lops_after_commit fs/gfs2/lops.h:51 [inline]
+ gfs2_log_flush+0x74a/0x11a0 fs/gfs2/log.c:1122
+ gfs2_trans_end+0x1cd/0x3b0 fs/gfs2/trans.c:158
+ alloc_dinode fs/gfs2/inode.c:433 [inline]
+ gfs2_create_inode+0xd2b/0x1770 fs/gfs2/inode.c:739
+ gfs2_mkdir+0x4d/0x60 fs/gfs2/inode.c:1257
+ vfs_mkdir+0x2a6/0x390 fs/namei.c:4123
+ do_mkdirat+0x177/0x1e0 fs/namei.c:4146
+ __do_sys_mkdirat fs/namei.c:4161 [inline]
+ __se_sys_mkdirat fs/namei.c:4159 [inline]
+ __x64_sys_mkdirat+0x75/0xa0 fs/namei.c:4159
+ x64_sys_call+0x1abb/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:259
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8854c8e84b
+Code: 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 02 01 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f8855ac6e38 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f8854c8e84b
+RDX: 00000000000001ff RSI: 0000000020000140 RDI: 00000000ffffff9c
+RBP: 0000000020000380 R08: 0000000000000001 R09: 0000000000000000
+R10: 00000000200000c0 R11: 0000000000000246 R12: 00000000200000c0
+R13: 0000000020000140 R14: 00007f8855ac6e90 R15: 0000000020000200
+ </TASK>
+irq event stamp: 363492
+hardirqs last  enabled at (363491): [<ffffffff8158f053>] folio_memcg_lock+0x123/0x1c0 mm/memcontrol.c:2207
+hardirqs last disabled at (363492): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (363492): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (363396): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (363396): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (363381): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (363381): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (363381): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+fuse: Bad value for 'fd'

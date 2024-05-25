@@ -1,0 +1,5 @@
+syz_io_uring_setup(0x5e10, &(0x7f0000000080)={0x0, 0xb8a7, 0x100, 0x3, 0x138, 0x0, r2}, &(0x7f0000000100)=<r5=>0x0, &(0x7f0000000140))
+mmap$IORING_OFF_SQES(&(0x7f0000ffd000/0x3000)=nil, 0x3000, 0x2, 0x30, r3, 0x10000000)
+r6 = mmap$IORING_OFF_SQES(&(0x7f0000ffd000/0x2000)=nil, 0x2000, 0x1, 0x10, r2, 0x10000000)
+syz_io_uring_submit(r5, r6, 0x0)
+2024/05/11 19:16:25 SYZFATAL: executor 7 failed 11 times: failed to start executor binary: fork/exec /syz-executor.7: resource temporarily unavailable

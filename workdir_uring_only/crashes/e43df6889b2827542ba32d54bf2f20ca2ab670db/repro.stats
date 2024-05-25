@@ -1,0 +1,392 @@
+Extracting prog: 2m17.85453866s
+Minimizing prog: 3m59.334857551s
+Simplifying prog options: 0s
+Extracting C: 17.930017244s
+Simplifying C: 1m53.944597982s
+
+
+505 programs, 3 VMs, timeouts [15s 1m40s 6m0s]
+extracting reproducer from 505 programs
+single: executing 8 programs separately with timeout 15s
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$tun-socket$inet-setsockopt$inet_int-ioctl$TUNSETIFF-ioctl$TUNSETLINK
+detailed listing:
+executing program 0:
+r0 = openat$tun(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = socket$inet(0x2, 0x1, 0x84)
+setsockopt$inet_int(r1, 0x84, 0x25, &(0x7f0000000040)=0x3, 0xfd7c)
+ioctl$TUNSETIFF(r0, 0x400454ca, &(0x7f0000000080)={'pimreg\x00', 0xe})
+ioctl$TUNSETLINK(r0, 0x400454cd, 0x324)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): socket$unix-socket$unix-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$packet-syz_io_uring_setup-syz_io_uring_submit-io_uring_enter-socket$netlink-syz_io_uring_setup-setsockopt$SO_BINDTODEVICE-socket$inet-ioctl$IOCTL_GET_NCIDEV_IDX-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_enter
+detailed listing:
+executing program 0:
+socket$unix(0x1, 0x5, 0x0)
+socket$unix(0xa, 0x1, 0x106)
+r0 = syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r3 = socket$packet(0x11, 0x2, 0x300)
+syz_io_uring_setup(0x79a, &(0x7f0000000080), &(0x7f00000003c0)=<r4=>0x0, &(0x7f0000000180))
+syz_io_uring_submit(r4, r2, &(0x7f0000000380)=@IORING_OP_CLOSE={0x13, 0x0, 0x0, r3})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)
+socket$netlink(0x10, 0x3, 0xb)
+r5 = syz_io_uring_setup(0x3436, &(0x7f0000000140), &(0x7f0000000000)=<r6=>0x0, &(0x7f0000000100)=<r7=>0x0)
+setsockopt$SO_BINDTODEVICE(0xffffffffffffffff, 0x1, 0x19, &(0x7f0000000040)='macvtap0\x00', 0x10)
+r8 = socket$inet(0x2, 0x1, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r8, 0x89b1, &(0x7f0000000040))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r6, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r6, r7, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd_index=0x6, 0x0, 0x0, 0xfffffffffffffe55})
+io_uring_enter(r5, 0x79e, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r0, 0xe4c, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$dir-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-openat$dir-openat$dir-socket$unix-setsockopt$SO_ATTACH_FILTER-ioctl$EXT4_IOC_GROUP_ADD-socket$unix-io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-openat$dir-syz_io_uring_submit-io_uring_enter-openat$dir-openat$dir-ioctl$FS_IOC_SETFLAGS-openat$dir-syz_io_uring_submit-io_uring_enter-openat$dir-ioctl$EXT4_IOC_GET_ES_CACHE-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$packet-socket$unix-openat$ppp-ioctl$PPPIOCNEWUNIT-ioctl$PPPIOCGIDLE64
+detailed listing:
+executing program 0:
+openat$dir(0xffffffffffffff9c, 0x0, 0x24841, 0x0)
+r0 = syz_io_uring_setup(0x3436, &(0x7f0000000080), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000100)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+openat$dir(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+r3 = socket$unix(0xa, 0x5, 0x0)
+setsockopt$SO_ATTACH_FILTER(r3, 0x84, 0xa, 0x0, 0x0)
+ioctl$EXT4_IOC_GROUP_ADD(0xffffffffffffffff, 0x40086602, 0x0)
+socket$unix(0x25, 0x0, 0x3)
+io_uring_setup(0x0, 0x0)
+r4 = syz_io_uring_setup(0x40c6, &(0x7f0000000080)={0x0, 0x61fa, 0x0, 0x0, 0x10000000}, &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000100)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000040)=0x80000000, 0x0, 0x4)
+r7 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x20841, 0x0)
+syz_io_uring_submit(r5, r6, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd=r7, 0x7ffffd, &(0x7f0000002380)="edc2b528", 0x4})
+io_uring_enter(r4, 0x79e, 0x0, 0x0, 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+openat$dir(0xffffffffffffff9c, 0x0, 0x608480, 0x0)
+ioctl$FS_IOC_SETFLAGS(0xffffffffffffffff, 0x40086602, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x20841, 0x0)
+syz_io_uring_submit(r1, r2, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd_index=0x5, 0x1020004, &(0x7f0000000440)="fb", 0x1})
+io_uring_enter(r0, 0x79e, 0x0, 0x0, 0x0, 0x0)
+r8 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x24841, 0x0)
+ioctl$EXT4_IOC_GET_ES_CACHE(r8, 0x40305829, &(0x7f0000000140)={0x0, 0x0, 0x0, 0x2})
+syz_io_uring_setup(0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x0, 0x0, 0x0, 0x4)
+socket$packet(0x11, 0x3, 0x300)
+socket$unix(0xa, 0x1, 0x0)
+r9 = openat$ppp(0xffffffffffffff9c, &(0x7f0000000180), 0x0, 0x0)
+ioctl$PPPIOCNEWUNIT(r9, 0xc004743e, &(0x7f0000000000))
+ioctl$PPPIOCGIDLE64(r9, 0x4004743c, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$packet-socket$unix-setsockopt$SO_BINDTODEVICE-setsockopt$packet_int-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$xdp-syz_io_uring_submit-io_uring_enter-socket$xdp-syz_io_uring_submit-socket$igmp-socket$unix-getpeername$packet-setsockopt$MRT_DONE-syz_io_uring_submit-syz_io_uring_setup-io_uring_register$IORING_REGISTER_BUFFERS_UPDATE-syz_io_uring_submit-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+r0 = syz_io_uring_setup(0x62bd, &(0x7f0000000080), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000200)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4) (async)
+r3 = socket$packet(0x11, 0x3, 0x300) (async)
+r4 = socket$unix(0x15, 0x5, 0x0)
+setsockopt$SO_BINDTODEVICE(r4, 0x114, 0x1d, 0x0, 0x0) (async)
+setsockopt$packet_int(r3, 0x107, 0xf, &(0x7f0000000240)=0x7ff, 0x4) (async)
+r5 = syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000340)=<r6=>0x0, &(0x7f0000000100)=<r7=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r6, 0x4, &(0x7f0000000140)=0x88000000, 0x0, 0x4) (async)
+socket$xdp(0x2c, 0x3, 0x0) (async, rerun: 64)
+syz_io_uring_submit(r6, r7, &(0x7f0000000040)=@IORING_OP_SOCKET={0x2d, 0x0, 0x0, 0x25, 0x5}) (async, rerun: 64)
+io_uring_enter(r5, 0x6d6d, 0x0, 0x0, 0x0, 0x0) (async)
+socket$xdp(0x2c, 0x3, 0x0) (async, rerun: 64)
+syz_io_uring_submit(r1, r2, &(0x7f0000000140)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000500)={&(0x7f0000000180)=@hci, 0x80, &(0x7f0000000440)=[{0x0}], 0x1, &(0x7f0000000340)=ANY=[@ANYBLOB="e8000000000000001100000000000080791a8991d0f486befd6b41b59648b4acc1aa690000010000000000ed300ee87098015c78f73d45e7f2b9b124ced17b441c6a68ec3708e9627f602d45129f0ad64c917173451a203ba00234f522df9c5a006a45d6059ceda251b198b4896bc20df9d84546264dcb762b58f06ce6beaa5f42f355a8f965a70a6e2f78ce78a92452dea327bad506488c5307d3537aafdb30b70acb492b5be4087530d09a63cae319ea5f37bcfa17facfacb8153a2aac8b7e59fb037faab6d91e5ca173ea336eb8110f50723ecc7b11a5d4d56808c846d4d3ba4f000000000000a0"], 0x188}}) (async, rerun: 64)
+r8 = socket$igmp(0x2, 0x3, 0x2)
+r9 = socket$unix(0x2, 0x2, 0x73)
+getpeername$packet(r9, 0x0, 0x0) (async)
+setsockopt$MRT_DONE(r8, 0x0, 0xc9, 0x0, 0x0) (async)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000480)=@IORING_OP_RECVMSG={0xa, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000000440)={&(0x7f0000000140)=@pppol2tpin6={0x18, 0x1, {0x0, 0xffffffffffffffff, 0x0, 0x0, 0x0, 0x0, {0xa, 0x0, 0x0, @dev}}}, 0xffc4, 0x0}}) (async)
+r10 = syz_io_uring_setup(0x274d, &(0x7f0000000480), &(0x7f0000000500), &(0x7f0000000540))
+io_uring_register$IORING_REGISTER_BUFFERS_UPDATE(r10, 0x1c, 0x0, 0x0) (async)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000140)=@IORING_OP_OPENAT={0x12, 0x4, 0x0, 0xffffffffffffff9c, 0x0, 0x0}) (async)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_POLL_ADD={0x6, 0x0, 0x0, @fd_index=0x5})
+io_uring_enter(r0, 0x20, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_init_net_socket$ax25-openat$cdrom-openat$dir-syz_io_uring_setup-io_uring_register$IORING_REGISTER_PBUF_RING-io_uring_register$IORING_REGISTER_PBUF_RING-ioctl$DVD_WRITE_STRUCT
+detailed listing:
+executing program 0:
+syz_init_net_socket$ax25(0x3, 0x0, 0x0)
+r0 = openat$cdrom(0xffffffffffffff9c, &(0x7f0000000000), 0x101800, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f00000021c0)='./file0\x00', 0x189143, 0x134)
+r1 = syz_io_uring_setup(0x0, &(0x7f0000000080), 0x0, 0x0)
+io_uring_register$IORING_REGISTER_PBUF_RING(r1, 0x16, 0x0, 0x1)
+io_uring_register$IORING_REGISTER_PBUF_RING(0xffffffffffffffff, 0x16, &(0x7f0000000140)={&(0x7f0000001000)}, 0x1)
+ioctl$DVD_WRITE_STRUCT(r0, 0x5390, &(0x7f0000001040)=@type=0x3)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$IOCTL_GET_NCIDEV_IDX-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r1, 0x5411, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+
+program crashed: WARNING in input_mt_init_slots
+single: successfully extracted reproducer
+found reproducer with 8 syscalls
+minimizing guilty program
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$IOCTL_GET_NCIDEV_IDX-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r1, 0x5411, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$IOCTL_GET_NCIDEV_IDX-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r1, 0x5411, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$IOCTL_GET_NCIDEV_IDX-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r1, 0x5411, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$IOCTL_GET_NCIDEV_IDX-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+r1 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r1, 0x5411, 0x0)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-syz_init_net_socket$rose-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+ioctl$UI_ABS_SETUP(0xffffffffffffffff, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+ioctl$UI_SET_EVBIT(0xffffffffffffffff, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(0xffffffffffffffff, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(0xffffffffffffffff, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{0x0, 0x4, 0x0, 0xfffc}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0x0, 0x0, 0x10095e5, 0x8, 0x81}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, 0x0)
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+extracting C reproducer
+testing compiled C program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+simplifying C reproducer
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:false Cgroups:false BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:true Sysctl:true Swap:false UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:false HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:false HandleSegv:false Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:false Swap:false UseTmpDir:false HandleSegv:false Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+reproducing took 8m29.064022887s
+repro crashed as (corrupted=false):
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6159 at mm/page_alloc.c:4551 __alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Modules linked in:
+CPU: 0 PID: 6159 Comm: syz-executor118 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Code: ff 00 0f 84 18 ff ff ff 80 ce 01 e9 10 ff ff ff 83 fe 0a 0f 86 8b fe ff ff 80 3d ad 93 44 05 00 75 0b c6 05 a4 93 44 05 01 90 <0f> 0b 90 45 31 e4 e9 61 ff ff ff e8 0f 56 cd ff 84 c0 0f 85 54 ff
+RSP: 0018:ffff888010277c28 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000013 RDI: 0000000000040dc0
+RBP: ffff888010277d28 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000010095e6 R11: 0000000000000000 R12: 0000000000040dc0
+R13: 0000000000000013 R14: 0000000000000dc0 R15: ffffffff838bdcfd
+FS:  000055556c3773c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000008 CR3: 0000000014656005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ __kmalloc_large_node+0x69/0x140 mm/slub.c:3911
+ __do_kmalloc_node mm/slub.c:3954 [inline]
+ __kmalloc+0x27c/0x350 mm/slub.c:3979
+ kmalloc include/linux/slab.h:632 [inline]
+ kzalloc include/linux/slab.h:749 [inline]
+ input_mt_init_slots drivers/input/input-mt.c:50 [inline]
+ input_mt_init_slots+0x8d/0x2e0 drivers/input/input-mt.c:39
+ uinput_create_device drivers/input/misc/uinput.c:328 [inline]
+ uinput_ioctl_handler.isra.0+0xd91/0x1060 drivers/input/misc/uinput.c:904
+ uinput_ioctl+0x30/0x40 drivers/input/misc/uinput.c:1075
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5be37ed10d
+Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff80425408 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fff80425608 RCX: 00007f5be37ed10d
+RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007fff80425608 R09: 00007fff80425608
+R10: 00007fff80425608 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fff804255f8 R14: 00007f5be386a530 R15: 0000000000000001
+ </TASK>
+irq event stamp: 15467
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (15506): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (15506): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (15495): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (15495): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (15495): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+
+final repro crashed as (corrupted=false):
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6159 at mm/page_alloc.c:4551 __alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Modules linked in:
+CPU: 0 PID: 6159 Comm: syz-executor118 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Code: ff 00 0f 84 18 ff ff ff 80 ce 01 e9 10 ff ff ff 83 fe 0a 0f 86 8b fe ff ff 80 3d ad 93 44 05 00 75 0b c6 05 a4 93 44 05 01 90 <0f> 0b 90 45 31 e4 e9 61 ff ff ff e8 0f 56 cd ff 84 c0 0f 85 54 ff
+RSP: 0018:ffff888010277c28 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000013 RDI: 0000000000040dc0
+RBP: ffff888010277d28 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000010095e6 R11: 0000000000000000 R12: 0000000000040dc0
+R13: 0000000000000013 R14: 0000000000000dc0 R15: ffffffff838bdcfd
+FS:  000055556c3773c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000008 CR3: 0000000014656005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ __kmalloc_large_node+0x69/0x140 mm/slub.c:3911
+ __do_kmalloc_node mm/slub.c:3954 [inline]
+ __kmalloc+0x27c/0x350 mm/slub.c:3979
+ kmalloc include/linux/slab.h:632 [inline]
+ kzalloc include/linux/slab.h:749 [inline]
+ input_mt_init_slots drivers/input/input-mt.c:50 [inline]
+ input_mt_init_slots+0x8d/0x2e0 drivers/input/input-mt.c:39
+ uinput_create_device drivers/input/misc/uinput.c:328 [inline]
+ uinput_ioctl_handler.isra.0+0xd91/0x1060 drivers/input/misc/uinput.c:904
+ uinput_ioctl+0x30/0x40 drivers/input/misc/uinput.c:1075
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5be37ed10d
+Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff80425408 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fff80425608 RCX: 00007f5be37ed10d
+RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007fff80425608 R09: 00007fff80425608
+R10: 00007fff80425608 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007fff804255f8 R14: 00007f5be386a530 R15: 0000000000000001
+ </TASK>
+irq event stamp: 15467
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (15477): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (15486): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (15506): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (15506): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (15495): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (15495): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (15495): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+

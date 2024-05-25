@@ -1,0 +1,51 @@
+overlayfs: missing 'lowerdir'
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 14990 Comm: syz-executor.3 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ console_lock_spinning_enable kernel/printk/printk.c:1873 [inline]
+ console_emit_next_record kernel/printk/printk.c:2907 [inline]
+ console_flush_all+0x336/0x790 kernel/printk/printk.c:2979
+ console_unlock+0x4d/0x1c0 kernel/printk/printk.c:3048
+ vprintk_emit kernel/printk/printk.c:2348 [inline]
+ vprintk_emit+0x127/0x540 kernel/printk/printk.c:2303
+ vprintk_default+0x2a/0x40 kernel/printk/printk.c:2363
+ vprintk+0x81/0xa0 kernel/printk/printk_safe.c:45
+ _printk+0x54/0x60 kernel/printk/printk.c:2373
+ ovl_fill_super+0x3ce/0x2a70 fs/overlayfs/super.c:1320
+ vfs_get_super fs/super.c:1268 [inline]
+ get_tree_nodev+0x9f/0xf0 fs/super.c:1287
+ ovl_get_tree+0x21/0x30 fs/overlayfs/params.c:641
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe50a88fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe50b5d9028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007fe50a9cbf80 RCX: 00007fe50a88fd6d
+RDX: 0000000020001ec0 RSI: 0000000020001e80 RDI: 0000000000000000
+RBP: 00007fe50a8f14cd R08: 0000000020001f00 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fe50a9cbf80 R15: 00007fe50b5b9000
+ </TASK>

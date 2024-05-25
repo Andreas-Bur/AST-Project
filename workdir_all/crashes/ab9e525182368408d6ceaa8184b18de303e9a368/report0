@@ -1,0 +1,52 @@
+bucket 0:26 gen 0 different types of data in same bucket: journal, btree
+while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 56308231fb2a3a03 written 24 min_key POS_MIN durability: 1 ptr: 0:26:0 gen 0, continuing
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/buckets.c:632!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 11709 Comm: kworker/u8:10 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: btree_update btree_interior_update_work
+RIP: 0010:bch2_check_bucket_ref+0x589/0xa30 fs/bcachefs/buckets.c:632
+Code: c1 80 eb 11 86 ba 9b 00 00 00 41 56 4c 8b 4d 98 be 06 00 00 00 41 55 48 8b 7d a0 41 57 50 45 0f b6 44 24 06 e8 d8 fa 02 00 90 <0f> 0b e8 90 78 f6 fe 8b 5d 90 bf 04 00 00 00 89 de e8 d1 73 f6 fe
+RSP: 0018:ffff88800c8cb880 EFLAGS: 00010286
+RAX: 00000000fffff75e RBX: 0000000000000002 RCX: ffffffff8236481d
+RDX: ffff888027cf21c0 RSI: ffffffff82364848 RDI: 0000000000000005
+RBP: ffff88800c8cb950 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000fffff75e R11: 0000000000000000 R12: ffff88800c8cbb70
+R13: ffffffff85fce0c8 R14: ffff888027e51400 R15: ffffffff85fa3df1
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c001bed000 CR3: 000000001077e006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __mark_pointer fs/bcachefs/buckets.c:801 [inline]
+ bch2_trigger_pointer+0x49a/0x13a0 fs/bcachefs/buckets.c:837
+ __trigger_extent+0x1d4/0x9b0 fs/bcachefs/buckets.c:984
+ bch2_trigger_extent+0x220/0x240 fs/bcachefs/buckets.c:1066
+ bch2_key_trigger fs/bcachefs/bkey_methods.h:133 [inline]
+ bch2_key_trigger_old fs/bcachefs/bkey_methods.h:146 [inline]
+ btree_update_nodes_written_trans fs/bcachefs/btree_update_interior.c:627 [inline]
+ btree_update_nodes_written fs/bcachefs/btree_update_interior.c:696 [inline]
+ btree_interior_update_work+0x457/0xfd0 fs/bcachefs/btree_update_interior.c:833
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_check_bucket_ref+0x589/0xa30 fs/bcachefs/buckets.c:632
+Code: c1 80 eb 11 86 ba 9b 00 00 00 41 56 4c 8b 4d 98 be 06 00 00 00 41 55 48 8b 7d a0 41 57 50 45 0f b6 44 24 06 e8 d8 fa 02 00 90 <0f> 0b e8 90 78 f6 fe 8b 5d 90 bf 04 00 00 00 89 de e8 d1 73 f6 fe
+RSP: 0018:ffff88800c8cb880 EFLAGS: 00010286
+RAX: 00000000fffff75e RBX: 0000000000000002 RCX: ffffffff8236481d
+RDX: ffff888027cf21c0 RSI: ffffffff82364848 RDI: 0000000000000005
+RBP: ffff88800c8cb950 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000fffff75e R11: 0000000000000000 R12: ffff88800c8cbb70
+R13: ffffffff85fce0c8 R14: ffff888027e51400 R15: ffffffff85fa3df1
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c001bed000 CR3: 000000001077e006 CR4: 0000000000770ef0
+PKRU: 55555554

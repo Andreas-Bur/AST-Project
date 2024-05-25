@@ -1,0 +1,5 @@
+r13 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file1\x00', 0x24841, 0x0)
+syz_io_uring_submit(r11, r12, &(0x7f0000000240)=@IORING_OP_WRITE={0x17, 0x0, 0x0, @fd=r13, 0x0, &(0x7f0000000440)="fb", 0x1})
+io_uring_enter(r10, 0x79e, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_complete(r1)
+2024/05/21 22:49:56 SYZFATAL: executor 0 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir3481859091: operation not permitted

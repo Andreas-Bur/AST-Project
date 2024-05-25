@@ -1,0 +1,59 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/bkey_cmp.h:103!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 8 Comm: kworker/0:0H Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: bcachefs_btree_io btree_node_write_work
+RIP: 0010:__bch2_bkey_cmp_packed_format_checked_inlined fs/bcachefs/bkey_cmp.h:103 [inline]
+RIP: 0010:__bch2_bkey_cmp_packed_format_checked_inlined fs/bcachefs/bkey_cmp.h:89 [inline]
+RIP: 0010:bch2_bkey_cmp_packed_inlined fs/bcachefs/bkey_cmp.h:116 [inline]
+RIP: 0010:bch2_bkey_cmp_packed+0xcea/0xd60 fs/bcachefs/bkey.c:1039
+Code: b1 fe fe 44 8b 63 14 4c 8b 6b 18 4c 8b 73 20 e9 e7 f8 ff ff e8 67 b1 fe fe 90 0f 0b e8 5f b1 fe fe 90 0f 0b e8 57 b1 fe fe 90 <0f> 0b e8 4f b1 fe fe 48 8b 43 18 44 8b 7b 14 45 8b 74 24 14 4d 8b
+RSP: 0018:ffff888009a8f830 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 00000000ffffffff RCX: ffffffff822b0735
+RDX: ffff888009ab21c0 RSI: ffffffff822b0da9 RDI: 0000000000000004
+RBP: ffff888009a8f8a0 R08: 0000000020000000 R09: 000000001fffffff
+R10: 00000000ffffffff R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32a27000 CR3: 00000000064b0005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bkey_packed_successor fs/bcachefs/bkey.c:428 [inline]
+ bch2_bkey_pack_pos_lossy+0x94f/0xba0 fs/bcachefs/bkey.c:537
+ bch2_btree_node_iter_init+0x28e/0x1dc0 fs/bcachefs/bset.c:1341
+ __btree_path_level_init fs/bcachefs/btree_iter.c:627 [inline]
+ bch2_btree_path_level_init+0x18e/0x2e0 fs/bcachefs/btree_iter.c:647
+ btree_path_lock_root fs/bcachefs/btree_iter.c:781 [inline]
+ bch2_btree_path_traverse_one+0x8a2/0x15a0 fs/bcachefs/btree_iter.c:1178
+ bch2_btree_path_traverse fs/bcachefs/btree_iter.h:225 [inline]
+ bch2_btree_path_traverse fs/bcachefs/btree_iter.h:219 [inline]
+ bch2_btree_iter_traverse+0x1df/0x360 fs/bcachefs/btree_iter.c:1741
+ bch2_btree_node_update_key_get_iter+0xa2/0x320 fs/bcachefs/btree_update_interior.c:2422
+ btree_node_write_work+0x239/0x5c0 fs/bcachefs/btree_io.c:1867
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__bch2_bkey_cmp_packed_format_checked_inlined fs/bcachefs/bkey_cmp.h:103 [inline]
+RIP: 0010:__bch2_bkey_cmp_packed_format_checked_inlined fs/bcachefs/bkey_cmp.h:89 [inline]
+RIP: 0010:bch2_bkey_cmp_packed_inlined fs/bcachefs/bkey_cmp.h:116 [inline]
+RIP: 0010:bch2_bkey_cmp_packed+0xcea/0xd60 fs/bcachefs/bkey.c:1039
+Code: b1 fe fe 44 8b 63 14 4c 8b 6b 18 4c 8b 73 20 e9 e7 f8 ff ff e8 67 b1 fe fe 90 0f 0b e8 5f b1 fe fe 90 0f 0b e8 57 b1 fe fe 90 <0f> 0b e8 4f b1 fe fe 48 8b 43 18 44 8b 7b 14 45 8b 74 24 14 4d 8b
+RSP: 0018:ffff888009a8f830 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 00000000ffffffff RCX: ffffffff822b0735
+RDX: ffff888009ab21c0 RSI: ffffffff822b0da9 RDI: 0000000000000004
+RBP: ffff888009a8f8a0 R08: 0000000020000000 R09: 000000001fffffff
+R10: 00000000ffffffff R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32a27000 CR3: 00000000064b0005 CR4: 0000000000770ef0
+PKRU: 55555554

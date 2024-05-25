@@ -1,0 +1,43 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 46 at fs/bcachefs/fs-io-buffered.c:438 bch2_writepage_io_done+0x46e/0x660 fs/bcachefs/fs-io-buffered.c:438
+Modules linked in:
+CPU: 0 PID: 46 Comm: kworker/u9:0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: bcachefs bch2_write_point_do_index_updates
+
+RIP: 0010:bch2_writepage_io_done+0x46e/0x660 fs/bcachefs/fs-io-buffered.c:438
+Code: ff e9 08 fc ff ff e8 21 5e f1 fe 8b 45 d0 48 8b 75 98 48 8b 7d 90 8d 50 01 e8 ce f7 ff ff 4c 8b 65 a8 eb cf e8 03 5e f1 fe 90 <0f> 0b 90 e8 fa 5d f1 fe 48 8b 45 88 31 f6 4c 8b 70 f8 4d 8d ae a0
+RSP: 0018:ffff88800a643cf0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff82385d24
+RDX: ffff88800a5c4380 RSI: ffffffff823860fd RDI: 0000000000000007
+RBP: ffff88800a643d70 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000008 R11: 0000000000000001 R12: 0000000000000008
+R13: ffff88801f099278 R14: ffff888023c00000 R15: ffff888023c1e6d8
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0b59990000 CR3: 0000000051dca006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_write_done+0xe7/0x1f0 fs/bcachefs/io_write.c:470
+ bch2_write_point_do_index_updates+0x1fe/0x2a0 fs/bcachefs/io_write.c:634
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 7043
+hardirqs last  enabled at (7053): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (7053): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (7053): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (7062): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (7062): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (7062): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (7008): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (7008): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (6925): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (6925): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (6925): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

@@ -1,0 +1,1065 @@
+runtime: failed to create new OS thread (have 17 already; errno=11)
+runtime: may need to increase max user processes (ulimit -u)
+fatal error: newosproc
+
+runtime stack:
+runtime.throw({0xc13e75?, 0xc000067dc8?})
+	/local/home/andbur/go/src/runtime/panic.go:1077 +0x5c fp=0xc000067da0 sp=0xc000067d70 pc=0x43b93c
+runtime.newosproc(0xc000382000)
+	/local/home/andbur/go/src/runtime/os_linux.go:195 +0x176 fp=0xc000067e10 sp=0xc000067da0 pc=0x438256
+runtime.newm1(0xc000382000)
+	/local/home/andbur/go/src/runtime/proc.go:2455 +0xbf fp=0xc000067e50 sp=0xc000067e10 pc=0x4421df
+runtime.newm(0x437ea5?, 0xc000040500, 0x80?)
+	/local/home/andbur/go/src/runtime/proc.go:2430 +0x125 fp=0xc000067e80 sp=0xc000067e50 pc=0x4420a5
+runtime.startm(0xc000040500?, 0x0, 0x0)
+	/local/home/andbur/go/src/runtime/proc.go:2624 +0x158 fp=0xc000067ed0 sp=0xc000067e80 pc=0x442698
+runtime.handoffp(0xc0ffffffff?)
+	/local/home/andbur/go/src/runtime/proc.go:2665 +0x2f6 fp=0xc000067ef8 sp=0xc000067ed0 pc=0x442b16
+runtime.retake(0x1f20623db1)
+	/local/home/andbur/go/src/runtime/proc.go:5731 +0x1e8 fp=0xc000067f38 sp=0xc000067ef8 pc=0x449b08
+runtime.sysmon()
+	/local/home/andbur/go/src/runtime/proc.go:5639 +0x32f fp=0xc000067fa0 sp=0xc000067f38 pc=0x44980f
+runtime.mstart1()
+	/local/home/andbur/go/src/runtime/proc.go:1600 +0x93 fp=0xc000067fc8 sp=0xc000067fa0 pc=0x440ef3
+runtime.mstart0()
+	/local/home/andbur/go/src/runtime/proc.go:1557 +0x76 fp=0xc000067ff8 sp=0xc000067fc8 pc=0x440e36
+runtime.mstart()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:394 +0x5 fp=0xc000068000 sp=0xc000067ff8 pc=0x46f805
+
+goroutine 1 [select]:
+runtime.gopark(0xc000de3938?, 0x2?, 0x0?, 0x0?, 0xc000de390c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000de3660 sp=0xc000de3640 pc=0x43e78e
+runtime.selectgo(0xc000de3938, 0xc000de3908, 0x1?, 0x0, 0x50ac8b8?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc000de3780 sp=0xc000de3660 pc=0x44ec05
+main.(*FuzzerTool).exchangeDataWorker(0xc0002fda20)
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:307 +0x113 fp=0xc000de3ab0 sp=0xc000de3780 pc=0xa3eb73
+main.main()
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:214 +0x1338 fp=0xc000de3f40 sp=0xc000de3ab0 pc=0xa3df78
+runtime.main()
+	/local/home/andbur/go/src/runtime/proc.go:267 +0x2bb fp=0xc000de3fe0 sp=0xc000de3f40 pc=0x43e31b
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000de3fe8 sp=0xc000de3fe0 pc=0x471701
+
+goroutine 2 [force gc (idle), 1 minutes]:
+runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000050fa8 sp=0xc000050f88 pc=0x43e78e
+runtime.goparkunlock(...)
+	/local/home/andbur/go/src/runtime/proc.go:404
+runtime.forcegchelper()
+	/local/home/andbur/go/src/runtime/proc.go:322 +0xb3 fp=0xc000050fe0 sp=0xc000050fa8 pc=0x43e5f3
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000050fe8 sp=0xc000050fe0 pc=0x471701
+created by runtime.init.6 in goroutine 1
+	/local/home/andbur/go/src/runtime/proc.go:310 +0x1a
+
+goroutine 3 [GC sweep wait]:
+runtime.gopark(0x1?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000051778 sp=0xc000051758 pc=0x43e78e
+runtime.goparkunlock(...)
+	/local/home/andbur/go/src/runtime/proc.go:404
+runtime.bgsweep(0x0?)
+	/local/home/andbur/go/src/runtime/mgcsweep.go:321 +0xdf fp=0xc0000517c8 sp=0xc000051778 pc=0x428a5f
+runtime.gcenable.func1()
+	/local/home/andbur/go/src/runtime/mgc.go:200 +0x25 fp=0xc0000517e0 sp=0xc0000517c8 pc=0x41db45
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0000517e8 sp=0xc0000517e0 pc=0x471701
+created by runtime.gcenable in goroutine 1
+	/local/home/andbur/go/src/runtime/mgc.go:200 +0x66
+
+goroutine 4 [GC scavenge wait]:
+runtime.gopark(0x3f36cc71?, 0x3b9aca00?, 0x0?, 0x0?, 0x0?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000051f70 sp=0xc000051f50 pc=0x43e78e
+runtime.goparkunlock(...)
+	/local/home/andbur/go/src/runtime/proc.go:404
+runtime.(*scavengerState).park(0x25e7480)
+	/local/home/andbur/go/src/runtime/mgcscavenge.go:425 +0x49 fp=0xc000051fa0 sp=0xc000051f70 pc=0x4262e9
+runtime.bgscavenge(0x0?)
+	/local/home/andbur/go/src/runtime/mgcscavenge.go:658 +0x59 fp=0xc000051fc8 sp=0xc000051fa0 pc=0x426899
+runtime.gcenable.func2()
+	/local/home/andbur/go/src/runtime/mgc.go:201 +0x25 fp=0xc000051fe0 sp=0xc000051fc8 pc=0x41dae5
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000051fe8 sp=0xc000051fe0 pc=0x471701
+created by runtime.gcenable in goroutine 1
+	/local/home/andbur/go/src/runtime/mgc.go:201 +0xa5
+
+goroutine 17 [finalizer wait]:
+runtime.gopark(0x0?, 0xe36b20?, 0x0?, 0xa0?, 0x2000000020?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000050628 sp=0xc000050608 pc=0x43e78e
+runtime.runfinq()
+	/local/home/andbur/go/src/runtime/mfinal.go:193 +0x107 fp=0xc0000507e0 sp=0xc000050628 pc=0x41cbc7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0000507e8 sp=0xc0000507e0 pc=0x471701
+created by runtime.createfing in goroutine 1
+	/local/home/andbur/go/src/runtime/mfinal.go:163 +0x3d
+
+goroutine 18 [GC worker (idle)]:
+runtime.gopark(0x1d42ccc24e?, 0x3?, 0x8b?, 0x23?, 0x0?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00004c750 sp=0xc00004c730 pc=0x43e78e
+runtime.gcBgMarkWorker()
+	/local/home/andbur/go/src/runtime/mgc.go:1293 +0xe5 fp=0xc00004c7e0 sp=0xc00004c750 pc=0x41f6c5
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004c7e8 sp=0xc00004c7e0 pc=0x471701
+created by runtime.gcBgMarkStartWorkers in goroutine 1
+	/local/home/andbur/go/src/runtime/mgc.go:1217 +0x1c
+
+goroutine 19 [GC worker (idle)]:
+runtime.gopark(0x1d43318625?, 0x3?, 0x19?, 0xad?, 0x0?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00004cf50 sp=0xc00004cf30 pc=0x43e78e
+runtime.gcBgMarkWorker()
+	/local/home/andbur/go/src/runtime/mgc.go:1293 +0xe5 fp=0xc00004cfe0 sp=0xc00004cf50 pc=0x41f6c5
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004cfe8 sp=0xc00004cfe0 pc=0x471701
+created by runtime.gcBgMarkStartWorkers in goroutine 1
+	/local/home/andbur/go/src/runtime/mgc.go:1217 +0x1c
+
+goroutine 20 [select]:
+runtime.gopark(0xc00004d788?, 0x3?, 0x3?, 0x0?, 0xc00004d772?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00004d618 sp=0xc00004d5f8 pc=0x43e78e
+runtime.selectgo(0xc00004d788, 0xc00004d76c, 0xc00031a900?, 0x0, 0x0?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc00004d738 sp=0xc00004d618 pc=0x44ec05
+go.opencensus.io/stats/view.(*worker).start(0xc00031a900)
+	/local/home/andbur/syzkaller/vendor/go.opencensus.io/stats/view/worker.go:292 +0x9f fp=0xc00004d7c8 sp=0xc00004d738 pc=0x9c053f
+go.opencensus.io/stats/view.init.0.func1()
+	/local/home/andbur/syzkaller/vendor/go.opencensus.io/stats/view/worker.go:34 +0x25 fp=0xc00004d7e0 sp=0xc00004d7c8 pc=0x9bf865
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004d7e8 sp=0xc00004d7e0 pc=0x471701
+created by go.opencensus.io/stats/view.init.0 in goroutine 1
+	/local/home/andbur/syzkaller/vendor/go.opencensus.io/stats/view/worker.go:34 +0x8d
+
+goroutine 22 [chan receive]:
+runtime.gopark(0xc0011eb920?, 0xc0000eaf00?, 0xd8?, 0x3?, 0xa28020?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000052ef8 sp=0xc000052ed8 pc=0x43e78e
+runtime.chanrecv(0xc0011eb8c0, 0xc000052fb8, 0x1)
+	/local/home/andbur/go/src/runtime/chan.go:583 +0x3cd fp=0xc000052f70 sp=0xc000052ef8 pc=0x4099ad
+runtime.chanrecv2(0xc0011efa80?, 0x44583c?)
+	/local/home/andbur/go/src/runtime/chan.go:447 +0x12 fp=0xc000052f98 sp=0xc000052f70 pc=0x4095d2
+github.com/google/syzkaller/pkg/stats.newSet.func1()
+	/local/home/andbur/syzkaller/pkg/stats/set.go:98 +0x66 fp=0xc000052fe0 sp=0xc000052f98 pc=0xa26d26
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000052fe8 sp=0xc000052fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/stats.newSet in goroutine 1
+	/local/home/andbur/syzkaller/pkg/stats/set.go:97 +0xe5
+
+goroutine 50 [select]:
+runtime.gopark(0xc002b7de50?, 0x2?, 0x0?, 0x0?, 0xc002b7de24?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc002b7db78 sp=0xc002b7db58 pc=0x43e78e
+runtime.selectgo(0xc002b7de50, 0xc002b7de20, 0x1?, 0x0, 0x1e9b9e6?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc002b7dc98 sp=0xc002b7db78 pc=0x44ec05
+main.(*FuzzerTool).exchangeDataWorker(0xc0002fda20)
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:307 +0x113 fp=0xc002b7dfc8 sp=0xc002b7dc98 pc=0xa3eb73
+main.main.func2()
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:213 +0x25 fp=0xc002b7dfe0 sp=0xc002b7dfc8 pc=0xa3dfe5
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc002b7dfe8 sp=0xc002b7dfe0 pc=0x471701
+created by main.main in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:213 +0x132b
+
+goroutine 51 [IO wait, 1 minutes]:
+runtime.gopark(0x46bd5d?, 0xb?, 0x0?, 0x0?, 0x20?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000706e00 sp=0xc000706de0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000706e38 sp=0xc000706e00 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647668, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000706e58 sp=0xc000706e38 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000818300?, 0xc0009a2064?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000706e80 sp=0xc000706e58 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000818300, {0xc0009a2064, 0x1ff9c, 0x1ff9c})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000706f18 sp=0xc000706e80 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a018, {0xc0009a2064?, 0xc000db2f00?, 0xc000db2ea0?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000706f58 sp=0xc000706f18 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc0006fc100)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc000706fc8 sp=0xc000706f58 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc000706fe0 sp=0xc000706fc8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000706fe8 sp=0xc000706fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 45
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 10 [syscall, 1 minutes]:
+runtime.notetsleepg(0x44583c?, 0x0?)
+	/local/home/andbur/go/src/runtime/lock_futex.go:236 +0x29 fp=0xc00004ffa0 sp=0xc00004ff68 pc=0x40ee69
+os/signal.signal_recv()
+	/local/home/andbur/go/src/runtime/sigqueue.go:152 +0x29 fp=0xc00004ffc0 sp=0xc00004ffa0 pc=0x46dec9
+os/signal.loop()
+	/local/home/andbur/go/src/os/signal/signal_unix.go:23 +0x13 fp=0xc00004ffe0 sp=0xc00004ffc0 pc=0x74e2d3
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004ffe8 sp=0xc00004ffe0 pc=0x471701
+created by os/signal.Notify.func1.1 in goroutine 38
+	/local/home/andbur/go/src/os/signal/signal.go:151 +0x1f
+
+goroutine 42 [IO wait]:
+runtime.gopark(0xc000de57f8?, 0xb?, 0x0?, 0x0?, 0x1e?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000de57b0 sp=0xc000de5790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000de57e8 sp=0xc000de57b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647098, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000de5808 sp=0xc000de57e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000db2720?, 0xc000020520?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000de5830 sp=0xc000de5808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000db2720, {0xc000020520, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000de58c8 sp=0xc000de5830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000ea8938, {0xc000020520?, 0xc000de5940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000de5908 sp=0xc000de58c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc000ea8938}, {0xc000020520, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000de5950 sp=0xc000de5908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc000dda200, 0xc000de5d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000de5b08 sp=0xc000de5950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc300, 0xc6632d?, {0xc002af2000, 0x5fba, 0x5fba})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000de5ba8 sp=0xc000de5b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a588, {0x21e, {0xc002af2000, 0x5fba, 0x5fba}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000de5d18 sp=0xc000de5ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a588?, {0x21e, {0xc002af2000, 0x5fba, 0x5fba}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000de5db0 sp=0xc000de5d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a588)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000de5fc8 sp=0xc000de5db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000de5fe0 sp=0xc000de5fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000de5fe8 sp=0xc000de5fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 40 [IO wait, 1 minutes]:
+runtime.gopark(0xc000da4c10?, 0x4103c5?, 0x18?, 0x4c?, 0x4e473d?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000da4ba8 sp=0xc000da4b88 pc=0x43e78e
+runtime.netpollblock(0x7f7966b64430?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000da4be0 sp=0xc000da4ba8 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647c38, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000da4c00 sp=0xc000da4be0 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc0006fc200?, 0xc000da4ce8?, 0x0)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000da4c28 sp=0xc000da4c00 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc0006fc200)
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:611 +0x2ac fp=0xc000da4cd0 sp=0xc000da4c28 pc=0x4e288c
+net.(*netFD).accept(0xc0006fc200)
+	/local/home/andbur/go/src/net/fd_unix.go:172 +0x29 fp=0xc000da4d88 sp=0xc000da4cd0 pc=0x5bf549
+net.(*TCPListener).accept(0xc0000d5de0)
+	/local/home/andbur/go/src/net/tcpsock_posix.go:152 +0x1e fp=0xc000da4db0 sp=0xc000da4d88 pc=0x5d6c7e
+net.(*TCPListener).Accept(0xc0000d5de0)
+	/local/home/andbur/go/src/net/tcpsock.go:315 +0x30 fp=0xc000da4de0 sp=0xc000da4db0 pc=0x5d5e30
+net/http.(*onceCloseListener).Accept(0xf32bd0?)
+	<autogenerated>:1 +0x24 fp=0xc000da4df8 sp=0xc000da4de0 pc=0x6f7264
+net/http.(*Server).Serve(0xc000bda0f0, {0xf31ba0, 0xc0000d5de0})
+	/local/home/andbur/go/src/net/http/server.go:3056 +0x364 fp=0xc000da4f28 sp=0xc000da4df8 pc=0x6d4f04
+net/http.(*Server).ListenAndServe(0xc000bda0f0)
+	/local/home/andbur/go/src/net/http/server.go:2985 +0x71 fp=0xc000da4f58 sp=0xc000da4f28 pc=0x6d4b71
+net/http.ListenAndServe(...)
+	/local/home/andbur/go/src/net/http/server.go:3239
+main.setupPprofHandler.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:385 +0x9d fp=0xc000da4fe0 sp=0xc000da4f58 pc=0xa3fb9d
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000da4fe8 sp=0xc000da4fe0 pc=0x471701
+created by main.setupPprofHandler in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:384 +0x37
+
+goroutine 39 [chan receive, 1 minutes]:
+runtime.gopark(0xc000d1a2e8?, 0xc0000b4bf8?, 0x58?, 0x4c?, 0x408e40?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00004f6f0 sp=0xc00004f6d0 pc=0x43e78e
+runtime.chanrecv(0xc00008a0c0, 0x0, 0x1)
+	/local/home/andbur/go/src/runtime/chan.go:583 +0x3cd fp=0xc00004f768 sp=0xc00004f6f0 pc=0x4099ad
+runtime.chanrecv1(0x0?, 0xc00004f7d0?)
+	/local/home/andbur/go/src/runtime/chan.go:442 +0x12 fp=0xc00004f790 sp=0xc00004f768 pc=0x4095b2
+main.main.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:102 +0x19 fp=0xc00004f7e0 sp=0xc00004f790 pc=0xa3e039
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004f7e8 sp=0xc00004f7e0 pc=0x471701
+created by main.main in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/fuzzer.go:100 +0x419
+
+goroutine 38 [chan receive, 1 minutes]:
+runtime.gopark(0xc00070aee0?, 0x74dfa5?, 0x1?, 0x21?, 0xc00070af58?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00070aec8 sp=0xc00070aea8 pc=0x43e78e
+runtime.chanrecv(0xc000db2120, 0x0, 0x1)
+	/local/home/andbur/go/src/runtime/chan.go:583 +0x3cd fp=0xc00070af40 sp=0xc00070aec8 pc=0x4099ad
+runtime.chanrecv1(0xc000db2120?, 0xc00070afb0?)
+	/local/home/andbur/go/src/runtime/chan.go:442 +0x12 fp=0xc00070af68 sp=0xc00070af40 pc=0x4095b2
+github.com/google/syzkaller/pkg/osutil.HandleInterrupts.func1()
+	/local/home/andbur/syzkaller/pkg/osutil/osutil_unix.go:77 +0x85 fp=0xc00070afe0 sp=0xc00070af68 pc=0x74f545
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070afe8 sp=0xc00070afe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/osutil.HandleInterrupts in goroutine 1
+	/local/home/andbur/syzkaller/pkg/osutil/osutil_unix.go:74 +0x4f
+
+goroutine 9 [select, 1 minutes, locked to thread]:
+runtime.gopark(0xc00070a7a8?, 0x2?, 0x29?, 0xea?, 0xc00070a7a4?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00070a638 sp=0xc00070a618 pc=0x43e78e
+runtime.selectgo(0xc00070a7a8, 0xc00070a7a0, 0x0?, 0x0, 0x0?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc00070a758 sp=0xc00070a638 pc=0x44ec05
+runtime.ensureSigM.func1()
+	/local/home/andbur/go/src/runtime/signal_unix.go:1014 +0x19f fp=0xc00070a7e0 sp=0xc00070a758 pc=0x4683df
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070a7e8 sp=0xc00070a7e0 pc=0x471701
+created by runtime.ensureSigM in goroutine 38
+	/local/home/andbur/go/src/runtime/signal_unix.go:997 +0xc8
+
+goroutine 52 [IO wait]:
+runtime.gopark(0x7f79ad647b40?, 0xb?, 0x0?, 0x0?, 0x27?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00004de00 sp=0xc00004dde0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc00004de38 sp=0xc00004de00 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99b098, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc00004de58 sp=0xc00004de38 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000818600?, 0xc000a14064?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00004de80 sp=0xc00004de58 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000818600, {0xc000a14064, 0x1ff9c, 0x1ff9c})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc00004df18 sp=0xc00004de80 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a060, {0xc000a14064?, 0xc0011ebb60?, 0xc0011ebb00?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc00004df58 sp=0xc00004df18 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc0006fc180)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc00004dfc8 sp=0xc00004df58 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc00004dfe0 sp=0xc00004dfc8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004dfe8 sp=0xc00004dfe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 46
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 12 [IO wait]:
+runtime.gopark(0x46b2f3?, 0xb?, 0x0?, 0x0?, 0x3?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000ddf958 sp=0xc000ddf938 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000ddf990 sp=0xc000ddf958 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647e28, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000ddf9b0 sp=0xc000ddf990 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000dda000?, 0xc000df6000?, 0x0)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000ddf9d8 sp=0xc000ddf9b0 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000dda000, {0xc000df6000, 0x1000, 0x1000})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000ddfa70 sp=0xc000ddf9d8 pc=0x4de69a
+net.(*netFD).Read(0xc000dda000, {0xc000df6000?, 0xc000e3a360?, 0xa9d380?})
+	/local/home/andbur/go/src/net/fd_posix.go:55 +0x25 fp=0xc000ddfab8 sp=0xc000ddfa70 pc=0x5bd525
+net.(*conn).Read(0xc000ea8a20, {0xc000df6000?, 0x6757c5?, 0xf2a020?})
+	/local/home/andbur/go/src/net/net.go:179 +0x45 fp=0xc000ddfb00 sp=0xc000ddfab8 pc=0x5ce445
+net.(*TCPConn).Read(0x407728?, {0xc000df6000?, 0x407cad?, 0x4078dd?})
+	<autogenerated>:1 +0x25 fp=0xc000ddfb30 sp=0xc000ddfb00 pc=0x5df3a5
+bufio.(*Reader).fill(0xc000db2360)
+	/local/home/andbur/go/src/bufio/bufio.go:113 +0x103 fp=0xc000ddfb68 sp=0xc000ddfb30 pc=0x65d063
+bufio.(*Reader).ReadByte(0xc000db2360)
+	/local/home/andbur/go/src/bufio/bufio.go:272 +0x27 fp=0xc000ddfb88 sp=0xc000ddfb68 pc=0x65d787
+compress/flate.(*decompressor).moreBits(0xc00008d300)
+	/local/home/andbur/go/src/compress/flate/inflate.go:697 +0x27 fp=0xc000ddfbc0 sp=0xc000ddfb88 pc=0x675ea7
+compress/flate.(*decompressor).nextBlock(0xc00008d300)
+	/local/home/andbur/go/src/compress/flate/inflate.go:304 +0x28 fp=0xc000ddfbd8 sp=0xc000ddfbc0 pc=0x674348
+compress/flate.(*decompressor).Read(0xc00008d300, {0xc000dfc000, 0x1000, 0xc000ddfc78?})
+	/local/home/andbur/go/src/compress/flate/inflate.go:348 +0x5b fp=0xc000ddfc08 sp=0xc000ddfbd8 pc=0x67457b
+github.com/google/syzkaller/pkg/rpctype.(*flateConn).Read(0xc000e3a360?, {0xc000dfc000?, 0xb57800?, 0xc002826cd0?})
+	/local/home/andbur/syzkaller/pkg/rpctype/rpc.go:124 +0x22 fp=0xc000ddfc38 sp=0xc000ddfc08 pc=0xa3b742
+bufio.(*Reader).Read(0xc000db23c0, {0xc000012510, 0x1, 0xc000ddfd68?})
+	/local/home/andbur/go/src/bufio/bufio.go:244 +0x197 fp=0xc000ddfc70 sp=0xc000ddfc38 pc=0x65d597
+io.ReadAtLeast({0xf2a020, 0xc000db23c0}, {0xc000012510, 0x1, 0x9}, 0x1)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000ddfcb8 sp=0xc000ddfc70 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+encoding/gob.decodeUintReader({0xf2a020, 0xc000db23c0}, {0xc000012510, 0x9, 0x9})
+	/local/home/andbur/go/src/encoding/gob/decode.go:116 +0x51 fp=0xc000ddfd10 sp=0xc000ddfcb8 pc=0x99b151
+encoding/gob.(*Decoder).recvMessage(0xc000dda080)
+	/local/home/andbur/go/src/encoding/gob/decoder.go:82 +0x33 fp=0xc000ddfd48 sp=0xc000ddfd10 pc=0x9a4733
+encoding/gob.(*Decoder).decodeTypeSequence(0xc000dda080, 0x0)
+	/local/home/andbur/go/src/encoding/gob/decoder.go:148 +0x47 fp=0xc000ddfd78 sp=0xc000ddfd48 pc=0x9a4aa7
+encoding/gob.(*Decoder).DecodeValue(0xc000dda080, {0xa8f9c0?, 0xc0002de030?, 0x7f790000001e?})
+	/local/home/andbur/go/src/encoding/gob/decoder.go:227 +0x16e fp=0xc000ddfdf8 sp=0xc000ddfd78 pc=0x9a4eee
+encoding/gob.(*Decoder).Decode(0xc000dda080, {0xa8f9c0?, 0xc0002de030?})
+	/local/home/andbur/go/src/encoding/gob/decoder.go:204 +0x125 fp=0xc000ddfe50 sp=0xc000ddfdf8 pc=0x9a4d25
+net/rpc.(*gobClientCodec).ReadResponseHeader(0xaf2500?, 0xa8bd80?)
+	/local/home/andbur/go/src/net/rpc/client.go:228 +0x25 fp=0xc000ddfe78 sp=0xc000ddfe50 pc=0x9b9865
+net/rpc.(*Client).input(0xc000db2480)
+	/local/home/andbur/go/src/net/rpc/client.go:109 +0x9f fp=0xc000ddffc8 sp=0xc000ddfe78 pc=0x9b8abf
+net/rpc.NewClientWithCodec.func1()
+	/local/home/andbur/go/src/net/rpc/client.go:206 +0x25 fp=0xc000ddffe0 sp=0xc000ddffc8 pc=0x9b9745
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000ddffe8 sp=0xc000ddffe0 pc=0x471701
+created by net/rpc.NewClientWithCodec in goroutine 1
+	/local/home/andbur/go/src/net/rpc/client.go:206 +0xb6
+
+goroutine 43 [IO wait]:
+runtime.gopark(0xc00082d7f8?, 0xb?, 0x0?, 0x0?, 0x24?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00082d7b0 sp=0xc00082d790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc00082d7e8 sp=0xc00082d7b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad646fa0, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc00082d808 sp=0xc00082d7e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc00072dc20?, 0xc002804040?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00082d830 sp=0xc00082d808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00072dc20, {0xc002804040, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc00082d8c8 sp=0xc00082d830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000b4ee20, {0xc002804040?, 0xc00082d940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc00082d908 sp=0xc00082d8c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc000b4ee20}, {0xc002804040, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc00082d950 sp=0xc00082d908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc000dda700, 0xc00082dd38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc00082db08 sp=0xc00082d950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc380, 0xc6632d?, {0xc002a98000, 0x167e6, 0x167e6})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc00082dba8 sp=0xc00082db08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a5a0, {0x21b, {0xc002a98000, 0x167e6, 0x167e6}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc00082dd18 sp=0xc00082dba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a5a0?, {0x21b, {0xc002a98000, 0x167e6, 0x167e6}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc00082ddb0 sp=0xc00082dd18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a5a0)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc00082dfc8 sp=0xc00082ddb0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc00082dfe0 sp=0xc00082dfc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00082dfe8 sp=0xc00082dfe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 44 [IO wait]:
+runtime.gopark(0x135?, 0xb?, 0x0?, 0x0?, 0x26?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc0008297b0 sp=0xc000829790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc0008297e8 sp=0xc0008297b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99c110, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000829808 sp=0xc0008297e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc001c466c0?, 0xc000020500?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000829830 sp=0xc000829808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc001c466c0, {0xc000020500, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc0008298c8 sp=0xc000829830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000b4f1f8, {0xc000020500?, 0xc000829940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000829908 sp=0xc0008298c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc000b4f1f8}, {0xc000020500, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000829950 sp=0xc000829908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc000dda780, 0xc000829d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000829b08 sp=0xc000829950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc400, 0xc6632d?, {0xc001979b00, 0x2c9, 0x2c9})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000829ba8 sp=0xc000829b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a5b8, {0x221, {0xc001979b00, 0x2c9, 0x2c9}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000829d18 sp=0xc000829ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a5b8?, {0x221, {0xc001979b00, 0x2c9, 0x2c9}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000829db0 sp=0xc000829d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a5b8)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000829fc8 sp=0xc000829db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000829fe0 sp=0xc000829fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000829fe8 sp=0xc000829fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 45 [IO wait]:
+runtime.gopark(0xc0007477f8?, 0xb?, 0x0?, 0x0?, 0x22?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc0007477b0 sp=0xc000747790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc0007477e8 sp=0xc0007477b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647478, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000747808 sp=0xc0007477e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc0008183c0?, 0xc000020804?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000747830 sp=0xc000747808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc0008183c0, {0xc000020804, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc0007478c8 sp=0xc000747830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a030, {0xc000020804?, 0xc000747940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000747908 sp=0xc0007478c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc00013a030}, {0xc000020804, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000747950 sp=0xc000747908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc0006fc100, 0xc000747d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000747b08 sp=0xc000747950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc480, 0xc6632d?, {0xc001b5d500, 0x6320, 0x6320})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000747ba8 sp=0xc000747b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a5d0, {0x226, {0xc001b5d500, 0x6320, 0x6320}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000747d18 sp=0xc000747ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a5d0?, {0x226, {0xc001b5d500, 0x6320, 0x6320}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000747db0 sp=0xc000747d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a5d0)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000747fc8 sp=0xc000747db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000747fe0 sp=0xc000747fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000747fe8 sp=0xc000747fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 46 [runnable]:
+syscall.Syscall(0x407de6?, 0xc000749820?, 0x4dd3a7?, 0x7f795c99aea8?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:69 +0x25 fp=0xc0007497f0 sp=0xc000749780 pc=0x4c2ca5
+syscall.read(0xc0008186c0?, {0xc0000207e0?, 0xc000818701?, 0xc0007499d0?})
+	/local/home/andbur/go/src/syscall/zsyscall_linux_amd64.go:721 +0x38 fp=0xc000749830 sp=0xc0007497f0 pc=0x4c0d78
+syscall.Read(...)
+	/local/home/andbur/go/src/syscall/syscall_unix.go:181
+internal/poll.ignoringEINTRIO(...)
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:736
+internal/poll.(*FD).Read(0xc0008186c0, {0xc0000207e0, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:160 +0x2ae fp=0xc0007498c8 sp=0xc000749830 pc=0x4de6ce
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a078, {0xc0000207e0?, 0xc000749940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000749908 sp=0xc0007498c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc00013a078}, {0xc0000207e0, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000749950 sp=0xc000749908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc0006fc180, 0xc000749d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000749b08 sp=0xc000749950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc500, 0xc6632d?, {0xc002ba4000, 0x1fd3c, 0x1fd3c})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000749ba8 sp=0xc000749b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a5e8, {0x225, {0xc002ba4000, 0x1fd3c, 0x1fd3c}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000749d18 sp=0xc000749ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a5e8?, {0x225, {0xc002ba4000, 0x1fd3c, 0x1fd3c}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000749db0 sp=0xc000749d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a5e8)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000749fc8 sp=0xc000749db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000749fe0 sp=0xc000749fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000749fe8 sp=0xc000749fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 47 [IO wait]:
+runtime.gopark(0xc000de17f8?, 0xb?, 0x0?, 0x0?, 0x1a?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000de17b0 sp=0xc000de1790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000de17e8 sp=0xc000de17b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647858, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000de1808 sp=0xc000de17e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000db20c0?, 0xc000020550?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000de1830 sp=0xc000de1808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000db20c0, {0xc000020550, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000de18c8 sp=0xc000de1830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000ea88e8, {0xc000020550?, 0xc000de1940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000de1908 sp=0xc000de18c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc000ea88e8}, {0xc000020550, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000de1950 sp=0xc000de1908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc000dda180, 0xc000de1d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000de1b08 sp=0xc000de1950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc580, 0xc6632d?, {0xc0029ceb00, 0x51f, 0x51f})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000de1ba8 sp=0xc000de1b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a600, {0x220, {0xc0029ceb00, 0x51f, 0x51f}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000de1d18 sp=0xc000de1ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a600?, {0x220, {0xc0029ceb00, 0x51f, 0x51f}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000de1db0 sp=0xc000de1d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a600)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000de1fc8 sp=0xc000de1db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000de1fe0 sp=0xc000de1fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000de1fe8 sp=0xc000de1fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 48 [IO wait]:
+runtime.gopark(0xc0007437f8?, 0xb?, 0x0?, 0x0?, 0x31?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc0007437b0 sp=0xc000743790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc0007437e8 sp=0xc0007437b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99aac8, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000743808 sp=0xc0007437e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000818a80?, 0xc000020540?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000743830 sp=0xc000743808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000818a80, {0xc000020540, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc0007438c8 sp=0xc000743830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a0c0, {0xc000020540?, 0xc000743940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000743908 sp=0xc0007438c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc00013a0c0}, {0xc000020540, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000743950 sp=0xc000743908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc0006fc280, 0xc000743d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000743b08 sp=0xc000743950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc600, 0xc6632d?, {0xc0006eb0a0, 0xd5, 0xd5})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000743ba8 sp=0xc000743b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a618, {0x21c, {0xc0006eb0a0, 0xd5, 0xd5}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000743d18 sp=0xc000743ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a618?, {0x21c, {0xc0006eb0a0, 0xd5, 0xd5}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000743db0 sp=0xc000743d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a618)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000743fc8 sp=0xc000743db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000743fe0 sp=0xc000743fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000743fe8 sp=0xc000743fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 65 [IO wait]:
+runtime.gopark(0xc0007457f8?, 0xb?, 0x0?, 0x0?, 0x23?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc0007457b0 sp=0xc000745790 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc0007457e8 sp=0xc0007457b0 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99b288, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000745808 sp=0xc0007457e8 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc00072d7a0?, 0xc0000205c0?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000745830 sp=0xc000745808 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00072d7a0, {0xc0000205c0, 0xc, 0xc})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc0007458c8 sp=0xc000745830 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a280, {0xc0000205c0?, 0xc000745940?, 0x410745?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000745908 sp=0xc0007458c8 pc=0x4e9792
+io.ReadAtLeast({0xf29de0, 0xc00013a280}, {0xc0000205c0, 0xc, 0xc}, 0xc)
+	/local/home/andbur/go/src/io/io.go:335 +0x90 fp=0xc000745950 sp=0xc000745908 pc=0x4b6c30
+io.ReadFull(...)
+	/local/home/andbur/go/src/io/io.go:354
+github.com/google/syzkaller/pkg/ipc.(*command).exec(0xc0006fc080, 0xc000745d38?, {0x0, 0x0, 0x0})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:847 +0x568 fp=0xc000745b08 sp=0xc000745950 pc=0xa3a3c8
+github.com/google/syzkaller/pkg/ipc.(*Env).ExecProg(0xc0006fc680, 0xc6632d?, {0xc001d49500, 0x19a8, 0x19a8})
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:318 +0x168 fp=0xc000745ba8 sp=0xc000745b08 pc=0xa36528
+main.(*Proc).executeProgram(0xc000d1a630, {0x223, {0xc001d49500, 0x19a8, 0x19a8}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:122 +0x156 fp=0xc000745d18 sp=0xc000745ba8 pc=0xa40896
+main.(*Proc).execute(0xc000d1a630?, {0x223, {0xc001d49500, 0x19a8, 0x19a8}, {0x15, 0x77e2, 0x0}, 0x1, 0x0, ...})
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:99 +0x98 fp=0xc000745db0 sp=0xc000745d18 pc=0xa40678
+main.(*Proc).loop(0xc000d1a630)
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:50 +0x258 fp=0xc000745fc8 sp=0xc000745db0 pc=0xa40018
+main.startProc.func1()
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x25 fp=0xc000745fe0 sp=0xc000745fc8 pc=0xa3fd85
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000745fe8 sp=0xc000745fe0 pc=0x471701
+created by main.startProc in goroutine 1
+	/local/home/andbur/syzkaller/syz-fuzzer/proc.go:37 +0x116
+
+goroutine 66 [IO wait, 1 minutes]:
+runtime.gopark(0x0?, 0xb?, 0x0?, 0x0?, 0x18?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00070b600 sp=0xc00070b5e0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc00070b638 sp=0xc00070b600 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647b40, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc00070b658 sp=0xc00070b638 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000db2000?, 0xc000a92000?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00070b680 sp=0xc00070b658 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000db2000, {0xc000a92000, 0x20000, 0x20000})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc00070b718 sp=0xc00070b680 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000ea8080, {0xc000a92000?, 0x0?, 0x1719468?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc00070b758 sp=0xc00070b718 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc000dda180)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc00070b7c8 sp=0xc00070b758 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc00070b7e0 sp=0xc00070b7c8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070b7e8 sp=0xc00070b7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 47
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 67 [syscall, 1 minutes]:
+syscall.Syscall6(0x0?, 0x87b66aae?, 0xf3a2b0?, 0x178bf80?, 0xc0009f0000?, 0xf3a2b0?, 0x178c3a0?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc0007075e0 sp=0xc000707558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc0000375f0)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc0007076b8 sp=0xc0007075e0 pc=0x4ef516
+os.(*Process).wait(0xc0000375f0)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc000707718 sp=0xc0007076b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc000da2000)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc000707780 sp=0xc000707718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc000dda180)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc0007077c8 sp=0xc000707780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc0007077e0 sp=0xc0007077c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0007077e8 sp=0xc0007077e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 47
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 69 [IO wait, 1 minutes]:
+runtime.gopark(0x0?, 0xb?, 0x0?, 0x0?, 0x19?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000052600 sp=0xc0000525e0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000052638 sp=0xc000052600 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f79ad647760, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000052658 sp=0xc000052638 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc000db2660?, 0xc000a5c037?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000052680 sp=0xc000052658 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000db2660, {0xc000a5c037, 0x1ffc9, 0x1ffc9})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000052718 sp=0xc000052680 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000ea8928, {0xc000a5c037?, 0xc000052790?, 0xc0011ebe00?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000052758 sp=0xc000052718 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc000dda200)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc0000527c8 sp=0xc000052758 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc0000527e0 sp=0xc0000527c8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0000527e8 sp=0xc0000527e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 42
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 53 [syscall, 1 minutes]:
+syscall.Syscall6(0x0?, 0x1?, 0x0?, 0x0?, 0x0?, 0xc000d1a5d0?, 0x17ce75783ef6f85b?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc00004ede0 sp=0xc00004ed58 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009a690)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc00004eeb8 sp=0xc00004ede0 pc=0x4ef516
+os.(*Process).wait(0xc00009a690)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc00004ef18 sp=0xc00004eeb8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc00026d8c0)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc00004ef80 sp=0xc00004ef18 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc0006fc180)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc00004efc8 sp=0xc00004ef80 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc00004efe0 sp=0xc00004efc8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00004efe8 sp=0xc00004efe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 46
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 55 [IO wait]:
+runtime.gopark(0x25e6820?, 0xb?, 0x0?, 0x0?, 0x2c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00077ce00 sp=0xc00077cde0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc00077ce38 sp=0xc00077ce00 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99adb0, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc00077ce58 sp=0xc00077ce38 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc0008189c0?, 0xc000a3c032?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00077ce80 sp=0xc00077ce58 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc0008189c0, {0xc000a3c032, 0x1ffce, 0x1ffce})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc00077cf18 sp=0xc00077ce80 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a0a8, {0xc000a3c032?, 0x0?, 0xc00074c2dc?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc00077cf58 sp=0xc00077cf18 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc0006fc280)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc00077cfc8 sp=0xc00077cf58 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc00077cfe0 sp=0xc00077cfc8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077cfe8 sp=0xc00077cfe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 48
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 56 [syscall, 1 minutes]:
+syscall.Syscall6(0x0?, 0x0?, 0xc00074c33c?, 0x7?, 0x0?, 0x800001ed?, 0x1c05c9b3?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc00077d5e0 sp=0xc00077d558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009a840)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc00077d6b8 sp=0xc00077d5e0 pc=0x4ef516
+os.(*Process).wait(0xc00009a840)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc00077d718 sp=0xc00077d6b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc00026da20)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc00077d780 sp=0xc00077d718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc0006fc280)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc00077d7c8 sp=0xc00077d780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc00077d7e0 sp=0xc00077d7c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077d7e8 sp=0xc00077d7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 48
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 70 [syscall, 1 minutes]:
+syscall.Syscall6(0x1e93740?, 0x0?, 0x1f9f510?, 0x0?, 0x1e93740?, 0x0?, 0x1f9f548?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc0007085e0 sp=0xc000708558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc000037680)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc0007086b8 sp=0xc0007085e0 pc=0x4ef516
+os.(*Process).wait(0xc000037680)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc000708718 sp=0xc0007086b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc000da2160)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc000708780 sp=0xc000708718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc000dda200)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc0007087c8 sp=0xc000708780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc0007087e0 sp=0xc0007087c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0007087e8 sp=0xc0007087e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 42
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 363 [IO wait, 1 minutes]:
+runtime.gopark(0x4379ae?, 0xb?, 0x0?, 0x0?, 0x1b?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000706600 sp=0xc0007065e0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc000706638 sp=0xc000706600 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99bf20, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc000706658 sp=0xc000706638 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc00072db60?, 0xc0019c2000?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000706680 sp=0xc000706658 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00072db60, {0xc0019c2000, 0x20000, 0x20000})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc000706718 sp=0xc000706680 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000b4ed88, {0xc0019c2000?, 0xc000db27e0?, 0xc000db2780?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc000706758 sp=0xc000706718 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc000dda700)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc0007067c8 sp=0xc000706758 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc0007067e0 sp=0xc0007067c8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc0007067e8 sp=0xc0007067e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 43
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 59 [syscall, 1 minutes]:
+syscall.Syscall6(0x1e93900?, 0x0?, 0x20c7528?, 0x0?, 0x1e93900?, 0x0?, 0x20c7560?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc00070d5e0 sp=0xc00070d558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009a8d0)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc00070d6b8 sp=0xc00070d5e0 pc=0x4ef516
+os.(*Process).wait(0xc00009a8d0)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc00070d718 sp=0xc00070d6b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc00026d080)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc00070d780 sp=0xc00070d718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc0006fc100)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc00070d7c8 sp=0xc00070d780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc00070d7e0 sp=0xc00070d7c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070d7e8 sp=0xc00070d7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 45
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 131 [IO wait, 1 minutes]:
+runtime.gopark(0xb318c0?, 0xb?, 0x0?, 0x0?, 0x1c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00070c600 sp=0xc00070c5e0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc00070c638 sp=0xc00070c600 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99a400, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc00070c658 sp=0xc00070c638 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc00072d6e0?, 0xc00133a000?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00070c680 sp=0xc00070c658 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00072d6e0, {0xc00133a000, 0x20000, 0x20000})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc00070c718 sp=0xc00070c680 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc00013a268, {0xc00133a000?, 0x4ce2af?, 0xc00070c7b8?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc00070c758 sp=0xc00070c718 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc0006fc080)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc00070c7c8 sp=0xc00070c758 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc00070c7e0 sp=0xc00070c7c8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070c7e8 sp=0xc00070c7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 65
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 132 [syscall, 1 minutes]:
+syscall.Syscall6(0x4?, 0xc00070be28?, 0xc00070be10?, 0xc00070be28?, 0xc00070be28?, 0x44e3b0?, 0x43e78e?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc00070bde0 sp=0xc00070bd58 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009ad80)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc00070beb8 sp=0xc00070bde0 pc=0x4ef516
+os.(*Process).wait(0xc00009ad80)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc00070bf18 sp=0xc00070beb8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc0008cc420)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc00070bf80 sp=0xc00070bf18 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc0006fc080)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc00070bfc8 sp=0xc00070bf80 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc00070bfe0 sp=0xc00070bfc8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00070bfe8 sp=0xc00070bfe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 65
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 617 [select]:
+runtime.gopark(0xc00077afb0?, 0x2?, 0xc0?, 0xc9?, 0xc00077af8c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00077ae38 sp=0xc00077ae18 pc=0x43e78e
+runtime.selectgo(0xc00077afb0, 0xc00077af88, 0x0?, 0x0, 0x8?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc00077af58 sp=0xc00077ae38 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc00077afe0 sp=0xc00077af58 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077afe8 sp=0xc00077afe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 44
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 622 [select]:
+runtime.gopark(0xc00077b7b0?, 0x2?, 0xa0?, 0xcb?, 0xc00077b78c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00077b638 sp=0xc00077b618 pc=0x43e78e
+runtime.selectgo(0xc00077b7b0, 0xc00077b788, 0xc001dfbdd0?, 0x0, 0x4?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc00077b758 sp=0xc00077b638 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc00077b7e0 sp=0xc00077b758 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077b7e8 sp=0xc00077b7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 47
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 624 [select]:
+runtime.gopark(0xc00077bfb0?, 0x2?, 0xe0?, 0xcd?, 0xc00077bf8c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc00077be38 sp=0xc00077be18 pc=0x43e78e
+runtime.selectgo(0xc00077bfb0, 0xc00077bf88, 0x1c05c9b3?, 0x0, 0x1c05c9b3?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc00077bf58 sp=0xc00077be38 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc00077bfe0 sp=0xc00077bf58 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077bfe8 sp=0xc00077bfe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 65
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 364 [syscall, 1 minutes]:
+syscall.Syscall6(0x25e6820?, 0x19?, 0xa4b8?, 0xc00077c628?, 0xc00077c628?, 0x44e3b0?, 0x43e78e?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc00077c5e0 sp=0xc00077c558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009af60)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc00077c6b8 sp=0xc00077c5e0 pc=0x4ef516
+os.(*Process).wait(0xc00009af60)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc00077c718 sp=0xc00077c6b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc0008cd4a0)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc00077c780 sp=0xc00077c718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc000dda700)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc00077c7c8 sp=0xc00077c780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc00077c7e0 sp=0xc00077c7c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc00077c7e8 sp=0xc00077c7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 43
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 621 [select]:
+runtime.gopark(0xc001af77b0?, 0x2?, 0x40?, 0xcb?, 0xc001af778c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc001af7638 sp=0xc001af7618 pc=0x43e78e
+runtime.selectgo(0xc001af77b0, 0xc001af7788, 0x82a4985b81661618?, 0x0, 0x0?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc001af7758 sp=0xc001af7638 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc001af77e0 sp=0xc001af7758 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc001af77e8 sp=0xc001af77e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 48
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 426 [IO wait, 1 minutes]:
+runtime.gopark(0x0?, 0xb?, 0x0?, 0x0?, 0x1f?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc001af7e00 sp=0xc001af7de0 pc=0x43e78e
+runtime.netpollblock(0x4c0d78?, 0x407de6?, 0x0?)
+	/local/home/andbur/go/src/runtime/netpoll.go:564 +0xf7 fp=0xc001af7e38 sp=0xc001af7e00 pc=0x4371f7
+internal/poll.runtime_pollWait(0x7f795c99bb40, 0x72)
+	/local/home/andbur/go/src/runtime/netpoll.go:343 +0x85 fp=0xc001af7e58 sp=0xc001af7e38 pc=0x46bec5
+internal/poll.(*pollDesc).wait(0xc001c46600?, 0xc002652000?, 0x1)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc001af7e80 sp=0xc001af7e58 pc=0x4dd3a7
+internal/poll.(*pollDesc).waitRead(...)
+	/local/home/andbur/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc001c46600, {0xc002652000, 0x20000, 0x20000})
+	/local/home/andbur/go/src/internal/poll/fd_unix.go:164 +0x27a fp=0xc001af7f18 sp=0xc001af7e80 pc=0x4de69a
+os.(*File).read(...)
+	/local/home/andbur/go/src/os/file_posix.go:29
+os.(*File).Read(0xc000b4f1e8, {0xc002652000?, 0x0?, 0x0?})
+	/local/home/andbur/go/src/os/file.go:118 +0x52 fp=0xc001af7f58 sp=0xc001af7f18 pc=0x4e9792
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func2(0xc000dda780)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:687 +0x89 fp=0xc001af7fc8 sp=0xc001af7f58 pc=0xa39509
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func7()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:702 +0x27 fp=0xc001af7fe0 sp=0xc001af7fc8 pc=0xa39447
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc001af7fe8 sp=0xc001af7fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 44
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:681 +0xa05
+
+goroutine 427 [syscall, 1 minutes]:
+syscall.Syscall6(0x0?, 0x0?, 0x0?, 0x0?, 0x0?, 0xa3670b765b836799?, 0x84cf68f0843823ed?)
+	/local/home/andbur/go/src/syscall/syscall_linux.go:91 +0x30 fp=0xc001af85e0 sp=0xc001af8558 pc=0x4c2d30
+os.(*Process).blockUntilWaitable(0xc00009b1a0)
+	/local/home/andbur/go/src/os/wait_waitid.go:32 +0x76 fp=0xc001af86b8 sp=0xc001af85e0 pc=0x4ef516
+os.(*Process).wait(0xc00009b1a0)
+	/local/home/andbur/go/src/os/exec_unix.go:22 +0x25 fp=0xc001af8718 sp=0xc001af86b8 pc=0x4e9005
+os.(*Process).Wait(...)
+	/local/home/andbur/go/src/os/exec.go:134
+os/exec.(*Cmd).Wait(0xc0008cd8c0)
+	/local/home/andbur/go/src/os/exec/exec.go:890 +0x45 fp=0xc001af8780 sp=0xc001af8718 pc=0x749f45
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func3(0xc000dda780)
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:710 +0x28 fp=0xc001af87c8 sp=0xc001af8780 pc=0xa393a8
+github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand.func8()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:715 +0x27 fp=0xc001af87e0 sp=0xc001af87c8 pc=0xa39347
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc001af87e8 sp=0xc001af87e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*Env).makeCommand in goroutine 44
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:709 +0xc0d
+
+goroutine 631 [select]:
+runtime.gopark(0xc001af8fb0?, 0x2?, 0x40?, 0xe5?, 0xc001af8f8c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc001af8e38 sp=0xc001af8e18 pc=0x43e78e
+runtime.selectgo(0xc001af8fb0, 0xc001af8f88, 0xc00019d6f0?, 0x0, 0x4?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc001af8f58 sp=0xc001af8e38 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc001af8fe0 sp=0xc001af8f58 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc001af8fe8 sp=0xc001af8fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 43
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 619 [select]:
+runtime.gopark(0xc001afa7b0?, 0x2?, 0x80?, 0xca?, 0xc001afa78c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc001afa638 sp=0xc001afa618 pc=0x43e78e
+runtime.selectgo(0xc001afa7b0, 0xc001afa788, 0x0?, 0x0, 0x0?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc001afa758 sp=0xc001afa638 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc001afa7e0 sp=0xc001afa758 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc001afa7e8 sp=0xc001afa7e0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 42
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 642 [select]:
+runtime.gopark(0xc000b31fb0?, 0x2?, 0x80?, 0xd0?, 0xc000b31f8c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000b31e38 sp=0xc000b31e18 pc=0x43e78e
+runtime.selectgo(0xc000b31fb0, 0xc000b31f88, 0x8a5363c0c7347a07?, 0x0, 0xd5aabe4262772aac?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc000b31f58 sp=0xc000b31e38 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc000b31fe0 sp=0xc000b31f58 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000b31fe8 sp=0xc000b31fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 46
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b
+
+goroutine 643 [select]:
+runtime.gopark(0xc000b32fb0?, 0x2?, 0x0?, 0xd2?, 0xc000b32f8c?)
+	/local/home/andbur/go/src/runtime/proc.go:398 +0xce fp=0xc000b32e38 sp=0xc000b32e18 pc=0x43e78e
+runtime.selectgo(0xc000b32fb0, 0xc000b32f88, 0x0?, 0x0, 0x0?, 0x1)
+	/local/home/andbur/go/src/runtime/select.go:327 +0x725 fp=0xc000b32f58 sp=0xc000b32e38 pc=0x44ec05
+github.com/google/syzkaller/pkg/ipc.(*command).exec.func1()
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:832 +0x77 fp=0xc000b32fe0 sp=0xc000b32f58 pc=0xa3aad7
+runtime.goexit()
+	/local/home/andbur/go/src/runtime/asm_amd64.s:1650 +0x1 fp=0xc000b32fe8 sp=0xc000b32fe0 pc=0x471701
+created by github.com/google/syzkaller/pkg/ipc.(*command).exec in goroutine 45
+	/local/home/andbur/syzkaller/pkg/ipc/ipc.go:830 +0x26b

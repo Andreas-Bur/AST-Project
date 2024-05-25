@@ -1,0 +1,374 @@
+Warning: Permanently added '[localhost]:35755' (ED25519) to the list of known hosts.
+executing program
+syzkaller login: [   35.516176][ T6150] loop0: detected capacity change from 0 to 32768
+[   35.552135][ T4632] I/O error, dev loop0, sector 32640 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 0
+[   35.680134][ T6150] loop0: detected capacity change from 0 to 32768
+[   35.739396][ T6150] bcachefs (loop0): mounting version 1.7: (unknown version) opts=errors=continue,metadata_checksum=none,data_checksum=none,compression=lz4,usrquota,nojournal_transaction_names
+[   35.740602][ T6150] bcachefs (loop0): recovering from clean shutdown, journal seq 10
+[   35.741195][ T6150] bcachefs (loop0): Version downgrade required:
+[   35.747195][ T6150] bcachefs (loop0): error validating btree node on loop0 at btree dirents level 0/0
+[   35.747232][ T6150]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0
+[   35.747253][ T6150]   node offset 0/24 bset u64s 0: checksum error: got  should be  type none, fixing
+[   35.749281][ T6150] bcachefs (loop0): error validating btree node at btree dirents level 0/0
+[   35.749297][ T6150]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0
+[   35.749317][ T6150]   node offset 16/24 bset u64s 36: keys out of order: u64s 7 type dirent 1407374883557376:2695648408715017799:U32_MAX len 0 ver 0 > u64s 7 type dirent 4096:4330382808765833931:U32_MAX len 0 ver 0, fixing
+[   35.751805][ T6150] bcachefs (loop0): btree_node_read_work: rewriting btree node at btree=dirents level=0 SPOS_MAX due to error
+[   35.754802][ T6150] bcachefs (loop0): error validating btree node on loop0 at btree subvolumes level 0/0
+[   35.754827][ T6150]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c0bef60d07ceb940 written 16 min_key POS_MIN durability: 1 ptr: 0:35:0 gen 0
+[   35.754848][ T6150]   node offset 8/16: btree node data missing: expected 16 sectors, found 8, fixing
+[   35.756674][ T6150] bcachefs (loop0): btree_node_read_work: rewriting btree node at btree=subvolumes level=0 SPOS_MAX due to error
+[   35.759390][ T6150] bcachefs (loop0): error validating btree node on loop0 at btree freespace level 0/0
+[   35.759429][ T6150]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq e81e1ed936acf3df written 32 min_key POS_MIN durability: 1 ptr: 0:29:0 gen 0
+[   35.759449][ T6150]   node offset 0/32: incorrect min_key: got 0:0:16777216 should be POS_MIN
+[   35.762320][ T6150] bcachefs (loop0): flagging btree freespace lost data
+[   35.763838][ T6150] error reading btree root freespace l=0: btree_node_read_error, fixing
+[   35.765915][ T6150] bcachefs (loop0): alloc_read... done
+[   35.766573][ T6150] bcachefs (loop0): stripes_read... done
+[   35.766974][ T6150] bcachefs (loop0): snapshots_read... done
+[   35.768039][ T6150] bcachefs (loop0): check_allocations...
+[   35.768909][ T6150] bucket 0:34 data type user ptr gen 0 missing in alloc btree
+[   35.768943][ T6150] while marking u64s 7 type extent 4099:8:U32_MAX len 8 ver 0: durability: 1 crc: c_size 8 size 8 offset 0 nonce 0 csum none compress incompressible ptr: 0:34:0 gen 0, fixing
+[   35.770838][ T6150] key version number higher than recorded: 2199023255552 > 0, fixing
+[   35.771348][ T6150] bucket 0:27 data type btree ptr gen 0 missing in alloc btree
+[   35.771362][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 2199023255552: seq c6c25c03258c59c5 written 16 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0, fixing
+[   35.772700][ T6150] bucket 0:38 data type btree ptr gen 0 missing in alloc btree
+[   35.772714][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 7589ab5e0c11cc7a written 24 min_key POS_MIN durability: 1 ptr: 0:38:0 gen 0, fixing
+[   35.773977][ T6150] bucket 0:41 data type btree ptr gen 0 missing in alloc btree
+[   35.773991][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0, fixing
+[   35.775293][ T6150] bucket 0:31 data type btree ptr gen 0 missing in alloc btree
+[   35.775307][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 2285c34bed0abe32 written 16 min_key POS_MIN durability: 1 ptr: 0:31:0 gen 0, fixing
+[   35.776586][ T6150] bucket 0:35 data type btree ptr gen 0 missing in alloc btree
+[   35.776600][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c0bef60d07ceb940 written 16 min_key POS_MIN durability: 1 ptr: 0:35:0 gen 0, fixing
+[   35.777889][ T6150] bucket 0:32 data type btree ptr gen 0 missing in alloc btree
+[   35.777903][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq ebb8d5a9e3463bdb written 16 min_key POS_MIN durability: 1 ptr: 0:32:0 gen 0, fixing
+[   35.779190][ T6150] bucket 0:28 data type btree ptr gen 0 missing in alloc btree
+[   35.779204][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 28f61e078e70b95c written 16 min_key POS_MIN durability: 1 ptr: 0:28:0 gen 0, fixing
+[   35.781818][ T6150] bucket 0:37 data type btree ptr gen 0 missing in alloc btree
+[   35.781853][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 4a8b0fa43a9980a6 written 24 min_key POS_MIN durability: 1 ptr: 0:37:0 gen 0, fixing
+[   35.783212][ T6150] bucket 0:42 data type btree ptr gen 0 missing in alloc btree
+[   35.783226][ T6150] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 1db8f60c84bb244c written 8 min_key POS_MIN durability: 1 ptr: 0:42:0 gen 0, fixing
+[   35.784445][ T6150] bucket 0:0 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.784996][ T6150] bucket 0:0 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.785942][ T6150] bucket 0:1 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.786506][ T6150] bucket 0:1 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.787281][ T6150] bucket 0:2 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.787729][ T6150] bucket 0:2 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.788296][ T6150] bucket 0:3 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.788755][ T6150] bucket 0:3 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.789324][ T6150] bucket 0:4 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.790613][ T6150] bucket 0:4 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.792206][ T6150] bucket 0:5 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.793560][ T6150] bucket 0:5 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.795356][ T6150] bucket 0:6 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.796895][ T6150] bucket 0:6 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.798554][ T6150] bucket 0:7 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.799969][ T6150] bucket 0:7 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.801931][ T6150] bucket 0:8 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.803370][ T6150] bucket 0:8 gen 0 data type sb has wrong dirty_sectors: got 0, should be 8, fixing
+[   35.805023][ T6150] bucket 0:9 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.806323][ T6150] bucket 0:9 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.808060][ T6150] bucket 0:10 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.809536][ T6150] bucket 0:10 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.811928][ T6150] bucket 0:11 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.813183][ T6150] bucket 0:11 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.814683][ T6150] bucket 0:12 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.815840][ T6150] bucket 0:12 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.817307][ T6150] bucket 0:13 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.818513][ T6150] bucket 0:13 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.819949][ T6150] bucket 0:14 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.821158][ T6150] bucket 0:14 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.822575][ T6150] bucket 0:15 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.823227][ T6150] bucket 0:15 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.823993][ T6150] bucket 0:16 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.824569][ T6150] bucket 0:16 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.825230][ T6150] bucket 0:17 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.825761][ T6150] bucket 0:17 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.826496][ T6150] bucket 0:18 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.827051][ T6150] bucket 0:18 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.827729][ T6150] bucket 0:19 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.828301][ T6150] bucket 0:19 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.828952][ T6150] bucket 0:20 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.829531][ T6150] bucket 0:20 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.830296][ T6150] bucket 0:21 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.830865][ T6150] bucket 0:21 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.831572][ T6150] bucket 0:22 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.832085][ T6150] bucket 0:22 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.832758][ T6150] bucket 0:23 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.833332][ T6150] bucket 0:23 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.833986][ T6150] bucket 0:24 gen 0 has wrong data_type: got free, should be journal, fixing
+[   35.834536][ T6150] bucket 0:24 gen 0 data type journal has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.835321][ T6150] bucket 0:27 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.835916][ T6150] bucket 0:27 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.836619][ T6150] bucket 0:28 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.837189][ T6150] bucket 0:28 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.837928][ T6150] bucket 0:31 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.838508][ T6150] bucket 0:31 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.839216][ T6150] bucket 0:32 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.839851][ T6150] bucket 0:32 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.840537][ T6150] bucket 0:34 gen 0 has wrong data_type: got free, should be user, fixing
+[   35.841058][ T6150] bucket 0:34 gen 0 data type user has wrong dirty_sectors: got 0, should be 16, fixing
+[   35.841697][ T6150] bucket 0:35 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.842253][ T6150] bucket 0:35 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.842922][ T6150] bucket 0:37 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.843448][ T6150] bucket 0:37 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.844106][ T6150] bucket 0:38 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.844633][ T6150] bucket 0:38 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.845309][ T6150] bucket 0:41 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.845839][ T6150] bucket 0:41 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.846492][ T6150] bucket 0:42 gen 0 has wrong data_type: got free, should be btree, fixing
+[   35.847001][ T6150] bucket 0:42 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.848319][ T6150] bucket 0:120 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.848830][ T6150] bucket 0:120 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.849467][ T6150] bucket 0:121 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.849993][ T6150] bucket 0:121 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.850637][ T6150] bucket 0:122 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.851165][ T6150] bucket 0:122 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.851808][ T6150] bucket 0:123 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.852329][ T6150] bucket 0:123 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.852951][ T6150] bucket 0:124 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.853446][ T6150] bucket 0:124 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.854104][ T6150] bucket 0:125 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.854612][ T6150] bucket 0:125 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.855257][ T6150] bucket 0:126 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.855765][ T6150] bucket 0:126 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.856404][ T6150] bucket 0:127 gen 0 has wrong data_type: got free, should be sb, fixing
+[   35.856918][ T6150] bucket 0:127 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   35.890575][ T6150]  done
+[   35.891267][ T6150] bcachefs (loop0): going read-write
+[   35.893520][ T6150] bcachefs (loop0): journal_replay... done
+[   35.938052][ T6150] bcachefs (loop0): check_alloc_info...
+[   35.944169][ T6150] hole in alloc btree missing in freespace btree
+[   35.944240][ T6150]   device 0 buckets 30-31, fixing
+[   35.948164][ T6150] hole in alloc btree missing in freespace btree
+[   35.948192][ T6150]   device 0 buckets 33-34, fixing
+[   35.951065][ T6150] hole in alloc btree missing in freespace btree
+[   35.951099][ T6150]   device 0 buckets 39-41, fixing
+[   35.952073][ T6150] hole in alloc btree missing in freespace btree
+[   35.952086][ T6150]   device 0 buckets 43-120, fixing
+[   35.955558][ T6150]  done
+[   35.955735][ T6150] bcachefs (loop0): check_lrus...
+[   35.956502][ T6150] incorrect lru entry: lru fragmentation time 134217728
+[   35.956517][ T6150]   u64s 5 type set 18446462598867058688:34:0 len 0 ver 0
+[   35.956530][ T6150]   for u64s 12 type alloc_v4 0:34:0 len 0 ver 0: 
+[   35.956542][ T6150]   gen 0 oldest_gen 0 data_type user
+[   35.956553][ T6150]   journal_seq       0
+[   35.956563][ T6150]   need_discard      0
+[   35.956572][ T6150]   need_inc_gen      0
+[   35.956582][ T6150]   dirty_sectors     16
+[   35.956592][ T6150]   cached_sectors    0
+[   35.956602][ T6150]   stripe            0
+[   35.956611][ T6150]   stripe_redundancy 0
+[   35.956621][ T6150]   io_time[READ]     0
+[   35.956631][ T6150]   io_time[WRITE]    0
+[   35.956640][ T6150]   fragmentation     0
+[   35.956650][ T6150]   bp_start          7, fixing
+[   35.962623][ T6150]  done
+[   35.962786][ T6150] bcachefs (loop0): check_extents_to_backpointers...
+[   35.963374][ T6150] missing backpointer for btree=inodes l=1 u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 7589ab5e0c11cc7a written 24 min_key POS_MIN durability: 1 ptr: 0:38:0 gen 0
+[   35.963400][ T6150]   got:   u64s 5 type deleted 0:9961472:0 len 0 ver 0
+[   35.963413][ T6150]   want:  u64s 9 type backpointer 0:9961472:0 len 0 ver 0: bucket=0:38:0 btree=inodes l=1 offset=0:0 len=256 pos=SPOS_MAX, fixing
+[   35.966547][ T6150] missing backpointer for btree=snapshots l=1 u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq ebb8d5a9e3463bdb written 16 min_key POS_MIN durability: 1 ptr: 0:32:0 gen 0
+[   35.966572][ T6150]   got:   u64s 5 type deleted 0:8388608:0 len 0 ver 0
+[   35.966585][ T6150]   want:  u64s 9 type backpointer 0:8388608:0 len 0 ver 0: bucket=0:32:0 btree=snapshots l=1 offset=0:0 len=256 pos=SPOS_MAX, fixing
+[   35.969078][ T6150] missing backpointer for btree=lru l=1 u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 28f61e078e70b95c written 16 min_key POS_MIN durability: 1 ptr: 0:28:0 gen 0
+[   35.969103][ T6150]   got:   u64s 9 type backpointer 0:7340032:0 len 0 ver 0: bucket=0:28:0 btree=lru l=1 offset=0:0 len=256 pos=18446462641682513919:U64_MAX:U32_MAX
+[   35.969125][ T6150]   want:  u64s 9 type backpointer 0:7340032:0 len 0 ver 0: bucket=0:28:0 btree=lru l=1 offset=0:0 len=256 pos=SPOS_MAX, fixing
+[   35.972735][ T6150]  done
+[   35.972903][ T6150] bcachefs (loop0): check_alloc_to_lru_refs... done
+[   35.974269][ T6150] bcachefs (loop0): resume_logged_ops... done
+[   35.974623][ T6150] bcachefs (loop0): delete_dead_inodes... done
+[   35.978080][ T6150] bcachefs (loop0): reading quotas
+[   35.979056][ T6150] 
+[   35.979577][ T6150] =============================
+[   35.980310][ T6150] WARNING: suspicious RCU usage
+[   35.980952][ T6150] 6.9.0-rc4 #2 Not tainted
+[   35.981566][ T6150] -----------------------------
+[   35.982770][ T6150] fs/bcachefs/snapshot.h:45 suspicious rcu_dereference_check() usage!
+[   35.983868][ T6150] 
+[   35.983868][ T6150] other info that might help us debug this:
+[   35.983868][ T6150] 
+[   35.984879][ T6150] 
+[   35.984879][ T6150] rcu_scheduler_active = 2, debug_locks = 1
+[   35.985712][ T6150] 4 locks held by syz-executor852/6150:
+[   35.986318][ T6150]  #0: ffff888010a80278 (&c->state_lock){+.+.}-{3:3}, at: bch2_fs_start+0x3c/0x3d0
+[   35.987393][ T6150]  #1: ffff888010a84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: __bch2_trans_get+0x3af/0x4d0
+[   35.988551][ T6150]  #2: ffff88800e077070 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0
+[   35.989835][ T6150]  #3: ffff888011066470 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0
+[   35.991053][ T6150] 
+[   35.991053][ T6150] stack backtrace:
+[   35.991669][ T6150] CPU: 0 PID: 6150 Comm: syz-executor852 Not tainted 6.9.0-rc4 #2
+[   35.992496][ T6150] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[   35.993430][ T6150] Call Trace:
+[   35.993803][ T6150]  <TASK>
+[   35.994142][ T6150]  dump_stack_lvl+0x111/0x140
+[   35.994938][ T6150]  dump_stack+0x19/0x20
+[   35.995450][ T6150]  lockdep_rcu_suspicious+0x156/0x1c0
+[   35.996092][ T6150]  bch2_fs_quota_read_inode.isra.0+0x6e5/0x700
+[   35.996793][ T6150]  ? bch2_fs_quota_read+0x3c1/0x700
+[   35.997404][ T6150]  ? bch2_trans_begin+0x111/0xbb0
+[   35.998014][ T6150]  ? bch2_fs_quota_read+0x3c1/0x700
+[   35.998635][ T6150]  bch2_fs_quota_read+0x5a1/0x700
+[   35.998976][ T6150]  ? vprintk_default+0x2a/0x40
+[   35.999270][ T6150]  ? bch2_fs_quota_read+0x3c1/0x700
+[   35.999588][ T6150]  bch2_fs_recovery+0x1ce4/0x2b20
+[   35.999904][ T6150]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   36.000242][ T6150]  ? llist_reverse_order+0x39/0x50
+[   36.000556][ T6150]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   36.000893][ T6150]  ? bch2_recalc_capacity+0x16a/0x1e0
+[   36.001211][ T6150]  bch2_fs_start+0x1fe/0x3d0
+[   36.001501][ T6150]  bch2_fs_open+0x13f1/0x1ec0
+[   36.001807][ T6150]  bch2_mount+0x684/0x8a0
+[   36.002086][ T6150]  ? bch2_mount+0x684/0x8a0
+[   36.002379][ T6150]  legacy_get_tree+0x3f/0xb0
+[   36.002651][ T6150]  vfs_get_tree+0x3a/0x160
+[   36.002938][ T6150]  path_mount+0xcb0/0x11d0
+[   36.003213][ T6150]  ? putname+0xbe/0xe0
+[   36.003463][ T6150]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   36.003799][ T6150]  ? user_path_at_empty+0x55/0x70
+[   36.004115][ T6150]  __x64_sys_mount+0x17b/0x1c0
+[   36.004419][ T6150]  x64_sys_call+0x2072/0x20b0
+[   36.004712][ T6150]  do_syscall_64+0xc3/0x200
+[   36.004999][ T6150]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[   36.005338][ T6150] RIP: 0033:0x7f771025d66e
+[   36.005600][ T6150] Code: 48 c7 c0 ff ff ff ff eb aa e8 fe 06 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+[   36.006607][ T6150] RSP: 002b:00007fff455f8fb8 EFLAGS: 00000282 ORIG_RAX: 00000000000000a5
+[   36.007066][ T6150] RAX: ffffffffffffffda RBX: 00005555724eb378 RCX: 00007f771025d66e
+[   36.007494][ T6150] RDX: 00000000200058c0 RSI: 0000000020000040 RDI: 00007fff455f9020
+[   36.007920][ T6150] RBP: 00007fff455f9020 R08: 00007fff455f9060 R09: 002c65756e69746e
+[   36.008344][ T6150] R10: 0000000000000000 R11: 0000000000000282 R12: 0000000020000040
+[   36.008769][ T6150] R13: 00000000200058c0 R14: 0000000000000004 R15: 00007fff455f9060
+[   36.009201][ T6150]  </TASK>
+[   36.009412][ T6150] bcachefs (loop0): bch2_fs_quota_read_inode: snapshot tree 0 not found
+[   36.009884][ T6150] bcachefs (loop0): bch2_fs_quota_read(): error ENOENT_snapshot_tree
+[   36.010403][ T6150] bcachefs (loop0): bch2_fs_recovery(): error ENOENT_snapshot_tree
+[   36.010821][ T6150] bcachefs (loop0): bch2_fs_start(): error starting filesystem ENOENT_snapshot_tree
+[   36.011313][ T6150] bcachefs (loop0): shutting down
+[   36.011592][ T6150] bcachefs (loop0): going read-only
+[   36.011883][ T6150] bcachefs (loop0): finished waiting for writes to stop
+[   36.018261][ T6150] bcachefs (loop0): flushing journal and stopping allocators, journal seq 22
+[   36.018828][ T6150] bcachefs (loop0): flushing journal and stopping allocators complete, journal seq 22
+[   36.019365][ T6150] bcachefs (loop0): unshutdown complete, journal seq 22
+[   36.020137][ T6150] bcachefs (loop0): done going read-only, filesystem not clean
+[   36.024065][ T6150] bcachefs (loop0): shutdown complete
+[   36.101924][ T6150] syz-executor852 (6150) used greatest stack depth: 8280 bytes left
+
+VM DIAGNOSIS:
+17:49:14  Registers:
+info registers vcpu 0
+RAX=000000000000002d RBX=0000000000000000 RCX=0000000000000000 RDX=00000000000003f8
+RSI=ffffffff82a5ff8a RDI=ffffffff893a8160 RBP=ffff888010f67420 RSP=ffff888010f67408
+R8 =0000000000080000 R9 =0000000000000001 R10=000000000000002d R11=0000000000000000
+R12=ffffffff893a8160 R13=000000000000002d R14=ffffffff8923c04f R15=0000000000000000
+RIP=ffffffff82a5ffa1 RFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 00000000 00000000
+CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+SS =0018 0000000000000000 ffffffff 00c09300 DPL=0 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 00005555724eb3c0 00000000 00000000
+GS =0000 ffff88807dc00000 00000000 00000000
+LDT=0000 0000000000000000 00000000 00000000
+TR =0040 fffffe0000003000 00004087 00008b00 DPL=0 TSS64-busy
+GDT=     fffffe0000001000 0000007f
+IDT=     fffffe0000000000 00000fff
+CR0=80050033 CR2=00007f8c37dca000 CR3=000000000ffa8005 CR4=00770ef0
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000 
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000d01
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+Opmask00=00000000ffffff00 Opmask01=0000000000000111 Opmask02=000000000fc00008 Opmask03=0000000000000000
+Opmask04=0000000000000000 Opmask05=0000000000000000 Opmask06=0000000000000000 Opmask07=0000000000000000
+ZMM00=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffffff ffffffffffffffff
+ZMM01=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 00007f20cf282c40 00007f20cf27f4a0
+ZMM02=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffff0f 0e0d0c0b0a090807
+ZMM03=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM04=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM05=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM06=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM07=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM08=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000020 0000000000002000
+ZMM09=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000ffffffffffff ffffffffffffff00
+ZMM10=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM11=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM12=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM13=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM14=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM15=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM16=6665686361636220 5d3035313654205b 5d3638373236392e 35332020205b203a 6c656e72656b2072 656c6c616b7a7973 2034313a39343a35 312038312079614d
+ZMM17=0a2e2e2e73726574 6e696f706b636162 5f6f745f73746e65 7478655f6b636568 63203a2930706f6f 6c28207366656863 616362205d303531 3654205b5d363837
+ZMM18=0a676e6978696620 2c58414d5f534f50 533d736f70203635 323d6e656c20303a 303d74657366666f 20313d6c2075726c 3d65657274622030 3a38323a303d7465
+ZMM19=6b637562203a3020 7265762030206e65 6c20303a32333030 3433373a30207265 746e696f706b6361 6220657079742039 207334367520203a 746e61772020205d
+ZMM20=0a676e6978696620 2c30207265762030 206e656c2058414d 5f3233553a313339 3333383536373830 3832383330333334 3a3639303420746e 6572696420657079
+ZMM21=7420372073343675 203e203020726576 2030206e656c2058 414d5f3233553a39 3937373130353137 3830343834363539 36323a3637333735 3533383834373337
+ZMM22=30343120746e6572 6964206570797420 372073343675203a 726564726f20666f 2074756f20737965 6b203a3633207334 3675207465736220 34322f3631207465
+ZMM23=7366666f2065646f 6e2020205d303531 3654205b5d373133 3934372e35332020 205b203a6c656e72 656b2072656c6c61 6b7a79732034313a 39343a3531203831
+ZMM24=0000000000000000 0000006000000080 00007f20bc00f7b0 0000006800000080 00007f20bc00f600 0000005d00000080 00007f20bc018920 0000005d00000080
+ZMM25=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM26=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM27=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM28=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM29=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM30=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM31=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+info registers vcpu 1
+RAX=000000000001269d RBX=ffff888009b10000 RCX=ffffffff8122166e RDX=0000000000000000
+RSI=0000000000000000 RDI=ffffffff81168aba RBP=ffff888009af3eb8 RSP=ffff888009af3eb8
+R8 =0000000000000001 R9 =0000000000000001 R10=0000000000000000 R11=0000000000000000
+R12=0000000000000001 R13=0000000000000000 R14=0000000000000000 R15=0000000000000000
+RIP=ffffffff84f18c92 RFL=00000202 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=1
+ES =0000 0000000000000000 00000000 00000000
+CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+SS =0018 0000000000000000 ffffffff 00c09300 DPL=0 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 0000000000000000 00000000 00000000
+GS =0000 ffff88807dd00000 00000000 00000000
+LDT=0000 0000000000000000 00000000 00000000
+TR =0040 fffffe000003e000 00004087 00008b00 DPL=0 TSS64-busy
+GDT=     fffffe000003c000 0000007f
+IDT=     fffffe0000000000 00000fff
+CR0=80050033 CR2=00007f8c37dcf008 CR3=000000001082e002 CR4=00770ef0
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000 
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000d01
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+Opmask00=00000000ffffff80 Opmask01=00000000ffffffff Opmask02=000000000000ffff Opmask03=00000000ffffffff
+Opmask04=00000000ffffffff Opmask05=00000000ffffffff Opmask06=00000000ffffffff Opmask07=0000000000000000
+ZMM00=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM01=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 78928b1cd8dd9da8 fa43b8688403f6f3
+ZMM02=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffff0f 0e0d0c0b0a090807
+ZMM03=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000065 6369767265732e68
+ZMM04=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 4040404040404040 4040404040404040
+ZMM05=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 5a5a5a5a5a5a5a5a 5a5a5a5a5a5a5a5a
+ZMM06=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 2020202020202020 2020202020202020
+ZMM07=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffff0000ff 000000ffffff0000
+ZMM08=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM09=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffff00ffffff0000 0000000000000000
+ZMM10=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM11=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM12=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM13=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM14=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM15=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM16=bcf832e4f13da35e 00000000000ae988 8ca0b852b1c7c8e1 00000000000ae7b8 a1fcdcf819d7e1e5 00000000000ae728 5837fe9dc1c91f32 00000000000ae618
+ZMM17=a18db41246524704 00000000001cf0d0 ac8bc31478ec8511 00000000000af3b0 d3fdd5f48436fbd7 00000000000aead0 bdbfd8e8cb96c8ce 00000000000aea28
+ZMM18=802ba9d5c6d06979 00000000001cf138 a18db41246524704 00000000001cf0d0 ac8bc31478ec8511 00000000000af3b0 d3fdd5f48436fbd7 00000000000aead0
+ZMM19=bdbfd8e8cb96c8ce 00000000000aea28 bcf832e4f13da35e 00000000000ae988 8ca0b852b1c7c8e1 00000000000ae7b8 a1fcdcf819d7e1e5 00000000000ae728
+ZMM20=0000000000000000 0000000000000000 0000000000000000 0000000000000000 000055e45806adb0 00007f8c00000007 0000000000000091 000000095806b8f0
+ZMM21=f13ea85d3d77a419 00000000001b45d0 e042d86d42eb936e 00000000001b41e8 fb795ef6d6577056 00000000001b3f68 f2b11c9ba4f76271 00000000001b05d0
+ZMM22=2c67c8bc2e329bc3 00000000001b0570 ec2efd57dc4c00df 00000000001b0500 eff9b2d0a8fce9cb 00000000001b0448 d59e07bde36eea69 00000000001b03f8
+ZMM23=7e8a42789393c4b7 00000000001b0290 b3285ca56c489dff 0000000000191ef0 2fccd54c36d8a3f3 0000000000188e88 ac585006bc0bee6f 0000000000186c50
+ZMM24=0000000000000000 0000000000000000 0000000000000000 0000000000000000 2226312b170a2525 2525252525252525 2525252525253b30 093a2830222e1c24
+ZMM25=0000000000000000 0000000000000000 0000000000000000 0000000000000000 30303030093a272d 13242a100a393035 372f3431093a1224 2a100a31093a3027
+ZMM26=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM27=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM28=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM29=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM30=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM31=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000

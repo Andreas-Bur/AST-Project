@@ -1,0 +1,51 @@
+------------[ cut here ]------------
+kernel BUG at fs/hfs/inode.c:442!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 11526 Comm: kworker/u8:12 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:5)
+RIP: 0010:hfs_write_inode+0x161/0x460 fs/hfs/inode.c:442
+Code: 26 85 4c 89 ef e8 1f 3f 99 ff 49 83 fd 03 0f 84 85 01 00 00 49 83 fd 04 74 12 49 83 fd 02 0f 84 00 ff ff ff e8 40 43 99 ff 90 <0f> 0b e8 38 43 99 ff 48 8b 43 28 48 8b 80 38 06 00 00 48 8b 78 30
+RSP: 0018:ffff88800fc539c8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88802ba02b58 RCX: ffffffff81907ba1
+RDX: ffff88800daf8000 RSI: ffffffff81907bc0 RDI: 0000000000000007
+RBP: ffff88800fc53a88 R08: ffffffff85f9c891 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000001 R14: 0000000000000000 R15: ffff88802ba02be0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f96bdbcd000 CR3: 0000000010580006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ write_inode fs/fs-writeback.c:1498 [inline]
+ __writeback_single_inode+0x66b/0x870 fs/fs-writeback.c:1715
+ writeback_sb_inodes+0x302/0x890 fs/fs-writeback.c:1941
+ wb_writeback+0x72/0x5f0 fs/fs-writeback.c:2117
+ wb_do_writeback fs/fs-writeback.c:2264 [inline]
+ wb_workfn+0x139/0x7d0 fs/fs-writeback.c:2304
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:hfs_write_inode+0x161/0x460 fs/hfs/inode.c:442
+Code: 26 85 4c 89 ef e8 1f 3f 99 ff 49 83 fd 03 0f 84 85 01 00 00 49 83 fd 04 74 12 49 83 fd 02 0f 84 00 ff ff ff e8 40 43 99 ff 90 <0f> 0b e8 38 43 99 ff 48 8b 43 28 48 8b 80 38 06 00 00 48 8b 78 30
+RSP: 0018:ffff88800fc539c8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88802ba02b58 RCX: ffffffff81907ba1
+RDX: ffff88800daf8000 RSI: ffffffff81907bc0 RDI: 0000000000000007
+RBP: ffff88800fc53a88 R08: ffffffff85f9c891 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000001 R14: 0000000000000000 R15: ffff88802ba02be0
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f96bdbcd000 CR3: 0000000010580006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554

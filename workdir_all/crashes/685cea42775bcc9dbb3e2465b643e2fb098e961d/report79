@@ -1,0 +1,46 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 47789 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ mark_lock+0x18a/0x940 kernel/locking/lockdep.c:4673
+ mark_usage kernel/locking/lockdep.c:4587 [inline]
+ __lock_acquire+0x3a9/0x15f0 kernel/locking/lockdep.c:5091
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ ext4_sync_fs+0x8d/0x390 fs/ext4/super.c:6323
+ sync_filesystem fs/sync.c:56 [inline]
+ sync_filesystem+0x8d/0x140 fs/sync.c:30
+ generic_shutdown_super+0x39/0x180 fs/super.c:620
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ ext4_kill_sb+0x36/0x80 fs/ext4/super.c:7327
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f054ba9178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffc79dc1cb8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007f054ba9178b
+RDX: 00007f054ba292c0 RSI: 0000000000000009 RDI: 00007ffc79dc1d70
+RBP: 00007ffc79dc1d70 R08: 0000000000000000 R09: 00007ffc79dc1b40
+R10: 000055559544ba4b R11: 0000000000000246 R12: 00007f054baf0278
+R13: 00007ffc79dc2e50 R14: 000055559544b970 R15: 00007ffc79dc2e40
+ </TASK>
+EXT4-fs (loop4): unmounting filesystem 00000000-0000-0000-0000-000000000000.
+XFS (loop4): Unmounting Filesystem 6b3d8c96-b8b2-4f73-8344-2893082bca0b

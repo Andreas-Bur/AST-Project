@@ -1,0 +1,82 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2676 jiffies s: 7209 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 21705 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:aa_put_label security/apparmor/include/label.h:444 [inline]
+RIP: 0010:apparmor_sk_free_security+0x2b/0x140 security/apparmor/lsm.c:1078
+Code: 0f 1e fa 55 48 89 e5 41 55 41 54 53 48 89 fb e8 2b 4b d4 fe 4c 8b a3 98 04 00 00 48 c7 83 98 04 00 00 00 00 00 00 4d 8b 2c 24 <4d> 85 ed 74 51 e8 0b 4b d4 fe bb ff ff ff ff f0 41 0f c1 5d 00 bf
+RSP: 0018:ffff88807dc05c18 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: ffff88802c6172c0 RCX: 0000000000000000
+RDX: ffff88803f698000 RSI: ffffffff825573d5 RDI: ffff88802c6172c0
+RBP: ffff88807dc05c30 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05b50 R11: 0000000000000000 R12: ffff88802eeac5e0
+R13: ffff88800985fd00 R14: 0000000000000000 R15: ffff888023ae8144
+FS:  00007fd9a14c5640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fd9990ec000 CR3: 0000000035412003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ security_sk_free+0x30/0x50 security/security.c:4673
+ sk_prot_free net/core/sock.c:2112 [inline]
+ __sk_destruct+0x29a/0x4a0 net/core/sock.c:2208
+ sk_destruct+0x86/0xa0 net/core/sock.c:2223
+ __sk_free+0x65/0x1c0 net/core/sock.c:2234
+ sk_free+0x7e/0xb0 net/core/sock.c:2245
+ tcp_wfree+0x274/0x290 net/ipv4/tcp_output.c:1225
+ skb_release_head_state+0x6f/0x1b0 net/core/skbuff.c:1188
+ skb_release_all net/core/skbuff.c:1200 [inline]
+ __kfree_skb net/core/skbuff.c:1216 [inline]
+ kfree_skb_reason+0xa8/0x2a0 net/core/skbuff.c:1252
+ kfree_skb include/linux/skbuff.h:1262 [inline]
+ ndisc_error_report+0x83/0xf0 net/ipv6/ndisc.c:730
+ neigh_invalidate+0xbb/0x180 net/core/neighbour.c:1059
+ neigh_timer_handler+0x69a/0x730 net/core/neighbour.c:1146
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__get_user_8+0x4/0x20 arch/x86/lib/getuser.S:85
+Code: 3f 48 09 d0 0f 01 cb 8b 10 31 c0 0f 01 ca e9 ae a4 1f 00 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa <48> 89 c2 48 c1 fa 3f 48 09 d0 0f 01 cb 48 8b 10 31 c0 0f 01 ca e9
+RSP: 0018:ffff88802ef0fe18 EFLAGS: 00000206
+RAX: 00007fd9a14c5fe8 RBX: 0000000000000000 RCX: ffffc90006317000
+RDX: 0000000000040000 RSI: ffffffff814a06ad RDI: ffff88803f698a60
+RBP: ffff88802ef0feb8 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803f698000
+R13: ffff88802ef0ff58 R14: 00007fd9990ec000 R15: 0000000000000000
+ rseq_handle_notify_resume include/linux/rseq.h:38 [inline]
+ resume_user_mode_work include/linux/resume_user_mode.h:62 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ irqentry_exit_to_user_mode+0x16a/0x200 kernel/entry/common.c:231
+ irqentry_exit+0x73/0xa0 kernel/entry/common.c:334
+ exc_page_fault+0x3e1/0x1250 arch/x86/mm/fault.c:1566
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7fd9a06285e7
+Code: 70 48 63 d5 48 01 c2 49 3b 55 08 77 4e 8d 55 ff 85 ed 74 35 0f 1f 80 00 00 00 00 48 39 c6 77 1c 49 8b 7d 00 49 89 c1 49 29 f1 <46> 0f b6 0c 0f 45 84 c9 74 08 44 88 0c 07 49 8b 45 10 48 83 c0 01
+RSP: 002b:00007fd9a14c44b0 EFLAGS: 00010206
+RAX: 0000000002eec001 RBX: 00007fd9a14c4510 RCX: 0000000000000000
+RDX: 0000000000000015 RSI: 0000000000000001 RDI: 00007fd996200000
+RBP: 0000000000000102 R08: 0000000000000001 R09: 0000000002eec000
+R10: 0000000000000000 R11: 00007fd9a14c4520 R12: 00007fd9a14c4520
+R13: 00007fd9a14c45b0 R14: 0000000000000001 R15: 0000000000000000
+ </TASK>
+vkms_vblank_simulate: vblank timer overrun

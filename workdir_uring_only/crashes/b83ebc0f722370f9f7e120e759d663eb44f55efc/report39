@@ -1,0 +1,77 @@
+lsm_file_cache            51KB         75KB
+key_jar                   23KB         23KB
+uts_namespace             15KB         15KB
+nsproxy                    7KB          7KB
+vma_lock                  82KB        216KB
+files_cache              138KB        138KB
+signal_cache             470KB        812KB
+sighand_cache            621KB        704KB
+task_struct             2193KB       2430KB
+anon_vma                  69KB         94KB
+Acpi-State                38KB         55KB
+shared_policy_node        425KB        641KB
+numa_policy                8KB          8KB
+trace_event_file         358KB        358KB
+ftrace_event_field        538KB        538KB
+pool_workqueue           296KB        296KB
+maple_node               684KB        936KB
+task_group                31KB         31KB
+mm_struct                252KB        252KB
+vmap_area                 56KB         94KB
+page->ptl                 27KB         44KB
+kmalloc-cg-8k            744KB        960KB
+kmalloc-cg-4k           6912KB       8864KB
+kmalloc-cg-2k           4988KB       6720KB
+kmalloc-cg-1k           1197KB       1664KB
+kmalloc-cg-512           625KB        888KB
+kmalloc-cg-256           185KB        240KB
+kmalloc-cg-192           243KB        606KB
+kmalloc-cg-128           291KB        416KB
+kmalloc-cg-96             23KB         23KB
+kmalloc-cg-64             39KB         92KB
+kmalloc-cg-32        1346108KB    1346108KB
+kmalloc-cg-16             18KB         32KB
+kmalloc-cg-8               8KB          8KB
+kmalloc-8k              2032KB       2688KB
+kmalloc-4k              2076KB       2720KB
+kmalloc-2k              4580KB       5344KB
+kmalloc-1k            339648KB     339648KB
+kmalloc-512             6106KB       7440KB
+kmalloc-256             1117KB       1472KB
+kmalloc-192              617KB        956KB
+kmalloc-128              712KB       1356KB
+kmalloc-96               699KB        972KB
+kmalloc-64               640KB        844KB
+kmalloc-32               670KB        956KB
+kmalloc-16               108KB        144KB
+kmalloc-8                 73KB         88KB
+kmem_cache_node           40KB         40KB
+kmem_cache                80KB         80KB
+Out of memory and no killable processes...
+Kernel panic - not syncing: System is deadlocked on memory
+CPU: 0 PID: 2 Comm: kthreadd Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x42/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ panic+0x4d5/0x520 kernel/panic.c:348
+ out_of_memory+0xaa6/0xab0 mm/oom_kill.c:1171
+ __alloc_pages_may_oom mm/page_alloc.c:3489 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4251 [inline]
+ __alloc_pages+0x117f/0x13b0 mm/page_alloc.c:4588
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ alloc_thread_stack_node kernel/fork.c:358 [inline]
+ dup_task_struct kernel/fork.c:1114 [inline]
+ copy_process+0x2ec/0x3aa0 kernel/fork.c:2219
+ kernel_clone+0xf4/0x630 kernel/fork.c:2796
+ kernel_thread+0x6d/0x80 kernel/fork.c:2858
+ create_kthread kernel/kthread.c:411 [inline]
+ kthreadd+0x22f/0x310 kernel/kthread.c:764
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Kernel Offset: disabled
+Rebooting in 86400 seconds..

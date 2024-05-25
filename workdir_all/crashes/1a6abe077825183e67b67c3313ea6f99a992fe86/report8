@@ -1,0 +1,90 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2640 jiffies s: 4369 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 14515 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:26 [inline]
+RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:67 [inline]
+RIP: 0010:tracing_gen_ctx include/linux/trace_events.h:207 [inline]
+RIP: 0010:perf_trace_buf_update+0x19/0x70 kernel/trace/trace_event_perf.c:423
+Code: 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f 1f 00 55 48 89 e5 41 55 41 89 f5 41 54 53 48 89 fb e8 08 d5 fb ff 9c <41> 5c 41 81 e4 00 02 00 00 31 ff 4c 89 e6 e8 74 d0 fb ff 31 ff 4d
+RSP: 0000:ffff88807dc05b10 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: ffffe8ffffa03000 RCX: ffff88807dc05b60
+RDX: ffff88803329a1c0 RSI: ffffffff812de9f8 RDI: ffffe8ffffa03000
+RBP: ffff88807dc05b30 R08: ffff88807dc2ba68 R09: ffffe8ffffc3fb78
+R10: ffff88807dc05d00 R11: 0000000000000000 R12: 00000000000000c9
+R13: 00000000000000c9 R14: ffff88807dc2ba68 R15: ffffe8ffffa03000
+FS:  00007f2ca21bf640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2c980e3000 CR3: 000000003e5e2006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ perf_tp_event+0xce/0xa00 kernel/events/core.c:10226
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_preemptirq_template+0xaa/0xd0 include/trace/events/preemptirq.h:14
+ trace_irq_enable include/trace/events/preemptirq.h:40 [inline]
+ trace_hardirqs_on+0x96/0xe0 kernel/trace/trace_preemptirq.c:56
+ irqentry_exit+0x3f/0xa0 kernel/entry/common.c:357
+ sysvec_irq_work+0x7c/0xc0 arch/x86/kernel/irq_work.c:17
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:native_irq_disable arch/x86/include/asm/irqflags.h:37 [inline]
+RIP: 0010:arch_local_irq_disable arch/x86/include/asm/irqflags.h:72 [inline]
+RIP: 0010:arch_local_irq_save arch/x86/include/asm/irqflags.h:104 [inline]
+RIP: 0010:rcu_read_unlock_special kernel/rcu/tree_plugin.h:637 [inline]
+RIP: 0010:__rcu_read_unlock+0x6a/0x1b0 kernel/rcu/tree_plugin.h:426
+Code: ff ff 3f 0f 87 ae 00 00 00 5b 41 5c 41 5d 41 5e 41 5f 5d e9 13 27 f3 03 65 8b 1d 89 f8 e5 7e f7 c3 00 00 f0 00 75 c9 9c 41 5d <fa> 4d 89 ef 41 81 e7 00 02 00 00 41 0f 94 c6 0f 85 8b 00 00 00 49
+RSP: 0000:ffff88807dc05e90 EFLAGS: 00000246
+RAX: 0000000000010000 RBX: 0000000000000100 RCX: ffffffff84b9a6d4
+RDX: ffff88803329a1c0 RSI: ffffffff84b9a587 RDI: 0000000000000001
+RBP: ffff88807dc05eb8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88803329a1c0
+R13: 0000000000000246 R14: ffff888033b8ac00 R15: 0000000000000000
+ rcu_read_unlock include/linux/rcupdate.h:813 [inline]
+ ieee80211_rx_napi+0xac/0x280 net/mac80211/rx.c:5471
+ ieee80211_rx include/net/mac80211.h:5083 [inline]
+ ieee80211_tasklet_handler+0xb6/0x110 net/mac80211/main.c:438
+ tasklet_action_common.constprop.0+0xcf/0x120 kernel/softirq.c:781
+ tasklet_action+0x28/0x30 kernel/softirq.c:807
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:rcu_preempt_deferred_qs_irqrestore+0x88/0x3a0 kernel/rcu/tree_plugin.h:575
+Code: 84 f6 75 35 41 f7 c5 00 02 00 00 75 13 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d e9 9d 2a f3 03 e8 6d cd 0f 00 fb 48 83 c4 10 <5b> 41 5c 41 5d 41 5e 41 5f 5d e9 84 2a f3 03 4c 8b a3 50 04 00 00
+RSP: 0000:ffff88802e5bbd40 EFLAGS: 00000282
+RAX: 0000000000018e39 RBX: ffff88803329a1c0 RCX: 0000000000000080
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d1673
+RBP: ffff88802e5bbd68 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88802e5bbc80 R11: 0000000000000000 R12: ffff88807dc33400
+R13: 0000000000000246 R14: 0000000000010000 R15: 0000000000000200
+ rcu_read_unlock_special kernel/rcu/tree_plugin.h:681 [inline]
+ __rcu_read_unlock+0x12c/0x1b0 kernel/rcu/tree_plugin.h:426
+ rcu_read_unlock+0x28/0xc0 include/linux/rcupdate.h:813
+ pte_unmap include/linux/pgtable.h:113 [inline]
+ do_anonymous_page mm/memory.c:4490 [inline]
+ do_pte_missing mm/memory.c:3878 [inline]
+ handle_pte_fault mm/memory.c:5300 [inline]
+ __handle_mm_fault+0x211c/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7f2ca14285e7
+Code: 70 48 63 d5 48 01 c2 49 3b 55 08 77 4e 8d 55 ff 85 ed 74 35 0f 1f 80 00 00 00 00 48 39 c6 77 1c 49 8b 7d 00 49 89 c1 49 29 f1 <46> 0f b6 0c 0f 45 84 c9 74 08 44 88 0c 07 49 8b 45 10 48 83 c0 01
+RSP: 002b:00007f2ca21be4b0 EFLAGS: 00010206
+RAX: 0000000000ee3001 RBX: 00007f2ca21be510 RCX: 0000000000000000
+RDX: 000000000000002e RSI: 0000000000000001 RDI: 00007f2c97200000
+RBP: 0000000000000102 R08: 0000000000000001 R09: 0000000000ee3000
+R10: 0000000000000000 R11: 00007f2ca21be520 R12: 00007f2ca21be520
+R13: 00007f2ca21be5b0 R14: 0000000000000001 R15: 0000000000000000
+ </TASK>

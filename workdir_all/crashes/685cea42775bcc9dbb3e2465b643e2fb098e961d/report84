@@ -1,0 +1,50 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 9882 Comm: kworker/u8:9 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ krc_this_cpu_lock kernel/rcu/tree.c:2960 [inline]
+ add_ptr_to_bulk_krc_lock kernel/rcu/tree.c:3359 [inline]
+ kvfree_call_rcu+0x58/0x3a0 kernel/rcu/tree.c:3444
+ __netdev_adjacent_dev_remove+0x17e/0x2b0 net/core/dev.c:7692
+ __netdev_adjacent_dev_unlink_lists net/core/dev.c:7724 [inline]
+ __netdev_adjacent_dev_unlink_neighbour net/core/dev.c:7741 [inline]
+ __netdev_upper_dev_unlink+0xaf/0x200 net/core/dev.c:7891
+ netdev_upper_dev_unlink+0x36/0x50 net/core/dev.c:7920
+ team_upper_dev_unlink drivers/net/team/team.c:1127 [inline]
+ team_port_del+0x138/0x450 drivers/net/team/team.c:1349
+ team_del_slave+0x3f/0x100 drivers/net/team/team.c:1989
+ team_device_event+0x86/0x470 drivers/net/team/team.c:3029
+ notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+ raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+ call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+ call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+ call_netdevice_notifiers net/core/dev.c:2002 [inline]
+ unregister_netdevice_many_notify+0x464/0xcb0 net/core/dev.c:11099
+ unregister_netdevice_many net/core/dev.c:11157 [inline]
+ default_device_exit_batch+0x3d3/0x440 net/core/dev.c:11634
+ ops_exit_list+0x93/0xb0 net/core/net_namespace.c:175
+ cleanup_net+0x37d/0x5d0 net/core/net_namespace.c:637
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed

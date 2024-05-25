@@ -1,0 +1,4 @@
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000003200)=0x7, 0x0, 0x4)
+syz_io_uring_submit(r10, r11, &(0x7f0000001200)=@IORING_OP_READ=@pass_buffer={0x16, 0x0, 0x0, @fd_index=0x9, 0x0, &(0x7f0000000200)=""/4096, 0x1000})
+io_uring_enter(r9, 0x79e, 0x0, 0x0, 0x0, 0x0)
+2024/05/22 15:20:04 SYZFATAL: executor 4 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir4216466574: no space left on device

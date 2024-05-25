@@ -1,0 +1,54 @@
+list_del corruption. next->prev should be ffff88802b5db0e0, but was 000000000003003e. (next=ffff888018d927a0)
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:65!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 15407 Comm: kworker/1:8 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events_power_efficient neigh_periodic_work
+RIP: 0010:__list_del_entry_valid_or_report+0xbd/0xc0 lib/list_debug.c:65
+Code: 0f 0b 4c 89 c2 48 c7 c7 e0 4b 13 86 e8 4c d7 a6 fe 90 0f 0b 48 89 d1 4c 89 c6 4c 89 ca 48 c7 c7 30 4c 13 86 e8 34 d7 a6 fe 90 <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e
+RSP: 0018:ffff888029287c78 EFLAGS: 00010093
+RAX: 000000000000006d RBX: ffff888029a69670 RCX: ffffffff811a8c5e
+RDX: ffff888030538000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888029287c78 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802b5db0e0
+R13: ffff888029a69620 R14: ffff888029a69680 R15: ffff888018d927a0
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0fef81c000 CR3: 0000000033d80003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __list_del_entry_valid include/linux/list.h:124 [inline]
+ __list_del_entry include/linux/list.h:215 [inline]
+ list_move_tail include/linux/list.h:310 [inline]
+ ref_tracker_free+0x20d/0x350 lib/ref_tracker.c:262
+ netdev_tracker_free include/linux/netdevice.h:4084 [inline]
+ netdev_put include/linux/netdevice.h:4101 [inline]
+ netdev_put include/linux/netdevice.h:4097 [inline]
+ neigh_destroy+0x13b/0x320 net/core/neighbour.c:912
+ neigh_release include/net/neighbour.h:445 [inline]
+ neigh_cleanup_and_release+0x156/0x1f0 net/core/neighbour.c:103
+ neigh_periodic_work+0x43a/0x660 net/core/neighbour.c:1005
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_del_entry_valid_or_report+0xbd/0xc0 lib/list_debug.c:65
+Code: 0f 0b 4c 89 c2 48 c7 c7 e0 4b 13 86 e8 4c d7 a6 fe 90 0f 0b 48 89 d1 4c 89 c6 4c 89 ca 48 c7 c7 30 4c 13 86 e8 34 d7 a6 fe 90 <0f> 0b 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e
+RSP: 0018:ffff888029287c78 EFLAGS: 00010093
+
+RAX: 000000000000006d RBX: ffff888029a69670 RCX: ffffffff811a8c5e
+RDX: ffff888030538000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888029287c78 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802b5db0e0
+R13: ffff888029a69620 R14: ffff888029a69680 R15: ffff888018d927a0
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f0fef81c000 CR3: 0000000033d80003 CR4: 0000000000770ef0
+PKRU: 55555554

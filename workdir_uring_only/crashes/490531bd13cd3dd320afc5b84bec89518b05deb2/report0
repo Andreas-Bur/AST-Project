@@ -1,0 +1,68 @@
+general protection fault, probably for non-canonical address 0xdead000000000122: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 47 Comm: kworker/u9:0 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: hci0 hci_conn_timeout
+RIP: 0010:__list_del_entry_valid include/linux/list.h:119 [inline]
+RIP: 0010:__list_del_entry include/linux/list.h:215 [inline]
+RIP: 0010:list_del include/linux/list.h:229 [inline]
+RIP: 0010:_hci_cmd_sync_cancel_entry.constprop.0+0x43/0xa0 net/bluetooth/hci_sync.c:580
+Code: 48 85 db 74 17 e8 7d 5d a2 fc 49 8b 74 24 18 ba 83 ff ff ff 4c 89 ef e8 0b f6 6b 00 e8 66 5d a2 fc 4d 8b 6c 24 08 49 8b 1c 24 <4d> 3b 65 00 75 47 e8 52 5d a2 fc 4c 3b 63 08 75 3c e8 47 5d a2 fc
+RSP: 0018:ffff888009a47d48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: dead000000000100 RCX: 0000000000000001
+RDX: ffff888009ac8000 RSI: ffffffff8487619a RDI: ffff888023450000
+RBP: ffff888009a47d60 R08: 0000000000000000 R09: 0000000000000001
+R10: ffff888009a47d60 R11: 0000000000000000 R12: ffff88802e0ef180
+R13: dead000000000122 R14: ffff88802e0ef180 R15: ffff888023450908
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9a332b66f4 CR3: 000000002128e004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hci_cmd_sync_cancel_entry net/bluetooth/hci_sync.c:746 [inline]
+ hci_cmd_sync_dequeue_once net/bluetooth/hci_sync.c:765 [inline]
+ hci_cancel_connect_sync+0x193/0x1d0 net/bluetooth/hci_sync.c:6822
+ hci_abort_conn+0x8b/0x120 net/bluetooth/hci_conn.c:2925
+ hci_conn_timeout+0xb9/0xd0 net/bluetooth/hci_conn.c:578
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_del_entry_valid include/linux/list.h:119 [inline]
+RIP: 0010:__list_del_entry include/linux/list.h:215 [inline]
+RIP: 0010:list_del include/linux/list.h:229 [inline]
+RIP: 0010:_hci_cmd_sync_cancel_entry.constprop.0+0x43/0xa0 net/bluetooth/hci_sync.c:580
+Code: 48 85 db 74 17 e8 7d 5d a2 fc 49 8b 74 24 18 ba 83 ff ff ff 4c 89 ef e8 0b f6 6b 00 e8 66 5d a2 fc 4d 8b 6c 24 08 49 8b 1c 24 <4d> 3b 65 00 75 47 e8 52 5d a2 fc 4c 3b 63 08 75 3c e8 47 5d a2 fc
+RSP: 0018:ffff888009a47d48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: dead000000000100 RCX: 0000000000000001
+RDX: ffff888009ac8000 RSI: ffffffff8487619a RDI: ffff888023450000
+RBP: ffff888009a47d60 R08: 0000000000000000 R09: 0000000000000001
+R10: ffff888009a47d60 R11: 0000000000000000 R12: ffff88802e0ef180
+R13: dead000000000122 R14: ffff88802e0ef180 R15: ffff888023450908
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9a332b66f4 CR3: 000000002128e004 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	48 85 db             	test   %rbx,%rbx
+   3:	74 17                	je     0x1c
+   5:	e8 7d 5d a2 fc       	call   0xfca25d87
+   a:	49 8b 74 24 18       	mov    0x18(%r12),%rsi
+   f:	ba 83 ff ff ff       	mov    $0xffffff83,%edx
+  14:	4c 89 ef             	mov    %r13,%rdi
+  17:	e8 0b f6 6b 00       	call   0x6bf627
+  1c:	e8 66 5d a2 fc       	call   0xfca25d87
+  21:	4d 8b 6c 24 08       	mov    0x8(%r12),%r13
+  26:	49 8b 1c 24          	mov    (%r12),%rbx
+* 2a:	4d 3b 65 00          	cmp    0x0(%r13),%r12 <-- trapping instruction
+  2e:	75 47                	jne    0x77
+  30:	e8 52 5d a2 fc       	call   0xfca25d87
+  35:	4c 3b 63 08          	cmp    0x8(%rbx),%r12
+  39:	75 3c                	jne    0x77
+  3b:	e8 47 5d a2 fc       	call   0xfca25d87

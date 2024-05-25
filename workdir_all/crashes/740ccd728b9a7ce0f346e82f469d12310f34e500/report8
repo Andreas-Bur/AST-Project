@@ -1,0 +1,71 @@
+ntfs3: loop1: ino=9, ntfs_iget5
+============================================
+WARNING: possible recursive locking detected
+6.9.0-rc4 #2 Not tainted
+--------------------------------------------
+kworker/u8:2/45 is trying to acquire lock:
+ffff88801c36e898 (&ni->ni_lock#2){+.+.}-{3:3}, at: ntfs_set_state fs/ntfs3/fsntfs.c:947 [inline]
+ffff88801c36e898 (&ni->ni_lock#2){+.+.}-{3:3}, at: ntfs_set_state+0xc6/0x2e0 fs/ntfs3/fsntfs.c:921
+
+but task is already holding lock:
+ffff88801c36c610 (&ni->ni_lock#2){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ffff88801c36c610 (&ni->ni_lock#2){+.+.}-{3:3}, at: ni_write_inode+0xce/0x1250 fs/ntfs3/frecord.c:3265
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&ni->ni_lock#2);
+  lock(&ni->ni_lock#2);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+3 locks held by kworker/u8:2/45:
+ #0: ffff88800a42c148 ((wq_completion)writeback){+.+.}-{0:0}, at: process_one_work+0x777/0xa00 kernel/workqueue.c:3229
+ #1: ffff88800a4d3e38 ((work_completion)(&(&wb->dwork)->work)){+.+.}-{0:0}, at: process_one_work+0x299/0xa00 kernel/workqueue.c:3230
+ #2: ffff88801c36c610 (&ni->ni_lock#2){+.+.}-{3:3}, at: ni_trylock fs/ntfs3/ntfs_fs.h:1141 [inline]
+ #2: ffff88801c36c610 (&ni->ni_lock#2){+.+.}-{3:3}, at: ni_write_inode+0xce/0x1250 fs/ntfs3/frecord.c:3265
+
+stack backtrace:
+CPU: 0 PID: 45 Comm: kworker/u8:2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:1)
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_deadlock_bug+0x27c/0x3d0 kernel/locking/lockdep.c:3012
+ check_deadlock kernel/locking/lockdep.c:3062 [inline]
+ validate_chain kernel/locking/lockdep.c:3856 [inline]
+ __lock_acquire+0x1125/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ ntfs_set_state fs/ntfs3/fsntfs.c:947 [inline]
+ ntfs_set_state+0xc6/0x2e0 fs/ntfs3/fsntfs.c:921
+ ntfs_bad_inode+0x4c/0x60 fs/ntfs3/fsntfs.c:911
+ ntfs_iget5+0xe9/0x1a50 fs/ntfs3/inode.c:535
+ ni_update_parent fs/ntfs3/frecord.c:3218 [inline]
+ ni_write_inode+0xbf6/0x1250 fs/ntfs3/frecord.c:3324
+ ntfs3_write_inode+0x3d/0x50 fs/ntfs3/inode.c:1040
+ write_inode fs/fs-writeback.c:1498 [inline]
+ __writeback_single_inode+0x66b/0x870 fs/fs-writeback.c:1715
+ writeback_sb_inodes+0x302/0x890 fs/fs-writeback.c:1941
+ wb_writeback+0x72/0x5f0 fs/fs-writeback.c:2117
+ wb_do_writeback fs/fs-writeback.c:2264 [inline]
+ wb_workfn+0x139/0x7d0 fs/fs-writeback.c:2304
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+ntfs3: loop1: Mark volume as dirty due to NTFS errors
+BTRFS warning (device loop4): checksum verify failed on logical 5337088 mirror 1 wanted 0xdee61973f88b03b3cb5703f0df8c3e3c39b0a31ba9975f7fc54206cc35e03339 found 0xa1664af6a057845d174592fc370bb65cfebf5f264ee1e8f22a9b80357555fe45 level 0

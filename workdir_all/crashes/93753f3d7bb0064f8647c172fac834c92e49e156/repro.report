@@ -1,0 +1,66 @@
+F2FS-fs (loop0): Try to recover 2th superblock, ret: -30
+F2FS-fs (loop0): Mounted with checkpoint version = 48b305e4
+F2FS-fs (loop0): Corrupted max_depth of 3: 4294967289
+------------[ cut here ]------------
+kernel BUG at fs/f2fs/inode.c:904!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 6130 Comm: syz-executor212 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:f2fs_evict_inode+0xa52/0xc50 fs/f2fs/inode.c:904
+Code: e8 f3 ed 24 ff e9 13 f9 ff ff e8 e9 ec 0a ff 4c 89 e7 e8 d1 f3 01 00 e9 e4 f8 ff ff e8 d7 ec 0a ff 90 0f 0b e8 cf ec 0a ff 90 <0f> 0b e8 c7 ec 0a ff 4d 8b 74 24 28 be 31 00 00 00 48 c7 c7 08 9c
+RSP: 0018:ffff8880108efbc8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff821ecaff
+RDX: ffff88800d71a1c0 RSI: ffffffff821ed231 RDI: 0000000000000007
+RBP: ffff8880108efc08 R08: 0000000000000008 R09: ffffffff88701048
+R10: 0000000000000001 R11: 0000000000000001 R12: ffff888014078858
+R13: ffff8880109d6000 R14: 0000000000038e00 R15: 00000000ffffffff
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa9a9c91370 CR3: 000000000f212004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ evict+0x132/0x2d0 fs/inode.c:667
+ dispose_list+0x67/0xb0 fs/inode.c:700
+ evict_inodes+0x20b/0x260 fs/inode.c:750
+ generic_shutdown_super+0x4e/0x180 fs/super.c:626
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ kill_f2fs_super+0x10d/0x1c0 fs/f2fs/super.c:4857
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ __x64_sys_exit_group+0x20/0x20 kernel/exit.c:1036
+ x64_sys_call+0x1a0b/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fa9a9bf9c91
+Code: Unable to access opcode bytes at 0x7fa9a9bf9c67.
+RSP: 002b:00007ffe067ad128 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fa9a9c901b0 RCX: 00007fa9a9bf9c91
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffffffffffb8 R09: 0000000120080522
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fa9a9c901b0
+R13: 0000000000000000 R14: 00007fa9a9c90f40 R15: 00007fa9a9baf060
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:f2fs_evict_inode+0xa52/0xc50 fs/f2fs/inode.c:904
+Code: e8 f3 ed 24 ff e9 13 f9 ff ff e8 e9 ec 0a ff 4c 89 e7 e8 d1 f3 01 00 e9 e4 f8 ff ff e8 d7 ec 0a ff 90 0f 0b e8 cf ec 0a ff 90 <0f> 0b e8 c7 ec 0a ff 4d 8b 74 24 28 be 31 00 00 00 48 c7 c7 08 9c
+RSP: 0018:ffff8880108efbc8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffffffff821ecaff
+RDX: ffff88800d71a1c0 RSI: ffffffff821ed231 RDI: 0000000000000007
+RBP: ffff8880108efc08 R08: 0000000000000008 R09: ffffffff88701048
+R10: 0000000000000001 R11: 0000000000000001 R12: ffff888014078858
+R13: ffff8880109d6000 R14: 0000000000038e00 R15: 00000000ffffffff
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa9a9c91370 CR3: 000000000f212004 CR4: 0000000000770ef0
+PKRU: 55555554

@@ -1,0 +1,8 @@
+io_uring_enter(r12, 0x6d65, 0x0, 0x0, 0x0, 0x0)
+ioctl$BLKRRPART(r0, 0x125f, 0x0)
+syz_io_uring_submit(r3, r4, &(0x7f0000001200)=@IORING_OP_READ=@pass_buffer={0x16, 0x0, 0x0, @fd=r0, 0x19f7, &(0x7f0000000200)=""/4096, 0x1000})
+io_uring_enter(r2, 0x79e, 0x0, 0x0, 0x0, 0x0)
+2024/05/09 14:13:37 SYZFATAL: executor 6 failed 11 times: executor 6: EOF
+SYZFAIL: failed to mkdtemp
+ (errno 28: No space left on device)
+

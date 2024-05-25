@@ -1,0 +1,59 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 11683 at fs/namei.c:263 putname+0xd1/0xe0 fs/namei.c:263
+Modules linked in:
+CPU: 0 PID: 11683 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:putname+0xd1/0xe0 fs/namei.c:263
+Code: b2 03 e8 32 c1 cb ff 4c 89 e6 4c 89 f7 e8 47 7d f2 ff e8 22 c1 cb ff 5b 41 5c 41 5d 41 5e 5d e9 20 43 b2 03 e8 10 c1 cb ff 90 <0f> 0b 90 eb c1 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90
+RSP: 0018:ffff88802832bbf0 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000711e000
+RDX: 0000000000040000 RSI: ffffffff815dfdf0 RDI: 0000000000000005
+RBP: ffff88802832bc10 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000080000 R12: ffff8880320df000
+R13: ffffffff826c5bc0 R14: ffff8880202cc380 R15: 0000000000042000
+FS:  00007f7c4b9b5640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055558c766df2 CR3: 0000000028fe0001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ io_mkdirat_cleanup+0x1a/0x30 io_uring/fs.c:195
+ io_clean_op+0x7c/0x380 io_uring/io_uring.c:390
+ io_free_batch_list io_uring/io_uring.c:1560 [inline]
+ __io_submit_flush_completions+0x553/0x730 io_uring/io_uring.c:1600
+ io_submit_flush_completions io_uring/io_uring.c:181 [inline]
+ ctx_flush_and_put+0x24b/0x2c0 io_uring/io_uring.c:1167
+ io_handle_tw_list+0x2d9/0x370 io_uring/io_uring.c:1210
+ tctx_task_work_run+0x70/0x1f0 io_uring/io_uring.c:1270
+ tctx_task_work+0x31/0x60 io_uring/io_uring.c:1288
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ get_signal+0x9a/0x1350 kernel/signal.c:2683
+ arch_do_signal_or_restart+0x26/0x470 arch/x86/kernel/signal.c:310
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x128/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7c4ac8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7c4b9b5028 EFLAGS: 00000246 ORIG_RAX: 00000000000001ab
+RAX: 0000000000000000 RBX: 00007f7c4adcbf80 RCX: 00007f7c4ac8fd6d
+RDX: 0000000020000600 RSI: 0000000000000018 RDI: 0000000000000006
+RBP: 00007f7c4acf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f7c4adcbf80 R15: 00007f7c4b995000
+ </TASK>
+irq event stamp: 135905
+hardirqs last  enabled at (135915): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (135915): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (135915): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (135924): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (135924): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (135924): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (135814): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (135814): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (135805): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (135805): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (135805): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

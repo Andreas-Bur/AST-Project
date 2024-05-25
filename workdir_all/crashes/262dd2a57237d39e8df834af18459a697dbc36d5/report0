@@ -1,0 +1,73 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 19011 at fs/bcachefs/fs-io-buffered.c:438 bch2_writepage_io_done+0x46e/0x660 fs/bcachefs/fs-io-buffered.c:438
+Modules linked in:
+CPU: 1 PID: 19011 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:bch2_writepage_io_done+0x46e/0x660 fs/bcachefs/fs-io-buffered.c:438
+Code: ff e9 08 fc ff ff e8 21 5e f1 fe 8b 45 d0 48 8b 75 98 48 8b 7d 90 8d 50 01 e8 ce f7 ff ff 4c 8b 65 a8 eb cf e8 03 5e f1 fe 90 <0f> 0b 90 e8 fa 5d f1 fe 48 8b 45 88 31 f6 4c 8b 70 f8 4d 8d ae a0
+RSP: 0018:ffff888036687748 EFLAGS: 00010212
+RAX: 0000000000018987 RBX: 0000000000000000 RCX: ffffc90001878000
+RDX: 0000000000040000 RSI: ffffffff823860fd RDI: 0000000000000007
+RBP: ffff8880366877c8 R08: ffffffff85fcaf83 R09: 0000000000000001
+R10: 0000000000000008 R11: 0000000000000000 R12: 0000000000000008
+R13: 0000000000000008 R14: ffff8880230ac2a0 R15: 0000000000000000
+FS:  00007fd54d5c4640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2ea22000 CR3: 0000000028d62004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_write_done+0xe7/0x1f0 fs/bcachefs/io_write.c:470
+ bch2_write_data_inline fs/bcachefs/io_write.c:1540 [inline]
+ bch2_write+0x47f/0x660 fs/bcachefs/io_write.c:1606
+ closure_queue include/linux/closure.h:257 [inline]
+ closure_call include/linux/closure.h:390 [inline]
+ bch2_writepage_do_io+0x43/0x50 fs/bcachefs/fs-io-buffered.c:468
+ bch2_writepages+0x6a/0xc0 fs/bcachefs/fs-io-buffered.c:660
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ file_write_and_wait_range+0x93/0xf0 mm/filemap.c:788
+ bch2_fsync+0x40/0xe0 fs/bcachefs/fs-io.c:197
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ bch2_buffered_write fs/bcachefs/fs-io-buffered.c:1136 [inline]
+ bch2_write_iter+0x248/0x17d0 fs/bcachefs/fs-io-buffered.c:1144
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev fs/read_write.c:1072 [inline]
+ __do_sys_pwritev fs/read_write.c:1119 [inline]
+ __se_sys_pwritev fs/read_write.c:1114 [inline]
+ __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+ x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd54c88fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fd54d5c4028 EFLAGS: 00000246 ORIG_RAX: 0000000000000128
+RAX: ffffffffffffffda RBX: 00007fd54c9cbf80 RCX: 00007fd54c88fd6d
+RDX: 0000000000000001 RSI: 0000000020001680 RDI: 0000000000000006
+RBP: 00007fd54c8f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fd54c9cbf80 R15: 00007fd54d5a4000
+ </TASK>
+irq event stamp: 65983
+hardirqs last  enabled at (65993): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (65993): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (65993): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (66002): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (66002): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (66002): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (65934): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (65934): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (65917): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (65917): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (65917): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+bcachefs (loop4): bch2_inode_peek(): error looking up inum 1:4101: ENOENT_inode
+bcachefs (loop4): bch2_write_inode(): fatal error ENOENT_inode: inode 1:4101 not found when updating
+bcachefs (loop4): fatal error - emergency read only
+bcachefs (loop4): bch2_inode_peek(): error looking up inum 1:4096: ENOENT_inode

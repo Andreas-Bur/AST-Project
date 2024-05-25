@@ -1,0 +1,53 @@
+BUG: sleeping function called from invalid context at kernel/printk/printk.c:2659
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 39739, name: syz-executor.5
+preempt_count: 1, expected: 0
+RCU nest depth: 0, expected: 0
+3 locks held by syz-executor.5/39739:
+ #0: ffff8880428710a0 (&tty->ldisc_sem){++++}-{0:0}, at: ldsem_down_read+0x3a/0x50 drivers/tty/tty_ldsem.c:340
+ #1: ffff888042871130 (&tty->atomic_write_lock){+.+.}-{3:3}, at: tty_write_lock drivers/tty/tty_io.c:954 [inline]
+ #1: ffff888042871130 (&tty->atomic_write_lock){+.+.}-{3:3}, at: iterate_tty_write drivers/tty/tty_io.c:973 [inline]
+ #1: ffff888042871130 (&tty->atomic_write_lock){+.+.}-{3:3}, at: file_tty_write.constprop.0+0xe1/0x490 drivers/tty/tty_io.c:1096
+ #2: ffff88800fa7bbe0 (&gsm->tx_lock){....}-{2:2}, at: gsmld_write+0x49/0xe0 drivers/tty/n_gsm.c:3721
+irq event stamp: 344
+hardirqs last  enabled at (343): [<ffffffff84f0ea95>] syscall_enter_from_user_mode include/linux/entry-common.h:197 [inline]
+hardirqs last  enabled at (343): [<ffffffff84f0ea95>] do_syscall_64+0x85/0x200 arch/x86/entry/common.c:79
+hardirqs last disabled at (344): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (344): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (0): [<ffffffff810cc596>] copy_process+0xd16/0x3aa0 kernel/fork.c:2334
+softirqs last disabled at (0): [<0000000000000000>] 0x0
+CPU: 1 PID: 39739 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ __might_resched+0x168/0x280 kernel/sched/core.c:10197
+ __might_sleep+0x41/0x70 kernel/sched/core.c:10126
+ console_lock+0x21/0xd0 kernel/printk/printk.c:2659
+ do_con_write+0x70/0x3300 drivers/tty/vt/vt.c:3056
+ con_write+0x28/0x80 drivers/tty/vt/vt.c:3434
+ gsmld_write+0xc4/0xe0 drivers/tty/n_gsm.c:3724
+ iterate_tty_write drivers/tty/tty_io.c:1021 [inline]
+ file_tty_write.constprop.0+0x20a/0x490 drivers/tty/tty_io.c:1096
+ tty_write+0x21/0x30 drivers/tty/tty_io.c:1117
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_writev+0xa2/0x1a0 fs/read_write.c:1018
+ __do_sys_writev fs/read_write.c:1091 [inline]
+ __se_sys_writev fs/read_write.c:1088 [inline]
+ __x64_sys_writev+0x24/0x30 fs/read_write.c:1088
+ x64_sys_call+0x1c7e/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:21
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc22f28fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fc23001f028 EFLAGS: 00000246 ORIG_RAX: 0000000000000014
+RAX: ffffffffffffffda RBX: 00007fc22f3cbf80 RCX: 00007fc22f28fd6d
+RDX: 0000000000000008 RSI: 0000000020000900 RDI: 0000000000000003
+RBP: 00007fc22f2f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fc22f3cbf80 R15: 00007fc22ffff000
+ </TASK>

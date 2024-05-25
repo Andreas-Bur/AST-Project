@@ -1,0 +1,43 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 16415 Comm: f2fs_ckpt-7:6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ down_write+0x3f/0xd0 kernel/locking/rwsem.c:1579
+ f2fs_down_write fs/f2fs/f2fs.h:2173 [inline]
+ f2fs_submit_page_write+0x7b/0xb00 fs/f2fs/data.c:950
+ do_write_page+0x104/0x690 fs/f2fs/segment.c:3673
+ f2fs_outplace_write_data+0x91/0xd0 fs/f2fs/segment.c:3727
+ f2fs_do_write_data_page+0x48b/0xbf0 fs/f2fs/data.c:2721
+ f2fs_write_single_data_page+0x57f/0xd90 fs/f2fs/data.c:2817
+ f2fs_write_cache_pages+0x656/0x1320 fs/f2fs/data.c:3133
+ __f2fs_write_data_pages fs/f2fs/data.c:3288 [inline]
+ f2fs_write_data_pages+0x1b6/0x4c0 fs/f2fs/data.c:3315
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ __filemap_fdatawrite mm/filemap.c:436 [inline]
+ filemap_fdatawrite+0x2b/0x40 mm/filemap.c:441
+ f2fs_sync_dirty_inodes+0x125/0x3e0 fs/f2fs/checkpoint.c:1122
+ block_operations+0x161/0x650 fs/f2fs/checkpoint.c:1255
+ f2fs_write_checkpoint+0x1f4/0x1550 fs/f2fs/checkpoint.c:1664
+ __write_checkpoint_sync fs/f2fs/checkpoint.c:1781 [inline]
+ __checkpoint_and_complete_reqs+0x82/0x190 fs/f2fs/checkpoint.c:1800
+ issue_checkpoint_thread+0x5f/0x150 fs/f2fs/checkpoint.c:1831
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

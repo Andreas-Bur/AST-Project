@@ -1,0 +1,88 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2687 jiffies s: 3433 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 12668 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__local_bh_enable_ip+0x80/0xe0 kernel/softirq.c:389
+Code: db 65 01 1d 9a 11 f5 7e 65 8b 05 93 11 f5 7e a9 00 ff ff 00 74 43 65 ff 0d 85 11 f5 7e e8 d8 e2 1e 00 fb 65 8b 05 78 11 f5 7e <85> c0 74 3f 5b 41 5c 5d e9 ee 3f 02 04 65 8b 05 18 c6 f3 7e 85 c0
+RSP: 0018:ffff88807dc05b88 EFLAGS: 00000202
+RAX: 0000000000000101 RBX: 00000000fffffe00 RCX: 0000000000000004
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff810e0108
+RBP: ffff88807dc05b98 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05ad8 R11: 0000000000000001 R12: ffffffff84b91b11
+R13: ffff88802cd68e00 R14: ffff888014736000 R15: 0000000000000000
+FS:  00007f377fe16640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020053000 CR3: 0000000025486006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ __raw_spin_unlock_bh include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock_bh+0x30/0x40 kernel/locking/spinlock.c:210
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ ieee80211_rx_handlers+0x5e1/0x48c0 net/mac80211/rx.c:4201
+ ieee80211_invoke_rx_handlers net/mac80211/rx.c:4223 [inline]
+ ieee80211_prepare_and_rx_handle+0x1035/0x26e0 net/mac80211/rx.c:5071
+ ieee80211_rx_for_interface+0x84/0x100 net/mac80211/rx.c:5156
+ __ieee80211_rx_handle_packet net/mac80211/rx.c:5312 [inline]
+ ieee80211_rx_list+0xb8b/0x1870 net/mac80211/rx.c:5447
+ ieee80211_rx_napi+0x8a/0x280 net/mac80211/rx.c:5470
+ ieee80211_rx include/net/mac80211.h:5083 [inline]
+ ieee80211_tasklet_handler+0xb6/0x110 net/mac80211/main.c:438
+ tasklet_action_common.constprop.0+0xcf/0x120 kernel/softirq.c:781
+ tasklet_action+0x28/0x30 kernel/softirq.c:807
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:crypto_sha3_final+0x198/0x1b0 crypto/sha3_generic.c:235
+Code: 89 de e8 1b 7b ce fe 85 db 74 10 e8 c2 7f ce fe 4b 8b 44 fc 08 48 8b 4d d0 89 01 e8 b2 7f ce fe 31 c0 4c 89 f7 b9 2d 00 00 00 <f3> 48 ab 48 83 c4 18 5b 41 5c 41 5d 41 5e 41 5f 5d e9 9d 01 b5 02
+RSP: 0018:ffff88802ce5f848 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 000000000000001e
+RDX: 0000000000040000 RSI: ffffffff825b3f4e RDI: ffff88802ce5f9c0
+RBP: ffff88802ce5f888 R08: b8ea6aa1898e5893 R09: cca9e17f167ed94b
+R10: 0000000000000000 R11: 4691417e9a82a3b2 R12: ffff88802ce5f940
+R13: 0000000000000005 R14: ffff88802ce5f948 R15: 0000000000000004
+ shash_default_finup+0x61/0x80 crypto/shash.c:96
+ crypto_shash_finup+0x3e/0x50 crypto/shash.c:113
+ jent_hash_time+0x197/0x2a0 crypto/jitterentropy-kcapi.c:139
+ jent_condition_data+0x6d/0x80 crypto/jitterentropy.c:437
+ jent_measure_jitter+0x9a/0xf0 crypto/jitterentropy.c:540
+ jent_gen_entropy+0x52/0xe0 crypto/jitterentropy.c:568
+ jent_read_entropy+0x50/0x1c0 crypto/jitterentropy.c:614
+ jent_kcapi_random+0x3b/0x110 crypto/jitterentropy-kcapi.c:284
+ crypto_rng_generate include/crypto/rng.h:194 [inline]
+ crypto_rng_get_bytes include/crypto/rng.h:212 [inline]
+ drbg_seed+0x19d/0x630 crypto/drbg.c:1184
+ drbg_instantiate crypto/drbg.c:1596 [inline]
+ drbg_kcapi_seed+0x515/0x6e0 crypto/drbg.c:1969
+ crypto_rng_reset+0x4d/0xf0 crypto/rng.c:52
+ rng_setkey+0x29/0x40 crypto/algif_rng.c:282
+ alg_setkey crypto/af_alg.c:223 [inline]
+ alg_setsockopt+0x442/0x840 crypto/af_alg.c:386
+ do_sock_setsockopt+0x108/0x220 net/socket.c:2311
+ __sys_setsockopt+0xba/0x110 net/socket.c:2334
+ __do_sys_setsockopt net/socket.c:2343 [inline]
+ __se_sys_setsockopt net/socket.c:2340 [inline]
+ __x64_sys_setsockopt+0x27/0x40 net/socket.c:2340
+ x64_sys_call+0x1dc8/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:55
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f377f08fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f377fe16028 EFLAGS: 00000246 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 00007f377f1cbf80 RCX: 00007f377f08fd6d
+RDX: 0000000000000001 RSI: 0000000000000117 RDI: 0000000000000005
+RBP: 00007f377f0f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f377f1cbf80 R15: 00007f377fdf6000
+ </TASK>

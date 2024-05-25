@@ -1,0 +1,1168 @@
+Extracting prog: 9m15.089481248s
+Minimizing prog: 4h35m54.812326418s
+Simplifying prog options: 18m0.573471496s
+Extracting C: 9m1.005455268s
+Simplifying C: 0s
+
+
+5 programs, 3 VMs, timeouts [15s 1m40s 6m0s]
+extracting reproducer from 5 programs
+single: executing 2 programs separately with timeout 15s
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x3a)
+r6 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r7=>0x0, &(0x7f0000000100)=<r8=>0x0)
+r9 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r10=>0x0, &(0x7f0000000140)=<r11=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r12 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r10, r11, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r12, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r9, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r8, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r5, 0x0, 0x0})
+io_uring_enter(r6, 0x434, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-socket$unix-syz_io_uring_submit-syz_io_uring_complete-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_register$IORING_REGISTER_PERSONALITY-syz_io_uring_submit-syz_io_uring_submit-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-syz_io_uring_submit-openat$dir-socket$unix-syz_io_uring_setup-syz_io_uring_setup-io_uring_register$IORING_REGISTER_PBUF_RING-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_register$IORING_REGISTER_FILES_UPDATE2
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x141e, &(0x7f0000000080)={0x0, 0x0, 0x2000}, &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100)=<r1=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r2 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r3=>0x0, &(0x7f0000000200)=<r4=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r3, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r3, r4, &(0x7f00000001c0)=@IORING_OP_SOCKET={0x2d, 0x0, 0x0, 0x26})
+io_uring_enter(r2, 0x6d65, 0x0, 0x0, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x73)
+syz_io_uring_submit(r0, r1, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r5, 0x0, &(0x7f0000001040)={0x0, 0x0, 0x0}, 0x0, 0x45})
+r6 = syz_io_uring_complete(0x0)
+r7 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r8=>0x0, &(0x7f0000000100)=<r9=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r8, r9, &(0x7f0000000040)=@IORING_OP_LINKAT={0x27, 0x49, 0x0, 0xffffffffffffffff, 0x0, 0x0})
+io_uring_enter(r7, 0x79e, 0x0, 0x0, 0x0, 0x0)
+r10 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r6, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r10}})
+syz_io_uring_submit(r0, r1, &(0x7f0000000140)=@IORING_OP_TIMEOUT_REMOVE={0xc, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, {0x0, r10}})
+r11 = syz_io_uring_setup(0x1d88, &(0x7f00000003c0), &(0x7f00000000c0)=<r12=>0x0, &(0x7f0000000100)=<r13=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r12, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r12, r13, &(0x7f0000000280)=@IORING_OP_OPENAT2={0x1c, 0x0, 0x0, 0xffffffffffffffff, &(0x7f0000000240), &(0x7f0000000180)='./file0\x00', 0x1e})
+io_uring_enter(r11, 0x7476, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000001480)={&(0x7f00000002c0)=@l2tp6={0xa, 0x0, 0x0, @remote, 0x1}, 0x80, 0x0}})
+openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x00', 0x0, 0x0)
+r14 = socket$unix(0x2, 0x3, 0x6)
+syz_io_uring_setup(0x4939, &(0x7f0000000040), 0x0, 0x0)
+r15 = syz_io_uring_setup(0x274f, &(0x7f0000000480), &(0x7f0000000500), &(0x7f0000000540))
+io_uring_register$IORING_REGISTER_PBUF_RING(r15, 0x18, &(0x7f0000000040)={0x0}, 0x1)
+syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r16=>0x0, &(0x7f0000000140)=<r17=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r16, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r16, r17, &(0x7f0000000100)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r14, 0x0, &(0x7f0000000780)={&(0x7f0000000180)=@llc={0x1a, 0x0, 0x0, 0x3f, 0x0, 0x0, @multicast}, 0x80, 0x0, 0x0, &(0x7f0000000500)=ANY=[], 0x248}})
+io_uring_register$IORING_REGISTER_FILES_UPDATE2(0xffffffffffffffff, 0xe, &(0x7f0000000180)={0x0, 0x0, 0x0, 0x0}, 0x20)
+
+program did not crash
+single: failed to extract reproducer
+bisect: bisecting 5 programs with base timeout 15s
+testing program (duration=16s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): [5, 4, 11, 30, 17]
+detailed listing:
+executing program 1:
+r0 = socket$inet(0x2, 0x2, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000d00)='./file0\x00', 0x40, 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x40083, 0x109)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0xa, 0x11, r1, 0x10000000)
+ioctl$IOCTL_GET_NCIDEV_IDX(r0, 0x8901, &(0x7f0000000040))
+executing program 1:
+r0 = syz_io_uring_setup(0x1023, &(0x7f0000000f00)={0x0, 0x0, 0x3901}, &(0x7f0000000f80), &(0x7f0000000fc0))
+io_uring_enter(r0, 0x0, 0x0, 0x5, 0x0, 0x0)
+mmap$IORING_OFF_CQ_RING(&(0x7f0000ffe000/0x1000)=nil, 0x1000, 0x4, 0xa2071, 0xffffffffffffffff, 0x8000000)
+mmap$IORING_OFF_CQ_RING(&(0x7f0000ffe000/0x1000)=nil, 0x1000, 0x4, 0xa2071, 0xffffffffffffffff, 0x8000000)
+executing program 1:
+socket$packet(0x11, 0x3, 0x300)
+r0 = socket$inet(0x2, 0x2, 0x0)
+r1 = syz_io_uring_setup(0xc48, &(0x7f0000000000), 0x0, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r0, 0x8910, &(0x7f0000000040))
+io_uring_enter(r1, 0x1ca1, 0x80e2, 0x2, &(0x7f0000000080)={[0x7fff]}, 0x8)
+r2 = socket$inet(0x2, 0x2, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r2, 0x8914, &(0x7f0000000040))
+r3 = syz_io_uring_complete(0x0)
+r4 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r3, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r4}})
+ioctl$IOCTL_GET_NCIDEV_IDX(r3, 0x0, &(0x7f00000000c0))
+executing program 1:
+syz_io_uring_setup(0x141e, &(0x7f0000000080)={0x0, 0x0, 0x2000}, &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100)=<r1=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r2 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r3=>0x0, &(0x7f0000000200)=<r4=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r3, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r3, r4, &(0x7f00000001c0)=@IORING_OP_SOCKET={0x2d, 0x0, 0x0, 0x26})
+io_uring_enter(r2, 0x6d65, 0x0, 0x0, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x73)
+syz_io_uring_submit(r0, r1, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r5, 0x0, &(0x7f0000001040)={0x0, 0x0, 0x0}, 0x0, 0x45})
+r6 = syz_io_uring_complete(0x0)
+r7 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r8=>0x0, &(0x7f0000000100)=<r9=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r8, r9, &(0x7f0000000040)=@IORING_OP_LINKAT={0x27, 0x49, 0x0, 0xffffffffffffffff, 0x0, 0x0})
+io_uring_enter(r7, 0x79e, 0x0, 0x0, 0x0, 0x0)
+r10 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r6, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r10}})
+syz_io_uring_submit(r0, r1, &(0x7f0000000140)=@IORING_OP_TIMEOUT_REMOVE={0xc, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, {0x0, r10}})
+r11 = syz_io_uring_setup(0x1d88, &(0x7f00000003c0), &(0x7f00000000c0)=<r12=>0x0, &(0x7f0000000100)=<r13=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r12, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r12, r13, &(0x7f0000000280)=@IORING_OP_OPENAT2={0x1c, 0x0, 0x0, 0xffffffffffffffff, &(0x7f0000000240), &(0x7f0000000180)='./file0\x00', 0x1e})
+io_uring_enter(r11, 0x7476, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000001480)={&(0x7f00000002c0)=@l2tp6={0xa, 0x0, 0x0, @remote, 0x1}, 0x80, 0x0}})
+openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x00', 0x0, 0x0)
+r14 = socket$unix(0x2, 0x3, 0x6)
+syz_io_uring_setup(0x4939, &(0x7f0000000040), 0x0, 0x0)
+r15 = syz_io_uring_setup(0x274f, &(0x7f0000000480), &(0x7f0000000500), &(0x7f0000000540))
+io_uring_register$IORING_REGISTER_PBUF_RING(r15, 0x18, &(0x7f0000000040)={0x0}, 0x1)
+syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r16=>0x0, &(0x7f0000000140)=<r17=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r16, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r16, r17, &(0x7f0000000100)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r14, 0x0, &(0x7f0000000780)={&(0x7f0000000180)=@llc={0x1a, 0x0, 0x0, 0x3f, 0x0, 0x0, @multicast}, 0x80, 0x0, 0x0, &(0x7f0000000500)=ANY=[], 0x248}})
+io_uring_register$IORING_REGISTER_FILES_UPDATE2(0xffffffffffffffff, 0xe, &(0x7f0000000180)={0x0, 0x0, 0x0, 0x0}, 0x20)
+executing program 4:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x3a)
+r6 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r7=>0x0, &(0x7f0000000100)=<r8=>0x0)
+r9 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r10=>0x0, &(0x7f0000000140)=<r11=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r12 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r10, r11, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r12, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r9, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r8, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r5, 0x0, 0x0})
+io_uring_enter(r6, 0x434, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+replaying the whole log did not cause a kernel crash
+single: executing 2 programs separately with timeout 1m40s
+testing program (duration=1m40s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x3a)
+r6 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r7=>0x0, &(0x7f0000000100)=<r8=>0x0)
+r9 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r10=>0x0, &(0x7f0000000140)=<r11=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r12 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r10, r11, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r12, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r9, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r8, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r5, 0x0, 0x0})
+io_uring_enter(r6, 0x434, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=1m40s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-socket$unix-syz_io_uring_submit-syz_io_uring_complete-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_register$IORING_REGISTER_PERSONALITY-syz_io_uring_submit-syz_io_uring_submit-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-syz_io_uring_submit-openat$dir-socket$unix-syz_io_uring_setup-syz_io_uring_setup-io_uring_register$IORING_REGISTER_PBUF_RING-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_register$IORING_REGISTER_FILES_UPDATE2
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x141e, &(0x7f0000000080)={0x0, 0x0, 0x2000}, &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100)=<r1=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r2 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r3=>0x0, &(0x7f0000000200)=<r4=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r3, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r3, r4, &(0x7f00000001c0)=@IORING_OP_SOCKET={0x2d, 0x0, 0x0, 0x26})
+io_uring_enter(r2, 0x6d65, 0x0, 0x0, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x73)
+syz_io_uring_submit(r0, r1, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r5, 0x0, &(0x7f0000001040)={0x0, 0x0, 0x0}, 0x0, 0x45})
+r6 = syz_io_uring_complete(0x0)
+r7 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r8=>0x0, &(0x7f0000000100)=<r9=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r8, r9, &(0x7f0000000040)=@IORING_OP_LINKAT={0x27, 0x49, 0x0, 0xffffffffffffffff, 0x0, 0x0})
+io_uring_enter(r7, 0x79e, 0x0, 0x0, 0x0, 0x0)
+r10 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r6, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r10}})
+syz_io_uring_submit(r0, r1, &(0x7f0000000140)=@IORING_OP_TIMEOUT_REMOVE={0xc, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, {0x0, r10}})
+r11 = syz_io_uring_setup(0x1d88, &(0x7f00000003c0), &(0x7f00000000c0)=<r12=>0x0, &(0x7f0000000100)=<r13=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r12, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r12, r13, &(0x7f0000000280)=@IORING_OP_OPENAT2={0x1c, 0x0, 0x0, 0xffffffffffffffff, &(0x7f0000000240), &(0x7f0000000180)='./file0\x00', 0x1e})
+io_uring_enter(r11, 0x7476, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000001480)={&(0x7f00000002c0)=@l2tp6={0xa, 0x0, 0x0, @remote, 0x1}, 0x80, 0x0}})
+openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x00', 0x0, 0x0)
+r14 = socket$unix(0x2, 0x3, 0x6)
+syz_io_uring_setup(0x4939, &(0x7f0000000040), 0x0, 0x0)
+r15 = syz_io_uring_setup(0x274f, &(0x7f0000000480), &(0x7f0000000500), &(0x7f0000000540))
+io_uring_register$IORING_REGISTER_PBUF_RING(r15, 0x18, &(0x7f0000000040)={0x0}, 0x1)
+syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r16=>0x0, &(0x7f0000000140)=<r17=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r16, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r16, r17, &(0x7f0000000100)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r14, 0x0, &(0x7f0000000780)={&(0x7f0000000180)=@llc={0x1a, 0x0, 0x0, 0x3f, 0x0, 0x0, @multicast}, 0x80, 0x0, 0x0, &(0x7f0000000500)=ANY=[], 0x248}})
+io_uring_register$IORING_REGISTER_FILES_UPDATE2(0xffffffffffffffff, 0xe, &(0x7f0000000180)={0x0, 0x0, 0x0, 0x0}, 0x20)
+
+program did not crash
+single: failed to extract reproducer
+bisect: bisecting 5 programs with base timeout 1m40s
+testing program (duration=1m41s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): [5, 4, 11, 30, 17]
+detailed listing:
+executing program 1:
+r0 = socket$inet(0x2, 0x2, 0x0)
+openat$dir(0xffffffffffffff9c, &(0x7f0000000d00)='./file0\x00', 0x40, 0x0)
+r1 = openat$dir(0xffffffffffffff9c, &(0x7f0000000040)='./file0\x00', 0x40083, 0x109)
+mmap$IORING_OFF_SQES(&(0x7f0000000000/0x4000)=nil, 0x4000, 0xa, 0x11, r1, 0x10000000)
+ioctl$IOCTL_GET_NCIDEV_IDX(r0, 0x8901, &(0x7f0000000040))
+executing program 1:
+r0 = syz_io_uring_setup(0x1023, &(0x7f0000000f00)={0x0, 0x0, 0x3901}, &(0x7f0000000f80), &(0x7f0000000fc0))
+io_uring_enter(r0, 0x0, 0x0, 0x5, 0x0, 0x0)
+mmap$IORING_OFF_CQ_RING(&(0x7f0000ffe000/0x1000)=nil, 0x1000, 0x4, 0xa2071, 0xffffffffffffffff, 0x8000000)
+mmap$IORING_OFF_CQ_RING(&(0x7f0000ffe000/0x1000)=nil, 0x1000, 0x4, 0xa2071, 0xffffffffffffffff, 0x8000000)
+executing program 1:
+socket$packet(0x11, 0x3, 0x300)
+r0 = socket$inet(0x2, 0x2, 0x0)
+r1 = syz_io_uring_setup(0xc48, &(0x7f0000000000), 0x0, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r0, 0x8910, &(0x7f0000000040))
+io_uring_enter(r1, 0x1ca1, 0x80e2, 0x2, &(0x7f0000000080)={[0x7fff]}, 0x8)
+r2 = socket$inet(0x2, 0x2, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r2, 0x8914, &(0x7f0000000040))
+r3 = syz_io_uring_complete(0x0)
+r4 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r3, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r4}})
+ioctl$IOCTL_GET_NCIDEV_IDX(r3, 0x0, &(0x7f00000000c0))
+executing program 1:
+syz_io_uring_setup(0x141e, &(0x7f0000000080)={0x0, 0x0, 0x2000}, &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100)=<r1=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r2 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r3=>0x0, &(0x7f0000000200)=<r4=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r3, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r3, r4, &(0x7f00000001c0)=@IORING_OP_SOCKET={0x2d, 0x0, 0x0, 0x26})
+io_uring_enter(r2, 0x6d65, 0x0, 0x0, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x73)
+syz_io_uring_submit(r0, r1, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r5, 0x0, &(0x7f0000001040)={0x0, 0x0, 0x0}, 0x0, 0x45})
+r6 = syz_io_uring_complete(0x0)
+r7 = syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r8=>0x0, &(0x7f0000000100)=<r9=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r8, r9, &(0x7f0000000040)=@IORING_OP_LINKAT={0x27, 0x49, 0x0, 0xffffffffffffffff, 0x0, 0x0})
+io_uring_enter(r7, 0x79e, 0x0, 0x0, 0x0, 0x0)
+r10 = io_uring_register$IORING_REGISTER_PERSONALITY(0xffffffffffffffff, 0xd, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000180)=@IORING_OP_GETXATTR={0x2c, 0x0, 0x0, r6, 0x0, &(0x7f0000000140)='./file0\x00', 0x0, 0x0, 0x1, {0x0, r10}})
+syz_io_uring_submit(r0, r1, &(0x7f0000000140)=@IORING_OP_TIMEOUT_REMOVE={0xc, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, {0x0, r10}})
+r11 = syz_io_uring_setup(0x1d88, &(0x7f00000003c0), &(0x7f00000000c0)=<r12=>0x0, &(0x7f0000000100)=<r13=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r12, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r12, r13, &(0x7f0000000280)=@IORING_OP_OPENAT2={0x1c, 0x0, 0x0, 0xffffffffffffffff, &(0x7f0000000240), &(0x7f0000000180)='./file0\x00', 0x1e})
+io_uring_enter(r11, 0x7476, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000040)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000001480)={&(0x7f00000002c0)=@l2tp6={0xa, 0x0, 0x0, @remote, 0x1}, 0x80, 0x0}})
+openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\x00', 0x0, 0x0)
+r14 = socket$unix(0x2, 0x3, 0x6)
+syz_io_uring_setup(0x4939, &(0x7f0000000040), 0x0, 0x0)
+r15 = syz_io_uring_setup(0x274f, &(0x7f0000000480), &(0x7f0000000500), &(0x7f0000000540))
+io_uring_register$IORING_REGISTER_PBUF_RING(r15, 0x18, &(0x7f0000000040)={0x0}, 0x1)
+syz_io_uring_setup(0x114b, &(0x7f0000000080), &(0x7f0000000000)=<r16=>0x0, &(0x7f0000000140)=<r17=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r16, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r16, r17, &(0x7f0000000100)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r14, 0x0, &(0x7f0000000780)={&(0x7f0000000180)=@llc={0x1a, 0x0, 0x0, 0x3f, 0x0, 0x0, @multicast}, 0x80, 0x0, 0x0, &(0x7f0000000500)=ANY=[], 0x248}})
+io_uring_register$IORING_REGISTER_FILES_UPDATE2(0xffffffffffffffff, 0xe, &(0x7f0000000180)={0x0, 0x0, 0x0, 0x0}, 0x20)
+executing program 4:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x3a)
+r6 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r7=>0x0, &(0x7f0000000100)=<r8=>0x0)
+r9 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r10=>0x0, &(0x7f0000000140)=<r11=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r12 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r10, r11, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r12, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r9, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r8, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r5, 0x0, 0x0})
+io_uring_enter(r6, 0x434, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+replaying the whole log did not cause a kernel crash
+single: executing 2 programs separately with timeout 6m0s
+testing program (duration=6m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r5 = socket$unix(0xa, 0x3, 0x3a)
+r6 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r7=>0x0, &(0x7f0000000100)=<r8=>0x0)
+r9 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r10=>0x0, &(0x7f0000000140)=<r11=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r10, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r12 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r10, r11, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r12, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r9, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r7, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r7, r8, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r5, 0x0, 0x0})
+io_uring_enter(r6, 0x434, 0x0, 0x0, 0x0, 0x0)
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+single: successfully extracted reproducer
+found reproducer with 17 syscalls
+minimizing guilty program
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+r5 = syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r6=>0x0, &(0x7f0000000100)=<r7=>0x0)
+r8 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r9=>0x0, &(0x7f0000000140)=<r10=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r9, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r11 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r9, r10, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r11, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r8, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r6, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r6, r7, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r4, 0x0, 0x0})
+io_uring_enter(r5, 0x434, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r5=>0x0, &(0x7f0000000100)=<r6=>0x0)
+r7 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r8=>0x0, &(0x7f0000000140)=<r9=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r8, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r10 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r8, r9, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r10, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r7, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r5, r6, &(0x7f0000000040)=@IORING_OP_RECV=@pass_buffer={0x1b, 0x0, 0x0, r4, 0x0, 0x0})
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter-syz_memcpy_off$IO_URING_METADATA_GENERIC
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280)=<r4=>0x0, &(0x7f0000000100))
+r5 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r6=>0x0, &(0x7f0000000140)=<r7=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r6, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r8 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r6, r7, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r8, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r5, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r4, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r7 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r7, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r4=>0x0, &(0x7f0000000140)=<r5=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r4, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r6 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r4, r5, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r6, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x3, 0x3a)
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, 0xffffffffffffffff, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+r7 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r7, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(0x0, 0x0, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(0xffffffffffffffff, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-socket$unix-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r7 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r7, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x0, 0x0)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r7 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r7, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r0, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000440)=[{&(0x7f0000000340)="ea3a", 0x2}], 0x1}, 0x0, 0x4800})
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r4 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r5=>0x0, &(0x7f0000000140)=<r6=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r5, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r7 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r5, r6, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r7, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r4, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000), &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000140))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x3, 0x3a)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r2, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000), &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r0=>0x0, &(0x7f0000000140))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r1 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r2=>0x0, &(0x7f0000000140)=<r3=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r2, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r4 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r2, r3, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r4, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r1, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_io_uring_setup-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000), &(0x7f0000000100))
+syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000), &(0x7f0000000140))
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, &(0x7f00000001c0), &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, 0x0, &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, 0x0, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, &(0x7f0000000080), &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000280), &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, &(0x7f0000000100))
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: unregister_netdevice: waiting for DEV to become free
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, 0x0, &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), 0x0, &(0x7f0000000140)=<r1=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r2 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(0x0, r1, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r2, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, 0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r2 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, 0x0, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r2, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, 0x0, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, 0x0)
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, 0x0})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={0x0, 0x0, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0x2}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, 0x0}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {0x0}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{0x0}, {&(0x7f0000000080)="a039", 0x2}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)}, {&(0x7f0000000080)="a039", 0x2}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+extracting C reproducer
+testing compiled C program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+program did not crash
+simplifying guilty program options
+testing program (duration=9m0s, {Threaded:false Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=9m0s, {Threaded:true Repeat:true RepeatTimes:0 Procs:1 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-socket$unix-syz_io_uring_setup-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-socket$unix-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+syz_io_uring_setup(0x1147, 0x0, &(0x7f0000000000), &(0x7f0000000100))
+syz_memcpy_off$IO_URING_METADATA_GENERIC(0x0, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+socket$unix(0xa, 0x0, 0x0)
+socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_setup(0x1147, 0x0, 0x0, 0x0)
+r0 = syz_io_uring_setup(0x1149, &(0x7f0000001300), &(0x7f0000000000)=<r1=>0x0, &(0x7f0000000140)=<r2=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r1, 0x4, &(0x7f0000000200)=0x84000001, 0x0, 0x4)
+r3 = socket$unix(0xa, 0x3, 0x3a)
+syz_io_uring_submit(r1, r2, &(0x7f00000001c0)=@IORING_OP_SENDMSG={0x9, 0x0, 0x0, r3, 0x0, &(0x7f0000000480)={&(0x7f0000001400)=@nl=@unspec, 0x80, &(0x7f0000000180)=[{&(0x7f0000000300)='!@', 0x2}, {&(0x7f0000000080)="a039", 0xdc04}], 0x2}})
+io_uring_enter(r0, 0x4d7b, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+reproducing took 5h12m11.48074817s
+repro crashed as (corrupted=false):
+unregister_netdevice: waiting for netdevsim3 to become free. Usage count = 2
+ref_tracker: eth%d@00000000a787c7b0 has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     ipv6_add_addr+0x28e/0xe00 net/ipv6/addrconf.c:1119
+     addrconf_add_linklocal+0xca/0x260 net/ipv6/addrconf.c:3313
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+
+netdevsim netdevsim5 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+hsr_slave_0: left promiscuous mode
+hsr_slave_1: left promiscuous mode
+batman_adv: batadv0: Interface deactivated: batadv_slave_0
+batman_adv: batadv0: Removing interface: batadv_slave_0
+batman_adv: batadv0: Interface deactivated: batadv_slave_1
+batman_adv: batadv0: Removing interface: batadv_slave_1
+veth1_macvtap: left promiscuous mode
+veth0_macvtap: left promiscuous mode
+veth1_vlan: left promiscuous mode
+veth0_vlan: left promiscuous mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+netdevsim netdevsim6 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+
+final repro crashed as (corrupted=false):
+unregister_netdevice: waiting for netdevsim3 to become free. Usage count = 2
+ref_tracker: eth%d@00000000a787c7b0 has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     ipv6_add_addr+0x28e/0xe00 net/ipv6/addrconf.c:1119
+     addrconf_add_linklocal+0xca/0x260 net/ipv6/addrconf.c:3313
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+
+netdevsim netdevsim5 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim5 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+hsr_slave_0: left promiscuous mode
+hsr_slave_1: left promiscuous mode
+batman_adv: batadv0: Interface deactivated: batadv_slave_0
+batman_adv: batadv0: Removing interface: batadv_slave_0
+batman_adv: batadv0: Interface deactivated: batadv_slave_1
+batman_adv: batadv0: Removing interface: batadv_slave_1
+veth1_macvtap: left promiscuous mode
+veth0_macvtap: left promiscuous mode
+veth1_vlan: left promiscuous mode
+veth0_vlan: left promiscuous mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+netdevsim netdevsim6 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim7 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim3 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim2 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim1 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bridge_slave_1: left allmulticast mode
+bridge_slave_1: left promiscuous mode
+bridge0: port 2(bridge_slave_1) entered disabled state
+bridge_slave_0: left allmulticast mode
+bridge_slave_0: left promiscuous mode
+bridge0: port 1(bridge_slave_0) entered disabled state
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): (slave bond_slave_1): Releasing backup interface
+bond0 (unregistering): Released all slaves
+

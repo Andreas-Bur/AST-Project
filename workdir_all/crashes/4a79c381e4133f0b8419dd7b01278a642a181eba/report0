@@ -1,0 +1,62 @@
+list_del corruption. prev->next should be ffff88800f0081d0, but was ffff88800f008590. (prev=ffff88800f008310)
+------------[ cut here ]------------
+kernel BUG at lib/list_debug.c:62!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 40497 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__list_del_entry_valid_or_report+0xa5/0xc0 lib/list_debug.c:62
+Code: e8 70 d7 a6 fe 90 0f 0b 48 89 ca 48 c7 c7 a8 4b 13 86 e8 5e d7 a6 fe 90 0f 0b 4c 89 c2 48 c7 c7 e0 4b 13 86 e8 4c d7 a6 fe 90 <0f> 0b 48 89 d1 4c 89 c6 4c 89 ca 48 c7 c7 30 4c 13 86 e8 34 d7 a6
+RSP: 0018:ffff888036b93b10 EFLAGS: 00010293
+RAX: 000000000000006d RBX: ffff88802a2c5290 RCX: ffffffff811a8c5e
+RDX: ffff88803aab4380 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888036b93b10 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff88800f0081c0
+R13: ffff88800f0081d0 R14: ffff88800f008310 R15: ffff88802a2c52a0
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fadd60d0000 CR3: 000000002a404005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __list_del_entry_valid include/linux/list.h:124 [inline]
+ __list_del_entry include/linux/list.h:215 [inline]
+ list_del include/linux/list.h:229 [inline]
+ unlink_anon_vmas+0x156/0x300 mm/rmap.c:421
+ free_pgtables+0x185/0x3d0 mm/memory.c:402
+ exit_mmap+0x231/0x660 mm/mmap.c:3278
+ __mmput+0x7e/0x1e0 kernel/fork.c:1345
+ mmput+0x5d/0x70 kernel/fork.c:1367
+ exit_mm kernel/exit.c:569 [inline]
+ do_exit+0x46f/0x1360 kernel/exit.c:865
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ get_signal+0x1318/0x1350 kernel/signal.c:2911
+ arch_do_signal_or_restart+0x26/0x470 arch/x86/kernel/signal.c:310
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x128/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe622e8fd6d
+Code: Unable to access opcode bytes at 0x7fe622e8fd43.
+RSP: 002b:00007fe623c1a0f8 EFLAGS: 00000246 ORIG_RAX: 00000000000000ca
+RAX: fffffffffffffe00 RBX: 00007fe622fcbf88 RCX: 00007fe622e8fd6d
+RDX: 0000000000000000 RSI: 0000000000000080 RDI: 00007fe622fcbf88
+RBP: 00007fe622fcbf80 R08: 00007fe623c1a640 R09: 00007fe623c1a640
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fe622fcbf8c
+R13: 000000000000000b R14: 00007fe622e4f680 R15: 00007fe623bfa000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__list_del_entry_valid_or_report+0xa5/0xc0 lib/list_debug.c:62
+Code: e8 70 d7 a6 fe 90 0f 0b 48 89 ca 48 c7 c7 a8 4b 13 86 e8 5e d7 a6 fe 90 0f 0b 4c 89 c2 48 c7 c7 e0 4b 13 86 e8 4c d7 a6 fe 90 <0f> 0b 48 89 d1 4c 89 c6 4c 89 ca 48 c7 c7 30 4c 13 86 e8 34 d7 a6
+RSP: 0018:ffff888036b93b10 EFLAGS: 00010293
+RAX: 000000000000006d RBX: ffff88802a2c5290 RCX: ffffffff811a8c5e
+RDX: ffff88803aab4380 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff888036b93b10 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff88800f0081c0
+R13: ffff88800f0081d0 R14: ffff88800f008310 R15: ffff88802a2c52a0
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fadd60d0000 CR3: 000000002a404005 CR4: 0000000000770ef0
+PKRU: 55555554

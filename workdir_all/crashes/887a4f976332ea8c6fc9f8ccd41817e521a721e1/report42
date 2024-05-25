@@ -1,0 +1,99 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6183 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 6183 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88800d8d4380 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff888010c9cc10
+R13: ffffffff81114da0 R14: ffff888010792800 R15: 0000000000200000
+FS:  000055558cf69480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb808ba65f8 CR3: 000000000f2b6006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:tomoyo_encode2.part.0+0x66/0x1e0 security/tomoyo/realpath.c:33
+Code: 44 e8 9e 06 d7 fe 41 8d 46 df bf 5d 00 00 00 89 c6 88 45 d7 e8 5b 01 d7 fe 0f b6 45 d7 3c 5d 77 4c e8 7e 06 d7 fe 83 45 c8 01 <e8> 75 06 d7 fe 83 c3 01 44 89 e6 89 df 49 83 c5 01 e8 c4 00 d7 fe
+RSP: 0018:ffff8880109cbc08 EFLAGS: 00000206
+RAX: 0000000000000000 RBX: 0000000000000034 RCX: ffffffff8252b875
+RDX: ffff88800d8d4380 RSI: ffffffff8252b882 RDI: 0000000000000001
+RBP: ffff8880109cbc40 R08: ffff88802d4f5fc6 R09: 0000000000000001
+R10: 0000000000000051 R11: 0000000000000000 R12: 0000000000000038
+R13: ffff88802d4f5ff9 R14: 0000000000000072 R15: ffff88802d4f5fc5
+ tomoyo_encode2 security/tomoyo/realpath.c:31 [inline]
+ tomoyo_encode security/tomoyo/realpath.c:80 [inline]
+ tomoyo_realpath_from_path+0xee/0x2e0 security/tomoyo/realpath.c:283
+ tomoyo_get_realpath security/tomoyo/file.c:151 [inline]
+ tomoyo_path_perm+0x10e/0x320 security/tomoyo/file.c:822
+ tomoyo_path_unlink+0x36/0x50 security/tomoyo/tomoyo.c:162
+ security_path_unlink+0x5d/0xa0 security/security.c:1857
+ do_unlinkat+0x329/0x3f0 fs/namei.c:4396
+ __do_sys_unlink fs/namei.c:4447 [inline]
+ __se_sys_unlink fs/namei.c:4445 [inline]
+ __x64_sys_unlink+0x67/0x90 fs/namei.c:4445
+ x64_sys_call+0x2004/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:88
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe70cc8f4bb
+Code: 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 57 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffec30c6018 EFLAGS: 00000202 ORIG_RAX: 0000000000000057
+RAX: ffffffffffffffda RBX: 000000000000493d RCX: 00007fe70cc8f4bb
+RDX: 0000000000000000 RSI: 0000000040086602 RDI: 00007ffec30c60d0
+RBP: 00007ffec30c60d0 R08: 0000000000000000 R09: 00007ffec30c5ea0
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007fe70ccf0278
+R13: 00007ffec30c71b0 R14: 000055558cf6a970 R15: 000055558cf69430
+ </TASK>
+irq event stamp: 2433991
+hardirqs last  enabled at (2433990): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (2433990): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (2433991): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (2433991): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (2426452): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (2426452): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (2433985): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (2433985): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (2433985): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+vkms_vblank_simulate: vblank timer overrun
+----------------
+Code disassembly (best guess):
+   0:	44 e8 9e 06 d7 fe    	rex.R call 0xfed706a4
+   6:	41 8d 46 df          	lea    -0x21(%r14),%eax
+   a:	bf 5d 00 00 00       	mov    $0x5d,%edi
+   f:	89 c6                	mov    %eax,%esi
+  11:	88 45 d7             	mov    %al,-0x29(%rbp)
+  14:	e8 5b 01 d7 fe       	call   0xfed70174
+  19:	0f b6 45 d7          	movzbl -0x29(%rbp),%eax
+  1d:	3c 5d                	cmp    $0x5d,%al
+  1f:	77 4c                	ja     0x6d
+  21:	e8 7e 06 d7 fe       	call   0xfed706a4
+  26:	83 45 c8 01          	addl   $0x1,-0x38(%rbp)
+* 2a:	e8 75 06 d7 fe       	call   0xfed706a4 <-- trapping instruction
+  2f:	83 c3 01             	add    $0x1,%ebx
+  32:	44 89 e6             	mov    %r12d,%esi
+  35:	89 df                	mov    %ebx,%edi
+  37:	49 83 c5 01          	add    $0x1,%r13
+  3b:	e8 c4 00 d7 fe       	call   0xfed70104

@@ -1,0 +1,36 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 27 Comm: kworker/u8:1 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: tipc_rcv tipc_topsrv_accept
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ stack_depot_save_flags+0x20c/0x8c0 lib/stackdepot.c:640
+ stack_depot_save+0x12/0x20 lib/stackdepot.c:685
+ ref_tracker_alloc+0x10d/0x370 lib/ref_tracker.c:210
+ __netns_tracker_alloc include/net/net_namespace.h:331 [inline]
+ sk_alloc+0x78e/0x7d0 net/core/sock.c:2148
+ tipc_sk_create+0xa6/0x11b0 net/tipc/socket.c:488
+ tipc_accept+0x191/0x780 net/tipc/socket.c:2743
+ kernel_accept+0x6e/0xd0 net/socket.c:3590
+ tipc_topsrv_accept+0x60/0x1a0 net/tipc/topsrv.c:472
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>

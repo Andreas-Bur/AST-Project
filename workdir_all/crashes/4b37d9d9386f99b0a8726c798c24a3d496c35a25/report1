@@ -1,0 +1,80 @@
+------------[ cut here ]------------
+precision 65535 too large
+WARNING: CPU: 1 PID: 27300 at lib/vsprintf.c:2721 set_precision+0x7b/0xc0 lib/vsprintf.c:2721
+Modules linked in:
+CPU: 1 PID: 27300 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:set_precision+0x7b/0xc0 lib/vsprintf.c:2721
+Code: ff 44 89 ee e8 36 5e 3a fc 45 84 ed 75 20 e8 5c 63 3a fc c6 05 86 d7 a4 01 01 90 48 c7 c7 61 05 08 86 89 de e8 d6 af 1d fc 90 <0f> 0b 90 90 e8 3c 63 3a fc 31 c0 85 db 0f 48 d8 b8 ff 7f 00 00 39
+RSP: 0018:ffff88802691f3b0 EFLAGS: 00010296
+RAX: 0000000000040000 RBX: 000000000000ffff RCX: ffffc9000490a000
+RDX: 0000000000040000 RSI: ffffffff810d0c69 RDI: 0000000000000001
+RBP: ffff88802691f3c8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802691f400
+R13: 0000000000000000 R14: ffffffff85fd15b3 R15: ffff88802691f450
+FS:  00007fc5b2965640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f5c9f1a6000 CR3: 0000000026844005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ vsnprintf+0x4a4/0x9c0 lib/vsprintf.c:2797
+ bch2_prt_printf+0x95/0x1a0 fs/bcachefs/printbuf.c:75
+ bch2_xattr_to_text+0xef/0x250 fs/bcachefs/xattr.c:121
+ bch2_val_to_text fs/bcachefs/bkey_methods.c:296 [inline]
+ bch2_bkey_val_to_text+0xb3/0xd0 fs/bcachefs/bkey_methods.c:306
+ bch2_btree_node_read_done+0x186a/0x2020 fs/bcachefs/btree_io.c:1220
+ btree_node_read_work+0x3b8/0x910 fs/bcachefs/btree_io.c:1323
+ bch2_btree_node_read+0x46a/0xb00 fs/bcachefs/btree_io.c:1706
+ __bch2_btree_root_read fs/bcachefs/btree_io.c:1745 [inline]
+ bch2_btree_root_read+0x1bd/0x380 fs/bcachefs/btree_io.c:1769
+ read_btree_roots fs/bcachefs/recovery.c:454 [inline]
+ bch2_fs_recovery+0x1512/0x2b20 fs/bcachefs/recovery.c:782
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc5b1c91b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fc5b2964e38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000005b29 RCX: 00007fc5b1c91b3e
+RDX: 0000000020005b00 RSI: 0000000020005b40 RDI: 00007fc5b2964e90
+RBP: 00007fc5b2964ed0 R08: 00007fc5b2964ed0 R09: 0000000000000043
+R10: 0000000000000043 R11: 0000000000000202 R12: 0000000020005b00
+R13: 0000000020005b40 R14: 00007fc5b2964e90 R15: 0000000020000180
+ </TASK>
+irq event stamp: 64569
+hardirqs last  enabled at (64579): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (64579): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (64579): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (64588): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (64588): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (64588): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (64458): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (64458): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (64433): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (64433): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (64433): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+bcachefs (loop5): error validating btree node at btree xattrs level 0/0
+  u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq f8777fbb972634df written 16 min_key POS_MIN durability: 1 ptr: 0:31:0 gen 0
+  node offset 16/16 bset u64s 10: invalid bkey: value too small (2 < 8225)
+  u64s 7 type xattr 4101:2306328805866897955:U32_MAX len 0 ver 0: (unknown type 252)ÿÿÿÿr1xattr1:, shutting down
+bcachefs (loop5): inconsistency detected - emergency read only at journal seq 8
+bcachefs (loop5): flagging btree xattrs lost data
+error reading btree root xattrs l=0: btree_node_read_error, shutting down
+bcachefs (loop5): bch2_fs_recovery(): error fsck_errors_not_fixed
+bcachefs (loop5): bch2_fs_start(): error starting filesystem fsck_errors_not_fixed
+bcachefs (loop5): shutting down
+bcachefs (loop5): shutdown complete

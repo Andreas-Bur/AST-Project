@@ -1,0 +1,142 @@
+XFS (loop4): Ending clean mount
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.4/35591 is trying to acquire lock:
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: might_alloc include/linux/sched/mm.h:312 [inline]
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: slab_pre_alloc_hook mm/slub.c:3746 [inline]
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: slab_alloc_node mm/slub.c:3827 [inline]
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: __do_kmalloc_node mm/slub.c:3965 [inline]
+ffffffff865fa500 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc+0x83/0x350 mm/slub.c:3979
+
+but task is already holding lock:
+ffff888013fdf518 (&xfs_dir_ilock_class){++++}-{3:3}, at: xfs_ilock+0x12a/0x2e0 fs/xfs/xfs_inode.c:208
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1
+ (&xfs_dir_ilock_class
+){++++}-{3:3}
+:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       down_write_nested+0x45/0xe0 kernel/locking/rwsem.c:1695
+       xfs_ilock+0x241/0x2e0 fs/xfs/xfs_inode.c:206
+       xfs_reclaim_inode fs/xfs/xfs_icache.c:945 [inline]
+       xfs_icwalk_process_inode fs/xfs/xfs_icache.c:1631 [inline]
+       xfs_icwalk_ag+0x9b9/0xdc0 fs/xfs/xfs_icache.c:1713
+       xfs_icwalk+0x52/0xe0 fs/xfs/xfs_icache.c:1762
+       xfs_reclaim_inodes_nr+0xc0/0x100 fs/xfs/xfs_icache.c:1011
+       xfs_fs_free_cached_objects+0x27/0x30 fs/xfs/xfs_super.c:1161
+       super_cache_scan+0x21f/0x270 fs/super.c:227
+       do_shrink_slab+0x240/0xa90 mm/shrinker.c:435
+       shrink_slab_memcg mm/shrinker.c:548 [inline]
+       shrink_slab+0x78f/0xed0 mm/shrinker.c:626
+       shrink_one+0x1de/0x2d0 mm/vmscan.c:4774
+       shrink_many mm/vmscan.c:4835 [inline]
+       lru_gen_shrink_node mm/vmscan.c:4935 [inline]
+       shrink_node+0x11a7/0x1d50 mm/vmscan.c:5894
+       kswapd_shrink_node mm/vmscan.c:6704 [inline]
+       balance_pgdat+0x5df/0xec0 mm/vmscan.c:6895
+       kswapd+0x2fa/0x660 mm/vmscan.c:7164
+       kthread+0x127/0x160 kernel/kthread.c:388
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+-> #0 (fs_reclaim){+.+.}-{0:0}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __fs_reclaim_acquire mm/page_alloc.c:3698 [inline]
+       fs_reclaim_acquire+0xad/0x100 mm/page_alloc.c:3712
+       might_alloc include/linux/sched/mm.h:312 [inline]
+       slab_pre_alloc_hook mm/slub.c:3746 [inline]
+       slab_alloc_node mm/slub.c:3827 [inline]
+       __do_kmalloc_node mm/slub.c:3965 [inline]
+       __kmalloc+0x83/0x350 mm/slub.c:3979
+       kmalloc include/linux/slab.h:632 [inline]
+       xfs_attr_shortform_list fs/xfs/xfs_attr_list.c:115 [inline]
+       xfs_attr_list_ilocked+0x296/0x8b0 fs/xfs/xfs_attr_list.c:527
+       xfs_attr_list+0x97/0xd0 fs/xfs/xfs_attr_list.c:547
+       xfs_vn_listxattr+0xaa/0x110 fs/xfs/xfs_xattr.c:314
+       vfs_listxattr+0x63/0xc0 fs/xattr.c:493
+       listxattr+0x73/0x170 fs/xattr.c:840
+       path_listxattr+0x5d/0xd0 fs/xattr.c:864
+       __do_sys_listxattr fs/xattr.c:876 [inline]
+       __se_sys_listxattr fs/xattr.c:873 [inline]
+       __x64_sys_listxattr+0x27/0x40 fs/xattr.c:873
+       x64_sys_call+0x11a2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:195
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  rlock(&xfs_dir_ilock_class);
+                               lock(fs_reclaim);
+                               lock(&xfs_dir_ilock_class);
+  lock(fs_reclaim);
+
+ *** DEADLOCK ***
+
+1 lock held by syz-executor.4/35591:
+ #0: ffff888013fdf518 (&xfs_dir_ilock_class){++++}-{3:3}, at: xfs_ilock+0x12a/0x2e0 fs/xfs/xfs_inode.c:208
+
+stack backtrace:
+CPU: 0 PID: 35591 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __fs_reclaim_acquire mm/page_alloc.c:3698 [inline]
+ fs_reclaim_acquire+0xad/0x100 mm/page_alloc.c:3712
+ might_alloc include/linux/sched/mm.h:312 [inline]
+ slab_pre_alloc_hook mm/slub.c:3746 [inline]
+ slab_alloc_node mm/slub.c:3827 [inline]
+ __do_kmalloc_node mm/slub.c:3965 [inline]
+ __kmalloc+0x83/0x350 mm/slub.c:3979
+ kmalloc include/linux/slab.h:632 [inline]
+ xfs_attr_shortform_list fs/xfs/xfs_attr_list.c:115 [inline]
+ xfs_attr_list_ilocked+0x296/0x8b0 fs/xfs/xfs_attr_list.c:527
+ xfs_attr_list+0x97/0xd0 fs/xfs/xfs_attr_list.c:547
+ xfs_vn_listxattr+0xaa/0x110 fs/xfs/xfs_xattr.c:314
+ vfs_listxattr+0x63/0xc0 fs/xattr.c:493
+ listxattr+0x73/0x170 fs/xattr.c:840
+ path_listxattr+0x5d/0xd0 fs/xattr.c:864
+ __do_sys_listxattr fs/xattr.c:876 [inline]
+ __se_sys_listxattr fs/xattr.c:873 [inline]
+ __x64_sys_listxattr+0x27/0x40 fs/xattr.c:873
+ x64_sys_call+0x11a2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:195
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f223488fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f2235668028 EFLAGS: 00000246 ORIG_RAX: 00000000000000c2
+RAX: ffffffffffffffda RBX: 00007f22349cbf80 RCX: 00007f223488fd6d
+RDX: 0000000000000058 RSI: 0000000020000280 RDI: 0000000020000240
+RBP: 00007f22348f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f22349cbf80 R15: 00007f2235648000
+ </TASK>

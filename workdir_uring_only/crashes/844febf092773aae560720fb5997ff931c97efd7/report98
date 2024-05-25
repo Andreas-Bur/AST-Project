@@ -1,0 +1,5 @@
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r14, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+r16 = socket$packet(0x11, 0x2, 0x300)
+syz_io_uring_setup(0x106c, &(0x7f0000000080), &(0x7f0000000000)=<r17=>0x0, &(0x7f0000000040))
+syz_io_uring_submit(r17, r15, &(0x7f0000000380)=@IORING_OP_CLOSE=@close_fd={0x13, 0x0, 0x0, r16})
+2024/05/22 10:14:44 SYZFATAL: executor 5 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir1518176972: operation not permitted

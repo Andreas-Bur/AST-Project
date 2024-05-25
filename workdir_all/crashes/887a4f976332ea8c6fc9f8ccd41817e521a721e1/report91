@@ -1,0 +1,98 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 62493 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 62493 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88804c3a4380 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff88804f4e8c10
+R13: ffffffff81114da0 R14: ffff88803b728c00 R15: 0000000000200000
+FS:  0000555580e16480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2dd17ff000 CR3: 000000003e652005 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:finish_task_switch.isra.0+0x11d/0x340 kernel/sched/core.c:5283
+Code: 48 8b 1b 48 c7 02 00 00 00 00 e8 7e 45 df 03 48 85 db 75 e2 4c 89 e7 e8 01 fd ff ff e8 0c d2 18 00 fb 65 48 8b 05 a3 00 ef 7e <81> a0 60 15 00 00 ff ff ff bf 4d 85 f6 74 17 4c 3b b0 38 05 00 00
+RSP: 0018:ffff8880327c3cc8 EFLAGS: 00000202
+RAX: ffff88804c3a4380 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811411d4
+RBP: ffff8880327c3cf0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88807dc32540
+R13: ffff88800d10a1c0 R14: 0000000000000000 R15: 0000000000000000
+ context_switch kernel/sched/core.c:5412 [inline]
+ __schedule+0x3f8/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ do_nanosleep+0x6a/0x1e0 kernel/time/hrtimer.c:2051
+ hrtimer_nanosleep+0xe6/0x1e0 kernel/time/hrtimer.c:2104
+ common_nsleep+0x79/0x90 kernel/time/posix-timers.c:1350
+ __do_sys_clock_nanosleep kernel/time/posix-timers.c:1396 [inline]
+ __se_sys_clock_nanosleep kernel/time/posix-timers.c:1373 [inline]
+ __x64_sys_clock_nanosleep+0x15d/0x1d0 kernel/time/posix-timers.c:1373
+ x64_sys_call+0x1040/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:231
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2dd7ac3778
+Code: ff eb 9d 0f 1f 80 00 00 00 00 89 7c 24 0c e8 5f b2 ff ff 8b 7c 24 0c 4d 89 f2 4c 89 e2 41 89 c0 44 89 ee b8 e6 00 00 00 0f 05 <44> 89 c7 48 89 c5 e8 ad b2 ff ff eb 88 0f 1f 00 49 81 7c 24 08 ff
+RSP: 002b:00007ffd4049c740 EFLAGS: 00000293 ORIG_RAX: 00000000000000e6
+RAX: ffffffffffffffda RBX: 0000000000000001 RCX: 00007f2dd7ac3778
+RDX: 00007ffd4049c7d0 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00007ffd4049c85c R08: 0000000000000000 R09: 00007f2dd889c080
+R10: 0000000000000000 R11: 0000000000000293 R12: 00007ffd4049c7d0
+R13: 0000000000000000 R14: 0000000000000000 R15: 00007ffd4049c880
+ </TASK>
+irq event stamp: 156427
+hardirqs last  enabled at (156426): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (156426): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (156427): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (156427): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (155814): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (155814): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (156403): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (156403): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (156403): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	48 8b 1b             	mov    (%rbx),%rbx
+   3:	48 c7 02 00 00 00 00 	movq   $0x0,(%rdx)
+   a:	e8 7e 45 df 03       	call   0x3df458d
+   f:	48 85 db             	test   %rbx,%rbx
+  12:	75 e2                	jne    0xfffffff6
+  14:	4c 89 e7             	mov    %r12,%rdi
+  17:	e8 01 fd ff ff       	call   0xfffffd1d
+  1c:	e8 0c d2 18 00       	call   0x18d22d
+  21:	fb                   	sti
+  22:	65 48 8b 05 a3 00 ef 	mov    %gs:0x7eef00a3(%rip),%rax        # 0x7eef00cd
+  29:	7e
+* 2a:	81 a0 60 15 00 00 ff 	andl   $0xbfffffff,0x1560(%rax) <-- trapping instruction
+  31:	ff ff bf
+  34:	4d 85 f6             	test   %r14,%r14
+  37:	74 17                	je     0x50
+  39:	4c 3b b0 38 05 00 00 	cmp    0x538(%rax),%r14

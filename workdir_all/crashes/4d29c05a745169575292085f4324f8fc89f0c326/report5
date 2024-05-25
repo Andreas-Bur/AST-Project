@@ -1,0 +1,66 @@
+------------[ cut here ]------------
+kernel BUG at fs/jfs/inode.c:169!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 31164 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:jfs_evict_inode+0x1d5/0x1f0 fs/jfs/inode.c:169
+Code: 7d 80 00 74 0d e8 ab e9 61 ff 48 89 df e8 c3 01 01 00 e8 9e e9 61 ff 48 89 df e8 e6 0a a6 ff e9 af fe ff ff e8 8c e9 61 ff 90 <0f> 0b e8 84 e9 61 ff 48 89 df e8 7c 3d 00 00 eb b4 66 2e 0f 1f 84
+RSP: 0018:ffff888037f3fc40 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888013fa8430 RCX: ffffffff816db174
+RDX: ffff88803cabc380 RSI: ffffffff81c7d574 RDI: ffff888013fa8430
+RBP: ffff888037f3fc58 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: ffffffff85363560 R14: ffff888023d5a9c0 R15: ffff888013facc38
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f4fb7d9c000 CR3: 000000000f1e4004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ evict+0x132/0x2d0 fs/inode.c:667
+ dispose_list+0x67/0xb0 fs/inode.c:700
+ evict_inodes+0x20b/0x260 fs/inode.c:750
+ generic_shutdown_super+0x4e/0x180 fs/super.c:626
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ __x64_sys_exit_group+0x20/0x20 kernel/exit.c:1036
+ x64_sys_call+0x1a0b/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9c6dc8fd6d
+Code: Unable to access opcode bytes at 0x7f9c6dc8fd43.
+RSP: 002b:00007ffca819a068 EFLAGS: 00000202 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f9c6dc8fd6d
+RDX: 00007f9c6dc8ea8f RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00007ffca819a230 R08: 0000000000000000 R09: 00007f9c6dcf02d8
+R10: 0000000000000000 R11: 0000000000000202 R12: 00007f9c6dcf02d8
+R13: 0000000000000005 R14: 000055556239d9b0 R15: 0000555562394430
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:jfs_evict_inode+0x1d5/0x1f0 fs/jfs/inode.c:169
+Code: 7d 80 00 74 0d e8 ab e9 61 ff 48 89 df e8 c3 01 01 00 e8 9e e9 61 ff 48 89 df e8 e6 0a a6 ff e9 af fe ff ff e8 8c e9 61 ff 90 <0f> 0b e8 84 e9 61 ff 48 89 df e8 7c 3d 00 00 eb b4 66 2e 0f 1f 84
+RSP: 0018:ffff888037f3fc40 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888013fa8430 RCX: ffffffff816db174
+RDX: ffff88803cabc380 RSI: ffffffff81c7d574 RDI: ffff888013fa8430
+RBP: ffff888037f3fc58 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: ffffffff85363560 R14: ffff888023d5a9c0 R15: ffff888013facc38
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f4fb7d9c000 CR3: 000000000f1e4004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554

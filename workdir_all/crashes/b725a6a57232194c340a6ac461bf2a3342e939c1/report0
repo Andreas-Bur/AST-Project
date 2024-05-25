@@ -1,0 +1,72 @@
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+WARNING: CPU: 0 PID: 6221 at kernel/locking/mutex.c:587 __mutex_lock_common kernel/locking/mutex.c:587 [inline]
+WARNING: CPU: 0 PID: 6221 at kernel/locking/mutex.c:587 __mutex_lock+0x205/0x450 kernel/locking/mutex.c:752
+Modules linked in:
+CPU: 0 PID: 6221 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:587 [inline]
+RIP: 0010:__mutex_lock+0x205/0x450 kernel/locking/mutex.c:752
+Code: ff 90 e8 ae 13 7c fd 85 c0 74 23 8b 35 98 0c a9 01 85 f6 75 19 90 48 c7 c6 49 bc f8 85 48 c7 c7 0c 56 f8 85 e8 1c 2e 1a fc 90 <0f> 0b 90 90 90 e9 4c fe ff ff 4c 8d 6d a0 4c 89 e7 4c 89 ee e8 c2
+RSP: 0018:ffff888013003a70 EFLAGS: 00010296
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff810d0c60
+RDX: ffff888015518000 RSI: ffffffff810d0c69 RDI: 0000000000000001
+RBP: ffff888013003af0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff8880265c08b8
+R13: 0000000000000000 R14: 0000000000001000 R15: 0000000000000000
+FS:  0000555575e7f480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000c0015746cc CR3: 000000001151c003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ diFree+0xaa/0xee0 fs/jfs/jfs_imap.c:886
+ jfs_evict_inode+0x1bd/0x1f0 fs/jfs/inode.c:156
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ shrink_kill fs/dcache.c:1048 [inline]
+ shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+ shrink_dcache_parent+0x8a/0x520 fs/dcache.c:1509
+ do_one_tree fs/dcache.c:1538 [inline]
+ shrink_dcache_for_umount+0x54/0x1f0 fs/dcache.c:1555
+ generic_shutdown_super+0x31/0x180 fs/super.c:619
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fccf769178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffe23e6adb8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007fccf769178b
+RDX: 00007fccf76292c0 RSI: 0000000000000009 RDI: 00007ffe23e6ae70
+RBP: 00007ffe23e6ae70 R08: 0000000000000000 R09: 00007ffe23e6ac40
+R10: 0000555575e80a4b R11: 0000000000000246 R12: 00007fccf76f0278
+R13: 00007ffe23e6bf50 R14: 0000555575e80970 R15: 00007ffe23e6bf40
+ </TASK>
+irq event stamp: 1279953
+hardirqs last  enabled at (1279953): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (1279953): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (1279952): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (1279952): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (1278280): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (1278280): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (1278197): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (1278197): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (1278197): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

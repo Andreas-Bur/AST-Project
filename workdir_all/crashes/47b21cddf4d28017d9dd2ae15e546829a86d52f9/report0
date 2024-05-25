@@ -1,0 +1,63 @@
+BUG: spinlock bad magic on CPU#0, jfsCommit/107
+general protection fault, probably for non-canonical address 0x3baaaaff333305b8: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 107 Comm: jfsCommit Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:task_pid_nr include/linux/pid.h:232 [inline]
+RIP: 0010:spin_dump kernel/locking/spinlock_debug.c:64 [inline]
+RIP: 0010:spin_bug+0x68/0xb0 kernel/locking/spinlock_debug.c:78
+Code: 41 ea 7e 44 8b 80 b8 05 00 00 48 8d 88 40 08 00 00 4c 89 ee 48 c7 c7 98 3a 09 86 e8 12 5c 01 00 48 85 db 45 8b 4c 24 08 74 32 <44> 8b 83 b8 05 00 00 48 8d 8b 40 08 00 00 41 8b 54 24 04 4c 89 e6
+RSP: 0018:ffff88800aabbda8 EFLAGS: 00010006
+RAX: 000000000000002f RBX: 3baaaaff33330000 RCX: ffffffff811a8c5e
+RDX: ffff88800ab08000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88800aabbdc0 R08: ffffffff85f8cf97 R09: 0000000000000200
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888021c40e38
+R13: ffffffff85f8c53b R14: 000000000000000c R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7e701c8000 CR3: 00000000313e4004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ debug_spin_lock_before kernel/locking/spinlock_debug.c:86 [inline]
+ do_raw_spin_lock+0x6e/0xa0 kernel/locking/spinlock_debug.c:115
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:111 [inline]
+ _raw_spin_lock_irqsave+0x47/0x60 kernel/locking/spinlock.c:162
+ txUnlock+0x4e1/0x5d0 fs/jfs/jfs_txnmgr.c:974
+ txLazyCommit fs/jfs/jfs_txnmgr.c:2682 [inline]
+ jfs_lazycommit+0x361/0x530 fs/jfs/jfs_txnmgr.c:2733
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:task_pid_nr include/linux/pid.h:232 [inline]
+RIP: 0010:spin_dump kernel/locking/spinlock_debug.c:64 [inline]
+RIP: 0010:spin_bug+0x68/0xb0 kernel/locking/spinlock_debug.c:78
+Code: 41 ea 7e 44 8b 80 b8 05 00 00 48 8d 88 40 08 00 00 4c 89 ee 48 c7 c7 98 3a 09 86 e8 12 5c 01 00 48 85 db 45 8b 4c 24 08 74 32 <44> 8b 83 b8 05 00 00 48 8d 8b 40 08 00 00 41 8b 54 24 04 4c 89 e6
+RSP: 0018:ffff88800aabbda8 EFLAGS: 00010006
+RAX: 000000000000002f RBX: 3baaaaff33330000 RCX: ffffffff811a8c5e
+RDX: ffff88800ab08000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88800aabbdc0 R08: ffffffff85f8cf97 R09: 0000000000000200
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888021c40e38
+R13: ffffffff85f8c53b R14: 000000000000000c R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7e701c8000 CR3: 00000000313e4004 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	41 ea                	rex.B (bad)
+   2:	7e 44                	jle    0x48
+   4:	8b 80 b8 05 00 00    	mov    0x5b8(%rax),%eax
+   a:	48 8d 88 40 08 00 00 	lea    0x840(%rax),%rcx
+  11:	4c 89 ee             	mov    %r13,%rsi
+  14:	48 c7 c7 98 3a 09 86 	mov    $0xffffffff86093a98,%rdi
+  1b:	e8 12 5c 01 00       	call   0x15c32
+  20:	48 85 db             	test   %rbx,%rbx
+  23:	45 8b 4c 24 08       	mov    0x8(%r12),%r9d
+  28:	74 32                	je     0x5c
+* 2a:	44 8b 83 b8 05 00 00 	mov    0x5b8(%rbx),%r8d <-- trapping instruction
+  31:	48 8d 8b 40 08 00 00 	lea    0x840(%rbx),%rcx
+  38:	41 8b 54 24 04       	mov    0x4(%r12),%edx
+  3d:	4c 89 e6             	mov    %r12,%rsi

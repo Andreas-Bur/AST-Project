@@ -1,0 +1,40 @@
+BUG: MAX_LOCKDEP_KEYS too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 24500 Comm: syz-executor409 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ register_lock_class+0x3e5/0x590 kernel/locking/lockdep.c:1321
+ __lock_acquire+0x5f/0x15f0 kernel/locking/lockdep.c:5014
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ nci_close_device+0x7a/0x230 net/nfc/nci/core.c:567
+ nci_unregister_device+0x2b/0xf0 net/nfc/nci/core.c:1301
+ virtual_ncidev_close+0x23/0x50 drivers/nfc/virtual_ncidev.c:168
+ __fput+0x135/0x540 fs/file_table.c:422
+ ____fput+0x1a/0x30 fs/file_table.c:450
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ __x64_sys_exit_group+0x20/0x20 kernel/exit.c:1036
+ x64_sys_call+0x1a0b/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f32ec0799f1
+Code: Unable to access opcode bytes at 0x7f32ec0799c7.
+RSP: 002b:00007ffd6c000bc8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007f32ec0fe1b0 RCX: 00007f32ec0799f1
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffffffffffb8 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f32ec0fe1b0
+R13: 0000000000000000 R14: 00007f32ec0fec20 R15: 00007f32ec034100
+ </TASK>

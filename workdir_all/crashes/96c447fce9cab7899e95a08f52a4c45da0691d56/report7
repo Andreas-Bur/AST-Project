@@ -1,0 +1,61 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3482 at net/mac80211/tx.c:5034 __ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5034 [inline]
+WARNING: CPU: 0 PID: 3482 at net/mac80211/tx.c:5034 __ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5029 [inline]
+WARNING: CPU: 0 PID: 3482 at net/mac80211/tx.c:5034 __ieee80211_beacon_get+0xbc2/0xbd0 net/mac80211/tx.c:5461
+Modules linked in:
+CPU: 0 PID: 3482 Comm: systemd-udevd Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5034 [inline]
+RIP: 0010:__ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5029 [inline]
+RIP: 0010:__ieee80211_beacon_get+0xbc2/0xbd0 net/mac80211/tx.c:5461
+Code: 89 df 44 89 e6 e8 fe 10 6f fc 44 38 e3 72 ce e8 14 17 6f fc 4c 89 ef e8 cc a5 95 fc 45 31 ed e9 08 ff ff ff e8 ff 16 6f fc 90 <0f> 0b 90 e9 ec fa ff ff 66 0f 1f 44 00 00 90 90 90 90 90 90 90 90
+RSP: 0000:ffff88800f9f3c68 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff84baa2ee
+RDX: ffff88800d82a1c0 RSI: ffffffff84baa801 RDI: 0000000000000001
+RBP: ffff88800f9f3cc0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: ffffffff84ba9c8e R12: ffff88802857a750
+R13: 0000000000000041 R14: ffff88800f9f3cde R15: ffff88802857a2d0
+FS:  00007f29bb0218c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f72186896f4 CR3: 00000000109e2001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ ieee80211_beacon_get_tim+0x53/0x120 net/mac80211/tx.c:5588
+ ieee80211_beacon_get include/net/mac80211.h:5552 [inline]
+ mac80211_hwsim_beacon_tx+0x2b8/0x4b0 drivers/net/wireless/virtual/mac80211_hwsim.c:2296
+ __iterate_interfaces+0x133/0x390 net/mac80211/util.c:772
+ ieee80211_iterate_active_interfaces_atomic+0x78/0x1d0 net/mac80211/util.c:808
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x40/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0033:0x7f29bb170395
+Code: 00 00 00 00 90 48 83 ec 08 48 8b 4f 08 48 89 c8 48 83 e0 f8 48 3b 04 07 0f 85 91 00 00 00 48 8b 47 10 48 8b 57 18 48 3b 78 18 <75> 69 48 3b 7a 10 75 63 48 89 50 18 48 89 42 10 48 81 f9 ff 03 00
+RSP: 002b:00007ffd37be2b20 EFLAGS: 00000246
+RAX: 00007f29bb2bcec0 RBX: 0000000000000400 RCX: 00000000000002f1
+RDX: 00007f29bb2bcec0 RSI: 0000000000000000 RDI: 0000563b0aac0550
+RBP: 00007f29bb2bcb80 R08: 0000000000000007 R09: 00000000141a30b3
+R10: 00000000000000b0 R11: 0000000000000018 R12: 0000563b0aac0550
+R13: 0000563b0aac0950 R14: 00000000000001d0 R15: 0000000000000000
+ </TASK>
+irq event stamp: 7220520
+hardirqs last  enabled at (7220530): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (7220530): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (7220530): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (7220539): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (7220539): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (7220539): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (7217674): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (7217674): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (7219905): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (7219905): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (7219905): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

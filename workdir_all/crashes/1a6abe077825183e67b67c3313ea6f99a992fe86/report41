@@ -1,0 +1,9 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2686 jiffies s: 8425 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 27142 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:rb_add_cached include/linux/rbtree.h:172 [inline]
+RIP: 0010:timerqueue_add+0x41/0x160 lib/timerqueue.c:40
+Code: 08 48 89 7d d0 e8 9f 7f 3a fc 49 8b 1e 4c 89 f6 48 89 df e8 21 7a 3a fc 4c 39 f3 0f 85 0e 01 00 00 e8 83 7f 3a fc 48 8b 45 d0 <48> 8b 18 48 85 db 0f 84 b5 00 00 00 e8 6e 7f 3a fc 41 bf 01 00 00

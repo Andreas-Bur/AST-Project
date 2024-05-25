@@ -1,0 +1,101 @@
+general protection fault, probably for non-canonical address 0xffff8880098730: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 6189 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:trace_event_get_offsets_lock_acquire include/trace/events/lock.h:24 [inline]
+RIP: 0010:perf_trace_lock_acquire+0x1f/0x1c0 include/trace/events/lock.h:24
+Code: 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 49 89 fd 41 54 53 48 89 f3 48 83 ec 30 44 89 45 bc <4c> 8b 46 18 89 4d c0 4d 85 c0 0f 84 65 01 00 00 4c 89 c7 4c 89 45
+RSP: 0018:ffff88801649bba8 EFLAGS: 00010082
+RAX: ffff8880296b6bd0 RBX: 00ffff8880098718 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 00ffff8880098718 RDI: ffffffff864df440
+RBP: ffff88801649bc00 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff864df440 R14: 00ffff8880098718 R15: ffff88802a2b6c20
+FS:  0000555567f70480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7743e7c000 CR3: 0000000015d88001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ __raw_spin_lock_irq include/linux/spinlock_api_smp.h:119 [inline]
+ _raw_spin_lock_irq+0x38/0x60 kernel/locking/spinlock.c:170
+ put_pwq_unlocked kernel/workqueue.c:1658 [inline]
+ put_pwq_unlocked kernel/workqueue.c:1651 [inline]
+ destroy_workqueue+0x342/0x580 kernel/workqueue.c:5726
+ btrfs_destroy_workqueue+0x26/0x150 fs/btrfs/async-thread.c:360
+ btrfs_stop_all_workers+0x33/0x120 fs/btrfs/disk-io.c:1786
+ close_ctree+0x25c/0x790 fs/btrfs/disk-io.c:4371
+ btrfs_put_super+0x39/0x50 fs/btrfs/super.c:73
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ kill_anon_super+0x20/0x50 fs/super.c:1225
+ btrfs_kill_super+0x24/0x40 fs/btrfs/super.c:2091
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe24d69178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffd0fe9d9a8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007fe24d69178b
+RDX: 00007fe24d6292c0 RSI: 0000000000000009 RDI: 00007ffd0fe9da60
+RBP: 00007ffd0fe9da60 R08: 0000000000000000 R09: 00007ffd0fe9d830
+R10: 0000555567f71a4b R11: 0000000000000246 R12: 00007fe24d6f0278
+R13: 00007ffd0fe9eb40 R14: 0000555567f71970 R15: 00007ffd0fe9eb30
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:trace_event_get_offsets_lock_acquire include/trace/events/lock.h:24 [inline]
+RIP: 0010:perf_trace_lock_acquire+0x1f/0x1c0 include/trace/events/lock.h:24
+Code: 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 49 89 fd 41 54 53 48 89 f3 48 83 ec 30 44 89 45 bc <4c> 8b 46 18 89 4d c0 4d 85 c0 0f 84 65 01 00 00 4c 89 c7 4c 89 45
+RSP: 0018:ffff88801649bba8 EFLAGS: 00010082
+RAX: ffff8880296b6bd0 RBX: 00ffff8880098718 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 00ffff8880098718 RDI: ffffffff864df440
+RBP: ffff88801649bc00 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff864df440 R14: 00ffff8880098718 R15: ffff88802a2b6c20
+FS:  0000555567f70480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7743e7c000 CR3: 0000000015d88001 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	f3 0f 1e fa          	endbr64
+   f:	55                   	push   %rbp
+  10:	48 89 e5             	mov    %rsp,%rbp
+  13:	41 57                	push   %r15
+  15:	41 56                	push   %r14
+  17:	41 55                	push   %r13
+  19:	49 89 fd             	mov    %rdi,%r13
+  1c:	41 54                	push   %r12
+  1e:	53                   	push   %rbx
+  1f:	48 89 f3             	mov    %rsi,%rbx
+  22:	48 83 ec 30          	sub    $0x30,%rsp
+  26:	44 89 45 bc          	mov    %r8d,-0x44(%rbp)
+* 2a:	4c 8b 46 18          	mov    0x18(%rsi),%r8 <-- trapping instruction
+  2e:	89 4d c0             	mov    %ecx,-0x40(%rbp)
+  31:	4d 85 c0             	test   %r8,%r8
+  34:	0f 84 65 01 00 00    	je     0x19f
+  3a:	4c 89 c7             	mov    %r8,%rdi
+  3d:	4c                   	rex.WR
+  3e:	89                   	.byte 0x89
+  3f:	45                   	rex.RB

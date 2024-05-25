@@ -1,0 +1,75 @@
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 1, t=10502 jiffies, g=10433, q=1283 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10502 (4294954695-4294944193), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10502 jiffies! g10433 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14528 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 11821 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:closure_sync include/linux/closure.h:193 [inline]
+RIP: 0010:__bch2_write+0x1461/0x20d0 fs/bcachefs/io_write.c:1486
+Code: 5b 41 5a 41 5c 41 5d 41 5e 41 5f 5d 49 8d 62 f8 e9 6f 06 d4 02 e8 5f 84 ed fe 41 0f b6 5e 54 31 ff 89 de e8 21 7f ed fe 84 db <0f> 85 b6 09 00 00 e8 44 84 ed fe 4c 89 f7 e8 fc c1 ff ff 41 0f b7
+RSP: 0018:ffff8880720cf900 EFLAGS: 00000246
+RAX: 0000000000000002 RBX: 0000000000000000 RCX: ffffffff823c3aaf
+RDX: ffff88800d168000 RSI: 0000000000000000 RDI: 0000000000000001
+RBP: ffff8880720cfa50 R08: 000000101a4a2bc5 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff88802aed1278 R14: ffff88802aed1108 R15: ffff88802aed1108
+FS:  00007f72d1e3a640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fe0f33e3ad0 CR3: 000000007acf0003 CR4: 0000000000770ef0
+DR0: 0000000020000100 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <TASK>
+ bch2_write+0x241/0x660 fs/bcachefs/io_write.c:1610
+ closure_queue include/linux/closure.h:257 [inline]
+ closure_call include/linux/closure.h:390 [inline]
+ bch2_writepage_do_io+0x43/0x50 fs/bcachefs/fs-io-buffered.c:468
+ bch2_writepages+0x6a/0xc0 fs/bcachefs/fs-io-buffered.c:660
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ filemap_write_and_wait_range mm/filemap.c:685 [inline]
+ filemap_write_and_wait_range+0x8a/0xf0 mm/filemap.c:676
+ bch2_symlink+0xd7/0x190 fs/bcachefs/fs.c:584
+ vfs_symlink fs/namei.c:4481 [inline]
+ vfs_symlink+0x20e/0x2e0 fs/namei.c:4465
+ do_symlinkat+0x140/0x190 fs/namei.c:4507
+ __do_sys_symlinkat fs/namei.c:4523 [inline]
+ __se_sys_symlinkat fs/namei.c:4520 [inline]
+ __x64_sys_symlinkat+0x49/0x60 fs/namei.c:4520
+ x64_sys_call+0x1b1e/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:267
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f72d108fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f72d1e3a028 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
+RAX: ffffffffffffffda RBX: 00007f72d11cc050 RCX: 00007f72d108fd6d
+RDX: 0000000020000200 RSI: ffffffffffffff9c RDI: 0000000020001480
+RBP: 00007f72d10f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f72d11cc050 R15: 00007f72d1e1a000
+ </TASK>

@@ -1,0 +1,64 @@
+BTRFS info (device loop7): last unmount of filesystem d09153a9-5497-4f31-8e52-d2d02bbdf7fc
+assertion failed: list_empty(&fs_info->delayed_iputs), in fs/btrfs/disk-io.c:4341
+------------[ cut here ]------------
+kernel BUG at fs/btrfs/disk-io.c:4341!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 37102 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:close_ctree+0x738/0x790 fs/btrfs/disk-io.c:4341
+Code: 17 ff 90 0f 0b e8 b8 9a 26 ff b9 f5 10 00 00 48 c7 c2 b6 43 fc 85 48 c7 c6 d0 77 10 86 48 c7 c7 c0 46 10 86 e8 09 09 17 ff 90 <0f> 0b e8 91 9a 26 ff b9 fe 10 00 00 48 c7 c2 b6 43 fc 85 48 c7 c6
+RSP: 0018:ffff88800f2a7d28 EFLAGS: 00010293
+RAX: 0000000000000051 RBX: ffff888027cfc000 RCX: ffffffff811a8c5e
+RDX: ffff88800d6b4380 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88800f2a7da8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff8538a900 R14: 0000000000000001 R15: 0000000000000000
+FS:  000055557f463480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb70a828000 CR3: 0000000027946001 CR4: 0000000000770ef0
+DR0: ffffffffffffffff DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ btrfs_put_super+0x39/0x50 fs/btrfs/super.c:73
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ kill_anon_super+0x20/0x50 fs/super.c:1225
+ btrfs_kill_super+0x24/0x40 fs/btrfs/super.c:2091
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x204/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe50d89178b
+Code: b0 ff ff ff f7 d8 64 89 01 48 83 c8 ff c3 90 f3 0f 1e fa 31 f6 e9 05 00 00 00 0f 1f 44 00 00 f3 0f 1e fa b8 a6 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 05 c3 0f 1f 40 00 48 c7 c2 b0 ff ff ff f7 d8
+RSP: 002b:00007ffead0cf3f8 EFLAGS: 00000246 ORIG_RAX: 00000000000000a6
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 00007fe50d89178b
+RDX: 00007fe50d8292c0 RSI: 0000000000000009 RDI: 00007ffead0cf4b0
+RBP: 00007ffead0cf4b0 R08: 0000000000000000 R09: 00007ffead0cf280
+R10: 000055557f464a4b R11: 0000000000000246 R12: 00007fe50d8f0278
+R13: 00007ffead0d0590 R14: 000055557f464970 R15: 00007ffead0d0580
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:close_ctree+0x738/0x790 fs/btrfs/disk-io.c:4341
+Code: 17 ff 90 0f 0b e8 b8 9a 26 ff b9 f5 10 00 00 48 c7 c2 b6 43 fc 85 48 c7 c6 d0 77 10 86 48 c7 c7 c0 46 10 86 e8 09 09 17 ff 90 <0f> 0b e8 91 9a 26 ff b9 fe 10 00 00 48 c7 c2 b6 43 fc 85 48 c7 c6
+RSP: 0018:ffff88800f2a7d28 EFLAGS: 00010293
+RAX: 0000000000000051 RBX: ffff888027cfc000 RCX: ffffffff811a8c5e
+RDX: ffff88800d6b4380 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88800f2a7da8 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+R13: ffffffff8538a900 R14: 0000000000000001 R15: 0000000000000000
+FS:  000055557f463480(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fb70a828000 CR3: 0000000027946001 CR4: 0000000000770ef0
+DR0: ffffffffffffffff DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554

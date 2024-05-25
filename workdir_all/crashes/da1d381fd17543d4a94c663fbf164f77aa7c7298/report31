@@ -1,0 +1,310 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.0/40088 is trying to acquire lock:
+ffff88803e361098 (&c->fsck_error_msgs_lock){+.+.}-{3:3}, at: bch2_fsck_err+0xfb/0x1510 fs/bcachefs/error.c:200
+
+but task is already holding lock:
+ffff88803e3048b8 (&c->mark_lock){++++}-{0:0}, at: bch2_gc_done+0xad/0xd80 fs/bcachefs/btree_gc.c:1205
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #6 (&c->mark_lock){++++}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
+       __bch2_disk_reservation_add+0x66/0x6c0 fs/bcachefs/buckets.c:1280
+       bch2_disk_reservation_add fs/bcachefs/buckets.h:432 [inline]
+       bch2_folio_reservation_get+0x1ce/0x300 fs/bcachefs/fs-io-pagecache.c:446
+       bch2_page_mkwrite+0x5e3/0x6b0 fs/bcachefs/fs-io-pagecache.c:616
+       do_page_mkwrite+0x7c/0x130 mm/memory.c:3091
+       wp_page_shared mm/memory.c:3478 [inline]
+       do_wp_page+0xa1e/0x17d0 mm/memory.c:3628
+       handle_pte_fault mm/memory.c:5316 [inline]
+       __handle_mm_fault+0x11e8/0x3460 mm/memory.c:5441
+       handle_mm_fault+0x276/0x860 mm/memory.c:5606
+       do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+       handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+       exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+       asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+
+-> #5 (sb_pagefaults#4){.+.+}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
+       __sb_start_write include/linux/fs.h:1664 [inline]
+       sb_start_pagefault include/linux/fs.h:1829 [inline]
+       bch2_page_mkwrite+0x10e/0x6b0 fs/bcachefs/fs-io-pagecache.c:593
+       do_page_mkwrite+0x7c/0x130 mm/memory.c:3091
+       do_shared_fault mm/memory.c:4966 [inline]
+       do_fault mm/memory.c:5028 [inline]
+       do_pte_missing mm/memory.c:3880 [inline]
+       handle_pte_fault mm/memory.c:5300 [inline]
+       __handle_mm_fault+0x2917/0x3460 mm/memory.c:5441
+       handle_mm_fault+0x276/0x860 mm/memory.c:5606
+       do_user_addr_fault arch/x86/mm/fault.c:1413 [inline]
+       handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+       exc_page_fault+0x330/0x1250 arch/x86/mm/fault.c:1563
+       asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+
+-> #4 (&mm->mmap_lock){++++}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __might_fault mm/memory.c:6220 [inline]
+       __might_fault+0x9b/0xc0 mm/memory.c:6213
+       drm_mode_get_lease_ioctl+0x16f/0x240 drivers/gpu/drm/drm_lease.c:673
+       drm_ioctl_kernel+0x117/0x200 drivers/gpu/drm/drm_ioctl.c:744
+       drm_ioctl+0x341/0x640 drivers/gpu/drm/drm_ioctl.c:841
+       vfs_ioctl fs/ioctl.c:51 [inline]
+       __do_sys_ioctl fs/ioctl.c:904 [inline]
+       __se_sys_ioctl fs/ioctl.c:890 [inline]
+       __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+       x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #3 (&dev->mode_config.idr_mutex){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       __drm_mode_object_add+0x51/0x130 drivers/gpu/drm/drm_mode_object.c:47
+       drm_framebuffer_init+0xb1/0x180 drivers/gpu/drm/drm_framebuffer.c:873
+       drm_gem_fb_init drivers/gpu/drm/drm_gem_framebuffer_helper.c:82 [inline]
+       drm_gem_fb_init_with_funcs+0x331/0x510 drivers/gpu/drm/drm_gem_framebuffer_helper.c:202
+       drm_gem_fb_create_with_funcs drivers/gpu/drm/drm_gem_framebuffer_helper.c:245 [inline]
+       drm_gem_fb_create+0x5a/0xa0 drivers/gpu/drm/drm_gem_framebuffer_helper.c:286
+       drm_internal_framebuffer_create+0x6b5/0x8c0 drivers/gpu/drm/drm_framebuffer.c:303
+       drm_mode_addfb2+0x78/0x180 drivers/gpu/drm/drm_framebuffer.c:337
+       drm_client_buffer_addfb+0x74/0x100 drivers/gpu/drm/drm_client.c:397
+       drm_client_framebuffer_create+0x10d/0x1c0 drivers/gpu/drm/drm_client.c:439
+       drm_fbdev_generic_helper_fb_probe+0x8f/0x230 drivers/gpu/drm/drm_fbdev_generic.c:88
+       drm_fb_helper_single_fb_probe drivers/gpu/drm/drm_fb_helper.c:1668 [inline]
+       __drm_fb_helper_initial_config_and_unlock+0x55c/0x880 drivers/gpu/drm/drm_fb_helper.c:1846
+       drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1936 [inline]
+       drm_fb_helper_initial_config+0x48/0x60 drivers/gpu/drm/drm_fb_helper.c:1928
+       drm_fbdev_generic_client_hotplug+0xc0/0x130 drivers/gpu/drm/drm_fbdev_generic.c:279
+       drm_client_register+0xb4/0x130 drivers/gpu/drm/drm_client.c:141
+       drm_fbdev_generic_setup+0x10d/0x1b0 drivers/gpu/drm/drm_fbdev_generic.c:341
+       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:226 [inline]
+       vkms_init+0x2d7/0x340 drivers/gpu/drm/vkms/vkms_drv.c:252
+       do_one_initcall+0x89/0x440 init/main.c:1243
+       do_initcall_level init/main.c:1305 [inline]
+       do_initcalls init/main.c:1321 [inline]
+       do_basic_setup init/main.c:1340 [inline]
+       kernel_init_freeable+0x308/0x610 init/main.c:1553
+       kernel_init+0x21/0x2c0 init/main.c:1442
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+-> #2 (&helper->lock){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       __drm_fb_helper_restore_fbdev_mode_unlocked drivers/gpu/drm/drm_fb_helper.c:242 [inline]
+       __drm_fb_helper_restore_fbdev_mode_unlocked+0x8e/0x140 drivers/gpu/drm/drm_fb_helper.c:230
+       drm_fb_helper_set_par+0x5c/0x80 drivers/gpu/drm/drm_fb_helper.c:1344
+       fbcon_init+0x3c0/0x7e0 drivers/video/fbdev/core/fbcon.c:1093
+       visual_init+0xe7/0x170 drivers/tty/vt/vt.c:1011
+       do_bind_con_driver.isra.0+0x240/0x4e0 drivers/tty/vt/vt.c:3823
+       do_take_over_console+0x1b7/0x280 drivers/tty/vt/vt.c:4389
+       do_fbcon_takeover+0xb3/0x160 drivers/video/fbdev/core/fbcon.c:531
+       do_fb_registered drivers/video/fbdev/core/fbcon.c:2968 [inline]
+       fbcon_fb_registered+0x212/0x360 drivers/video/fbdev/core/fbcon.c:2988
+       do_register_framebuffer drivers/video/fbdev/core/fbmem.c:449 [inline]
+       register_framebuffer+0x25c/0x340 drivers/video/fbdev/core/fbmem.c:515
+       __drm_fb_helper_initial_config_and_unlock+0x5c3/0x880 drivers/gpu/drm/drm_fb_helper.c:1871
+       drm_fb_helper_initial_config drivers/gpu/drm/drm_fb_helper.c:1936 [inline]
+       drm_fb_helper_initial_config+0x48/0x60 drivers/gpu/drm/drm_fb_helper.c:1928
+       drm_fbdev_generic_client_hotplug+0xc0/0x130 drivers/gpu/drm/drm_fbdev_generic.c:279
+       drm_client_register+0xb4/0x130 drivers/gpu/drm/drm_client.c:141
+       drm_fbdev_generic_setup+0x10d/0x1b0 drivers/gpu/drm/drm_fbdev_generic.c:341
+       vkms_create drivers/gpu/drm/vkms/vkms_drv.c:226 [inline]
+       vkms_init+0x2d7/0x340 drivers/gpu/drm/vkms/vkms_drv.c:252
+       do_one_initcall+0x89/0x440 init/main.c:1243
+       do_initcall_level init/main.c:1305 [inline]
+       do_initcalls init/main.c:1321 [inline]
+       do_basic_setup init/main.c:1340 [inline]
+       kernel_init_freeable+0x308/0x610 init/main.c:1553
+       kernel_init+0x21/0x2c0 init/main.c:1442
+       ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+       ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+
+-> #1 (console_lock){+.+.}-{0:0}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       console_lock+0x6c/0xd0 kernel/printk/printk.c:2665
+       bch2_print_string_as_lines+0x27/0xb0 fs/bcachefs/util.c:264
+       bch2_fsck_err+0xd19/0x1510 fs/bcachefs/error.c:299
+       read_btree_roots fs/bcachefs/recovery.c:454 [inline]
+       bch2_fs_recovery+0x16d1/0x2b20 fs/bcachefs/recovery.c:782
+       bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+       bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+       bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+       legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+       vfs_get_tree+0x3a/0x160 fs/super.c:1779
+       do_new_mount fs/namespace.c:3352 [inline]
+       path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+       do_mount fs/namespace.c:3692 [inline]
+       __do_sys_mount fs/namespace.c:3898 [inline]
+       __se_sys_mount fs/namespace.c:3875 [inline]
+       __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+       x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&c->fsck_error_msgs_lock){+.+.}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       bch2_fsck_err+0xfb/0x1510 fs/bcachefs/error.c:200
+       bch2_gc_done+0x259/0xd80 fs/bcachefs/btree_gc.c:1228
+       bch2_gc+0xa23/0xa80 fs/bcachefs/btree_gc.c:1807
+       bch2_check_allocations+0x21/0x30 fs/bcachefs/recovery_passes.c:31
+       bch2_run_recovery_pass+0x50/0xd0 fs/bcachefs/recovery_passes.c:187
+       bch2_run_recovery_passes+0x1d2/0x340 fs/bcachefs/recovery_passes.c:230
+       bch2_fs_recovery+0x1c19/0x2b20 fs/bcachefs/recovery.c:786
+       bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+       bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+       bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+       legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+       vfs_get_tree+0x3a/0x160 fs/super.c:1779
+       do_new_mount fs/namespace.c:3352 [inline]
+       path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+       do_mount fs/namespace.c:3692 [inline]
+       __do_sys_mount fs/namespace.c:3898 [inline]
+       __se_sys_mount fs/namespace.c:3875 [inline]
+       __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+       x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  &c->fsck_error_msgs_lock --> sb_pagefaults#4 --> &c->mark_lock
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&c->mark_lock);
+                               lock(sb_pagefaults#4);
+                               lock(&c->mark_lock);
+  lock(&c->fsck_error_msgs_lock);
+
+ *** DEADLOCK ***
+
+3 locks held by syz-executor.0/40088:
+ #0: ffff88803e300278 (&c->state_lock){+.+.}-{3:3}, at: bch2_fs_start+0x3c/0x3d0 fs/bcachefs/super.c:1012
+ #1: ffff88803e326820 (&c->gc_lock){++++}-{3:3}, at: bch2_gc+0x5a/0xa80 fs/bcachefs/btree_gc.c:1752
+ #2: ffff88803e3048b8 (&c->mark_lock){++++}-{0:0}, at: bch2_gc_done+0xad/0xd80 fs/bcachefs/btree_gc.c:1205
+
+stack backtrace:
+CPU: 1 PID: 40088 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ bch2_fsck_err+0xfb/0x1510 fs/bcachefs/error.c:200
+ bch2_gc_done+0x259/0xd80 fs/bcachefs/btree_gc.c:1228
+ bch2_gc+0xa23/0xa80 fs/bcachefs/btree_gc.c:1807
+ bch2_check_allocations+0x21/0x30 fs/bcachefs/recovery_passes.c:31
+ bch2_run_recovery_pass+0x50/0xd0 fs/bcachefs/recovery_passes.c:187
+ bch2_run_recovery_passes+0x1d2/0x340 fs/bcachefs/recovery_passes.c:230
+ bch2_fs_recovery+0x1c19/0x2b20 fs/bcachefs/recovery.c:786
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fac51291b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fac52039e38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000005971 RCX: 00007fac51291b3e
+RDX: 00000000200058c0 RSI: 0000000020000040 RDI: 00007fac52039e90
+RBP: 00007fac52039ed0 R08: 00007fac52039ed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00000000200058c0
+R13: 0000000020000040 R14: 00007fac52039e90 R15: 0000000020000000
+ </TASK>
+dev 0 has wrong free buckets: got 7696581394515, should be 95, fixing
+dev 0 has wrong sb fragmented: got 44627, should be 248, fixing
+dev 0 has wrong btree buckets: got 11, should be 0, fixing
+dev 0 has wrong btree sectors: got 2816, should be 0, fixing
+dev 0 has wrong user buckets: got 1, should be 0, fixing
+dev 0 has wrong user sectors: got 16, should be 0, fixing
+dev 0 has wrong user fragmented: got 240, should be 0, fixing
+fs has wrong btree: got 2816, should be 0, fixing
+fs has wrong data: got 16, should be 0, fixing
+fs has wrong btree: 1/1 [0]: got 2816, should be 0, fixing
+fs has wrong user: 1/1 [0]: got 16, should be 0, fixing
+ done
+bcachefs (loop0): going read-write
+bcachefs (loop0): journal_replay... done
+bcachefs (loop0): check_alloc_info...
+hole in alloc btree missing in freespace btree
+  device 0 buckets 27-30, fixing
+hole in alloc btree missing in freespace btree
+  device 0 buckets 31-33, fixing
+hole in alloc btree missing in freespace btree
+  device 0 buckets 34-36, fixing
+hole in alloc btree missing in freespace btree
+  device 0 buckets 37-120, fixing
+ done
+bcachefs (loop0): check_backpointers_to_extents...
+ done
+bcachefs (loop0): check_extents_to_backpointers... done
+bcachefs (loop0): check_alloc_to_lru_refs... done
+bcachefs (loop0): check_snapshots... done
+bcachefs (loop0): fs_upgrade_for_subvolumes...
+bcachefs (loop0): root inode not found
+bcachefs (loop0): bch2_fs_upgrade_for_subvolumes(): error ENOENT_inode
+bcachefs (loop0): bch2_fs_recovery(): error ENOENT_inode
+bcachefs (loop0): bch2_fs_start(): error starting filesystem ENOENT_inode
+bcachefs (loop0): shutting down
+bcachefs (loop0): going read-only
+bcachefs (loop0): finished waiting for writes to stop
+bcachefs (loop0): flushing journal and stopping allocators, journal seq 16
+bcachefs (loop0): flushing journal and stopping allocators complete, journal seq 16
+bcachefs (loop0): unshutdown complete, journal seq 16
+bcachefs (loop0): done going read-only, filesystem not clean
+bcachefs (loop0): shutdown complete

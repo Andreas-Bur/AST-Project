@@ -1,0 +1,24 @@
+unregister_netdevice: waiting for netdevsim3 to become free. Usage count = 2
+ref_tracker: eth%d@00000000c42c986a has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     netdev_get_by_index+0x7d/0xb0 net/core/dev.c:885
+     fib6_nh_init+0x287/0xf80 net/ipv6/route.c:3541
+     ip6_route_info_create+0x848/0xc40 net/ipv6/route.c:3807
+     addrconf_f6i_alloc+0x220/0x3e0 net/ipv6/route.c:4583
+     ipv6_add_addr+0x28e/0xe00 net/ipv6/addrconf.c:1119
+     addrconf_add_linklocal+0xca/0x260 net/ipv6/addrconf.c:3313
+     addrconf_addr_gen+0x1c7/0x1d0 net/ipv6/addrconf.c:3444
+     addrconf_dev_config net/ipv6/addrconf.c:3490 [inline]
+     addrconf_init_auto_addrs+0x32e/0x5c0 net/ipv6/addrconf.c:3568
+     addrconf_notify+0x947/0xe90 net/ipv6/addrconf.c:3741
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     raw_notifier_call_chain+0x32/0x40 kernel/notifier.c:461
+     call_netdevice_notifiers_info+0x86/0xf0 net/core/dev.c:1950
+     call_netdevice_notifiers_extack net/core/dev.c:1988 [inline]
+     call_netdevice_notifiers net/core/dev.c:2002 [inline]
+     __dev_notify_flags+0x9e/0x180 net/core/dev.c:8725
+     dev_change_flags+0x7d/0xa0 net/core/dev.c:8763
+     do_setlink+0x41b/0x1e50 net/core/rtnetlink.c:2884
+     __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+

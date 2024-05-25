@@ -1,0 +1,925 @@
+Extracting prog: 1m53.644911307s
+Minimizing prog: 10m25.713907118s
+Simplifying prog options: 0s
+Extracting C: 17.249287719s
+Simplifying C: 1m46.760586067s
+
+
+31 programs, 3 VMs, timeouts [15s 1m40s 6m0s]
+extracting reproducer from 31 programs
+single: executing 8 programs separately with timeout 15s
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): perf_event_open-bpf$BPF_MAP_CONST_STR_FREEZE-socket$nl_route-sendmsg$nl_route-timerfd_create-poll-ioctl$ifreq_SIOCGIFINDEX_team-perf_event_open-bpf$BPF_MAP_CONST_STR_FREEZE-socket$nl_route-sendmsg$nl_route-timerfd_create-poll-ioctl$ifreq_SIOCGIFINDEX_team
+detailed listing:
+executing program 0:
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xffff6e54, 0x0, @perf_config_ext, 0x2, 0x4, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xfffffffc}, 0x0, 0x0, 0xffffffffffffffff, 0xb)
+bpf$BPF_MAP_CONST_STR_FREEZE(0x16, 0x0, 0x0)
+r0 = socket$nl_route(0x10, 0x3, 0x0)
+sendmsg$nl_route(r0, &(0x7f0000000700)={0x0, 0x0, &(0x7f00000001c0)={&(0x7f0000000080)=@newlink={0x3c, 0x10, 0xad89293c987dd657, 0x0, 0x0, {}, [@IFLA_LINKINFO={0x1c, 0x12, 0x0, 0x1, @bridge={{0xb}, {0xc, 0x2, 0x0, 0x1, [@IFLA_BR_MCAST_IGMP_VERSION={0x5, 0x2b, 0x3}]}}}]}, 0x3c}}, 0x0)
+r1 = timerfd_create(0x0, 0x0)
+poll(&(0x7f0000001440)=[{r1}], 0x1, 0x0)
+ioctl$ifreq_SIOCGIFINDEX_team(r0, 0x8933, &(0x7f0000000000))
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xffff6e54, 0x0, @perf_config_ext, 0x2, 0x4, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xfffffffc}, 0x0, 0x0, 0xffffffffffffffff, 0xb) (async)
+bpf$BPF_MAP_CONST_STR_FREEZE(0x16, 0x0, 0x0) (async)
+socket$nl_route(0x10, 0x3, 0x0) (async)
+sendmsg$nl_route(r0, &(0x7f0000000700)={0x0, 0x0, &(0x7f00000001c0)={&(0x7f0000000080)=@newlink={0x3c, 0x10, 0xad89293c987dd657, 0x0, 0x0, {}, [@IFLA_LINKINFO={0x1c, 0x12, 0x0, 0x1, @bridge={{0xb}, {0xc, 0x2, 0x0, 0x1, [@IFLA_BR_MCAST_IGMP_VERSION={0x5, 0x2b, 0x3}]}}}]}, 0x3c}}, 0x0) (async)
+timerfd_create(0x0, 0x0) (async)
+poll(&(0x7f0000001440)=[{r1}], 0x1, 0x0) (async)
+ioctl$ifreq_SIOCGIFINDEX_team(r0, 0x8933, &(0x7f0000000000)) (async)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): socket$nl_route-sendmsg$nl_route
+detailed listing:
+executing program 0:
+r0 = socket$nl_route(0x10, 0x3, 0x0)
+sendmsg$nl_route(r0, &(0x7f0000000700)={0x0, 0x58aad, &(0x7f00000001c0)={&(0x7f0000000080)=@newlink={0x3c, 0x10, 0xad89293c987dd657, 0x0, 0x0, {}, [@IFLA_LINKINFO={0x1c, 0x12, 0x0, 0x1, @bond={{0x9}, {0xc, 0x2, 0x0, 0x1, [@IFLA_BOND_ARP_IP_TARGET={0x8, 0x8, 0x0, 0x1, [@multicast1]}]}}}]}, 0x3c}}, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): syz_open_dev$tty20-ioctl$FIONREAD-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-openat$binder_debug-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-socket$unix-setsockopt$inet6_tcp_TCP_MD5SIG-syz_io_uring_setup-syz_memcpy_off$IO_URING_METADATA_GENERIC-syz_io_uring_submit-socket$nl_generic-sendmsg$nl_generic-syz_io_uring_submit-io_uring_enter
+detailed listing:
+executing program 0:
+r0 = syz_open_dev$tty20(0xc, 0x4, 0x1)
+ioctl$FIONREAD(r0, 0x4b4c, &(0x7f0000000000))
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000280)={&(0x7f0000000040)='contention_begin\x00', r1}, 0xe)
+r2 = openat$binder_debug(0xffffffffffffff9c, &(0x7f0000000440)='/sys/kernel/debug/binder/failed_transaction_log\x00', 0x0, 0x0)
+r3 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000340)=ANY=[@ANYRES64=r0, @ANYBLOB="cf927309be0a56ec13050e53c4f036b0c2e9eaf1ea7fa3f42cdc11a938d086821b2046dd3213ce81f1e5bf6dea15a703703b83ef49cae41180297272ec0eeac9342406316d5c8d7fa0858f20d0fec9c965d6eab39b0134bf0679e1a80ebde30a561abf0100f489be1e55cdaad1539479f2583bb296f724cadb6c0b19e0619e03e7abd8033e91713d2f1403ee34187dd30b5581abf2cf904bb24c202b88a02a351ec3c0a5bd467ead8ba4536a1a9861c37b2176490bc8b8612711c67221449d6e3861e2f664bb3d3df0bf227454dff897110f2a27e915c20a525f46ec3e96ecc16b", @ANYRES8=0x0, @ANYRES16=r0, @ANYRESHEX=r0, @ANYRES8=r2], &(0x7f0000000240)='GPL\x00', 0x9, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, r2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, r1, 0x0, 0x0, 0x0, 0x0, 0x20000000}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='kfree\x00', r3}, 0x10)
+r4 = socket$unix(0xa, 0x1, 0x0)
+setsockopt$inet6_tcp_TCP_MD5SIG(r4, 0x6, 0xe, &(0x7f0000000480)={@in6={{0xa, 0x0, 0x0, @ipv4={'\x00', '\xff\xff', @dev}}}, 0x0, 0x0, 0x2c, 0x0, "8e05c84aa7a840eb2043e10ba927a431a12311628d6ee11b3b24f6955b9a743dd45d554af7979270e0b7bd60de843b172101cc316f79296448ba93cf050f52b019bfcf84afbe527774f84a1392d4cbea"}, 0xd8)
+r5 = syz_io_uring_setup(0x114b, &(0x7f0000000280)={0x0, 0x0, 0x0, 0x1}, &(0x7f0000000100)=<r6=>0x0, &(0x7f0000000040)=<r7=>0x0)
+syz_memcpy_off$IO_URING_METADATA_GENERIC(r6, 0x4, &(0x7f0000003200)=0x80000000, 0x0, 0x4)
+syz_io_uring_submit(r6, r7, &(0x7f0000000140)=@IORING_OP_CONNECT={0x10, 0x0, 0x0, r4, 0x80, &(0x7f0000000080)=@in6={0xa, 0x0, 0x0, @ipv4={'\x00', '\xff\xff', @empty}}})
+r8 = socket$nl_generic(0x10, 0x3, 0x10)
+sendmsg$nl_generic(r8, &(0x7f00000002c0)={0x0, 0x0, &(0x7f0000000280)={&(0x7f0000000300)={0x14, 0x34, 0x1, 0x0, 0x0, {0xc}}, 0x14}}, 0x0)
+syz_io_uring_submit(0x0, 0x0, &(0x7f0000000140)=@IORING_OP_CONNECT={0x10, 0x0, 0x0, 0xffffffffffffffff, 0x80, &(0x7f0000000080)=@in6={0xa, 0x0, 0x0, @ipv4={'\x00', '\xff\xff', @dev}}})
+io_uring_enter(r5, 0x7cb0, 0x0, 0x0, 0x0, 0x0)
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-syz_open_dev$sg-ioctl$SG_IO
+detailed listing:
+executing program 0:
+r0 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800"/13], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='kfree\x00', r0}, 0x10)
+r1 = syz_open_dev$sg(&(0x7f0000000200), 0x0, 0x0)
+ioctl$SG_IO(r1, 0x2285, &(0x7f00000015c0)={0x53, 0xfffffffc, 0x6, 0x0, @buffer={0x0, 0x1e2, &(0x7f0000000340)=""/241}, &(0x7f00000002c0)="6e9f1f6eb48a", 0x0, 0x0, 0x0, 0x0, 0x0})
+
+program did not crash
+testing program (duration=15s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse-mount$9p_rdma-rt_sigtimedwait-dup-sendmsg$inet_sctp-ioctl$VHOST_NET_SET_BACKEND
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+r9 = pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+r10 = socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+mount$9p_rdma(&(0x7f0000000040), &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, &(0x7f0000000340)=ANY=[@ANYBLOB="7472616e733d72646d612ce9442c4e3d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c646566636f6e746578743d73797361646d5f752c6f626a5f747970653d66757365002c00"])
+rt_sigtimedwait(&(0x7f00000003c0)={[0x4]}, 0x0, &(0x7f0000000400)={0x0, 0x989680}, 0x8)
+r11 = dup(r10)
+sendmsg$inet_sctp(r11, &(0x7f0000001500)={&(0x7f0000000000)=@in6={0xa, 0x0, 0x0, @ipv4={'\x00', '\xff\xff', @remote}, 0x80000}, 0x1c, 0x0, 0x0, &(0x7f0000000440)=ANY=[], 0x30, 0x4008080}, 0x0)
+ioctl$VHOST_NET_SET_BACKEND(r9, 0x4008af30, &(0x7f00000002c0)={0x3, r11})
+
+program crashed: WARNING in input_mt_init_slots
+single: successfully extracted reproducer
+found reproducer with 30 syscalls
+minimizing guilty program
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse-mount$9p_rdma-rt_sigtimedwait-dup-sendmsg$inet_sctp
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+r9 = socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+mount$9p_rdma(&(0x7f0000000040), &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, &(0x7f0000000340)=ANY=[@ANYBLOB="7472616e733d72646d612ce9442c4e3d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c646566636f6e746578743d73797361646d5f752c6f626a5f747970653d66757365002c00"])
+rt_sigtimedwait(&(0x7f00000003c0)={[0x4]}, 0x0, &(0x7f0000000400)={0x0, 0x989680}, 0x8)
+r10 = dup(r9)
+sendmsg$inet_sctp(r10, &(0x7f0000001500)={&(0x7f0000000000)=@in6={0xa, 0x0, 0x0, @ipv4={'\x00', '\xff\xff', @remote}, 0x80000}, 0x1c, 0x0, 0x0, &(0x7f0000000440)=ANY=[], 0x30, 0x4008080}, 0x0)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse-mount$9p_rdma-rt_sigtimedwait-dup
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+r9 = socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+mount$9p_rdma(&(0x7f0000000040), &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, &(0x7f0000000340)=ANY=[@ANYBLOB="7472616e733d72646d612ce9442c4e3d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c646566636f6e746578743d73797361646d5f752c6f626a5f747970653d66757365002c00"])
+rt_sigtimedwait(&(0x7f00000003c0)={[0x4]}, 0x0, &(0x7f0000000400)={0x0, 0x989680}, 0x8)
+dup(r9)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse-mount$9p_rdma-rt_sigtimedwait
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+mount$9p_rdma(&(0x7f0000000040), &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, &(0x7f0000000340)=ANY=[@ANYBLOB="7472616e733d72646d612ce9442c4e3d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c646566636f6e746578743d73797361646d5f752c6f626a5f747970653d66757365002c00"])
+rt_sigtimedwait(&(0x7f00000003c0)={[0x4]}, 0x0, &(0x7f0000000400)={0x0, 0x989680}, 0x8)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse-mount$9p_rdma
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+mount$9p_rdma(&(0x7f0000000040), &(0x7f0000000080)='./file0\x00', &(0x7f00000000c0), 0x0, &(0x7f0000000340)=ANY=[@ANYBLOB="7472616e733d72646d612ce9442c4e3d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c74696d656f75743d3078303030303030303030303030303030302c646566636f6e746578743d73797361646d5f752c6f626a5f747970653d66757365002c00"])
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds-syz_mount_image$fuse
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+socket$rds(0x15, 0x5, 0x0)
+syz_mount_image$fuse(0x0, &(0x7f0000002080)='./file0\x00', 0x0, 0x0, 0x0, 0x0, 0x0)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd-socket$rds
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+socket$rds(0x15, 0x5, 0x0)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY-pidfd_getfd
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+r2 = bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r3 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r4 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r5 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r6 = epoll_create1(0x0)
+r7 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r6, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r6, 0x1, r7, &(0x7f00000000c0))
+close_range(r5, 0xffffffffffffffff, 0x0)
+r8 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r4)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r3, r8, r8}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+pidfd_getfd(0xffffffffffffffff, r2, 0x0)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE-ioctl$UI_DEV_DESTROY
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r2 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r3 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r4 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r5 = epoll_create1(0x0)
+r6 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r5, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r5, 0x1, r6, &(0x7f00000000c0))
+close_range(r4, 0xffffffffffffffff, 0x0)
+r7 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r3)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r2, r7, r7}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+ioctl$UI_DEV_DESTROY(r0, 0x5502)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r2 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r3 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r4 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r5 = epoll_create1(0x0)
+r6 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r5, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r5, 0x1, r6, &(0x7f00000000c0))
+close_range(r4, 0xffffffffffffffff, 0x0)
+r7 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r3)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r2, r7, r7}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r2 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r3 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r4 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r5 = epoll_create1(0x0)
+r6 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r5, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r5, 0x1, r6, &(0x7f00000000c0))
+close_range(r4, 0xffffffffffffffff, 0x0)
+r7 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r3)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r2, r7, r7}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r2 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r3 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r4 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r5 = epoll_create1(0x0)
+r6 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r5, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r5, 0x1, r6, &(0x7f00000000c0))
+close_range(r4, 0xffffffffffffffff, 0x0)
+r7 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r3)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r2, r7, r7}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-keyctl$dh_compute-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+r2 = add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r3 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r4 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r5 = epoll_create1(0x0)
+r6 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r5, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r5, 0x1, r6, &(0x7f00000000c0))
+close_range(r4, 0xffffffffffffffff, 0x0)
+r7 = add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r3)
+keyctl$dh_compute(0x17, &(0x7f0000001300)={r2, r7, r7}, &(0x7f0000001340)=""/150, 0xffffffffffffff44, 0x0)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-add_key$user-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+r2 = add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r3 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r4 = epoll_create1(0x0)
+r5 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r4, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r4, 0x1, r5, &(0x7f00000000c0))
+close_range(r3, 0xffffffffffffffff, 0x0)
+add_key$user(&(0x7f0000000200), &(0x7f00000000c0)={'syz', 0x2}, &(0x7f0000000100)="e55565e6dd788f116a4b74cc1f6c5030be7a77e8a4febfd947512e367500ce0f3e2691825732a8e5fb9953fecf5389a8524c26814e157229106e53864edaba70da0d05cf52349fbda4d5f3aea2cf1e879e3aefa1ab7733f064a4483f24fca5d3c3d94dc34caf81d769f442351748da739557caf1f523a9f4ffd4f5be741207a75cb9ead6edc8aa5223f731f791d40454a460689062f7b613a72997c3ba2559811462105608b921090238485a086ff7d140c5cb4ef76e92130603d3354a9d1cfb", 0xc0, r2)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-close_range-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+r2 = openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r3 = epoll_create1(0x0)
+r4 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r3, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r3, 0x1, r4, &(0x7f00000000c0))
+close_range(r2, 0xffffffffffffffff, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-epoll_ctl$EPOLL_CTL_ADD-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r2 = epoll_create1(0x0)
+r3 = syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r2, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+epoll_ctl$EPOLL_CTL_ADD(r2, 0x1, r3, &(0x7f00000000c0))
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-epoll_pwait-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+r2 = epoll_create1(0x0)
+syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+epoll_pwait(r2, &(0x7f0000000180)=[{}], 0x1, 0x200, 0x0, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-syz_io_uring_setup-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+epoll_create1(0x0)
+syz_io_uring_setup(0x5d9b, &(0x7f0000000080)={0x0, 0x0, 0x10000, 0x0, 0x191}, &(0x7f0000000000), &(0x7f0000000100))
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-epoll_create1-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+epoll_create1(0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-openat$capi20-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+openat$capi20(0xffffffffffffff9c, &(0x7f0000000900), 0x0, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-perf_event_open-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+perf_event_open(0x0, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-perf_event_open-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+perf_event_open(&(0x7f0000000080)={0x2, 0x80, 0x81, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, @perf_config_ext}, 0x0, 0x0, 0xffffffffffffffff, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-add_key$keyring-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+add_key$keyring(&(0x7f0000001280), &(0x7f00000012c0)={'syz', 0x2}, 0x0, 0x0, 0xfffffffffffffffe)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-add_key$user-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+add_key$user(&(0x7f0000000000), &(0x7f0000000040)={'syz', 0x2}, &(0x7f0000000240)='\x00', 0x1, 0xfffffffffffffffd)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-rt_sigsuspend-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+rt_sigsuspend(&(0x7f0000000280)={[0x4]}, 0x8)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-rt_sigpending-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+rt_sigpending(0x0, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-bpf$BPF_RAW_TRACEPOINT_OPEN-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+r1 = bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+bpf$BPF_RAW_TRACEPOINT_OPEN(0x11, &(0x7f0000000300)={&(0x7f0000000080)='sys_exit\x00', r1}, 0x10)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-bpf$PROG_LOAD-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+bpf$PROG_LOAD(0x5, &(0x7f0000000140)={0x11, 0x3, &(0x7f0000000200)=ANY=[@ANYBLOB="1800000000000000000000000080000195"], &(0x7f0000000240)='GPL\x00', 0x0, 0x0, 0x0, 0x0, 0x0, '\x00', 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}, 0x90)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program crashed: WARNING in input_mt_init_slots
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+ioctl$UI_ABS_SETUP(0xffffffffffffffff, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(0xffffffffffffffff, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(0xffffffffffffffff, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(0xffffffffffffffff, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, 0x0, 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, 0x0)
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, &(0x7f0000000180)={{}, 'syz1\x00'})
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+testing program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+detailed listing:
+executing program 0:
+r0 = openat$uinput(0xffffffffffffff9c, &(0x7f0000000000), 0x0, 0x0)
+ioctl$UI_ABS_SETUP(r0, 0x401c5504, &(0x7f0000000040)={0x2f, {0xffffffff, 0x3, 0x10095e2, 0x9, 0x8}})
+ioctl$UI_SET_EVBIT(r0, 0x40045564, 0x3)
+ioctl$UI_DEV_SETUP(r0, 0x405c5503, 0x0)
+ioctl$UI_DEV_CREATE(r0, 0x5501)
+
+program did not crash
+extracting C reproducer
+testing compiled C program (duration=22.5s, {Threaded:true Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+simplifying C reproducer
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:true RepeatTimes:0 Procs:8 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:true Cgroups:true BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox:none SandboxArg:0 Leak:false NetInjection:true NetDevices:true NetReset:false Cgroups:false BinfmtMisc:true CloseFDs:true KCSAN:false DevlinkPCI:false NicVF:false USB:true VhciInjection:true Wifi:true IEEE802154:true Sysctl:true Swap:true UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:true Sysctl:true Swap:false UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:true HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:false HandleSegv:true Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:true Swap:false UseTmpDir:false HandleSegv:false Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+testing compiled C program (duration=22.5s, {Threaded:false Repeat:false RepeatTimes:0 Procs:1 Slowdown:1 Sandbox: SandboxArg:0 Leak:false NetInjection:false NetDevices:false NetReset:false Cgroups:false BinfmtMisc:false CloseFDs:false KCSAN:false DevlinkPCI:false NicVF:false USB:false VhciInjection:false Wifi:false IEEE802154:false Sysctl:false Swap:false UseTmpDir:false HandleSegv:false Repro:true Trace:false LegacyOptions:{Collide:false Fault:false FaultCall:0 FaultNth:0}}): openat$uinput-ioctl$UI_ABS_SETUP-ioctl$UI_SET_EVBIT-ioctl$UI_DEV_SETUP-ioctl$UI_DEV_CREATE
+program crashed: WARNING in input_mt_init_slots
+reproducing took 14m23.368704591s
+repro crashed as (corrupted=false):
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6155 at mm/page_alloc.c:4551 __alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Modules linked in:
+CPU: 0 PID: 6155 Comm: syz-executor144 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Code: ff 00 0f 84 18 ff ff ff 80 ce 01 e9 10 ff ff ff 83 fe 0a 0f 86 8b fe ff ff 80 3d ad 93 44 05 00 75 0b c6 05 a4 93 44 05 01 90 <0f> 0b 90 45 31 e4 e9 61 ff ff ff e8 0f 56 cd ff 84 c0 0f 85 54 ff
+RSP: 0018:ffff88800fdcfc28 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000013 RDI: 0000000000040dc0
+RBP: ffff88800fdcfd28 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000010095e3 R11: 0000000000000000 R12: 0000000000040dc0
+R13: 0000000000000013 R14: 0000000000000dc0 R15: ffffffff838bdcfd
+FS:  00005555611ed3c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000008 CR3: 000000000e23a002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ __kmalloc_large_node+0x69/0x140 mm/slub.c:3911
+ __do_kmalloc_node mm/slub.c:3954 [inline]
+ __kmalloc+0x27c/0x350 mm/slub.c:3979
+ kmalloc include/linux/slab.h:632 [inline]
+ kzalloc include/linux/slab.h:749 [inline]
+ input_mt_init_slots drivers/input/input-mt.c:50 [inline]
+ input_mt_init_slots+0x8d/0x2e0 drivers/input/input-mt.c:39
+ uinput_create_device drivers/input/misc/uinput.c:328 [inline]
+ uinput_ioctl_handler.isra.0+0xd91/0x1060 drivers/input/misc/uinput.c:904
+ uinput_ioctl+0x30/0x40 drivers/input/misc/uinput.c:1075
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f85112120cd
+Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc691eb8c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffc691ebac8 RCX: 00007f85112120cd
+RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffc691ebac8 R09: 00007ffc691ebac8
+R10: 00007ffc691ebac8 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007ffc691ebab8 R14: 00007f851128f530 R15: 0000000000000001
+ </TASK>
+irq event stamp: 15453
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (15428): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (15428): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (15423): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (15423): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (15423): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+
+final repro crashed as (corrupted=false):
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 6155 at mm/page_alloc.c:4551 __alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Modules linked in:
+CPU: 0 PID: 6155 Comm: syz-executor144 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__alloc_pages+0x1f1/0x13b0 mm/page_alloc.c:4551
+Code: ff 00 0f 84 18 ff ff ff 80 ce 01 e9 10 ff ff ff 83 fe 0a 0f 86 8b fe ff ff 80 3d ad 93 44 05 00 75 0b c6 05 a4 93 44 05 01 90 <0f> 0b 90 45 31 e4 e9 61 ff ff ff e8 0f 56 cd ff 84 c0 0f 85 54 ff
+RSP: 0018:ffff88800fdcfc28 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000013 RDI: 0000000000040dc0
+RBP: ffff88800fdcfd28 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000010095e3 R11: 0000000000000000 R12: 0000000000040dc0
+R13: 0000000000000013 R14: 0000000000000dc0 R15: ffffffff838bdcfd
+FS:  00005555611ed3c0(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000008 CR3: 000000000e23a002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __alloc_pages_node include/linux/gfp.h:238 [inline]
+ alloc_pages_node include/linux/gfp.h:261 [inline]
+ __kmalloc_large_node+0x69/0x140 mm/slub.c:3911
+ __do_kmalloc_node mm/slub.c:3954 [inline]
+ __kmalloc+0x27c/0x350 mm/slub.c:3979
+ kmalloc include/linux/slab.h:632 [inline]
+ kzalloc include/linux/slab.h:749 [inline]
+ input_mt_init_slots drivers/input/input-mt.c:50 [inline]
+ input_mt_init_slots+0x8d/0x2e0 drivers/input/input-mt.c:39
+ uinput_create_device drivers/input/misc/uinput.c:328 [inline]
+ uinput_ioctl_handler.isra.0+0xd91/0x1060 drivers/input/misc/uinput.c:904
+ uinput_ioctl+0x30/0x40 drivers/input/misc/uinput.c:1075
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f85112120cd
+Code: 28 c3 e8 46 1e 00 00 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc691eb8c8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007ffc691ebac8 RCX: 00007f85112120cd
+RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffc691ebac8 R09: 00007ffc691ebac8
+R10: 00007ffc691ebac8 R11: 0000000000000246 R12: 0000000000000001
+R13: 00007ffc691ebab8 R14: 00007f851128f530 R15: 0000000000000001
+ </TASK>
+irq event stamp: 15453
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (15463): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (15472): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (15428): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (15428): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (15423): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (15423): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (15423): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+

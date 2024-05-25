@@ -1,0 +1,49 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 1 Comm: systemd Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ __wake_up_common_lock kernel/sched/wait.c:105 [inline]
+ __wake_up kernel/sched/wait.c:127 [inline]
+ __wake_up_bit kernel/sched/wait_bit.c:126 [inline]
+ wake_up_bit+0x72/0xb0 kernel/sched/wait_bit.c:149
+ unlock_new_inode+0x9e/0xc0 fs/inode.c:1075
+ kernfs_init_inode fs/kernfs/inode.c:229 [inline]
+ kernfs_get_inode+0x12a/0x180 fs/kernfs/inode.c:253
+ kernfs_iop_lookup+0xcd/0x160 fs/kernfs/dir.c:1214
+ lookup_open.isra.0+0x4c3/0xa30 fs/namei.c:3475
+ open_last_lookups fs/namei.c:3566 [inline]
+ path_openat+0x5d3/0x1210 fs/namei.c:3796
+ do_filp_open+0xb9/0x190 fs/namei.c:3826
+ do_sys_openat2+0xc4/0x110 fs/open.c:1406
+ do_sys_open fs/open.c:1421 [inline]
+ __do_sys_openat fs/open.c:1437 [inline]
+ __se_sys_openat fs/open.c:1432 [inline]
+ __x64_sys_openat+0x78/0xd0 fs/open.c:1432
+ x64_sys_call+0x1b08/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff81748a1e4
+Code: 84 00 00 00 00 00 44 89 54 24 0c e8 36 58 f9 ff 44 8b 54 24 0c 44 89 e2 48 89 ee 41 89 c0 bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 77 34 44 89 c7 89 44 24 0c e8 68 58 f9 ff 8b 44
+RSP: 002b:00007fffbe49cac0 EFLAGS: 00000293 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 000055fb4bcb60e0 RCX: 00007ff81748a1e4
+RDX: 0000000000080241 RSI: 000055fb4bd9efb0 RDI: 00000000ffffff9c
+RBP: 000055fb4bd9efb0 R08: 0000000000000000 R09: 0000000000000001
+R10: 00000000000001b6 R11: 0000000000000293 R12: 0000000000080241
+R13: 000055fb4bcb60e0 R14: 0000000000000001 R15: 00007fffbe49cc10
+ </TASK>

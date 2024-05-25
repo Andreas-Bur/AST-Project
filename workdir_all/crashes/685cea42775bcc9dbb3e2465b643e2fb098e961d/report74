@@ -1,0 +1,52 @@
+NILFS (loop1): recovery complete
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 79360 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ create_empty_buffers+0x63/0x180 fs/buffer.c:1659
+ folio_create_buffers fs/buffer.c:1761 [inline]
+ block_read_full_folio+0x522/0x550 fs/buffer.c:2365
+ do_mpage_readpage+0x103/0x970 fs/mpage.c:324
+ mpage_readahead+0xdb/0x1a0 fs/mpage.c:381
+ nilfs_readahead+0x21/0x30 fs/nilfs2/inode.c:155
+ read_pages+0x81/0x3d0 mm/readahead.c:160
+ page_cache_ra_unbounded+0x1ee/0x220 mm/readahead.c:269
+ do_page_cache_ra mm/readahead.c:299 [inline]
+ page_cache_ra_order+0x366/0x3d0 mm/readahead.c:539
+ do_sync_mmap_readahead mm/filemap.c:3151 [inline]
+ filemap_fault+0xc8a/0x2090 mm/filemap.c:3289
+ __do_fault+0x55/0x1b0 mm/memory.c:4531
+ do_shared_fault mm/memory.c:4954 [inline]
+ do_fault mm/memory.c:5028 [inline]
+ do_pte_missing mm/memory.c:3880 [inline]
+ handle_pte_fault mm/memory.c:5300 [inline]
+ __handle_mm_fault+0x28c7/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1362 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x555/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7ffb78a83e7c
+Code: 06 48 81 fa 80 00 00 00 0f 87 e0 00 00 00 62 e1 fe 48 6f 4c 16 ff 62 e1 fe 48 7f 07 62 e1 fe 48 7f 4c 17 ff c3 8b 0e 8b 34 16 <89> 0f 89 34 17 c3 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 83 fa
+RSP: 002b:00007ffb79866018 EFLAGS: 00010246
+RAX: 0000000020ffd000 RBX: 00007ffb78bcbf80 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000020ffd000
+RBP: 00007ffb78af14cd R08: 0000000000000004 R09: 0000000000000000
+R10: 0000000020ffd000 R11: 00000000200000c0 R12: 0000000000000000
+R13: 000000000000000b R14: 00007ffb78bcbf80 R15: 00007ffb79846000
+ </TASK>

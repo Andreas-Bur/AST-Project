@@ -1,0 +1,121 @@
+BUG: MAX_LOCKDEP_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 15802 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ alloc_list_entry kernel/locking/lockdep.c:1397 [inline]
+ add_lock_to_list+0x17a/0x200 kernel/locking/lockdep.c:1418
+ check_prev_add+0x28e/0x9e0 kernel/locking/lockdep.c:3204
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ linkwatch_add_event net/core/link_watch.c:119 [inline]
+ linkwatch_fire_event+0x88/0x1e0 net/core/link_watch.c:287
+ netif_carrier_on+0x6d/0xa0 net/sched/sch_generic.c:583
+ __team_carrier_check drivers/net/team/team.c:2966 [inline]
+ __team_carrier_check drivers/net/team/team.c:2949 [inline]
+ __team_port_change_port_added drivers/net/team/team.c:2981 [inline]
+ team_port_add drivers/net/team/team.c:1288 [inline]
+ team_add_slave+0x9f9/0xf20 drivers/net/team/team.c:1974
+ do_set_master+0xf8/0x110 net/core/rtnetlink.c:2685
+ do_setlink+0x455/0x1e50 net/core/rtnetlink.c:2891
+ __rtnl_newlink+0x82b/0xf10 net/core/rtnetlink.c:3680
+ rtnl_newlink+0x52/0x80 net/core/rtnetlink.c:3727
+ rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+ netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+ rtnetlink_rcv+0x21/0x30 net/core/rtnetlink.c:6613
+ netlink_unicast_kernel net/netlink/af_netlink.c:1335 [inline]
+ netlink_unicast+0x2db/0x420 net/netlink/af_netlink.c:1361
+ netlink_sendmsg+0x31a/0x650 net/netlink/af_netlink.c:1905
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ __sys_sendto+0x314/0x320 net/socket.c:2191
+ __do_sys_sendto net/socket.c:2203 [inline]
+ __se_sys_sendto net/socket.c:2199 [inline]
+ __x64_sys_sendto+0x2c/0x40 net/socket.c:2199
+ x64_sys_call+0x2030/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:45
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f18cf892156
+Code: c8 02 00 44 8b 4c 24 2c 4c 8b 44 24 20 41 89 c4 44 8b 54 24 28 48 8b 54 24 18 b8 2c 00 00 00 48 8b 74 24 10 8b 7c 24 08 0f 05 <48> 3d 00 f0 ff ff 77 3a 44 89 e7 48 89 44 24 08 e8 c5 c8 02 00 48
+RSP: 002b:00007ffd38f0e150 EFLAGS: 00000293 ORIG_RAX: 000000000000002c
+RAX: ffffffffffffffda RBX: 00007f18d04f4620 RCX: 00007f18cf892156
+RDX: 0000000000000028 RSI: 00007f18d04f4670 RDI: 0000000000000003
+RBP: 0000000000000001 R08: 00007ffd38f0e1ac R09: 000000000000000c
+R10: 0000000000000000 R11: 0000000000000293 R12: 0000000000000000
+R13: 00007f18d04f4670 R14: 0000000000000003 R15: 0000000000000000
+ </TASK>
+team0: Port device team_slave_0 added
+team0: Port device team_slave_1 added
+batman_adv: batadv0: Adding interface: batadv_slave_0
+batman_adv: batadv0: The MTU of interface batadv_slave_0 is too small (1500) to handle the transport of batman-adv packets. Packets going over this interface will be fragmented on layer2 which could impact the performance. Setting the MTU to 1560 would solve the problem.
+batman_adv: batadv0: Not using interface batadv_slave_0 (retrying later): interface not active
+batman_adv: batadv0: Adding interface: batadv_slave_1
+batman_adv: batadv0: The MTU of interface batadv_slave_1 is too small (1500) to handle the transport of batman-adv packets. Packets going over this interface will be fragmented on layer2 which could impact the performance. Setting the MTU to 1560 would solve the problem.
+batman_adv: batadv0: Not using interface batadv_slave_1 (retrying later): interface not active
+hsr_slave_0: entered promiscuous mode
+hsr_slave_1: entered promiscuous mode
+debugfs: Directory 'hsr0' with parent 'hsr' already present!
+Cannot create hsr debugfs directory
+netdevsim netdevsim6 netdevsim0: renamed from eth0
+netdevsim netdevsim6 netdevsim1: renamed from eth1
+netdevsim netdevsim6 netdevsim2: renamed from eth2
+netdevsim netdevsim6 netdevsim3: renamed from eth3
+8021q: adding VLAN 0 to HW filter on device bond0
+8021q: adding VLAN 0 to HW filter on device team0
+hsr0: Slave A (hsr_slave_0) is not up; please bring it up to get a fully working HSR network
+hsr0: Slave B (hsr_slave_1) is not up; please bring it up to get a fully working HSR network
+8021q: adding VLAN 0 to HW filter on device batadv0
+veth0_vlan: entered promiscuous mode
+veth1_vlan: entered promiscuous mode
+veth0_macvtap: entered promiscuous mode
+veth1_macvtap: entered promiscuous mode
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3e) already exists on: batadv_slave_0
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_0
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: The newly added mac address (aa:aa:aa:aa:aa:3f) already exists on: batadv_slave_1
+batman_adv: It is strongly recommended to keep mac addresses unique to avoid problems!
+batman_adv: batadv0: Interface activated: batadv_slave_1
+netdevsim netdevsim6 netdevsim0: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim6 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0
+ieee80211 phy25: Selected rate control algorithm 'minstrel_ht'
+ieee80211 phy26: Selected rate control algorithm 'minstrel_ht'

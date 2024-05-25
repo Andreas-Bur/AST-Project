@@ -1,0 +1,90 @@
+BUG: unable to handle page fault for address: ffffebde08000008
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 0 P4D 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 25538 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:_compound_head include/linux/page-flags.h:247 [inline]
+RIP: 0010:virt_to_folio include/linux/mm.h:1306 [inline]
+RIP: 0010:kfree+0x77/0x290 mm/slub.c:4382
+Code: 01 ec 0f 82 29 02 00 00 48 b8 00 00 00 80 7f 77 00 00 49 01 c4 48 b8 00 00 00 00 00 ea ff ff 49 c1 ec 0c 49 c1 e4 06 49 01 c4 <49> 8b 44 24 08 a8 01 0f 85 58 01 00 00 0f 1f 44 00 00 49 8b 04 24
+RSP: 0018:ffff8880290b7770 EFLAGS: 00010286
+RAX: ffffea0000000000 RBX: 0000000000000001 RCX: ffffc90004f8e000
+RDX: 0000000000040000 RSI: ffffffff823dda3f RDI: 0000000200000000
+RBP: ffff8880290b77a8 R08: 0000000000000003 R09: ffff8880290b7770
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffebde08000000
+R13: 0000000200000000 R14: ffff888072700000 R15: ffff88802a2bd248
+FS:  00007f0dc0fab640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffebde08000008 CR3: 000000002a220003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ bch2_blacklist_table_initialize+0x10f/0x150 fs/bcachefs/journal_seq_blacklist.c:160
+ bch2_journal_seq_blacklist_add+0x1fb/0x250 fs/bcachefs/journal_seq_blacklist.c:95
+ journal_replay_entry_early+0x68/0x4a0 fs/bcachefs/recovery.c:385
+ journal_replay_early fs/bcachefs/recovery.c:408 [inline]
+ bch2_fs_recovery+0x1080/0x2b20 fs/bcachefs/recovery.c:744
+ bch2_fs_start+0x1fe/0x3d0 fs/bcachefs/super.c:1042
+ bch2_fs_open+0x13f1/0x1ec0 fs/bcachefs/super.c:2101
+ bch2_mount+0x684/0x8a0 fs/bcachefs/fs.c:1900
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0dc0291b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f0dc0faae38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00000000000058fc RCX: 00007f0dc0291b3e
+RDX: 00000000200058c0 RSI: 0000000020005900 RDI: 00007f0dc0faae90
+RBP: 00007f0dc0faaed0 R08: 00007f0dc0faaed0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 00000000200058c0
+R13: 0000000020005900 R14: 00007f0dc0faae90 R15: 0000000020000140
+ </TASK>
+Modules linked in:
+CR2: ffffebde08000008
+---[ end trace 0000000000000000 ]---
+RIP: 0010:_compound_head include/linux/page-flags.h:247 [inline]
+RIP: 0010:virt_to_folio include/linux/mm.h:1306 [inline]
+RIP: 0010:kfree+0x77/0x290 mm/slub.c:4382
+Code: 01 ec 0f 82 29 02 00 00 48 b8 00 00 00 80 7f 77 00 00 49 01 c4 48 b8 00 00 00 00 00 ea ff ff 49 c1 ec 0c 49 c1 e4 06 49 01 c4 <49> 8b 44 24 08 a8 01 0f 85 58 01 00 00 0f 1f 44 00 00 49 8b 04 24
+RSP: 0018:ffff8880290b7770 EFLAGS: 00010286
+RAX: ffffea0000000000 RBX: 0000000000000001 RCX: ffffc90004f8e000
+RDX: 0000000000040000 RSI: ffffffff823dda3f RDI: 0000000200000000
+RBP: ffff8880290b77a8 R08: 0000000000000003 R09: ffff8880290b7770
+R10: 0000000000000000 R11: 0000000000000000 R12: ffffebde08000000
+R13: 0000000200000000 R14: ffff888072700000 R15: ffff88802a2bd248
+FS:  00007f0dc0fab640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffebde08000008 CR3: 000000002a220003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	01 ec                	add    %ebp,%esp
+   2:	0f 82 29 02 00 00    	jb     0x231
+   8:	48 b8 00 00 00 80 7f 	movabs $0x777f80000000,%rax
+   f:	77 00 00
+  12:	49 01 c4             	add    %rax,%r12
+  15:	48 b8 00 00 00 00 00 	movabs $0xffffea0000000000,%rax
+  1c:	ea ff ff
+  1f:	49 c1 ec 0c          	shr    $0xc,%r12
+  23:	49 c1 e4 06          	shl    $0x6,%r12
+  27:	49 01 c4             	add    %rax,%r12
+* 2a:	49 8b 44 24 08       	mov    0x8(%r12),%rax <-- trapping instruction
+  2f:	a8 01                	test   $0x1,%al
+  31:	0f 85 58 01 00 00    	jne    0x18f
+  37:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  3c:	49 8b 04 24          	mov    (%r12),%rax

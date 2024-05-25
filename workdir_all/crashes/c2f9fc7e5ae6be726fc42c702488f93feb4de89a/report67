@@ -1,0 +1,54 @@
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 10752 at arch/x86/kvm/../../../virt/kvm/pfncache.c:247 __kvm_gpc_refresh+0xdea/0x14c0 arch/x86/kvm/../../../virt/kvm/pfncache.c:247
+Modules linked in:
+CPU: 1 PID: 10752 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #5
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__kvm_gpc_refresh+0xdea/0x14c0 arch/x86/kvm/../../../virt/kvm/pfncache.c:247
+Code: 48 c7 c2 88 69 2c 86 be 7c 03 00 00 48 c7 c7 67 3b 1c 86 c6 05 14 b1 ce 05 01 e8 71 45 22 00 e9 c0 fc ff ff e8 07 bc 33 00 90 <0f> 0b 90 41 bc ea ff ff ff e9 54 fa ff ff e8 f3 bb 33 00 49 8b 47
+RSP: 0018:ffff888031a8bc08 EFLAGS: 00010216
+RAX: 0000000000002125 RBX: ffffffffffffffff RCX: ffffc9000a335000
+RDX: 0000000000040000 RSI: ffffffff8106b5d9 RDI: 0000000000000000
+RBP: ffff888031a8bc68 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000001 R12: ffffffffffffffff
+R13: ffff887fffffff01 R14: ffff888031653101 R15: ffff888031653120
+FS:  00007fbcd497f640(0000) GS:ffff88807ec00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32d25000 CR3: 000000002869c000 CR4: 0000000000750ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __kvm_gpc_activate+0x12b/0x1c0 arch/x86/kvm/../../../virt/kvm/pfncache.c:403
+ kvm_gpc_activate_hva+0x31/0x40 arch/x86/kvm/../../../virt/kvm/pfncache.c:413
+ kvm_xen_vcpu_set_attr+0x771/0x7f0 arch/x86/kvm/xen.c:890
+ kvm_arch_vcpu_ioctl+0xd60/0x2420 arch/x86/kvm/x86.c:6265
+ kvm_vcpu_ioctl+0x52c/0xa30 arch/x86/kvm/../../../virt/kvm/kvm_main.c:4620
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbcd3c9002d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fbcd497f028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fbcd3dcbf80 RCX: 00007fbcd3c9002d
+RDX: 0000000020000080 RSI: 000000004048aecb RDI: 0000000000000009
+RBP: 00007fbcd3cf14d0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fbcd3dcbf80 R15: 00007fbcd495f000
+ </TASK>
+irq event stamp: 3903
+hardirqs last  enabled at (3913): [<ffffffff812b2034>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (3913): [<ffffffff812b2034>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (3913): [<ffffffff812b2034>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (3922): [<ffffffff812b2019>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (3922): [<ffffffff812b2019>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (3922): [<ffffffff812b2019>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (3822): [<ffffffff850425c3>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (3822): [<ffffffff850425c3>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (3645): [<ffffffff811eb2ed>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (3645): [<ffffffff811eb2ed>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (3645): [<ffffffff811eb2ed>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

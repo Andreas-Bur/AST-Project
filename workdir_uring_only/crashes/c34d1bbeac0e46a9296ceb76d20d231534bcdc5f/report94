@@ -1,0 +1,6 @@
+syz_io_uring_submit(r12, r13, &(0x7f0000000140)=@IORING_OP_LINKAT={0x27, 0x6, 0x0, 0xffffffffffffffff, &(0x7f00000000c0)='./file0\x00', &(0x7f0000000200)='./file0\x00'})
+io_uring_enter(r11, 0x79a, 0x0, 0x0, 0x0, 0x0)
+syz_io_uring_setup(0x0, &(0x7f0000001300), &(0x7f0000000000), 0x0)
+r15 = syz_init_net_socket$rose(0xb, 0x5, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r15, 0x5411, &(0x7f0000000200))
+2024/05/22 15:46:54 SYZFATAL: executor 3 failed 11 times: failed to create temp dir: mkdir ./syzkaller-testdir708401871: no space left on device

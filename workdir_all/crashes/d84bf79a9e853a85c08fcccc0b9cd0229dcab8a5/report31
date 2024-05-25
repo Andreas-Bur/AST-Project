@@ -1,0 +1,116 @@
+======================================================
+WARNING: possible circular locking dependency detected
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------------
+syz-executor.7/11830 is trying to acquire lock:
+ffff888068fe80b0 (&tree->tree_lock){+.+.}-{3:3}, at: hfsplus_file_truncate+0x366/0x380 fs/hfsplus/extents.c:595
+
+but task is already holding lock:
+ffff88802d0f6288 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_truncate+0x96/0x380 fs/hfsplus/extents.c:576
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}:
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_extend+0x83/0x590 fs/hfsplus/extents.c:457
+       hfsplus_bmap_reserve+0xd5/0x110 fs/hfsplus/btree.c:358
+       hfsplus_rename_cat+0xd5/0x5f0 fs/hfsplus/catalog.c:456
+       hfsplus_unlink+0x255/0x2c0 fs/hfsplus/dir.c:376
+       vfs_unlink+0x1f6/0x490 fs/namei.c:4335
+       do_unlinkat+0x35b/0x3f0 fs/namei.c:4399
+       __do_sys_unlink fs/namei.c:4447 [inline]
+       __se_sys_unlink fs/namei.c:4445 [inline]
+       __x64_sys_unlink+0x67/0x90 fs/namei.c:4445
+       x64_sys_call+0x2004/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:88
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (&tree->tree_lock){+.+.}-{3:3}:
+       check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+       check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+       validate_chain kernel/locking/lockdep.c:3869 [inline]
+       __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+       lock_acquire kernel/locking/lockdep.c:5754 [inline]
+       lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+       __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+       __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+       mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+       hfsplus_file_truncate+0x366/0x380 fs/hfsplus/extents.c:595
+       hfsplus_delete_inode+0xd2/0x100 fs/hfsplus/inode.c:450
+       hfsplus_file_release+0xe4/0xf0 fs/hfsplus/inode.c:238
+       __fput+0x135/0x540 fs/file_table.c:422
+       __fput_sync+0x44/0x60 fs/file_table.c:507
+       __do_sys_close fs/open.c:1556 [inline]
+       __se_sys_close fs/open.c:1541 [inline]
+       __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+       x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+       do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+       do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&HFSPLUS_I(inode)->extents_lock);
+                               lock(&tree->tree_lock);
+                               lock(&HFSPLUS_I(inode)->extents_lock);
+  lock(&tree->tree_lock);
+
+ *** DEADLOCK ***
+
+2 locks held by syz-executor.7/11830:
+ #0: ffff88802d0f6480 (&sb->s_type->i_mutex_key#31){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:795 [inline]
+ #0: ffff88802d0f6480 (&sb->s_type->i_mutex_key#31){+.+.}-{3:3}, at: hfsplus_file_release+0x82/0xf0 fs/hfsplus/inode.c:233
+ #1: ffff88802d0f6288 (&HFSPLUS_I(inode)->extents_lock){+.+.}-{3:3}, at: hfsplus_file_truncate+0x96/0x380 fs/hfsplus/extents.c:576
+
+stack backtrace:
+CPU: 1 PID: 11830 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ print_circular_bug+0x2d5/0x430 kernel/locking/lockdep.c:2060
+ check_noncircular+0x10e/0x120 kernel/locking/lockdep.c:2187
+ check_prev_add+0xe4/0x9e0 kernel/locking/lockdep.c:3134
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ hfsplus_file_truncate+0x366/0x380 fs/hfsplus/extents.c:595
+ hfsplus_delete_inode+0xd2/0x100 fs/hfsplus/inode.c:450
+ hfsplus_file_release+0xe4/0xf0 fs/hfsplus/inode.c:238
+ __fput+0x135/0x540 fs/file_table.c:422
+ __fput_sync+0x44/0x60 fs/file_table.c:507
+ __do_sys_close fs/open.c:1556 [inline]
+ __se_sys_close fs/open.c:1541 [inline]
+ __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+ x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fdd4aa8ec4b
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 fd 02 00 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 d1 fd 02 00 8b 44
+RSP: 002b:00007ffce381c2a0 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 00007fdd4aa8ec4b
+RDX: 0000000000000000 RSI: 0000000000015651 RDI: 0000000000000006
+RBP: 00007fdd4abcd980 R08: 0000000000000000 R09: 00000000810695a4
+R10: 0000000000000001 R11: 0000000000000293 R12: 0000000000010363
+R13: 00000000000102fe R14: 00007fdd4abcc05c R15: 00007ffce381c3a0
+ </TASK>

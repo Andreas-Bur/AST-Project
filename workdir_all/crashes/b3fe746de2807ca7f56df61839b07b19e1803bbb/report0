@@ -1,0 +1,96 @@
+BUG: kernel NULL pointer dereference, address: 0000000000000002
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD fe73067 P4D fe73067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 7 Comm: kworker/0:0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events nsim_dev_trap_report_work
+RIP: 0010:dst_dev_put+0x1e/0x1c0 net/core/dst.c:149
+Code: 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 41 54 53 48 89 fb e8 77 2d 25 fd b8 02 00 00 00 <4c> 8b 2b 66 89 43 3a 48 8b 43 08 4c 8b 60 38 4d 85 e4 74 11 e8 59
+RSP: 0018:ffff88807dc05e10 EFLAGS: 00010246
+RAX: 0000000000000002 RBX: 0000000000000002 RCX: ffffffff844a46e6
+RDX: ffff888009ab0000 RSI: ffffffff84049189 RDI: 0000000000000002
+RBP: ffff88807dc05e38 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000001 R12: 0000607f8206dd38
+R13: 0000607f8206dd38 R14: 0000000000000001 R15: 0000000000000002
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000002 CR3: 000000002b7de001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ rt_fibinfo_free_cpus.part.0+0x7f/0x120 net/ipv4/fib_semantics.c:206
+ rt_fibinfo_free_cpus net/ipv4/fib_semantics.c:198 [inline]
+ fib_nh_common_release+0xb1/0x1f0 net/ipv4/fib_semantics.c:217
+ fib6_nh_release+0xf8/0x210 net/ipv6/route.c:3666
+ fib6_info_destroy_rcu+0x12b/0x1a0 net/ipv6/ip6_fib.c:177
+ rcu_do_batch kernel/rcu/tree.c:2196 [inline]
+ rcu_core+0x37c/0x910 kernel/rcu/tree.c:2471
+ rcu_core_si+0xd/0x20 kernel/rcu/tree.c:2488
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ __raw_spin_unlock_bh include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock_bh+0x30/0x40 kernel/locking/spinlock.c:210
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ nsim_dev_trap_report drivers/net/netdevsim/dev.c:820 [inline]
+ nsim_dev_trap_report_work+0x345/0x410 drivers/net/netdevsim/dev.c:850
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: 0000000000000002
+---[ end trace 0000000000000000 ]---
+RIP: 0010:dst_dev_put+0x1e/0x1c0 net/core/dst.c:149
+Code: 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 41 54 53 48 89 fb e8 77 2d 25 fd b8 02 00 00 00 <4c> 8b 2b 66 89 43 3a 48 8b 43 08 4c 8b 60 38 4d 85 e4 74 11 e8 59
+RSP: 0018:ffff88807dc05e10 EFLAGS: 00010246
+RAX: 0000000000000002 RBX: 0000000000000002 RCX: ffffffff844a46e6
+RDX: ffff888009ab0000 RSI: ffffffff84049189 RDI: 0000000000000002
+RBP: ffff88807dc05e38 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000001 R12: 0000607f8206dd38
+R13: 0000607f8206dd38 R14: 0000000000000001 R15: 0000000000000002
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000002 CR3: 000000002b7de001 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	90                   	nop
+   1:	90                   	nop
+   2:	90                   	nop
+   3:	90                   	nop
+   4:	90                   	nop
+   5:	90                   	nop
+   6:	90                   	nop
+   7:	90                   	nop
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	f3 0f 1e fa          	endbr64
+  10:	55                   	push   %rbp
+  11:	48 89 e5             	mov    %rsp,%rbp
+  14:	41 57                	push   %r15
+  16:	41 56                	push   %r14
+  18:	41 55                	push   %r13
+  1a:	41 54                	push   %r12
+  1c:	53                   	push   %rbx
+  1d:	48 89 fb             	mov    %rdi,%rbx
+  20:	e8 77 2d 25 fd       	call   0xfd252d9c
+  25:	b8 02 00 00 00       	mov    $0x2,%eax
+* 2a:	4c 8b 2b             	mov    (%rbx),%r13 <-- trapping instruction
+  2d:	66 89 43 3a          	mov    %ax,0x3a(%rbx)
+  31:	48 8b 43 08          	mov    0x8(%rbx),%rax
+  35:	4c 8b 60 38          	mov    0x38(%rax),%r12
+  39:	4d 85 e4             	test   %r12,%r12
+  3c:	74 11                	je     0x4f
+  3e:	e8                   	.byte 0xe8
+  3f:	59                   	pop    %rcx

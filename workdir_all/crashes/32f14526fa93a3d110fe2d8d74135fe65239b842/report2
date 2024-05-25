@@ -1,0 +1,281 @@
+BUG: MAX_LOCK_DEPTH too low!
+turning off the locking correctness validator.
+depth: 48  max: 48!
+48 locks held by syz-executor.5/16994:
+ #0: ffff88802078b420 (sb_writers#15){.+.+}-{0:0}, at: vfs_truncate+0x77/0x250 fs/open.c:84
+ #1: ffff888018fab890 (&sb->s_type->i_mutex_key#32){+.+.}-{3:3}, at: inode_lock include/linux/fs.h:795 [inline]
+ #1: ffff888018fab890 (&sb->s_type->i_mutex_key#32){+.+.}-{3:3}, at: do_truncate+0xb1/0x110 fs/open.c:63
+ #2: ffff888049600aa0 (&c->snapshot_create_lock){++++}-{3:3}, at: bch2_truncate+0x82/0x130 fs/bcachefs/io_misc.c:290
+ #3: ffff888049604240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ #3: ffff888049604240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
+ #3: ffff888049604240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: bch2_trans_srcu_lock fs/bcachefs/btree_iter.c:2896 [inline]
+ #3: ffff888049604240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: bch2_btree_path_traverse_one+0x14ba/0x15a0 fs/bcachefs/btree_iter.c:1143
+ #4: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #4: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #5: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #5: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #6: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #6: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #7: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #7: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #8: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #8: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #9: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #9: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #10: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #10: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #11: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #11: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #12: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: btree_node_lock_increment fs/bcachefs/btree_locking.h:248 [inline]
+ #12: ffff88802a59ec70 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0x348/0x3e0 fs/bcachefs/btree_locking.c:512
+ #13: ffff888018fd2c20 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #13: ffff888018fd2c20 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #14: ffff888018fd23a0 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #14: ffff888018fd23a0 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #15: ffff888018fd2a00 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #15: ffff888018fd2a00 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #16: ffff888018fd2d30 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #16: ffff888018fd2d30 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #17: ffff888018fd2e40 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #17: ffff888018fd2e40 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #18: ffff888018fd2070 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #18: ffff888018fd2070 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #19: ffff888018fd2f50 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #19: ffff888018fd2f50 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #20: ffff888018fd2180 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #20: ffff888018fd2180 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #21: ffff88800fb9c070 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #21: ffff88800fb9c070 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #22: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: six_relock_type fs/bcachefs/six.h:289 [inline]
+ #22: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_node_relock+0xa8/0x3e0 fs/bcachefs/btree_locking.c:510
+ #23: ffff88802a8c8070 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #23: ffff88802a8c8070 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #23: ffff88802a8c8070 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #23: ffff88802a8c8070 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+ #24: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #24: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #24: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #25: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #25: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #25: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #26: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #26: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #26: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #27: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #27: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #27: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #28: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #28: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #28: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #29: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_copy fs/bcachefs/btree_iter.c:1219 [inline]
+ #29: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: btree_path_clone fs/bcachefs/btree_iter.c:1227 [inline]
+ #29: ffff88802a8c9870 (&dev->mutex){....}-{3:3}, at: __bch2_btree_path_make_mut+0x54d/0x5d0 fs/bcachefs/btree_iter.c:1237
+ #30: ffff888049626820 (&c->gc_lock){++++}-{3:3}, at: bch2_btree_update_start+0x208/0xbb0 fs/bcachefs/btree_update_interior.c:1170
+ #31: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #31: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #31: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #31: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+ #32: ffff88800fb9e870 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #32: ffff88800fb9e870 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #32: ffff88800fb9e870 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #32: ffff88800fb9e870 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+ #33: ffff88804961dbf8 (&wp->lock){+.+.}-{3:3}, at: bch2_trans_mutex_lock_norelock fs/bcachefs/alloc_foreground.c:41 [inline]
+ #33: ffff88804961dbf8 (&wp->lock){+.+.}-{3:3}, at: writepoint_find fs/bcachefs/alloc_foreground.c:1235 [inline]
+ #33: ffff88804961dbf8 (&wp->lock){+.+.}-{3:3}, at: bch2_alloc_sectors_start_trans+0x990/0xd10 fs/bcachefs/alloc_foreground.c:1343
+ #34: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: six_trylock_type fs/bcachefs/six.h:207 [inline]
+ #34: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: btree_node_lock fs/bcachefs/btree_locking.h:266 [inline]
+ #34: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: btree_path_lock_root fs/bcachefs/btree_iter.c:760 [inline]
+ #34: ffff88800f4b1070 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_one+0x170/0x15a0 fs/bcachefs/btree_iter.c:1178
+ #35: ffff8880147cd4b0 (&dev->mutex){....}-{3:3}, at: six_trylock_intent fs/bcachefs/six.h:366 [inline]
+ #35: ffff8880147cd4b0 (&dev->mutex){....}-{3:3}, at: bkey_cached_alloc fs/bcachefs/btree_key_cache.c:289 [inline]
+ #35: ffff8880147cd4b0 (&dev->mutex){....}-{3:3}, at: btree_key_cache_create fs/bcachefs/btree_key_cache.c:329 [inline]
+ #35: ffff8880147cd4b0 (&dev->mutex){....}-{3:3}, at: bch2_btree_path_traverse_cached_slowpath+0x126a/0x2470 fs/bcachefs/btree_key_cache.c:484
+ #36: ffff888049626580 (&b->lock){+.+.}-{3:3}, at: bch2_bucket_needs_journal_commit+0x42/0x100 fs/bcachefs/buckets_waiting_for_journal.c:34
+ #37: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #37: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ #37: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: netif_receive_skb_list_internal+0x151/0x610 net/core/dev.c:5758
+ #38: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #38: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ #38: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: ip_local_deliver_finish+0x106/0x2f0 net/ipv4/ip_input.c:232
+ #39: ffff8880102f19d8 (slock-AF_INET/1){+.-.}-{2:2}, at: tcp_v4_rcv+0x16aa/0x18d0 net/ipv4/tcp_ipv4.c:2328
+ #40: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #40: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ #40: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: __ip_queue_xmit+0x5a/0xb30 net/ipv4/ip_output.c:470
+ #41: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #41: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ #41: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: ip_finish_output2+0x15f/0x10c0 net/ipv4/ip_output.c:228
+ #42: ffffffff865c3320 (rcu_read_lock_bh){....}-{1:2}, at: local_bh_disable include/linux/bottom_half.h:20 [inline]
+ #42: ffffffff865c3320 (rcu_read_lock_bh){....}-{1:2}, at: rcu_read_lock_bh include/linux/rcupdate.h:833 [inline]
+ #42: ffffffff865c3320 (rcu_read_lock_bh){....}-{1:2}, at: __dev_queue_xmit+0x9c/0x1f10 net/core/dev.c:4260
+ #43: ffff88800dc4da58 (dev->qdisc_tx_busylock ?: &qdisc_tx_busylock){+...}-{2:2}, at: spin_trylock include/linux/spinlock.h:361 [inline]
+ #43: ffff88800dc4da58 (dev->qdisc_tx_busylock ?: &qdisc_tx_busylock){+...}-{2:2}, at: qdisc_run_begin include/net/sch_generic.h:195 [inline]
+ #43: ffff88800dc4da58 (dev->qdisc_tx_busylock ?: &qdisc_tx_busylock){+...}-{2:2}, at: qdisc_run_begin include/net/sch_generic.h:192 [inline]
+ #43: ffff88800dc4da58 (dev->qdisc_tx_busylock ?: &qdisc_tx_busylock){+...}-{2:2}, at: __dev_xmit_skb net/core/dev.c:3747 [inline]
+ #43: ffff88800dc4da58 (dev->qdisc_tx_busylock ?: &qdisc_tx_busylock){+...}-{2:2}, at: __dev_queue_xmit+0x818/0x1f10 net/core/dev.c:4301
+ #44: ffff88800cb8e2d8 (_xmit_ETHER#2){+.-.}-{2:2}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ #44: ffff88800cb8e2d8 (_xmit_ETHER#2){+.-.}-{2:2}, at: __netif_tx_lock include/linux/netdevice.h:4371 [inline]
+ #44: ffff88800cb8e2d8 (_xmit_ETHER#2){+.-.}-{2:2}, at: sch_direct_xmit+0x206/0x5a0 net/sched/sch_generic.c:341
+ #45: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ #45: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ #45: ffffffff865c3360 (rcu_read_lock){....}-{1:2}, at: dev_queue_xmit_nit+0x44/0x5e0 net/core/dev.c:2245
+ #46: ffff8880099e8198 (&n->list_lock){..-.}-{2:2}, at: get_partial_node.part.0+0x22/0x390 mm/slub.c:2586
+ #47: ffff88807dd39e70 (&c->lock){-.-.}-{2:2}, at: local_lock_acquire include/linux/local_lock_internal.h:29 [inline]
+ #47: ffff88807dd39e70 (&c->lock){-.-.}-{2:2}, at: put_cpu_partial+0x4e/0x1b0 mm/slub.c:2953
+INFO: lockdep is turned off.
+CPU: 1 PID: 16994 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ __lock_acquire+0xc8e/0x15f0 kernel/locking/lockdep.c:5159
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ local_lock_acquire include/linux/local_lock_internal.h:29 [inline]
+ put_cpu_partial+0x57/0x1b0 mm/slub.c:2953
+ get_partial_node.part.0+0xe7/0x390 mm/slub.c:2608
+ get_partial_node mm/slub.c:2583 [inline]
+ get_partial mm/slub.c:2701 [inline]
+ ___slab_alloc+0xa09/0x10f0 mm/slub.c:3505
+ __slab_alloc mm/slub.c:3610 [inline]
+ __slab_alloc_node mm/slub.c:3663 [inline]
+ slab_alloc_node mm/slub.c:3835 [inline]
+ kmem_cache_alloc+0x239/0x290 mm/slub.c:3852
+ skb_clone+0xa8/0x1b0 net/core/skbuff.c:2063
+ dev_queue_xmit_nit+0x233/0x5e0 net/core/dev.c:2264
+ xmit_one net/core/dev.c:3527 [inline]
+ dev_hard_start_xmit+0x78/0x410 net/core/dev.c:3547
+ sch_direct_xmit+0x103/0x5a0 net/sched/sch_generic.c:343
+ __dev_xmit_skb net/core/dev.c:3760 [inline]
+ __dev_queue_xmit+0x90f/0x1f10 net/core/dev.c:4301
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ neigh_hh_output include/net/neighbour.h:526 [inline]
+ neigh_output include/net/neighbour.h:540 [inline]
+ ip_finish_output2+0x645/0x10c0 net/ipv4/ip_output.c:235
+ __ip_finish_output net/ipv4/ip_output.c:313 [inline]
+ __ip_finish_output+0x241/0x4b0 net/ipv4/ip_output.c:295
+ ip_finish_output+0x38/0x1a0 net/ipv4/ip_output.c:323
+ NF_HOOK_COND include/linux/netfilter.h:303 [inline]
+ ip_output+0x93/0x150 net/ipv4/ip_output.c:433
+ dst_output include/net/dst.h:450 [inline]
+ ip_local_out+0x200/0x270 net/ipv4/ip_output.c:129
+ __ip_queue_xmit+0x319/0xb30 net/ipv4/ip_output.c:535
+ ip_queue_xmit+0x33/0x40 net/ipv4/ip_output.c:549
+ __tcp_transmit_skb+0xffd/0x15f0 net/ipv4/tcp_output.c:1462
+ __tcp_send_ack.part.0+0x130/0x1e0 net/ipv4/tcp_output.c:4232
+ __tcp_send_ack net/ipv4/tcp_output.c:4238 [inline]
+ tcp_send_ack+0x3f/0x50 net/ipv4/tcp_output.c:4238
+ __tcp_ack_snd_check+0x97/0x530 net/ipv4/tcp_input.c:5687
+ tcp_rcv_established+0xc4c/0xd90 net/ipv4/tcp_input.c:6133
+ tcp_v4_do_rcv+0x2ba/0x4d0 net/ipv4/tcp_ipv4.c:1906
+ tcp_v4_rcv+0x17a8/0x18d0 net/ipv4/tcp_ipv4.c:2332
+ ip_protocol_deliver_rcu+0x77/0x340 net/ipv4/ip_input.c:205
+ ip_local_deliver_finish+0x14d/0x2f0 net/ipv4/ip_input.c:233
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ ip_local_deliver+0xc4/0xe0 net/ipv4/ip_input.c:254
+ dst_input include/net/dst.h:460 [inline]
+ ip_sublist_rcv_finish+0x174/0x2c0 net/ipv4/ip_input.c:580
+ ip_list_rcv_finish.constprop.0+0x312/0x360 net/ipv4/ip_input.c:631
+ ip_sublist_rcv net/ipv4/ip_input.c:639 [inline]
+ ip_list_rcv+0x222/0x240 net/ipv4/ip_input.c:674
+ __netif_receive_skb_list_ptype net/core/dev.c:5581 [inline]
+ __netif_receive_skb_list_core+0x3c9/0x410 net/core/dev.c:5629
+ __netif_receive_skb_list net/core/dev.c:5681 [inline]
+ netif_receive_skb_list_internal+0x391/0x610 net/core/dev.c:5773
+ gro_normal_list include/net/gro.h:438 [inline]
+ gro_normal_one include/net/gro.h:451 [inline]
+ napi_skb_finish net/core/gro.c:583 [inline]
+ napi_gro_receive+0x48e/0x4e0 net/core/gro.c:613
+ e1000_receive_skb drivers/net/ethernet/intel/e1000/e1000_main.c:4008 [inline]
+ e1000_clean_rx_irq+0x243/0x650 drivers/net/ethernet/intel/e1000/e1000_main.c:4461
+ e1000_clean+0x3ca/0xdd0 drivers/net/ethernet/intel/e1000/e1000_main.c:3803
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ common_interrupt+0xca/0xe0 arch/x86/kernel/irq.c:247
+ </IRQ>
+ <TASK>
+ asm_common_interrupt+0x2b/0x40 arch/x86/include/asm/idtentry.h:693
+RIP: 0010:lock_acquire+0xcf/0x2c0 kernel/locking/lockdep.c:5758
+Code: 53 e8 e5 e1 ff ff b8 ff ff ff ff 48 83 c4 28 65 0f c1 05 1c 25 e9 7e 83 f8 01 0f 85 da 01 00 00 4d 85 ff 74 01 fb 48 8d 65 d8 <5b> 41 5c 41 5d 41 5e 41 5f 5d e9 bd 9b f7 03 65 8b 05 37 6d ea 7e
+RSP: 0018:ffff888047ffea70 EFLAGS: 00000206
+RAX: 0000000000000001 RBX: 0000000000000001 RCX: 0000000000000001
+RDX: 0000000000000000 RSI: ffff8880247bce58 RDI: 0000000000000000
+RBP: ffff888047ffea98 R08: 0000000000000001 R09: 0000000000000030
+R10: ffff888047ffe938 R11: 0000000000000001 R12: 0000000000000000
+R13: 0000000000000000 R14: ffff888049626580 R15: 0000000000000200
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ bch2_bucket_needs_journal_commit+0x42/0x100 fs/bcachefs/buckets_waiting_for_journal.c:34
+ __try_alloc_bucket+0x186/0x620 fs/bcachefs/alloc_foreground.c:224
+ try_alloc_bucket+0x629/0x720 fs/bcachefs/alloc_foreground.c:364
+ bch2_bucket_alloc_freelist+0x2f2/0x520 fs/bcachefs/alloc_foreground.c:488
+ bch2_bucket_alloc_trans+0x3e6/0x880 fs/bcachefs/alloc_foreground.c:566
+ bch2_bucket_alloc_set_trans+0x2b1/0xcc0 fs/bcachefs/alloc_foreground.c:741
+ __open_bucket_add_buckets+0x4a8/0x8c0 fs/bcachefs/alloc_foreground.c:991
+ open_bucket_add_buckets fs/bcachefs/alloc_foreground.c:1035 [inline]
+ bch2_alloc_sectors_start_trans+0x6d1/0xd10 fs/bcachefs/alloc_foreground.c:1386
+ __bch2_btree_node_alloc+0x393/0x660 fs/bcachefs/btree_update_interior.c:331
+ bch2_btree_reserve_get+0x101/0x190 fs/bcachefs/btree_update_interior.c:545
+ bch2_btree_update_start+0x5c6/0xbb0 fs/bcachefs/btree_update_interior.c:1220
+ bch2_btree_split_leaf+0x65/0x2d0 fs/bcachefs/btree_update_interior.c:1818
+ bch2_trans_commit_error+0x281/0x7c0 fs/bcachefs/btree_trans_commit.c:894
+ __bch2_trans_commit+0x1881/0x2840 fs/bcachefs/btree_trans_commit.c:1110
+ bch2_trans_commit fs/bcachefs/btree_update.h:168 [inline]
+ bch2_extent_update+0x296/0x3d0 fs/bcachefs/io_write.c:318
+ bch2_fpunch_at+0x2a1/0x3d0 fs/bcachefs/io_misc.c:184
+ __bch2_resume_logged_op_truncate+0x294/0x470 fs/bcachefs/io_misc.c:260
+ bch2_truncate+0x105/0x130 fs/bcachefs/io_misc.c:291
+ bchfs_truncate+0x3db/0x5d0 fs/bcachefs/fs-io.c:473
+ bch2_setattr+0xe1/0x140 fs/bcachefs/fs.c:879
+ notify_change+0x69f/0x9d0 fs/attr.c:497
+ do_truncate+0xc2/0x110 fs/open.c:65
+ vfs_truncate+0x21b/0x250 fs/open.c:111
+ do_sys_truncate.part.0+0x90/0xd0 fs/open.c:134
+ do_sys_truncate fs/open.c:128 [inline]
+ __do_sys_truncate fs/open.c:146 [inline]
+ __se_sys_truncate fs/open.c:144 [inline]
+ __x64_sys_truncate+0x3c/0x60 fs/open.c:144
+ x64_sys_call+0x1e8e/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:77
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7faeac48fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007faead15c028 EFLAGS: 00000246 ORIG_RAX: 000000000000004c
+RAX: ffffffffffffffda RBX: 00007faeac5cbf80 RCX: 00007faeac48fd6d
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000020000080
+RBP: 00007faeac4f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007faeac5cbf80 R15: 00007faead13c000
+ </TASK>
+vkms_vblank_simulate: vblank timer overrun
+----------------
+Code disassembly (best guess):
+   0:	53                   	push   %rbx
+   1:	e8 e5 e1 ff ff       	call   0xffffe1eb
+   6:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
+   b:	48 83 c4 28          	add    $0x28,%rsp
+   f:	65 0f c1 05 1c 25 e9 	xadd   %eax,%gs:0x7ee9251c(%rip)        # 0x7ee92533
+  16:	7e
+  17:	83 f8 01             	cmp    $0x1,%eax
+  1a:	0f 85 da 01 00 00    	jne    0x1fa
+  20:	4d 85 ff             	test   %r15,%r15
+  23:	74 01                	je     0x26
+  25:	fb                   	sti
+  26:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
+* 2a:	5b                   	pop    %rbx <-- trapping instruction
+  2b:	41 5c                	pop    %r12
+  2d:	41 5d                	pop    %r13
+  2f:	41 5e                	pop    %r14
+  31:	41 5f                	pop    %r15
+  33:	5d                   	pop    %rbp
+  34:	e9 bd 9b f7 03       	jmp    0x3f79bf6
+  39:	65 8b 05 37 6d ea 7e 	mov    %gs:0x7eea6d37(%rip),%eax        # 0x7eea6d77

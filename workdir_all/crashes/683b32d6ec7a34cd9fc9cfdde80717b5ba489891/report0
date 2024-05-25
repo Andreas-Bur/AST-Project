@@ -1,0 +1,59 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 18870 at arch/x86/kvm/mmu/mmu.c:3579 mmu_free_root_page+0x1d1/0x1f0 arch/x86/kvm/mmu/mmu.c:3579
+Modules linked in:
+CPU: 0 PID: 18870 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #5
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:mmu_free_root_page+0x1d1/0x1f0 arch/x86/kvm/mmu/mmu.c:3579
+Code: 49 8d 7c 24 18 be 01 00 00 00 e8 8a 03 f4 03 31 ff 41 89 c5 89 c6 e8 6e 33 2c 00 45 85 ed 0f 85 05 ff ff ff e8 10 38 2c 00 90 <0f> 0b 90 e9 f7 fe ff ff e8 02 38 2c 00 90 0f 0b 90 e9 05 ff ff ff
+RSP: 0018:ffff8880224afbc8 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffff88803585c480 RCX: ffffc9000cf4b000
+RDX: 0000000000040000 RSI: ffffffff810e39d0 RDI: 0000000000000005
+RBP: ffff8880224afc00 R08: 0000000000000000 R09: ffffffff88435550
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffc900034d6000
+R13: 0000000000000000 R14: ffff88803576a5c0 R15: 0000000000000001
+FS:  00007fb54c210640(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001000 CR3: 00000000363c8000 CR4: 0000000000750ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ kvm_mmu_free_roots+0x1dc/0x3d0 arch/x86/kvm/mmu/mmu.c:3631
+ kvm_mmu_unload+0x2c/0xb0 arch/x86/kvm/mmu/mmu.c:5638
+ kvm_mmu_reset_context arch/x86/kvm/mmu/mmu.c:5596 [inline]
+ kvm_mmu_after_set_cpuid+0x4e/0xc0 arch/x86/kvm/mmu/mmu.c:5585
+ kvm_vcpu_after_set_cpuid arch/x86/kvm/cpuid.c:396 [inline]
+ kvm_set_cpuid arch/x86/kvm/cpuid.c:470 [inline]
+ kvm_set_cpuid+0x11ae/0x1980 arch/x86/kvm/cpuid.c:423
+ kvm_vcpu_ioctl_set_cpuid+0x6e/0x1d0 arch/x86/kvm/cpuid.c:511
+ kvm_arch_vcpu_ioctl+0x863/0x2420 arch/x86/kvm/x86.c:5936
+ kvm_vcpu_ioctl+0x52c/0xa30 arch/x86/kvm/../../../virt/kvm/kvm_main.c:4620
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb54b49002d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb54c210028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007fb54b5cbf80 RCX: 00007fb54b49002d
+RDX: 0000000020000000 RSI: 000000004008ae8a RDI: 000000000000000f
+RBP: 00007fb54b4f14d0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fb54b5cbf80 R15: 00007fb54c1f0000
+ </TASK>
+irq event stamp: 13307
+hardirqs last  enabled at (13317): [<ffffffff812b2034>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (13317): [<ffffffff812b2034>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (13317): [<ffffffff812b2034>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (13326): [<ffffffff812b2019>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (13326): [<ffffffff812b2019>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (13326): [<ffffffff812b2019>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (13282): [<ffffffff850425c3>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (13282): [<ffffffff850425c3>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (13233): [<ffffffff811eb2ed>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (13233): [<ffffffff811eb2ed>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (13233): [<ffffffff811eb2ed>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

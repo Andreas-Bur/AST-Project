@@ -1,0 +1,44 @@
+usb 1-1: config 0 interface 143 altsetting 0 has 0 endpoint descriptors, different from the interface descriptor's value: 108
+usb 1-1: New USB device found, idVendor=2058, idProduct=1005, bcdDevice=c1.9b
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 8765 Comm: kworker/1:6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ kobj_kset_join lib/kobject.c:180 [inline]
+ kobject_add_internal+0x98/0x3a0 lib/kobject.c:231
+ kobject_add_varg lib/kobject.c:374 [inline]
+ kobject_add+0xa9/0x120 lib/kobject.c:426
+ device_add+0x19b/0xc60 drivers/base/core.c:3658
+ usb_new_device+0x3b5/0x8e0 drivers/usb/core/hub.c:2652
+ hub_port_connect drivers/usb/core/hub.c:5521 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5661 [inline]
+ port_event drivers/usb/core/hub.c:5821 [inline]
+ hub_event+0x17d2/0x2560 drivers/usb/core/hub.c:5903
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+usb 1-1: config 0 descriptor??
+viperboard 1-1:0.143: version 0.00 found at bus 001 address 002
+viperboard-i2c viperboard-i2c.2.auto: failure setting i2c_bus_freq to 100
+viperboard-i2c viperboard-i2c.2.auto: probe with driver viperboard-i2c failed with error -5

@@ -1,0 +1,68 @@
+BUG: kernel NULL pointer dereference, address: 0000000000000180
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 4b7cb067 P4D 4b7cb067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 4635 Comm: kworker/0:3 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: rcu_gp srcu_invoke_callbacks
+RIP: 0010:rcu_seq_current kernel/rcu/rcu.h:138 [inline]
+RIP: 0010:srcu_invoke_callbacks+0x5a/0x1a0 kernel/rcu/srcutree.c:1732
+Code: e8 9b 69 d6 03 49 8b 84 24 40 ff ff ff 49 39 84 24 38 ff ff ff 0f 85 38 01 00 00 48 8b 43 38 4d 8d b4 24 20 ff ff ff 4c 89 f7 <48> 8b b0 80 01 00 00 e8 da da 00 00 41 80 7c 24 a8 00 75 0c 4c 89
+RSP: 0018:ffff888010207db0 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: ffff88803c704230 RCX: ffffffff88a9e678
+RDX: 0000000000000001 RSI: 00000000c49644cd RDI: ffffe8ffffc5c6c0
+RBP: ffff888010207df8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: ffffe8ffffc5c7a0
+R13: ffffe8ffffc5c680 R14: ffffe8ffffc5c6c0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000180 CR3: 0000000021df4002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+CR2: 0000000000000180
+---[ end trace 0000000000000000 ]---
+RIP: 0010:rcu_seq_current kernel/rcu/rcu.h:138 [inline]
+RIP: 0010:srcu_invoke_callbacks+0x5a/0x1a0 kernel/rcu/srcutree.c:1732
+Code: e8 9b 69 d6 03 49 8b 84 24 40 ff ff ff 49 39 84 24 38 ff ff ff 0f 85 38 01 00 00 48 8b 43 38 4d 8d b4 24 20 ff ff ff 4c 89 f7 <48> 8b b0 80 01 00 00 e8 da da 00 00 41 80 7c 24 a8 00 75 0c 4c 89
+RSP: 0018:ffff888010207db0 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: ffff88803c704230 RCX: ffffffff88a9e678
+RDX: 0000000000000001 RSI: 00000000c49644cd RDI: ffffe8ffffc5c6c0
+RBP: ffff888010207df8 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000050 R11: 0000000000000000 R12: ffffe8ffffc5c7a0
+R13: ffffe8ffffc5c680 R14: ffffe8ffffc5c6c0 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000180 CR3: 0000000021df4002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	e8 9b 69 d6 03       	call   0x3d669a0
+   5:	49 8b 84 24 40 ff ff 	mov    -0xc0(%r12),%rax
+   c:	ff
+   d:	49 39 84 24 38 ff ff 	cmp    %rax,-0xc8(%r12)
+  14:	ff
+  15:	0f 85 38 01 00 00    	jne    0x153
+  1b:	48 8b 43 38          	mov    0x38(%rbx),%rax
+  1f:	4d 8d b4 24 20 ff ff 	lea    -0xe0(%r12),%r14
+  26:	ff
+  27:	4c 89 f7             	mov    %r14,%rdi
+* 2a:	48 8b b0 80 01 00 00 	mov    0x180(%rax),%rsi <-- trapping instruction
+  31:	e8 da da 00 00       	call   0xdb10
+  36:	41 80 7c 24 a8 00    	cmpb   $0x0,-0x58(%r12)
+  3c:	75 0c                	jne    0x4a
+  3e:	4c                   	rex.WR
+  3f:	89                   	.byte 0x89

@@ -1,0 +1,58 @@
+read_mapping_page failed!
+BUG at fs/jfs/jfs_txnmgr.c:2796 assert(mp->nohomeok)
+------------[ cut here ]------------
+kernel BUG at fs/jfs/jfs_txnmgr.c:2796!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 12895 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:LogSyncRelease fs/jfs/jfs_txnmgr.c:2796 [inline]
+RIP: 0010:txAbort+0x38f/0x3a0 fs/jfs/jfs_txnmgr.c:2621
+Code: 4f ff 90 0f 0b e8 e1 e9 5e ff 48 c7 c1 fd 90 fb 85 ba ec 0a 00 00 48 c7 c6 89 8f fb 85 48 c7 c7 e5 81 fb 85 e8 32 58 4f ff 90 <0f> 0b 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90
+RSP: 0018:ffff88803be23bc0 EFLAGS: 00010202
+RAX: 0000000000000034 RBX: 0000000000000000 RCX: ffffc9000a538000
+RDX: 0000000000040000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88803be23c00 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88800aaf87e8
+R13: 0000000000000002 R14: ffffc90000640220 R15: ffff88802aa17000
+FS:  00007f01ece17640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2e528000 CR3: 000000003ad06006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ txCommit+0xfd2/0x1c80 fs/jfs/jfs_txnmgr.c:1354
+ jfs_create+0x3e7/0x4a0 fs/jfs/namei.c:156
+ vfs_create fs/namei.c:3199 [inline]
+ vfs_create+0x276/0x360 fs/namei.c:3183
+ do_mknodat+0x2a1/0x3a0 fs/namei.c:4051
+ __do_sys_mknodat fs/namei.c:4079 [inline]
+ __se_sys_mknodat fs/namei.c:4076 [inline]
+ __x64_sys_mknodat+0x42/0x60 fs/namei.c:4076
+ x64_sys_call+0xe20/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:260
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f01ec08fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f01ece17028 EFLAGS: 00000246 ORIG_RAX: 0000000000000103
+RAX: ffffffffffffffda RBX: 00007f01ec1cbf80 RCX: 00007f01ec08fd6d
+RDX: 0000000000000000 RSI: 0000000020000000 RDI: ffffffffffffff9c
+RBP: 00007f01ec0f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f01ec1cbf80 R15: 00007f01ecdf7000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:LogSyncRelease fs/jfs/jfs_txnmgr.c:2796 [inline]
+RIP: 0010:txAbort+0x38f/0x3a0 fs/jfs/jfs_txnmgr.c:2621
+Code: 4f ff 90 0f 0b e8 e1 e9 5e ff 48 c7 c1 fd 90 fb 85 ba ec 0a 00 00 48 c7 c6 89 8f fb 85 48 c7 c7 e5 81 fb 85 e8 32 58 4f ff 90 <0f> 0b 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 90 90 90 90 90
+RSP: 0018:ffff88803be23bc0 EFLAGS: 00010202
+RAX: 0000000000000034 RBX: 0000000000000000 RCX: ffffc9000a538000
+RDX: 0000000000040000 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88803be23c00 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88800aaf87e8
+R13: 0000000000000002 R14: ffffc90000640220 R15: ffff88802aa17000
+FS:  00007f01ece17640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2e528000 CR3: 000000003ad06006 CR4: 0000000000770ef0
+PKRU: 55555554

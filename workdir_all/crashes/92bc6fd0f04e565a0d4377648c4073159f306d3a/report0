@@ -1,0 +1,40 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/btree_cache.c:1035!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 11247 Comm: read_btree_node Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:bch2_btree_node_get_noiter+0x20e/0x590 fs/bcachefs/btree_cache.c:1035
+Code: 2f fd fe 4d 8b 66 28 31 ff 4c 89 e6 e8 3b 2b fd fe 4d 85 e4 0f 84 6f fe ff ff e8 ad 2f fd fe e9 82 fe ff ff e8 a3 2f fd fe 90 <0f> 0b e8 9b 2f fd fe 0f b6 75 c0 31 ff e8 60 2a fd fe 80 7d c0 00
+RSP: 0018:ffff88802d7afcf0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 000000000000000e RCX: ffffffff822c8d94
+RDX: ffff888029b1c380 RSI: ffffffff822c8f5d RDI: 0000000000000005
+RBP: ffff88802d7afd40 R08: 0000000000000000 R09: 0000000000000001
+R10: 000000000000000e R11: 0000000000000000 R12: 000000000000000e
+R13: ffff88802a378000 R14: ffff88802d7afd60 R15: ffff888027180000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9043b15680 CR3: 000000002aa28001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ found_btree_node_is_readable+0x45/0x170 fs/bcachefs/btree_node_scan.c:72
+ try_read_btree_node fs/bcachefs/btree_node_scan.c:155 [inline]
+ read_btree_nodes_worker+0x5c5/0xc90 fs/bcachefs/btree_node_scan.c:198
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_btree_node_get_noiter+0x20e/0x590 fs/bcachefs/btree_cache.c:1035
+Code: 2f fd fe 4d 8b 66 28 31 ff 4c 89 e6 e8 3b 2b fd fe 4d 85 e4 0f 84 6f fe ff ff e8 ad 2f fd fe e9 82 fe ff ff e8 a3 2f fd fe 90 <0f> 0b e8 9b 2f fd fe 0f b6 75 c0 31 ff e8 60 2a fd fe 80 7d c0 00
+RSP: 0018:ffff88802d7afcf0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 000000000000000e RCX: ffffffff822c8d94
+RDX: ffff888029b1c380 RSI: ffffffff822c8f5d RDI: 0000000000000005
+RBP: ffff88802d7afd40 R08: 0000000000000000 R09: 0000000000000001
+R10: 000000000000000e R11: 0000000000000000 R12: 000000000000000e
+R13: ffff88802a378000 R14: ffff88802d7afd60 R15: ffff888027180000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f9043b15680 CR3: 000000002aa28001 CR4: 0000000000770ef0
+PKRU: 55555554

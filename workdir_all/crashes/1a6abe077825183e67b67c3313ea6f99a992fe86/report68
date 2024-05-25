@@ -1,0 +1,99 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2635 jiffies s: 1665 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 9391 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:asm_sysvec_irq_work+0x0/0x30 arch/x86/include/asm/idtentry.h:738
+Code: ca fc 6a ff e8 d1 03 00 00 48 89 c4 48 8d 6c 24 01 48 89 e7 e8 11 f6 f0 ff e9 0c 05 00 00 66 66 2e 0f 1f 84 00 00 00 00 00 90 <f3> 0f 1e fa 0f 01 ca fc 6a ff e8 a1 03 00 00 48 89 c4 48 8d 6c 24
+RSP: 0018:ffff88807dc05a28 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff88807dc05ac0
+RDX: ffff88807dc05aa0 RSI: ffff88800f8da1c0 RDI: ffff88807dc05a90
+RBP: ffff88807dc05a90 R08: 0000000000002920 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88807dc05aa0
+R13: ffff88807dc05b28 R14: ffff88807dc05b30 R15: ffff88807dc05a90
+FS:  00007f7ee7602640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2cb23000 CR3: 000000003a9e2001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ unwind_start arch/x86/include/asm/unwind.h:64 [inline]
+ arch_stack_walk+0x80/0x140 arch/x86/kernel/stacktrace.c:24
+ stack_trace_save+0x3b/0x50 kernel/stacktrace.c:122
+ ref_tracker_alloc+0xf8/0x370 lib/ref_tracker.c:209
+ __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+ netdev_hold include/linux/netdevice.h:4093 [inline]
+ dst_init+0xb9/0x1d0 net/core/dst.c:52
+ dst_alloc+0x83/0xf0 net/core/dst.c:93
+ ip6_dst_alloc+0x31/0x80 net/ipv6/route.c:343
+ icmp6_dst_alloc+0x4f/0x210 net/ipv6/route.c:3273
+ ndisc_send_skb+0xa05/0xe00 net/ipv6/ndisc.c:489
+ ndisc_send_rs+0x7f/0x2c0 net/ipv6/ndisc.c:719
+ addrconf_rs_timer+0x15c/0x3f0 net/ipv6/addrconf.c:4038
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0xb4/0xc0 arch/x86/kernel/irq_work.c:17
+ </IRQ>
+ <TASK>
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:__sanitizer_cov_trace_pc+0x0/0x70 kernel/kcov.c:200
+Code: 8b be b0 01 00 00 48 89 e5 e8 7c ff ff ff 31 c0 5d e9 1f 82 e6 03 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 48 89 e5 65 48 8b 15 70 53 d9 7e 65 8b 05 71 53 d9
+RSP: 0018:ffff88802d78f5d8 EFLAGS: 00000287
+RAX: 000000000016acb0 RBX: 0000000000000000 RCX: ffffffff84a7097d
+RDX: ffff88800f8da1c0 RSI: 000000000016acb0 RDI: 0000000000000004
+RBP: ffff88802d78f620 R08: 0000000000000001 R09: 0000000000000001
+R10: 00000000001e8480 R11: 0000000000000000 R12: 00000000001e8480
+R13: 00000000000dfa20 R14: ffffffff8570b7c0 R15: ffffffff8570b7dc
+ freq_reg_info_regd net/wireless/reg.c:1614 [inline]
+ __freq_reg_info net/wireless/reg.c:1654 [inline]
+ freq_reg_info+0xad/0x130 net/wireless/reg.c:1667
+ handle_channel net/wireless/reg.c:1983 [inline]
+ handle_band net/wireless/reg.c:2064 [inline]
+ wiphy_update_regulatory+0x1d5/0xd80 net/wireless/reg.c:2520
+ wiphy_regulatory_register+0x59/0xd0 net/wireless/reg.c:4123
+ wiphy_register+0x1260/0x1570 net/wireless/core.c:983
+ ieee80211_register_hw+0x10f5/0x19d0 net/mac80211/main.c:1558
+ mac80211_hwsim_new_radio+0xcec/0x1ca0 drivers/net/wireless/virtual/mac80211_hwsim.c:5454
+ hwsim_new_radio_nl+0x4de/0x6b0 drivers/net/wireless/virtual/mac80211_hwsim.c:6135
+ genl_family_rcv_msg_doit+0xe9/0x140 net/netlink/genetlink.c:1113
+ genl_family_rcv_msg net/netlink/genetlink.c:1193 [inline]
+ genl_rcv_msg+0x2c8/0x420 net/netlink/genetlink.c:1208
+ netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+ genl_rcv+0x2d/0x50 net/netlink/genetlink.c:1217
+ netlink_unicast_kernel net/netlink/af_netlink.c:1335 [inline]
+ netlink_unicast+0x2db/0x420 net/netlink/af_netlink.c:1361
+ netlink_sendmsg+0x31a/0x650 net/netlink/af_netlink.c:1905
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x4ed/0x520 net/socket.c:2584
+ ___sys_sendmsg+0x9d/0xf0 net/socket.c:2638
+ __sys_sendmsg+0x8d/0x100 net/socket.c:2667
+ __do_sys_sendmsg net/socket.c:2676 [inline]
+ __se_sys_sendmsg net/socket.c:2674 [inline]
+ __x64_sys_sendmsg+0x25/0x30 net/socket.c:2674
+ x64_sys_call+0x922/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:47
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7ee688fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7ee7602028 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 00007f7ee69cbf80 RCX: 00007f7ee688fd6d
+RDX: 0000000000000000 RSI: 00000000200002c0 RDI: 0000000000000009
+RBP: 00007f7ee68f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f7ee69cbf80 R15: 00007f7ee75e2000
+ </TASK>

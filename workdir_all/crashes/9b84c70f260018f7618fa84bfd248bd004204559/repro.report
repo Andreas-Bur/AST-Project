@@ -1,0 +1,65 @@
+bcachefs (loop0): flushing journal and stopping allocators, journal seq 10
+bcachefs (loop0): flushing journal and stopping allocators complete, journal seq 10
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/journal.c:1183!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 6150 Comm: syz-executor117 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:bch2_fs_journal_stop+0x119/0x1a0 fs/bcachefs/journal.c:1183
+Code: c2 e8 ab eb ec fe 4c 8b ab 60 06 00 00 4c 8b a3 38 06 00 00 4c 89 ef 4c 89 e6 e8 22 e6 ec fe 4d 39 e5 74 9f e8 88 eb ec fe 90 <0f> 0b e8 80 eb ec fe 48 8d 7d b8 31 f6 e8 45 35 da fe 4c 8d b3 30
+RSP: 0018:ffff88801079bbd0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88801074a180 RCX: ffffffff823cd36e
+RDX: ffff888010aa0000 RSI: ffffffff823cd378 RDI: 0000000000000006
+RBP: ffff88801079bc18 R08: 0000000000000000 R09: 0000000000000001
+R10: 000000000000000a R11: 0000000000000000 R12: 000000000000000a
+R13: 000000000000000b R14: ffff88801074a180 R15: 000000000000000a
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055a3f869b0f0 CR3: 000000001122e002 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ __bch2_fs_read_only+0x189/0x2b0 fs/bcachefs/super.c:292
+ bch2_fs_read_only+0x2c2/0x690 fs/bcachefs/super.c:357
+ __bch2_fs_stop+0x65/0x2f0 fs/bcachefs/super.c:621
+ bch2_put_super+0x1d/0x30 fs/bcachefs/fs.c:1785
+ generic_shutdown_super+0x9e/0x180 fs/super.c:641
+ bch2_kill_sb+0x24/0x40 fs/bcachefs/fs.c:2009
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ __x64_sys_exit_group+0x20/0x20 kernel/exit.c:1036
+ x64_sys_call+0x1a0b/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fcf86efbc91
+Code: Unable to access opcode bytes at 0x7fcf86efbc67.
+RSP: 002b:00007ffd2099a448 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 00007fcf86f871b0 RCX: 00007fcf86efbc91
+RDX: 000000000000003c RSI: 00000000000000e7 RDI: 0000000000000001
+RBP: 0000000000000001 R08: ffffffffffffffb8 R09: 00000000000058a7
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fcf86f871b0
+R13: 0000000000000000 R14: 00007fcf86f87f40 R15: 00007fcf86eb1040
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_fs_journal_stop+0x119/0x1a0 fs/bcachefs/journal.c:1183
+Code: c2 e8 ab eb ec fe 4c 8b ab 60 06 00 00 4c 8b a3 38 06 00 00 4c 89 ef 4c 89 e6 e8 22 e6 ec fe 4d 39 e5 74 9f e8 88 eb ec fe 90 <0f> 0b e8 80 eb ec fe 48 8d 7d b8 31 f6 e8 45 35 da fe 4c 8d b3 30
+RSP: 0018:ffff88801079bbd0 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff88801074a180 RCX: ffffffff823cd36e
+RDX: ffff888010aa0000 RSI: ffffffff823cd378 RDI: 0000000000000006
+RBP: ffff88801079bc18 R08: 0000000000000000 R09: 0000000000000001
+R10: 000000000000000a R11: 0000000000000000 R12: 000000000000000a
+R13: 000000000000000b R14: ffff88801074a180 R15: 000000000000000a
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055a3f869b0f0 CR3: 000000001122e002 CR4: 0000000000770ef0
+PKRU: 55555554

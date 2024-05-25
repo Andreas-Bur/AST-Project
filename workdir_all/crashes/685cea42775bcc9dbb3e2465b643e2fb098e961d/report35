@@ -1,0 +1,54 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 67829 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ list_lru_register mm/list_lru.c:32 [inline]
+ __list_lru_init+0x251/0x2e0 mm/list_lru.c:576
+ alloc_super+0x408/0x4d0 fs/super.c:387
+ sget+0xc5/0x340 fs/super.c:840
+ mount_bdev+0x91/0x1a0 fs/super.c:1646
+ v7_mount+0x39/0x50 fs/sysv/super.c:540
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd9aa28fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fd9ab06d028 EFLAGS: 00000246 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 00007fd9aa3cbf80 RCX: 00007fd9aa28fd6d
+RDX: 0000000020000280 RSI: 0000000020000200 RDI: 00000000200002c0
+RBP: 00007fd9aa2f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fd9aa3cbf80 R15: 00007fd9ab04d000
+ </TASK>
+syz-executor.6: attempt to access beyond end of device
+nbd6: rw=0, sector=1, nr_sectors = 1 limit=0
+VFS: unable to read V7 FS superblock on device nbd6.
+VFS: could not find a valid V7 on nbd6.
+(syz-executor.6,67829,0):ocfs2_parse_options:1444 ERROR: Unrecognized mount option "acl«‰Í(À"k¨8vJ÷6{„£¸Gk»ÿ%¡uE{X¯Z~òŠrç„•ÿ‹°JäÑâC)º_ÔqíıD±(=w\üıRñ<äíá˜(Á¦àh  I6;¹zzæKôu‚È¼ìâb÷í«şLNÜŞ‡Ùæ3ãÖ é #Ä>¥ReŠ¹Gã
+ÑHşl{…îq›ªÃšsÿæmÓÂº6ÅLÚ
+¬Ğ·ûşSTÜ£¿šôA‡d¡9¤ÅÖ´G^¿Îa€áB‰Ûnospace_cache" or missing value
+(syz-executor.6,67829,0):ocfs2_fill_super:1176 ERROR: status = -22

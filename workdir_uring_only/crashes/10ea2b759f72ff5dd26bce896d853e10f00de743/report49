@@ -1,0 +1,27 @@
+unregister_netdevice: waiting for syz_tun to become free. Usage count = 2
+ref_tracker: syz_tun@0000000023ae7b4c has 1/1 users at
+     __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+     netdev_tracker_alloc include/linux/netdevice.h:4076 [inline]
+     fib_create_info+0x167f/0x1f80 net/ipv4/fib_semantics.c:1552
+     fib_table_insert+0xd8/0x9a0 net/ipv4/fib_trie.c:1237
+     fib_magic+0x335/0x380 net/ipv4/fib_frontend.c:1104
+     fib_add_ifaddr+0x98/0x2b0 net/ipv4/fib_frontend.c:1126
+     fib_inetaddr_event+0xa3/0x150 net/ipv4/fib_frontend.c:1440
+     notifier_call_chain+0x63/0x220 kernel/notifier.c:93
+     blocking_notifier_call_chain kernel/notifier.c:388 [inline]
+     blocking_notifier_call_chain+0x56/0x80 kernel/notifier.c:376
+     __inet_insert_ifa+0x46e/0x580 net/ipv4/devinet.c:556
+     inet_rtm_newaddr+0x296/0x4f0 net/ipv4/devinet.c:981
+     rtnetlink_rcv_msg+0x234/0xab0 net/core/rtnetlink.c:6595
+     netlink_rcv_skb+0x89/0x1d0 net/netlink/af_netlink.c:2559
+     rtnetlink_rcv+0x21/0x30 net/core/rtnetlink.c:6613
+     netlink_unicast_kernel net/netlink/af_netlink.c:1335 [inline]
+     netlink_unicast+0x2db/0x420 net/netlink/af_netlink.c:1361
+     netlink_sendmsg+0x31a/0x650 net/netlink/af_netlink.c:1905
+     sock_sendmsg_nosec net/socket.c:730 [inline]
+     __sock_sendmsg net/socket.c:745 [inline]
+     __sys_sendto+0x314/0x320 net/socket.c:2191
+     __do_sys_sendto net/socket.c:2203 [inline]
+     __se_sys_sendto net/socket.c:2199 [inline]
+     __x64_sys_sendto+0x2c/0x40 net/socket.c:2199
+

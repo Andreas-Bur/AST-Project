@@ -1,0 +1,96 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2663 jiffies s: 38769 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 92060 Comm: syz-executor.5 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__sanitizer_cov_trace_pc+0x5d/0x70 kernel/kcov.c:225
+Code: 60 15 00 00 83 f8 02 75 20 48 8b 8a 68 15 00 00 8b 92 64 15 00 00 48 8b 01 48 83 c0 01 48 39 c2 76 07 48 89 01 48 89 34 c1 5d <e9> a9 81 e6 03 66 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 90 90 90
+RSP: 0000:ffff88807dc05ae8 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff8121c39f
+RDX: ffff8880681b0000 RSI: ffffffff8121c3ad RDI: 0000000000000007
+RBP: ffff88807dc05b20 R08: ffffffff85f8ebc6 R09: 0000000000000001
+R10: 0000017d726722eb R11: 0000000000000001 R12: 0000017d726722eb
+R13: ffff88807dc1c2c0 R14: 0000000000000000 R15: ffff88807dc208c0
+FS:  00007f213ac6f640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f213ac6dfc0 CR3: 000000005c278003 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ tick_program_event+0x77/0xc0 kernel/time/tick-oneshot.c:44
+ hrtimer_interrupt+0x152/0x2c0 kernel/time/hrtimer.c:1831
+ local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1032 [inline]
+ __sysvec_apic_timer_interrupt+0x6f/0x1f0 arch/x86/kernel/apic/apic.c:1049
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x3b/0x90 arch/x86/kernel/apic/apic.c:1043
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:mac80211_hwsim_tx_frame_no_nl.isra.0+0x364/0x850 drivers/net/wireless/virtual/mac80211_hwsim.c:1816
+Code: fd a0 fa 7c 86 0f 84 21 02 00 00 e8 c6 cb da fd 4d 39 ec 4c 89 7d 98 c6 45 a0 00 74 d8 e8 b4 cb da fd 45 0f b6 b5 08 3d 00 00 <31> ff 44 89 f6 e8 72 c6 da fd 45 84 f6 74 bc e8 98 cb da fd 45 0f
+RSP: 0000:ffff88807dc05cb0 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: ffff88807c02c400 RCX: ffffffff834ef35e
+RDX: ffff8880681b0000 RSI: ffffffff834ef34c RDI: 0000000000000001
+RBP: ffff88807dc05d40 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000001 R12: ffff8880235a3060
+R13: ffff888028103060 R14: 0000000000000000 R15: ffff8880235a32f8
+ mac80211_hwsim_tx_frame+0xe7/0x120 drivers/net/wireless/virtual/mac80211_hwsim.c:2200
+ __mac80211_hwsim_beacon_tx.part.0+0x14e/0x230 drivers/net/wireless/virtual/mac80211_hwsim.c:2250
+ __mac80211_hwsim_beacon_tx drivers/net/wireless/virtual/mac80211_hwsim.c:2217 [inline]
+ mac80211_hwsim_beacon_tx+0x301/0x4b0 drivers/net/wireless/virtual/mac80211_hwsim.c:2300
+ __iterate_interfaces+0x133/0x390 net/mac80211/util.c:772
+ ieee80211_iterate_active_interfaces_atomic+0x78/0x1d0 net/mac80211/util.c:808
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:__sanitizer_cov_trace_pc+0x0/0x70 kernel/kcov.c:200
+Code: 8b be b0 01 00 00 48 89 e5 e8 7c ff ff ff 31 c0 5d e9 1f 82 e6 03 0f 1f 40 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 48 89 e5 65 48 8b 15 70 53 d9 7e 65 8b 05 71 53 d9
+RSP: 0000:ffff888009767c90 EFLAGS: 00000206
+RAX: 00000000004482f3 RBX: 0000000000000215 RCX: 0000000000000080
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff814b6b98
+RBP: ffff888009767ce0 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff888009767be8 R11: 0000000000000000 R12: ffff88802a8ba000
+R13: 0000000000000000 R14: 00007f213ac6dfc0 R15: 0000000000000000
+ do_user_addr_fault arch/x86/mm/fault.c:1413 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x330/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:x64_setup_rt_frame+0xf8/0x480 arch/x86/kernel/signal_64.c:182
+Code: 83 cd 04 e8 9a e3 24 00 31 ff 48 89 de e8 10 df 24 00 48 85 db 0f 88 56 03 00 00 e8 82 e3 24 00 0f 01 cb 0f ae e8 4c 8d 7b 08 <4d> 89 2f e8 70 e3 24 00 48 c7 43 10 00 00 00 00 e8 63 e3 24 00 65
+RSP: 0000:ffff888009767df0 EFLAGS: 00050212
+RAX: 0000000000002d39 RBX: 00007f213ac6dfb8 RCX: ffffc90021422000
+RDX: 0000000000040000 RSI: ffffffff8104db7e RDI: 0000000000000007
+RBP: ffff888009767e28 R08: ffffffff85f89824 R09: 0000000000000001
+R10: 00007f213ac6dfb8 R11: 0000000000000000 R12: ffff888009767f58
+R13: 0000000000000007 R14: ffff888009767e38 R15: 00007f213ac6dfc0
+ setup_rt_frame arch/x86/kernel/signal.c:223 [inline]
+ handle_signal arch/x86/kernel/signal.c:267 [inline]
+ arch_do_signal_or_restart+0x3ae/0x470 arch/x86/kernel/signal.c:312
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ irqentry_exit_to_user_mode+0x117/0x200 kernel/entry/common.c:231
+ irqentry_exit+0x73/0xa0 kernel/entry/common.c:334
+ exc_page_fault+0x3e1/0x1250 arch/x86/mm/fault.c:1566
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0033:0x7f2139e8aaca
+Code: fe 28 7f 27 62 e1 fe 28 7f 6f 01 62 e1 fe 28 7f 77 02 62 e1 fe 28 7f 7f 03 49 83 c0 1f 49 29 d0 48 8d 7c 17 61 e9 e6 04 00 00 <62> e1 fe 28 6f 1e 62 e1 fe 28 6f 56 01 62 b3 7d 20 3f c3 00 c5 fb
+RSP: 002b:00007f213ac6ebc8 EFLAGS: 00010287
+RAX: 00007f213ac6ebf0 RBX: 6666666666666667 RCX: 0000000000000000
+RDX: 00000000000003ff RSI: 0000000000000000 RDI: 00007f213ac6ebf0
+RBP: 00007f213ac6ebf0 R08: 00000000000003ff R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f2139fcbf80 R15: 00007f213ac4f000
+ </TASK>

@@ -1,0 +1,41 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 79710 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ mark_lock+0x18a/0x940 kernel/locking/lockdep.c:4673
+ mark_usage kernel/locking/lockdep.c:4591 [inline]
+ __lock_acquire+0x3cd/0x15f0 kernel/locking/lockdep.c:5091
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ touch_wq_lockdep_map+0x57/0xd0 kernel/workqueue.c:3901
+ __flush_workqueue+0x83/0x6c0 kernel/workqueue.c:3943
+ drain_workqueue+0x119/0x1f0 kernel/workqueue.c:4107
+ destroy_workqueue+0x6c/0x580 kernel/workqueue.c:5673
+ nci_unregister_device+0x43/0xf0 net/nfc/nci/core.c:1304
+ virtual_ncidev_close+0x23/0x50 drivers/nfc/virtual_ncidev.c:168
+ __fput+0x135/0x540 fs/file_table.c:422
+ ____fput+0x1a/0x30 fs/file_table.c:450
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ get_signal+0x9a/0x1350 kernel/signal.c:2683
+ arch_do_signal_or_restart+0x26/0x470 arch/x86/kernel/signal.c:310
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x128/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb06468fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fb0654bb028 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: fffffffffffffff2 RBX: 00007fb0647cc050 RCX: 00007fb06468fd6d
+RDX: 00000000000000e8 RSI: 0000000020000340 RDI: 0000000000000003
+RBP: 00007fb0646f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007fb0647cc050 R15: 00007fb06549b000
+ </TASK>

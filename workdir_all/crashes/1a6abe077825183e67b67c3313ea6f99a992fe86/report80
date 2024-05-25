@@ -1,0 +1,36 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2680 jiffies s: 5477 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 17304 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:ndisc_send_rs+0x2e/0x2c0 net/ipv6/ndisc.c:687
+Code: 55 48 89 e5 41 57 41 56 49 89 d6 41 55 49 89 f5 41 54 49 89 fc 53 48 83 ec 10 e8 1d 1c c9 fc 31 ff 41 0f b6 9c 24 58 03 00 00 <89> de e8 5b 17 c9 fc 85 db 75 5e e8 02 1c c9 fc be 08 00 00 00 4c
+RSP: 0018:ffff88807dc05dc8 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000006 RCX: ffffffff845cdf3a
+RDX: ffff88806a500000 RSI: ffffffff8460a2e3 RDI: 0000000000000000
+RBP: ffff88807dc05e00 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88801175a000
+R13: ffff88807dc05e20 R14: ffffffff856c9ad8 R15: ffff88801175a000
+FS:  00007f5c3b8b4640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f6146f76000 CR3: 0000000064104002 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ addrconf_rs_timer+0x15c/0x3f0 net/ipv6/addrconf.c:4038
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645

@@ -1,0 +1,57 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 3149 Comm: kworker/u8:6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: netns cleanup_net
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ devl_lock net/devlink/core.c:276 [inline]
+ devl_dev_lock net/devlink/devl_internal.h:109 [inline]
+ devlink_pernet_pre_exit+0x9e/0x170 net/devlink/core.c:506
+ ops_pre_exit_list net/core/net_namespace.c:160 [inline]
+ cleanup_net+0x2ce/0x5d0 net/core/net_namespace.c:617
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+netdevsim netdevsim4 netdevsim3 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim4 netdevsim2 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim4 netdevsim1 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+netdevsim netdevsim4 netdevsim0 (unregistering): unset [1, 0] type 2 family 0 port 6081 - 0
+bond0: left allmulticast mode
+bond_slave_0: left allmulticast mode
+bond0: left promiscuous mode
+bond_slave_0: left promiscuous mode
+bridge0: port 1(bond0) entered disabled state
+bond0 (unregistering): (slave bond_slave_0): Releasing backup interface
+bond0 (unregistering): Released all slaves
+batadv0: left promiscuous mode
+veth0_to_batadv: left promiscuous mode
+hsr_slave_0: left promiscuous mode
+hsr_slave_1: left promiscuous mode
+batman_adv: batadv0: Interface deactivated: batadv_slave_0
+batman_adv: batadv0: Removing interface: batadv_slave_0
+batman_adv: batadv0: Interface deactivated: batadv_slave_1
+batman_adv: batadv0: Removing interface: batadv_slave_1
+veth0_macvtap: left promiscuous mode
+veth1_vlan: left promiscuous mode
+veth0_vlan: left promiscuous mode
+team0 (unregistering): Port device team_slave_1 removed
+team0 (unregistering): Port device team_slave_0 removed
+IPVS: stop unused estimator thread 0...

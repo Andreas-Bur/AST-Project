@@ -1,0 +1,80 @@
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 0, t=10502 jiffies, g=122045, q=712 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10502 (4295013462-4295002960), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10502 jiffies! g122045 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14336 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 0 PID: 48230 Comm: syz-executor.1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:check_kcov_mode kernel/kcov.c:173 [inline]
+RIP: 0010:write_comp_data+0x17/0x80 kernel/kcov.c:236
+Code: 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 49 89 d2 65 8b 05 2e 5a d9 7e 65 48 8b 15 1e 5a d9 7e a9 00 01 ff 00 <74> 0f f6 c4 01 74 59 8b 82 84 15 00 00 85 c0 74 4f 8b 82 60 15 00
+RSP: 0018:ffff8880457cf668 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff823c3a11
+RDX: ffff888038634380 RSI: 0000000000000000 RDI: 0000000000000003
+RBP: ffff8880457cf670 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff8880387096b8 R14: ffff888038709548 R15: ffff888038709548
+FS:  00007f9a37b40640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f29b98d4b60 CR3: 0000000040d62001 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ </IRQ>
+ <TASK>
+ __bch2_write+0x13c1/0x20d0 fs/bcachefs/io_write.c:1483
+ bch2_write+0x241/0x660 fs/bcachefs/io_write.c:1610
+ closure_queue include/linux/closure.h:257 [inline]
+ closure_call include/linux/closure.h:390 [inline]
+ bch2_writepage_do_io+0x43/0x50 fs/bcachefs/fs-io-buffered.c:468
+ __bch2_writepage+0x636/0xc50 fs/bcachefs/fs-io-buffered.c:615
+ write_cache_pages+0x5b/0xb0 mm/page-writeback.c:2569
+ bch2_writepages+0x52/0xc0 fs/bcachefs/fs-io-buffered.c:658
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ file_write_and_wait_range+0x93/0xf0 mm/filemap.c:788
+ bch2_fsync+0x40/0xe0 fs/bcachefs/fs-io.c:197
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ bch2_buffered_write fs/bcachefs/fs-io-buffered.c:1136 [inline]
+ bch2_write_iter+0x248/0x17d0 fs/bcachefs/fs-io-buffered.c:1144
+ call_write_iter include/linux/fs.h:2110 [inline]
+ new_sync_write fs/read_write.c:497 [inline]
+ vfs_write+0x61f/0x880 fs/read_write.c:590
+ ksys_write+0xa1/0x160 fs/read_write.c:643
+ __do_sys_write fs/read_write.c:655 [inline]
+ __se_sys_write fs/read_write.c:652 [inline]
+ __x64_sys_write+0x21/0x30 fs/read_write.c:652
+ x64_sys_call+0x1679/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:2
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9a36e8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9a37b40028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f9a36fcbf80 RCX: 00007f9a36e8fd6d
+RDX: 00000000fffffdef RSI: 0000000020000080 RDI: 000000000000000b
+RBP: 00007f9a36ef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000004d R14: 00007f9a36fcbf80 R15: 00007f9a37b20000
+ </TASK>

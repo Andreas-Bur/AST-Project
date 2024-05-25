@@ -1,0 +1,96 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 54944 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ __pte_offset_map_lock+0x96/0x1e0 mm/pgtable-generic.c:373
+ pte_offset_map_lock include/linux/mm.h:2978 [inline]
+ finish_fault+0xe2/0x460 mm/memory.c:4748
+ do_shared_fault mm/memory.c:4974 [inline]
+ do_fault mm/memory.c:5028 [inline]
+ do_pte_missing mm/memory.c:3880 [inline]
+ handle_pte_fault mm/memory.c:5300 [inline]
+ __handle_mm_fault+0x2959/0x3460 mm/memory.c:5441
+ handle_mm_fault+0x276/0x860 mm/memory.c:5606
+ do_user_addr_fault arch/x86/mm/fault.c:1413 [inline]
+ handle_page_fault arch/x86/mm/fault.c:1505 [inline]
+ exc_page_fault+0x330/0x1250 arch/x86/mm/fault.c:1563
+ asm_exc_page_fault+0x2b/0x30 arch/x86/include/asm/idtentry.h:623
+RIP: 0010:__put_user_4+0x11/0x20 arch/x86/lib/putuser.S:88
+Code: 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 48 89 cb 48 c1 fb 3f 48 09 d9 0f 01 cb <89> 01 31 c9 0f 01 ca e9 7e 5e 1f 00 0f 1f 00 90 90 90 90 90 90 90
+RSP: 0018:ffff88802e6dbdf0 EFLAGS: 00050202
+RAX: 0000000000000005 RBX: 0000000000000000 RCX: 0000000020000680
+RDX: ffff88800a6fc380 RSI: ffffffff814a06ad RDI: ffff88800a6fce08
+RBP: ffff88802e6dbea8 R08: ffffffff85f89824 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff88805b495808
+R13: 000000008004552d R14: ffff88805b495800 R15: 0000000000000000
+ uinput_ioctl+0x30/0x40 drivers/input/misc/uinput.c:1075
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:904 [inline]
+ __se_sys_ioctl fs/ioctl.c:890 [inline]
+ __x64_sys_ioctl+0x11b/0x160 fs/ioctl.c:890
+ x64_sys_call+0x1205/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:17
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5694e8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f5695b32028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f5694fcbf80 RCX: 00007f5694e8fd6d
+RDX: 0000000020000680 RSI: 000000008004552d RDI: 0000000000000003
+RBP: 00007f5694ef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f5694fcbf80 R15: 00007f5695b12000
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   7:	00
+   8:	90                   	nop
+   9:	90                   	nop
+   a:	90                   	nop
+   b:	90                   	nop
+   c:	90                   	nop
+   d:	90                   	nop
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	f3 0f 1e fa          	endbr64
+  1d:	48 89 cb             	mov    %rcx,%rbx
+  20:	48 c1 fb 3f          	sar    $0x3f,%rbx
+  24:	48 09 d9             	or     %rbx,%rcx
+  27:	0f 01 cb             	stac
+* 2a:	89 01                	mov    %eax,(%rcx) <-- trapping instruction
+  2c:	31 c9                	xor    %ecx,%ecx
+  2e:	0f 01 ca             	clac
+  31:	e9 7e 5e 1f 00       	jmp    0x1f5eb4
+  36:	0f 1f 00             	nopl   (%rax)
+  39:	90                   	nop
+  3a:	90                   	nop
+  3b:	90                   	nop
+  3c:	90                   	nop
+  3d:	90                   	nop
+  3e:	90                   	nop
+  3f:	90                   	nop

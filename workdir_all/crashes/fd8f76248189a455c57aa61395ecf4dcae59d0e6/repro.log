@@ -1,0 +1,384 @@
+Warning: Permanently added '[localhost]:2195' (ED25519) to the list of known hosts.
+executing program
+syzkaller login: [   34.174744][ T6147] loop0: detected capacity change from 0 to 32768
+[   34.209801][ T6109] I/O error, dev loop0, sector 32640 op 0x0:(READ) flags 0x80700 phys_seg 1 prio class 0
+[   34.352849][ T6147] loop0: detected capacity change from 0 to 32768
+[   34.396483][ T6147] bcachefs (loop0): mounting version 1.7: (unknown version) opts=errors=continue,metadata_checksum=none,data_checksum=none,compression=lz4,nojournal_transaction_names
+[   34.397488][ T6147] bcachefs (loop0): recovering from clean shutdown, journal seq 10
+[   34.398040][ T6147] bcachefs (loop0): Version downgrade required:
+[   34.401657][ T6147] bcachefs (loop0): error validating btree node on loop0 at btree extents level 0/0
+[   34.401704][ T6147]   u64s 11 type btree_ptr_v2 U64_MAX:U64_MAX:100663296 len 0 ver 2199023255552: seq c6c25c03258c59c5 written 16 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0
+[   34.401732][ T6147]   node offset 0/16 bset u64s 0: incorrect max key SPOS_MAX
+[   34.403884][ T6147] bcachefs (loop0): flagging btree extents lost data
+[   34.405416][ T6147] error reading btree root extents l=0: btree_node_read_error, fixing
+[   34.406069][ T6147] bcachefs (loop0): will run btree node scan
+[   34.407679][ T6147] bcachefs (loop0): error validating btree node on loop0 at btree dirents level 0/0
+[   34.407724][ T6147]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0
+[   34.407750][ T6147]   node offset 0/24 bset u64s 0: checksum error: got  should be  type none, fixing
+[   34.409835][ T6147] bcachefs (loop0): error validating btree node at btree dirents level 0/0
+[   34.409851][ T6147]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0
+[   34.409871][ T6147]   node offset 16/24 bset u64s 36: keys out of order: u64s 7 type dirent 1407374883557376:2695648408715017799:U32_MAX len 0 ver 0 > u64s 7 type dirent 4096:4330382808765833931:U32_MAX len 0 ver 0, fixing
+[   34.412124][ T6147] bcachefs (loop0): btree_node_read_work: rewriting btree node at btree=dirents level=0 SPOS_MAX due to error
+[   34.413723][ T6147] bcachefs (loop0): error validating btree node on loop0 at btree subvolumes level 0/0
+[   34.413741][ T6147]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c0bef60d07ceb940 written 16 min_key POS_MIN durability: 1 ptr: 0:35:0 gen 0
+[   34.413761][ T6147]   node offset 8/16: btree node data missing: expected 16 sectors, found 8, fixing
+[   34.415502][ T6147] bcachefs (loop0): btree_node_read_work: rewriting btree node at btree=subvolumes level=0 SPOS_MAX due to error
+[   34.417301][ T6147] bcachefs (loop0): error validating btree node on loop0 at btree freespace level 0/0
+[   34.417318][ T6147]   u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq e81e1ed936acf3df written 32 min_key POS_MIN durability: 1 ptr: 0:29:0 gen 0
+[   34.417339][ T6147]   node offset 0/32: incorrect min_key: got 0:0:16777216 should be POS_MIN
+[   34.419240][ T6147] bcachefs (loop0): flagging btree freespace lost data
+[   34.420353][ T6147] error reading btree root freespace l=0: btree_node_read_error, fixing
+[   34.421734][ T6147] bcachefs (loop0): scan_for_btree_nodes...
+[   34.428994][ T6147] bch2_scan_for_btree_nodes: nodes found after overwrites:
+[   34.429030][ T6147]   extents l=0 seq=1 cookie=c6c25c03258c59c5 POS_MIN-SPOS_MAX ptr: 0:27:0 gen 0
+[   34.429045][ T6147]   inodes l=0 seq=1 cookie=7589ab5e0c11cc7a POS_MIN-SPOS_MAX ptr: 0:38:0 gen 0
+[   34.429060][ T6147]   dirents l=0 seq=1 cookie=9aa2895aefce4bdf POS_MIN-SPOS_MAX ptr: 0:41:0 gen 0
+[   34.429075][ T6147]   xattrs l=0 seq=1 cookie=2285c34bed0abe32 POS_MIN-SPOS_MAX ptr: 0:31:0 gen 0
+[   34.429090][ T6147]   subvolumes l=0 seq=1 cookie=c0bef60d07ceb940 POS_MIN-SPOS_MAX ptr: 0:35:0 gen 0
+[   34.429105][ T6147]   snapshots l=0 seq=1 cookie=ebb8d5a9e3463bdb POS_MIN-SPOS_MAX ptr: 0:32:0 gen 0
+[   34.429120][ T6147]   lru l=0 seq=1 cookie=28f61e078e70b95c POS_MIN-SPOS_MAX ptr: 0:28:0 gen 0
+[   34.429135][ T6147]   deleted_inodes l=0 seq=1 cookie=1db8f60c84bb244c POS_MIN-SPOS_MAX ptr: 0:42:0 gen 0
+[   34.429150][ T6147] 
+[   34.433736][ T6147]  done
+[   34.433900][ T6147] bcachefs (loop0): check_topology...
+[   34.433914][ T6147] bcachefs (loop0): btree root extents unreadable, must recover from scan
+[   34.434985][ T6147] bcachefs (loop0): bch2_get_scanned_nodes(): recovering extents l=0 POS_MIN - SPOS_MAX
+[   34.435547][ T6147] bcachefs (loop0): bch2_get_scanned_nodes(): recovering u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c6c25c03258c59c5 written 0 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0
+[   34.437701][ T6147]  done
+[   34.437873][ T6147] bcachefs (loop0): alloc_read... done
+[   34.438532][ T6147] bcachefs (loop0): stripes_read... done
+[   34.440852][ T6147] bcachefs (loop0): snapshots_read... done
+[   34.441521][ T6147] bcachefs (loop0): check_allocations...
+[   34.442379][ T6147] bucket 0:27 data type btree ptr gen 0 missing in alloc btree
+[   34.442414][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c6c25c03258c59c5 written 0 min_key POS_MIN durability: 1 ptr: 0:27:0 gen 0, fixing
+[   34.444164][ T6147] bucket 0:34 data type user ptr gen 0 missing in alloc btree
+[   34.444198][ T6147] while marking u64s 7 type extent 4099:8:U32_MAX len 8 ver 0: durability: 1 crc: c_size 8 size 8 offset 0 nonce 0 csum none compress incompressible ptr: 0:34:0 gen 0, fixing
+[   34.445696][ T6147] bucket 0:38 data type btree ptr gen 0 missing in alloc btree
+[   34.445710][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 7589ab5e0c11cc7a written 24 min_key POS_MIN durability: 1 ptr: 0:38:0 gen 0, fixing
+[   34.446977][ T6147] bucket 0:41 data type btree ptr gen 0 missing in alloc btree
+[   34.446991][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 9aa2895aefce4bdf written 24 min_key POS_MIN durability: 1 ptr: 0:41:0 gen 0, fixing
+[   34.448579][ T6147] bucket 0:31 data type btree ptr gen 0 missing in alloc btree
+[   34.448594][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 2285c34bed0abe32 written 16 min_key POS_MIN durability: 1 ptr: 0:31:0 gen 0, fixing
+[   34.449898][ T6147] bucket 0:35 data type btree ptr gen 0 missing in alloc btree
+[   34.449912][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq c0bef60d07ceb940 written 16 min_key POS_MIN durability: 1 ptr: 0:35:0 gen 0, fixing
+[   34.451197][ T6147] bucket 0:32 data type btree ptr gen 0 missing in alloc btree
+[   34.451211][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq ebb8d5a9e3463bdb written 16 min_key POS_MIN durability: 1 ptr: 0:32:0 gen 0, fixing
+[   34.452733][ T6147] bucket 0:28 data type btree ptr gen 0 missing in alloc btree
+[   34.452747][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 28f61e078e70b95c written 16 min_key POS_MIN durability: 1 ptr: 0:28:0 gen 0, fixing
+[   34.454155][ T6147] bucket 0:37 data type btree ptr gen 0 missing in alloc btree
+[   34.454169][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 4a8b0fa43a9980a6 written 24 min_key POS_MIN durability: 1 ptr: 0:37:0 gen 0, fixing
+[   34.455591][ T6147] bucket 0:42 data type btree ptr gen 0 missing in alloc btree
+[   34.455605][ T6147] while marking u64s 11 type btree_ptr_v2 SPOS_MAX len 0 ver 0: seq 1db8f60c84bb244c written 8 min_key POS_MIN durability: 1 ptr: 0:42:0 gen 0, fixing
+[   34.457024][ T6147] bucket 0:0 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.457541][ T6147] bucket 0:0 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.459612][ T6147] bucket 0:1 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.460162][ T6147] bucket 0:1 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.460816][ T6147] bucket 0:2 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.461275][ T6147] bucket 0:2 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.461856][ T6147] bucket 0:3 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.462323][ T6147] bucket 0:3 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.462898][ T6147] bucket 0:4 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.463361][ T6147] bucket 0:4 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.463937][ T6147] bucket 0:5 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.464381][ T6147] bucket 0:5 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.464962][ T6147] bucket 0:6 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.465433][ T6147] bucket 0:6 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.466004][ T6147] bucket 0:7 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.466461][ T6147] bucket 0:7 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.467207][ T6147] bucket 0:8 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.467706][ T6147] bucket 0:8 gen 0 data type sb has wrong dirty_sectors: got 0, should be 8, fixing
+[   34.468835][ T6147] bucket 0:16 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.469280][ T6147] bucket 0:16 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.469952][ T6147] bucket 0:17 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.470437][ T6147] bucket 0:17 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.471112][ T6147] bucket 0:18 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.471583][ T6147] bucket 0:18 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.472160][ T6147] bucket 0:19 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.472625][ T6147] bucket 0:19 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.473202][ T6147] bucket 0:20 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.473675][ T6147] bucket 0:20 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.474253][ T6147] bucket 0:21 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.474725][ T6147] bucket 0:21 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.475292][ T6147] bucket 0:22 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.475760][ T6147] bucket 0:22 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.476356][ T6147] bucket 0:23 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.476979][ T6147] bucket 0:23 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.477853][ T6147] bucket 0:27 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.478578][ T6147] bucket 0:27 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.479205][ T6147] bucket 0:28 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.479710][ T6147] bucket 0:28 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.480349][ T6147] bucket 0:31 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.480855][ T6147] bucket 0:31 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.481490][ T6147] bucket 0:32 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.481995][ T6147] bucket 0:32 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.482627][ T6147] bucket 0:34 gen 0 has wrong data_type: got free, should be user, fixing
+[   34.483124][ T6147] bucket 0:34 gen 0 data type user has wrong dirty_sectors: got 0, should be 16, fixing
+[   34.483730][ T6147] bucket 0:35 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.484238][ T6147] bucket 0:35 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.484852][ T6147] bucket 0:37 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.485345][ T6147] bucket 0:37 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.485967][ T6147] bucket 0:38 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.486461][ T6147] bucket 0:38 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.487088][ T6147] bucket 0:41 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.487585][ T6147] bucket 0:41 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.488227][ T6147] bucket 0:42 gen 0 has wrong data_type: got free, should be btree, fixing
+[   34.488746][ T6147] bucket 0:42 gen 0 data type btree has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.490487][ T6147] bucket 0:120 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.491076][ T6147] bucket 0:120 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.491829][ T6147] bucket 0:121 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.492411][ T6147] bucket 0:121 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.493155][ T6147] bucket 0:122 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.493755][ T6147] bucket 0:122 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.494495][ T6147] bucket 0:123 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.495096][ T6147] bucket 0:123 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.495988][ T6147] bucket 0:124 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.496589][ T6147] bucket 0:124 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.497340][ T6147] bucket 0:125 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.497958][ T6147] bucket 0:125 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.498737][ T6147] bucket 0:126 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.499339][ T6147] bucket 0:126 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.500099][ T6147] bucket 0:127 gen 0 has wrong data_type: got free, should be sb, fixing
+[   34.500707][ T6147] bucket 0:127 gen 0 data type sb has wrong dirty_sectors: got 0, should be 256, fixing
+[   34.538753][ T6147]  done
+[   34.539414][ T6147] bcachefs (loop0): going read-write
+[   34.540790][ T6147] bcachefs (loop0): journal_replay...
+[   34.541847][   T58] ------------[ cut here ]------------
+[   34.542624][   T58] kernel BUG at fs/bcachefs/alloc_foreground.c:470!
+[   34.542986][   T58] invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+[   34.543320][   T58] CPU: 0 PID: 58 Comm: kworker/u8:4 Not tainted 6.9.0-rc4 #2
+[   34.543720][   T58] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+[   34.544207][   T58] Workqueue: btree_node_rewrite async_btree_node_rewrite_work
+[   34.544746][   T58] RIP: 0010:bch2_bucket_alloc_freelist+0x514/0x520
+[   34.545395][   T58] Code: 48 89 9d 10 ff ff ff e9 93 fb ff ff e8 b5 dd ff fe 41 81 cc 08 01 00 00 e9 df fb ff ff 31 c0 e9 ac fe ff ff e8 9d dd ff fe 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
+[   34.546575][   T58] RSP: 0018:ffff88800af57310 EFLAGS: 00010293
+[   34.546911][   T58] RAX: 0000000000000000 RBX: 0000000000000019 RCX: ffffffff8229dcc2
+[   34.547341][   T58] RDX: ffff88800af2a1c0 RSI: ffffffff8229e163 RDI: 0000000000000007
+[   34.547770][   T58] RBP: ffff88800af57410 R08: 0000000000000000 R09: 0000000000000001
+[   34.548200][   T58] R10: 0000000000000019 R11: 0000000000000001 R12: 0000000000000001
+[   34.548629][   T58] R13: 0000000000000001 R14: ffff88800fcb0000 R15: ffff88800af57478
+[   34.549038][   T58] FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+[   34.549506][   T58] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   34.549867][   T58] CR2: 00007ff8269c9000 CR3: 000000000e494006 CR4: 0000000000770ef0
+[   34.550290][   T58] PKRU: 55555554
+[   34.550488][   T58] Call Trace:
+[   34.550723][   T58]  <TASK>
+[   34.550745][ T6147] bcachefs (loop0): bch2_journal_replay(): error erofs_journal_err
+[   34.550901][   T58]  ? show_regs+0xa3/0xc0
+[   34.550939][   T58]  ? die+0x3d/0xb0
+[   34.551348][ T6147] bcachefs (loop0): bch2_fs_recovery(): error erofs_journal_err
+[   34.551559][   T58]  ? do_trap+0x134/0x150
+[   34.551755][ T6147] bcachefs (loop0): bch2_fs_start(): error starting filesystem erofs_journal_err
+[   34.552137][   T58]  ? do_error_trap+0xdd/0x1d0
+[   34.552344][ T6147] bcachefs (loop0): shutting down
+[   34.552797][   T58]  ? bch2_bucket_alloc_freelist+0x514/0x520
+[   34.553036][ T6147] bcachefs (loop0): going read-only
+[   34.553296][   T58]  ? exc_invalid_op+0x87/0xb0
+[   34.554268][   T58]  ? bch2_bucket_alloc_freelist+0x514/0x520
+[   34.554613][   T58]  ? asm_exc_invalid_op+0x1f/0x30
+[   34.554919][   T58]  ? bch2_bucket_alloc_freelist+0x72/0x520
+[   34.555251][   T58]  ? bch2_bucket_alloc_freelist+0x513/0x520
+[   34.555595][   T58]  ? bch2_bucket_alloc_freelist+0x514/0x520
+[   34.555945][   T58]  ? bch2_bucket_alloc_freelist+0x79/0x520
+[   34.556289][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.556629][   T58]  ? mark_held_locks+0x4d/0x80
+[   34.556933][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.557266][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.557602][   T58]  ? __sanitizer_cov_trace_cmp4+0x1a/0x20
+[   34.557940][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.558271][   T58]  ? bch2_dev_usage_read_fast+0x209/0x290
+[   34.558620][   T58]  bch2_bucket_alloc_trans+0x3e6/0x880
+[   34.558936][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.559270][   T58]  ? bch2_bucket_alloc_trans+0x3e6/0x880
+[   34.559601][   T58]  ? __print_lock_name+0xa0/0xc0
+[   34.559901][   T58]  ? bch2_bucket_alloc_set_trans+0x214/0xcc0
+[   34.560251][   T58]  bch2_bucket_alloc_set_trans+0x2b1/0xcc0
+[   34.560642][   T58]  ? __sanitizer_cov_trace_const_cmp2+0x1c/0x30
+[   34.561014][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.561370][   T58]  ? lock_acquire+0xab/0x2c0
+[   34.561716][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.562046][   T58]  ? find_held_lock+0x31/0x90
+[   34.562328][   T58]  ? bch2_target_to_mask+0xe6/0x4a0
+[   34.562669][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.563004][   T58]  ? lock_release+0xac/0x260
+[   34.563308][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.563672][   T58]  __open_bucket_add_buckets+0x4a8/0x8c0
+[   34.564003][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.564349][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.564712][   T58]  bch2_alloc_sectors_start_trans+0x6d1/0xd10
+[   34.565069][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.565431][   T58]  ? __bch2_btree_node_alloc+0x2ec/0x660
+[   34.565758][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.566088][   T58]  ? lock_release+0xac/0x260
+[   34.566377][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.566715][   T58]  ? __mutex_unlock_slowpath+0x2d/0x2b0
+[   34.567037][   T58]  __bch2_btree_node_alloc+0x393/0x660
+[   34.567369][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.567737][   T58]  ? lock_release+0xac/0x260
+[   34.568052][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.568383][   T58]  ? __sanitizer_cov_trace_const_cmp1+0x1e/0x30
+[   34.568789][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.569189][   T58]  ? bch2_btree_cache_cannibalize_lock+0xe2/0x220
+[   34.569572][   T58]  bch2_btree_reserve_get+0x101/0x190
+[   34.569883][   T58]  bch2_btree_update_start+0x5c6/0xbb0
+[   34.570254][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.570664][   T58]  ? bch2_btree_iter_verify+0x112/0x1a0
+[   34.570995][   T58]  bch2_btree_node_rewrite+0x98/0x530
+[   34.571315][   T58]  ? bch2_trans_node_iter_init+0x178/0x1b0
+[   34.571670][   T58]  async_btree_node_rewrite_trans+0x1ca/0x3a0
+[   34.572035][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.572378][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.572717][   T58]  ? bch2_trans_begin+0x638/0xbb0
+[   34.573029][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.573366][   T58]  ? kvm_sched_clock_read+0x1a/0x30
+[   34.573682][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.574019][   T58]  ? async_btree_node_rewrite_trans+0x66/0x3a0
+[   34.574381][   T58]  async_btree_node_rewrite_work+0x68/0x2c0
+[   34.574733][   T58]  process_one_work+0x2eb/0xa00
+[   34.575028][   T58]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   34.575360][   T58]  ? move_linked_works+0x134/0x150
+[   34.575663][   T58]  worker_thread+0x2a8/0x590
+[   34.575948][   T58]  ? __pfx_worker_thread+0x10/0x10
+[   34.576258][   T58]  kthread+0x127/0x160
+[   34.576504][   T58]  ? __pfx_kthread+0x10/0x10
+[   34.576778][   T58]  ret_from_fork+0x54/0x60
+[   34.577043][   T58]  ? __pfx_kthread+0x10/0x10
+[   34.577312][   T58]  ret_from_fork_asm+0x1a/0x30
+[   34.577618][   T58]  </TASK>
+[   34.577797][   T58] Modules linked in:
+[   34.578057][   T58] ---[ end trace 0000000000000000 ]---
+[   34.578357][   T58] RIP: 0010:bch2_bucket_alloc_freelist+0x514/0x520
+[   34.578733][   T58] Code: 48 89 9d 10 ff ff ff e9 93 fb ff ff e8 b5 dd ff fe 41 81 cc 08 01 00 00 e9 df fb ff ff 31 c0 e9 ac fe ff ff e8 9d dd ff fe 90 <0f> 0b 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90
+[   34.579729][   T58] RSP: 0018:ffff88800af57310 EFLAGS: 00010293
+[   34.580071][   T58] RAX: 0000000000000000 RBX: 0000000000000019 RCX: ffffffff8229dcc2
+[   34.580499][   T58] RDX: ffff88800af2a1c0 RSI: ffffffff8229e163 RDI: 0000000000000007
+[   34.580999][   T58] RBP: ffff88800af57410 R08: 0000000000000000 R09: 0000000000000001
+[   34.581458][   T58] R10: 0000000000000019 R11: 0000000000000001 R12: 0000000000000001
+[   34.581867][   T58] R13: 0000000000000001 R14: ffff88800fcb0000 R15: ffff88800af57478
+[   34.582279][   T58] FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+[   34.582753][   T58] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   34.583117][   T58] CR2: 00007ff8269c9000 CR3: 000000000e494006 CR4: 0000000000770ef0
+[   34.583543][   T58] PKRU: 55555554
+[   34.583752][   T58] Kernel panic - not syncing: Fatal exception
+[   34.584240][   T58] Kernel Offset: disabled
+[   34.584489][   T58] Rebooting in 86400 seconds..
+
+VM DIAGNOSIS:
+20:30:37  Registers:
+info registers vcpu 0
+RAX=000000000000000a RBX=0000000000000000 RCX=0000000000000000 RDX=00000000000003f8
+RSI=ffffffff82a5ff8a RDI=ffffffff893a8160 RBP=ffff88800af56e30 RSP=ffff88800af56e18
+R8 =0000000000000001 R9 =0000000000000000 R10=0000000000000001 R11=0000000000000000
+R12=ffffffff893a8160 R13=000000000000000a R14=ffffffff8923c068 R15=0000000000000000
+RIP=ffffffff82a5ffa1 RFL=00000002 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 00000000 00000000
+CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+SS =0018 0000000000000000 ffffffff 00c09300 DPL=0 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 0000000000000000 00000000 00000000
+GS =0000 ffff88807dc00000 00000000 00000000
+LDT=0000 0000000000000000 00000000 00000000
+TR =0040 fffffe0000003000 00004087 00008b00 DPL=0 TSS64-busy
+GDT=     fffffe0000001000 0000007f
+IDT=     fffffe0000000000 00000fff
+CR0=80050033 CR2=00007ff8269c9000 CR3=000000000e494006 CR4=00770ef0
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000 
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000d01
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+Opmask00=0000000000000080 Opmask01=00000000ffffffff Opmask02=000000000000ffff Opmask03=00000000ffffffff
+Opmask04=00000000ffffffff Opmask05=00000000ffffffff Opmask06=00000000ffffffff Opmask07=0000000000000000
+ZMM00=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM01=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 6da7232614b378a4 024275189f13e3c8
+ZMM02=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffff0f 0e0d0c0b0a090807
+ZMM03=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 767265732e000065 6369767265732e68
+ZMM04=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 4040404040404040 4040404040404040
+ZMM05=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 5a5a5a5a5a5a5a5a 5a5a5a5a5a5a5a5a
+ZMM06=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 2020202020202020 2020202020202020
+ZMM07=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffff0000ff 000000ffffff0000
+ZMM08=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM09=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffff00000000ffff ffffffffffff0000
+ZMM10=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 2020000000002020 2020202020200000
+ZMM11=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM12=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM13=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM14=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM15=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM16=1c87686fa15d194a 00000000000ae988 8ca0b852b1c7c8e1 00000000000ae7b8 a1fcdcf819d7e1e5 00000000000ae728 5837fe9dc1c91f32 00000000000ae618
+ZMM17=d75627ef96b5c7fe 00000000001c9768 375afdebbf381c81 00000000000ef958 d3fdd5f48436fbd7 00000000000aead0 bdbfd8e8cb96c8ce 00000000000aea28
+ZMM18=f08bf4afe4c89dd3 00000000001c97d0 d75627ef96b5c7fe 00000000001c9768 375afdebbf381c81 00000000000ef958 d3fdd5f48436fbd7 00000000000aead0
+ZMM19=bdbfd8e8cb96c8ce 00000000000aea28 1c87686fa15d194a 00000000000ae988 8ca0b852b1c7c8e1 00000000000ae7b8 a1fcdcf819d7e1e5 00000000000ae728
+ZMM20=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000558b5443cb20 0000000200000000 0000000000000000 0000558b00000009
+ZMM21=f13ea85d3d77a419 00000000001b3578 e042d86d42eb936e 00000000001b3190 fb795ef6d6577056 00000000001b2f10 6a850e926b71937f 00000000001afcb0
+ZMM22=2c67c8bc2e329bc3 00000000001afc50 ec2efd57dc4c00df 00000000001afbe0 eff9b2d0a8fce9cb 00000000001afb28 d59e07bde36eea69 00000000001afad8
+ZMM23=7e8a42789393c4b7 00000000001af908 b3285ca56c489dff 00000000001920a8 2fccd54c36d8a3f3 0000000000189038 ac585006bc0bee6f 0000000000186e00
+ZMM24=0000000000000000 0000000000000000 0000000000000000 0000000000000000 3026242213212f37 2624360b0a012820 3020202020202020 093a332234102e15
+ZMM25=0000000000000000 0000000000000000 0000000000000000 0000000000000000 130b170a30093a24 2d2a332e36072631 2c000a0128203020 202020202020093a
+ZMM26=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM27=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM28=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM29=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM30=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM31=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+info registers vcpu 1
+RAX=0000000000000000 RBX=0000000000000000 RCX=ffffffff817f8d84 RDX=ffff888009ab8000
+RSI=ffffffff8140fac3 RDI=ffffea0000567e00 RBP=ffff888009a97680 RSP=ffff888009a97670
+R8 =ffff888009a9755f R9 =0000000000000014 R10=0000000000000000 R11=0000000000000001
+R12=ffffea0000567e00 R13=ffffea0000567e00 R14=ffff888009a97900 R15=0000000000001b2b
+RIP=ffffffff8140fac9 RFL=00000202 [-------] CPL=0 II=0 A20=1 SMM=0 HLT=0
+ES =0000 0000000000000000 00000000 00000000
+CS =0010 0000000000000000 ffffffff 00a09b00 DPL=0 CS64 [-RA]
+SS =0018 0000000000000000 ffffffff 00c09300 DPL=0 DS   [-WA]
+DS =0000 0000000000000000 00000000 00000000
+FS =0000 0000000000000000 00000000 00000000
+GS =0000 ffff88807dd00000 00000000 00000000
+LDT=0000 0000000000000000 00000000 00000000
+TR =0040 fffffe000003e000 00004087 00008b00 DPL=0 TSS64-busy
+GDT=     fffffe000003c000 0000007f
+IDT=     fffffe0000000000 00000fff
+CR0=80050033 CR2=00007ff8269be000 CR3=000000000e494003 CR4=00770ef0
+DR0=0000000000000000 DR1=0000000000000000 DR2=0000000000000000 DR3=0000000000000000 
+DR6=00000000ffff0ff0 DR7=0000000000000400
+EFER=0000000000000d01
+FCW=037f FSW=0000 [ST=0] FTW=00 MXCSR=00001f80
+FPR0=0000000000000000 0000 FPR1=0000000000000000 0000
+FPR2=0000000000000000 0000 FPR3=0000000000000000 0000
+FPR4=0000000000000000 0000 FPR5=0000000000000000 0000
+FPR6=0000000000000000 0000 FPR7=0000000000000000 0000
+Opmask00=00000000ffffff00 Opmask01=0000000000000111 Opmask02=000000000fc00008 Opmask03=0000000000000000
+Opmask04=0000000000000000 Opmask05=0000000000000000 Opmask06=0000000000000000 Opmask07=0000000000000000
+ZMM00=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffffff ffffffffffffffff
+ZMM01=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 00007f901e3bcc40 00007f901e3b94a0
+ZMM02=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 ffffffffffffff0f 0e0d0c0b0a090807
+ZMM03=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM04=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM05=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM06=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM07=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM08=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000020 0000000000002000
+ZMM09=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000ffffffffffff ffffffffffffff00
+ZMM10=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM11=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM12=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM13=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM14=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM15=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM16=6d20656c69687720 5d3734313654205b 5d3530363535342e 34332020205b203a 6c656e72656b2072 656c6c616b7a7973 2037333a30333a38 312038312079614d
+ZMM17=6638626431207165 73203a3020726576 2030206e656c2058 414d5f534f505320 32765f7274705f65 6572746220657079 7420313120733436 7520676e696b7261
+ZMM18=0a676e6978696620 2c30206e65672030 3a32343a30203a72 74702031203a7974 696c696261727564 204e494d5f534f50 2079656b5f6e696d 2038206e65747469
+ZMM19=7277206334343262 6234386330366638 6264312071657320 3a30207265762030 206e656c2058414d 5f534f5053203276 5f7274705f656572 7462206570797420
+ZMM20=0a676e6978696620 2c30207265762030 206e656c2058414d 5f3233553a313339 3333383536373830 3832383330333334 3a3639303420746e 6572696420657079
+ZMM21=7420372073343675 203e203020726576 2030206e656c2058 414d5f3233553a39 3937373130353137 3830343834363539 36323a3637333735 3533383834373337
+ZMM22=30343120746e6572 6964206570797420 372073343675203a 726564726f20666f 2074756f20737965 6b203a3633207334 3675207465736220 34322f3631207465
+ZMM23=7366666f2065646f 6e2020205d373431 3654205b5d313738 3930342e34332020 205b203a6c656e72 656b2072656c6c61 6b7a79732037333a 30333a3831203831
+ZMM24=0000000000000000 0000005600000080 00007f9010011ea0 0000006700000080 00007f9010011cf0 0000006000000080 00007f9010011b40 0000006800000080
+ZMM25=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM26=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM27=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM28=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM29=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM30=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000
+ZMM31=0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000 0000000000000000

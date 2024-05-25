@@ -1,0 +1,92 @@
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 0, t=10502 jiffies, g=5177, q=8742 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10497 (4294952995-4294942498), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10497 jiffies! g5177 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14416 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 0 PID: 9974 Comm: kworker/u8:15 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: events_unbound cfg80211_wiphy_work
+RIP: 0010:lock_is_held_type+0xe6/0x110 kernel/locking/lockdep.c:5830
+Code: 45 31 c0 39 d0 41 0f 94 c0 b8 ff ff ff ff 65 0f c1 05 06 5b 10 7b 83 f8 01 75 26 48 f7 45 d0 00 02 00 00 74 01 fb 48 83 c4 10 <44> 89 c0 5b 41 5c 41 5d 41 5e 41 5f 5d e9 a3 d1 1e 00 45 31 c0 eb
+RSP: 0018:ffff88807dc05c38 EFLAGS: 00000282
+RAX: 0000000000000001 RBX: ffffffff865c3360 RCX: 0000000000000001
+RDX: 00000000ffffffff RSI: ffffffff865c3360 RDI: ffff888032392c98
+RBP: ffff88807dc05c60 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff8880323921c0
+R13: ffff888032392c20 R14: ffff888032392c98 R15: 0000000000000003
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff2a46af580 CR3: 0000000010dc6003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ lock_is_held include/linux/lockdep.h:231 [inline]
+ rcu_read_lock_held kernel/rcu/update.c:351 [inline]
+ rcu_read_lock_held+0x43/0x60 kernel/rcu/update.c:345
+ net_generic+0x1da/0x260 include/net/netns/generic.h:46
+ is_pppoe_ipv6 net/bridge/br_netfilter_hooks.c:129 [inline]
+ br_nf_pre_routing+0x17b/0x920 net/bridge/br_netfilter_hooks.c:517
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_bridge_pre net/bridge/br_input.c:272 [inline]
+ br_handle_frame+0x38d/0x8b0 net/bridge/br_input.c:417
+ __netif_receive_skb_core.constprop.0+0x46e/0x1e70 net/core/dev.c:5432
+ __netif_receive_skb_one_core+0x3e/0xe0 net/core/dev.c:5536
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ __raw_spin_unlock_bh include/linux/spinlock_api_smp.h:167 [inline]
+ _raw_spin_unlock_bh+0x30/0x40 kernel/locking/spinlock.c:210
+ spin_unlock_bh include/linux/spinlock.h:396 [inline]
+ cfg80211_put_bss+0xf1/0x190 net/wireless/scan.c:3186
+ ieee80211_rx_bss_put net/mac80211/scan.c:37 [inline]
+ ieee80211_rx_bss_put+0x2e/0x40 net/mac80211/scan.c:32
+ ieee80211_rx_bss_info net/mac80211/ibss.c:1171 [inline]
+ ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1578 [inline]
+ ieee80211_ibss_rx_queued_mgmt+0xc14/0x1690 net/mac80211/ibss.c:1605
+ ieee80211_iface_process_skb net/mac80211/iface.c:1605 [inline]
+ ieee80211_iface_work+0x712/0x850 net/mac80211/iface.c:1659
+ cfg80211_wiphy_work+0x125/0x150 net/wireless/core.c:437
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+net_ratelimit: 151288 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+net_ratelimit: 156966 callbacks suppressed
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)
+: received packet on team0 with own address as source address (addr:aa:aa:aa:aa:aa:1a, vlan:0)

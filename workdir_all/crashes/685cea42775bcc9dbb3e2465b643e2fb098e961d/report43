@@ -1,0 +1,65 @@
+F2FS-fs (loop4): Found nat_bits in checkpoint
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 74391 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ fmeter_markevent kernel/cgroup/cpuset.c:3230 [inline]
+ __cpuset_memory_pressure_bump+0x98/0x320 kernel/cgroup/cpuset.c:5066
+ __perform_reclaim mm/page_alloc.c:3770 [inline]
+ __alloc_pages_direct_reclaim mm/page_alloc.c:3796 [inline]
+ __alloc_pages_slowpath mm/page_alloc.c:4202 [inline]
+ __alloc_pages+0xe04/0x13b0 mm/page_alloc.c:4588
+ alloc_pages_mpol+0x1a5/0x310 mm/mempolicy.c:2264
+ alloc_pages+0x7d/0xf0 mm/mempolicy.c:2335
+ folio_alloc+0x25/0x40 mm/mempolicy.c:2342
+ filemap_alloc_folio+0x1ea/0x240 mm/filemap.c:984
+ __filemap_get_folio+0x330/0x5c0 mm/filemap.c:1926
+ pagecache_get_page+0x33/0xa0 mm/folio-compat.c:93
+ find_or_create_page include/linux/pagemap.h:757 [inline]
+ grab_cache_page include/linux/pagemap.h:873 [inline]
+ f2fs_grab_cache_page fs/f2fs/f2fs.h:2765 [inline]
+ f2fs_grab_cache_page fs/f2fs/f2fs.h:2745 [inline]
+ f2fs_ra_meta_pages+0x6b2/0x790 fs/f2fs/checkpoint.c:302
+ __f2fs_build_free_nids+0x2c5/0x700 fs/f2fs/node.c:2497
+ f2fs_build_free_nids fs/f2fs/node.c:2555 [inline]
+ f2fs_build_node_manager+0xe1d/0xf90 fs/f2fs/node.c:3340
+ f2fs_fill_super+0x1720/0x36f0 fs/f2fs/super.c:4540
+ mount_bdev+0x130/0x1a0 fs/super.c:1658
+ f2fs_mount+0x39/0x50 fs/f2fs/super.c:4824
+ legacy_get_tree+0x3f/0xb0 fs/fs_context.c:662
+ vfs_get_tree+0x3a/0x160 fs/super.c:1779
+ do_new_mount fs/namespace.c:3352 [inline]
+ path_mount+0xcb0/0x11d0 fs/namespace.c:3679
+ do_mount fs/namespace.c:3692 [inline]
+ __do_sys_mount fs/namespace.c:3898 [inline]
+ __se_sys_mount fs/namespace.c:3875 [inline]
+ __x64_sys_mount+0x17b/0x1c0 fs/namespace.c:3875
+ x64_sys_call+0x2072/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:166
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f42bd891b3e
+Code: 48 c7 c0 ff ff ff ff eb aa e8 be 0d 00 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 f3 0f 1e fa 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f42be67de38 EFLAGS: 00000202 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 000000000001057f RCX: 00007f42bd891b3e
+RDX: 0000000020010580 RSI: 00000000200105c0 RDI: 00007f42be67de90
+RBP: 00007f42be67ded0 R08: 00007f42be67ded0 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000020010580
+R13: 00000000200105c0 R14: 00007f42be67de90 R15: 0000000020000000
+ </TASK>
+F2FS-fs (loop4): Mounted with checkpoint version = 48b305e5

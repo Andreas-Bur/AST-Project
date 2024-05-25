@@ -1,0 +1,168 @@
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 0, t=10502 jiffies, g=21549, q=2866 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10483 (4294969792-4294959309), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10483 jiffies! g21549 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=1
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14032 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+Sending NMI from CPU 0 to CPUs 1:
+NMI backtrace for cpu 1
+CPU: 1 PID: 14571 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #1
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__trace_hardirqs_on_caller kernel/locking/lockdep.c:4292 [inline]
+RIP: 0010:lockdep_hardirqs_on_prepare kernel/locking/lockdep.c:4359 [inline]
+RIP: 0010:lockdep_hardirqs_on_prepare+0xb1/0x1a0 kernel/locking/lockdep.c:4311
+Code: a5 8c ea 7e 49 8b 84 24 50 0a 00 00 be 02 00 00 00 4c 89 e7 65 ff 05 56 44 e9 7e 49 89 84 24 38 0a 00 00 e8 c1 fe ff ff 85 c0 <74> 0c 41 8b 84 24 40 0a 00 00 85 c0 75 1c b8 ff ff ff ff 65 0f c1
+RSP: 0018:ffff88807dd05380 EFLAGS: 00000002
+RAX: 0000000000000001 RBX: 0000000000000286 RCX: 0000000000000004
+RDX: 0000000000000003 RSI: ffff888026a40b78 RDI: ffff888026a40000
+RBP: ffff88807dd05388 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000002 R11: 0000000000000001 R12: ffff888026a40000
+R13: 0000000000000286 R14: ffff88807dd33c90 R15: 0000000000000002
+FS:  00007f9a8192d640(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f2524473e84 CR3: 000000001cd40003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ trace_hardirqs_on+0x58/0xe0 kernel/trace/trace_preemptirq.c:61
+ __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+ _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+ spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
+ rps_unlock_irq_restore net/core/dev.c:221 [inline]
+ enqueue_to_backlog+0x17a/0x800 net/core/dev.c:4760
+ netif_rx_internal+0x6d/0x390 net/core/dev.c:5067
+ __netif_rx+0x8a/0x2a0 net/core/dev.c:5087
+ veth_forward_skb drivers/net/veth.c:321 [inline]
+ veth_xmit+0x514/0x5f0 drivers/net/veth.c:374
+ __netdev_start_xmit include/linux/netdevice.h:4903 [inline]
+ netdev_start_xmit include/linux/netdevice.h:4917 [inline]
+ xmit_one net/core/dev.c:3531 [inline]
+ dev_hard_start_xmit+0xd6/0x410 net/core/dev.c:3547
+ __dev_queue_xmit+0x1408/0x1f10 net/core/dev.c:4335
+ dev_queue_xmit include/linux/netdevice.h:3091 [inline]
+ br_dev_queue_push_xmit+0x13b/0x400 net/bridge/br_forward.c:53
+ br_nf_dev_queue_xmit+0x25e/0xb50 net/bridge/br_netfilter_hooks.c:919
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ br_nf_post_routing+0x476/0x770 net/bridge/br_netfilter_hooks.c:965
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook_state_init include/linux/netfilter.h:172 [inline]
+ nf_hook+0x136/0x570 include/linux/netfilter.h:266
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ br_forward_finish+0x6f/0xc0 net/bridge/br_forward.c:66
+ br_nf_hook_thresh+0x1ae/0x250 net/bridge/br_netfilter_hooks.c:1166
+ br_nf_forward_finish+0x315/0x450 net/bridge/br_netfilter_hooks.c:674
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ NF_HOOK include/linux/netfilter.h:308 [inline]
+ br_nf_forward_ip net/bridge/br_netfilter_hooks.c:728 [inline]
+ br_nf_forward_ip+0x387/0x410 net/bridge/br_netfilter_hooks.c:680
+ br_nf_forward+0x53c/0x9f0 net/bridge/br_netfilter_hooks.c:785
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_slow+0x5a/0x150 net/netfilter/core.c:626
+ nf_hook_state_init include/linux/netfilter.h:172 [inline]
+ nf_hook+0x136/0x570 include/linux/netfilter.h:266
+ NF_HOOK include/linux/netfilter.h:312 [inline]
+ __br_forward+0xfd/0x300 net/bridge/br_forward.c:115
+ deliver_clone net/bridge/br_forward.c:131 [inline]
+ br_flood+0x251/0x390 net/bridge/br_forward.c:245
+ br_handle_frame_finish+0x75d/0xc80 net/bridge/br_input.c:210
+ br_nf_hook_thresh+0x1ae/0x250 net/bridge/br_netfilter_hooks.c:1166
+ br_nf_pre_routing_finish_ipv6+0x282/0x6a0 net/bridge/br_netfilter_ipv6.c:154
+ NF_HOOK include/linux/netfilter.h:314 [inline]
+ br_nf_pre_routing_ipv6+0x142/0x4b0 net/bridge/br_netfilter_ipv6.c:184
+ br_nf_pre_routing+0x59e/0x920 net/bridge/br_netfilter_hooks.c:527
+ nf_hook_entry_hookfn include/linux/netfilter.h:154 [inline]
+ nf_hook_bridge_pre net/bridge/br_input.c:272 [inline]
+ br_handle_frame+0x38d/0x8b0 net/bridge/br_input.c:417
+ __netif_receive_skb_core.constprop.0+0x46e/0x1e70 net/core/dev.c:5432
+ __netif_receive_skb_one_core+0x3e/0xe0 net/core/dev.c:5536
+ __netif_receive_skb+0x22/0x90 net/core/dev.c:5652
+ process_backlog+0xb6/0x380 net/core/dev.c:5981
+ __napi_poll.constprop.0+0x49/0x280 net/core/dev.c:6632
+ napi_poll net/core/dev.c:6701 [inline]
+ net_rx_action+0x3f8/0x520 net/core/dev.c:6816
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ do_softirq kernel/softirq.c:455 [inline]
+ do_softirq+0x4c/0x90 kernel/softirq.c:442
+ </IRQ>
+ <TASK>
+ __local_bh_enable_ip+0xc1/0xe0 kernel/softirq.c:382
+ local_bh_enable include/linux/bottom_half.h:33 [inline]
+ ip6_pol_route+0x25a/0xa40 net/ipv6/route.c:2267
+ ip6_pol_route_output+0x3b/0x50 net/ipv6/route.c:2604
+ pol_lookup_func include/net/ip6_fib.h:614 [inline]
+ fib6_rule_lookup+0x152/0x430 net/ipv6/fib6_rules.c:116
+ ip6_route_output_flags_noref net/ipv6/route.c:2637 [inline]
+ ip6_route_output_flags+0x16e/0x410 net/ipv6/route.c:2649
+ ip6_route_output include/net/ip6_route.h:93 [inline]
+ ip6_dst_lookup_tail.constprop.0+0x2bb/0xea0 net/ipv6/ip6_output.c:1120
+ ip6_dst_lookup_flow+0x3f/0xb0 net/ipv6/ip6_output.c:1250
+ ip6_sk_dst_lookup_flow+0x1d9/0x360 net/ipv6/ip6_output.c:1288
+ ping_v6_sendmsg+0x55f/0xc60 net/ipv6/ping.c:154
+ inet_sendmsg+0xba/0xc0 net/ipv4/af_inet.c:851
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x48c/0x520 net/socket.c:2584
+ __sys_sendmsg_sock+0x2f/0x40 net/socket.c:2650
+ io_sendmsg+0x12a/0x3e0 io_uring/net.c:453
+ io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+ io_queue_sqe io_uring/io_uring.c:2111 [inline]
+ io_submit_sqe io_uring/io_uring.c:2377 [inline]
+ io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+ __do_sys_io_uring_enter+0x4df/0xaa0 io_uring/io_uring.c:3668
+ __se_sys_io_uring_enter io_uring/io_uring.c:3603 [inline]
+ __x64_sys_io_uring_enter+0x2a/0x40 io_uring/io_uring.c:3603
+ x64_sys_call+0x14b9/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:427
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9a80c8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9a8192d028 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: ffffffffffffffda RBX: 00007f9a80dcc050 RCX: 00007f9a80c8fd6d
+RDX: 0000000000000000 RSI: 0000000000004d7b RDI: 0000000000000003
+RBP: 00007f9a80cf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000006e R14: 00007f9a80dcc050 R15: 00007f9a8190d000
+ </TASK>
+net_ratelimit: 31374 callbacks suppressed
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+net_ratelimit: 31082 callbacks suppressed
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:0c, vlan:0)
+bridge0: received packet on bridge_slave_0 with own address as source address (addr:aa:aa:aa:aa:aa:1b, vlan:0)
+bridge0: received packet on veth0_to_bridge with own address as source address (addr:62:8e:70:7a:d9:e8, vlan:0)

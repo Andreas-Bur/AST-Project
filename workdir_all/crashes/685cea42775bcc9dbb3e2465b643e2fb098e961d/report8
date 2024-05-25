@@ -1,0 +1,56 @@
+EXT4-fs (loop7): mounted filesystem 00000000-0000-0000-0000-000000000000 r/w without journal. Quota mode: none.
+ext4 filesystem being mounted at /syzkaller-testdir1550547944/syzkaller.XSQ6RO/156/file1 supports timestamps until 2038-01-19 (0x7fffffff)
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 57322 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __mutex_lock_common kernel/locking/mutex.c:608 [inline]
+ __mutex_lock+0x82/0x450 kernel/locking/mutex.c:752
+ mutex_lock_nested+0x1a/0x20 kernel/locking/mutex.c:804
+ ext4_mb_group_or_file fs/ext4/mballoc.c:5775 [inline]
+ ext4_mb_initialize_context+0x28f/0x370 fs/ext4/mballoc.c:5819
+ ext4_mb_new_blocks+0x27f/0x1ec0 fs/ext4/mballoc.c:6192
+ ext4_ext_map_blocks+0xc4b/0x2d70 fs/ext4/extents.c:4317
+ ext4_map_blocks+0x3a8/0xab0 fs/ext4/inode.c:623
+ ext4_xattr_inode_write fs/ext4/xattr.c:1400 [inline]
+ ext4_xattr_inode_lookup_create fs/ext4/xattr.c:1596 [inline]
+ ext4_xattr_set_entry+0x1360/0x1c70 fs/ext4/xattr.c:1718
+ ext4_xattr_block_set+0x5ad/0x1580 fs/ext4/xattr.c:2037
+ ext4_xattr_set_handle+0x8e1/0xbb0 fs/ext4/xattr.c:2443
+ ext4_xattr_set+0x8b/0x1b0 fs/ext4/xattr.c:2545
+ ext4_xattr_security_set+0x37/0x50 fs/ext4/xattr_security.c:31
+ __vfs_setxattr+0x109/0x140 fs/xattr.c:200
+ __vfs_setxattr_noperm+0xa9/0x310 fs/xattr.c:234
+ __vfs_setxattr_locked+0x15f/0x190 fs/xattr.c:295
+ vfs_setxattr+0xb8/0x1e0 fs/xattr.c:321
+ do_setxattr+0xbc/0xd0 fs/xattr.c:629
+ setxattr+0xbb/0xd0 fs/xattr.c:652
+ path_setxattr+0xd0/0x110 fs/xattr.c:671
+ __do_sys_lsetxattr fs/xattr.c:694 [inline]
+ __se_sys_lsetxattr fs/xattr.c:690 [inline]
+ __x64_sys_lsetxattr+0x2d/0x40 fs/xattr.c:690
+ x64_sys_call+0x1735/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:190
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7c0368fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f7c043ee028 EFLAGS: 00000246 ORIG_RAX: 00000000000000bd
+RAX: ffffffffffffffda RBX: 00007f7c037cbf80 RCX: 00007f7c0368fd6d
+RDX: 0000000020000580 RSI: 0000000020000400 RDI: 00000000200003c0
+RBP: 00007f7c036f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 000000000000f000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f7c037cbf80 R15: 00007f7c043ce000
+ </TASK>

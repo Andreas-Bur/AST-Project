@@ -1,0 +1,99 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 14363 at kernel/workqueue.c:2322 __queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Modules linked in:
+CPU: 0 PID: 14363 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__queue_work+0x8cd/0xb60 kernel/workqueue.c:2321
+Code: 69 7a 18 00 31 ff 65 4c 8b 2d df cd f1 7e 41 8b 5d 2c 83 e3 20 89 de e8 a1 75 18 00 85 db 0f 85 d7 00 00 00 e8 44 7a 18 00 90 <0f> 0b 90 e9 5d fa ff ff e8 36 7a 18 00 90 0f 0b 90 e9 0d fa ff ff
+RSP: 0018:ffff88807dc05e00 EFLAGS: 00010046
+RAX: 0000000000000000 RBX: 0000000000000100 RCX: ffffffff8111448e
+RDX: ffff88803ad24380 RSI: ffffffff811144bc RDI: 0000000000000005
+RBP: ffff88807dc05e48 R08: 0000000000080000 R09: 0000000000000001
+R10: 0000000000000100 R11: 0000000000000001 R12: ffff88800f298c10
+R13: ffffffff81114da0 R14: ffff8880104fb400 R15: 0000000000200000
+FS:  00007fee1b190640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055557e0609e8 CR3: 000000002a300006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ delayed_work_timer_fn+0x21/0x30 kernel/workqueue.c:2529
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1839 [inline]
+ __run_timers+0x264/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:native_save_fl arch/x86/include/asm/irqflags.h:26 [inline]
+RIP: 0010:arch_local_save_flags arch/x86/include/asm/irqflags.h:67 [inline]
+RIP: 0010:arch_local_irq_save arch/x86/include/asm/irqflags.h:103 [inline]
+RIP: 0010:lock_acquire kernel/locking/lockdep.c:5750 [inline]
+RIP: 0010:lock_acquire+0x73/0x2c0 kernel/locking/lockdep.c:5719
+Code: 85 c9 74 7e 65 8b 05 84 25 e9 7e 85 c0 0f 85 3f 01 00 00 65 48 8b 05 ac 6d ea 7e 8b 90 5c 0a 00 00 85 d2 0f 85 29 01 00 00 9c <41> 5f fa 65 ff 05 5b 25 e9 7e 41 81 e7 00 02 00 00 6a 00 41 89 d8
+RSP: 0018:ffff88804cf47db0 EFLAGS: 00000246
+RAX: ffff88803ad24380 RBX: 0000000000000001 RCX: 0000000000000001
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff888031c4e4a0
+RBP: ffff88804cf47e18 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000000 R14: ffff888031c4e4a0 R15: 0000000000000000
+ __might_fault mm/memory.c:6220 [inline]
+ __might_fault+0x9b/0xc0 mm/memory.c:6213
+ rseq_get_rseq_cs kernel/rseq.c:161 [inline]
+ rseq_ip_fixup kernel/rseq.c:281 [inline]
+ __rseq_handle_notify_resume+0x77/0xa00 kernel/rseq.c:329
+ rseq_handle_notify_resume include/linux/rseq.h:38 [inline]
+ resume_user_mode_work include/linux/resume_user_mode.h:62 [inline]
+ exit_to_user_mode_loop kernel/entry/common.c:114 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x178/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fee1a44f940
+Code: 00 00 31 ff 89 d0 0f 05 eb f8 48 8b 44 24 08 41 ba 53 30 05 53 31 d2 be 20 00 00 00 48 8d b8 a0 09 00 00 b8 4e 01 00 00 0f 05 <3d> 00 f0 ff ff 0f 87 ef fd ff ff e9 ff fd ff ff 48 89 ef e8 48 f8
+RSP: 002b:00007fee1b190120 EFLAGS: 00000246 ORIG_RAX: 000000000000014e
+RAX: 0000000000000000 RBX: 00007fffb0310c40 RCX: 00007fee1a44f940
+RDX: 0000000000000000 RSI: 0000000000000020 RDI: 00007fee1b190fe0
+RBP: 0000000000000000 R08: 0000000000000080 R09: 00007fffb0310d4f
+R10: 0000000053053053 R11: 0000000000000246 R12: 00007fee1b190640
+R13: 000000000000006e R14: 00007fee1a44f680 R15: 00007fee1b170000
+ </TASK>
+irq event stamp: 2357
+hardirqs last  enabled at (2356): [<ffffffff84f34350>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (2356): [<ffffffff84f34350>] _raw_spin_unlock_irqrestore+0x30/0x60 kernel/locking/spinlock.c:194
+hardirqs last disabled at (2357): [<ffffffff84f33ff0>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (2357): [<ffffffff84f33ff0>] _raw_spin_lock_irq+0x50/0x60 kernel/locking/spinlock.c:170
+softirqs last  enabled at (0): [<ffffffff810cc596>] copy_process+0xd16/0x3aa0 kernel/fork.c:2334
+softirqs last disabled at (13): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (13): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (13): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	85 c9                	test   %ecx,%ecx
+   2:	74 7e                	je     0x82
+   4:	65 8b 05 84 25 e9 7e 	mov    %gs:0x7ee92584(%rip),%eax        # 0x7ee9258f
+   b:	85 c0                	test   %eax,%eax
+   d:	0f 85 3f 01 00 00    	jne    0x152
+  13:	65 48 8b 05 ac 6d ea 	mov    %gs:0x7eea6dac(%rip),%rax        # 0x7eea6dc7
+  1a:	7e
+  1b:	8b 90 5c 0a 00 00    	mov    0xa5c(%rax),%edx
+  21:	85 d2                	test   %edx,%edx
+  23:	0f 85 29 01 00 00    	jne    0x152
+  29:	9c                   	pushf
+* 2a:	41 5f                	pop    %r15 <-- trapping instruction
+  2c:	fa                   	cli
+  2d:	65 ff 05 5b 25 e9 7e 	incl   %gs:0x7ee9255b(%rip)        # 0x7ee9258f
+  34:	41 81 e7 00 02 00 00 	and    $0x200,%r15d
+  3b:	6a 00                	push   $0x0
+  3d:	41 89 d8             	mov    %ebx,%r8d

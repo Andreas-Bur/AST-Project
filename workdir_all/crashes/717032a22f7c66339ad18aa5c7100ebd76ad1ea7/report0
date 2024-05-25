@@ -1,0 +1,140 @@
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fd5dabcbf80 R15: 00007fd5db7c7000
+ </TASK>
+hfs: new node 0 already hashed?
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 9779 at fs/hfs/bnode.c:422 hfs_bnode_create+0xb0/0x260 fs/hfs/bnode.c:422
+Modules linked in:
+CPU: 0 PID: 9779 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hfs_bnode_create+0xb0/0x260 fs/hfs/bnode.c:422
+Code: 44 89 ee e8 42 b2 99 ff 45 39 ee 75 d7 e8 d8 b7 99 ff 4c 89 ff e8 e0 3a 63 03 44 89 f6 48 c7 c7 e8 69 0c 86 e8 31 26 8a ff 90 <0f> 0b 90 e8 b8 b7 99 ff 4c 89 e0 5b 41 5c 41 5d 41 5e 41 5f 5d e9
+RSP: 0018:ffff88801d5476e0 EFLAGS: 00010293
+RAX: 000000000000001f RBX: ffff88801c670000 RCX: ffffffff811a8c5e
+RDX: ffff88802af7c380 RSI: ffffffff811a9769 RDI: 0000000000000001
+RBP: ffff88801d547708 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888032075840
+R13: 0000000000000000 R14: 0000000000000000 R15: ffff88801c6700e0
+FS:  00007fd5db7e7640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001240 CR3: 000000001d2ac003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfs_bmap_alloc+0x41c/0x440 fs/hfs/btree.c:291
+ hfs_btree_inc_height.isra.0+0x6c/0x2d0 fs/hfs/brec.c:471
+ hfs_brec_insert+0x417/0x4b0 fs/hfs/brec.c:148
+ __hfs_ext_write_extent+0x117/0x130 fs/hfs/extent.c:124
+ __hfs_ext_cache_extent fs/hfs/extent.c:174 [inline]
+ hfs_ext_read_extent+0x251/0x280 fs/hfs/extent.c:202
+ hfs_extend_file+0x1ec/0x400 fs/hfs/extent.c:401
+ hfs_get_block+0xd2/0x3a0 fs/hfs/extent.c:353
+ get_more_blocks fs/direct-io.c:649 [inline]
+ do_direct_IO fs/direct-io.c:937 [inline]
+ __blockdev_direct_IO+0xe58/0x25e0 fs/direct-io.c:1250
+ blockdev_direct_IO include/linux/fs.h:3190 [inline]
+ hfs_direct_IO+0x5b/0x100 fs/hfs/inode.c:133
+ generic_file_direct_write+0x9f/0x180 mm/filemap.c:3899
+ __generic_file_write_iter+0xad/0x140 mm/filemap.c:4055
+ generic_file_write_iter+0x91/0x170 mm/filemap.c:4095
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev+0xf2/0x160 fs/read_write.c:1072
+ __do_sys_pwritev2 fs/read_write.c:1131 [inline]
+ __se_sys_pwritev2 fs/read_write.c:1122 [inline]
+ __x64_sys_pwritev2+0x63/0xa0 fs/read_write.c:1122
+ x64_sys_call+0xb48/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:329
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd5daa8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fd5db7e7028 EFLAGS: 00000246 ORIG_RAX: 0000000000000148
+RAX: ffffffffffffffda RBX: 00007fd5dabcbf80 RCX: 00007fd5daa8fd6d
+RDX: 0000000000000001 RSI: 0000000020001240 RDI: 0000000000000006
+RBP: 00007fd5db7e70a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fd5dabcbf80 R15: 00007fd5db7c7000
+ </TASK>
+irq event stamp: 3263
+hardirqs last  enabled at (3273): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (3273): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (3273): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (3282): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (3282): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (3282): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (3238): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (3238): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (3233): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (3233): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (3233): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+kernel BUG at fs/hfs/bnode.c:467!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 0 PID: 9779 Comm: syz-executor.6 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:hfs_bnode_put+0x14c/0x150 fs/hfs/bnode.c:467
+Code: 4c 89 e7 e8 76 2d 00 00 4c 89 e7 e8 9e fc ff ff e8 29 c0 99 ff 5b 41 5c 41 5d 41 5e 41 5f 5d e9 25 42 80 03 e8 15 c0 99 ff 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f
+RSP: 0018:ffff88801d547760 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff818ffddc
+RDX: ffff88802af7c380 RSI: ffffffff818ffeeb RDI: 0000000000000005
+RBP: ffff88801d547788 R08: ffffffff85f8d8bf R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888032075840
+R13: 0000000000000000 R14: ffff88801c670000 R15: 0000000000000200
+FS:  00007fd5db7e7640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001240 CR3: 000000001d2ac003 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfs_btree_inc_height.isra.0+0x230/0x2d0 fs/hfs/brec.c:525
+ hfs_brec_insert+0x417/0x4b0 fs/hfs/brec.c:148
+ __hfs_ext_write_extent+0x117/0x130 fs/hfs/extent.c:124
+ __hfs_ext_cache_extent fs/hfs/extent.c:174 [inline]
+ hfs_ext_read_extent+0x251/0x280 fs/hfs/extent.c:202
+ hfs_extend_file+0x1ec/0x400 fs/hfs/extent.c:401
+ hfs_get_block+0xd2/0x3a0 fs/hfs/extent.c:353
+ get_more_blocks fs/direct-io.c:649 [inline]
+ do_direct_IO fs/direct-io.c:937 [inline]
+ __blockdev_direct_IO+0xe58/0x25e0 fs/direct-io.c:1250
+ blockdev_direct_IO include/linux/fs.h:3190 [inline]
+ hfs_direct_IO+0x5b/0x100 fs/hfs/inode.c:133
+ generic_file_direct_write+0x9f/0x180 mm/filemap.c:3899
+ __generic_file_write_iter+0xad/0x140 mm/filemap.c:4055
+ generic_file_write_iter+0x91/0x170 mm/filemap.c:4095
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev+0xf2/0x160 fs/read_write.c:1072
+ __do_sys_pwritev2 fs/read_write.c:1131 [inline]
+ __se_sys_pwritev2 fs/read_write.c:1122 [inline]
+ __x64_sys_pwritev2+0x63/0xa0 fs/read_write.c:1122
+ x64_sys_call+0xb48/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:329
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fd5daa8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fd5db7e7028 EFLAGS: 00000246 ORIG_RAX: 0000000000000148
+RAX: ffffffffffffffda RBX: 00007fd5dabcbf80 RCX: 00007fd5daa8fd6d
+RDX: 0000000000000001 RSI: 0000000020001240 RDI: 0000000000000006
+RBP: 00007fd5db7e70a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000001
+R13: 000000000000000b R14: 00007fd5dabcbf80 R15: 00007fd5db7c7000
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:hfs_bnode_put+0x14c/0x150 fs/hfs/bnode.c:467
+Code: 4c 89 e7 e8 76 2d 00 00 4c 89 e7 e8 9e fc ff ff e8 29 c0 99 ff 5b 41 5c 41 5d 41 5e 41 5f 5d e9 25 42 80 03 e8 15 c0 99 ff 90 <0f> 0b 66 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 66 0f
+RSP: 0018:ffff88801d547760 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff818ffddc
+RDX: ffff88802af7c380 RSI: ffffffff818ffeeb RDI: 0000000000000005
+RBP: ffff88801d547788 R08: ffffffff85f8d8bf R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff888032075840
+R13: 0000000000000000 R14: ffff88801c670000 R15: 0000000000000200
+FS:  00007fd5db7e7640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020001240 CR3: 000000001d2ac003 CR4: 0000000000770ef0
+PKRU: 55555554

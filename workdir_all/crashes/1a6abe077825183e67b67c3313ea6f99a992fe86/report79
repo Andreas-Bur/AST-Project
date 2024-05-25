@@ -1,0 +1,74 @@
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	(detected by 0, t=10502 jiffies, g=26629, q=575 ncpus=2)
+rcu: All QSes seen, last rcu_preempt kthread activity 10502 (4294961796-4294951294), jiffies_till_next_fqs=1, root ->qsmask 0x0
+rcu: rcu_preempt kthread starved for 10502 jiffies! g26629 f0x2 RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: 	Unless rcu_preempt kthread gets sufficient CPU time, OOM is now expected behavior.
+rcu: RCU grace-period kthread stack dump:
+task:rcu_preempt     state:R  running task     stack:14416 pid:15    tgid:15    ppid:2      flags:0x00004000
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5409 [inline]
+ __schedule+0x3f0/0x17d0 kernel/sched/core.c:6746
+ __schedule_loop kernel/sched/core.c:6823 [inline]
+ schedule+0x4b/0x170 kernel/sched/core.c:6838
+ schedule_timeout+0xc2/0x140 kernel/time/timer.c:2582
+ rcu_gp_fqs_loop+0x100/0x520 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xdc/0x170 kernel/rcu/tree.c:1862
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+rcu: Stack dump where RCU GP kthread last ran:
+CPU: 0 PID: 16041 Comm: syz-executor.7 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__sanitizer_cov_trace_pc+0x50/0x70 kernel/kcov.c:213
+Code: 35 8b 82 84 15 00 00 85 c0 74 2b 8b 82 60 15 00 00 83 f8 02 75 20 48 8b 8a 68 15 00 00 8b 92 64 15 00 00 48 8b 01 48 83 c0 01 <48> 39 c2 76 07 48 89 01 48 89 34 c1 5d e9 a9 81 e6 03 66 66 2e 0f
+RSP: 0018:ffff88801c407830 EFLAGS: 00000216
+RAX: 0000000000040000 RBX: 0000000000000000 RCX: ffffc9000c94a000
+RDX: 0000000000040000 RSI: ffffffff823c3a03 RDI: 0000000000000003
+RBP: ffff88801c407830 R08: 00000020a1544875 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
+R13: ffff888048aef478 R14: ffff888048aef308 R15: ffff888048aef308
+FS:  00007f6f81e01640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2ec41000 CR3: 000000000fa48006 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ </IRQ>
+ <TASK>
+ __bch2_write+0x13b3/0x20d0 fs/bcachefs/io_write.c:1483
+ bch2_write+0x241/0x660 fs/bcachefs/io_write.c:1610
+ closure_queue include/linux/closure.h:257 [inline]
+ closure_call include/linux/closure.h:390 [inline]
+ bch2_writepage_do_io+0x43/0x50 fs/bcachefs/fs-io-buffered.c:468
+ bch2_writepages+0x6a/0xc0 fs/bcachefs/fs-io-buffered.c:660
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ filemap_write_and_wait_range mm/filemap.c:685 [inline]
+ filemap_write_and_wait_range+0x8a/0xf0 mm/filemap.c:676
+ bch2_write_invalidate_inode_pages_range+0x4a/0xe0 fs/bcachefs/fs-io-pagecache.c:61
+ bchfs_fcollapse_finsert+0xcb/0x260 fs/bcachefs/fs-io.c:567
+ bch2_fallocate_dispatch+0x759/0x910 fs/bcachefs/fs-io.c:786
+ vfs_fallocate+0x370/0x8d0 fs/open.c:330
+ ksys_fallocate fs/open.c:353 [inline]
+ __do_sys_fallocate fs/open.c:361 [inline]
+ __se_sys_fallocate fs/open.c:359 [inline]
+ __x64_sys_fallocate+0x5f/0xb0 fs/open.c:359
+ x64_sys_call+0x1740/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:286
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6f8108fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6f81e01028 EFLAGS: 00000246 ORIG_RAX: 000000000000011d
+RAX: ffffffffffffffda RBX: 00007f6f811cbf80 RCX: 00007f6f8108fd6d
+RDX: 0000000000002000 RSI: 0000000000000020 RDI: 0000000000000009
+RBP: 00007f6f810f14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000010000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f6f811cbf80 R15: 00007f6f81de1000
+ </TASK>

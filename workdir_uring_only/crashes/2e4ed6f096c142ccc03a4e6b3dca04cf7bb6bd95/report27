@@ -1,0 +1,8 @@
+openat$dir(0xffffffffffffff9c, &(0x7f0000000280)='./file0\x00', 0x0, 0x0)
+syz_io_uring_setup(0x150, &(0x7f00000002c0)={0x0, 0x199c, 0x8, 0x2000, 0x10000000}, 0x0, 0x0)
+r4 = openat$dir(0xffffffffffffff9c, &(0x7f0000000000)='./file0\x00', 0x40642, 0x0)
+ioctl$IOCTL_GET_NCIDEV_IDX(r4, 0x40305828, &(0x7f0000000300))
+2024/05/21 13:51:42 SYZFATAL: executor 6 failed 11 times: executor 6: EOF
+SYZFAIL: failed to mkdtemp
+ (errno 28: No space left on device)
+

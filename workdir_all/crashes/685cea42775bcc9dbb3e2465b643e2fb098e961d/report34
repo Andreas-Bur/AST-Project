@@ -1,0 +1,47 @@
+netlink: set zone limit has 4 unknown bytes
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 54667 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ srcu_read_lock include/linux/srcu.h:215 [inline]
+ fsnotify_grab_connector+0x56/0x230 fs/notify/mark.c:580
+ fsnotify_destroy_marks+0x25/0x1d0 fs/notify/mark.c:802
+ fsnotify_clear_marks_by_inode fs/notify/fsnotify.h:60 [inline]
+ __fsnotify_inode_delete+0x1d/0x30 fs/notify/fsnotify.c:22
+ fsnotify_inode_delete include/linux/fsnotify.h:222 [inline]
+ __destroy_inode+0x16a/0x4b0 fs/inode.c:287
+ destroy_inode+0x39/0xa0 fs/inode.c:309
+ evict+0x249/0x2d0 fs/inode.c:682
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ do_unlinkat+0x395/0x3f0 fs/namei.c:4406
+ __do_sys_unlinkat fs/namei.c:4442 [inline]
+ __se_sys_unlinkat fs/namei.c:4435 [inline]
+ __x64_sys_unlinkat+0x6d/0xb0 fs/namei.c:4435
+ x64_sys_call+0x1ac6/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:264
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8539e8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f853ab7b028 EFLAGS: 00000246 ORIG_RAX: 0000000000000107
+RAX: ffffffffffffffda RBX: 00007f8539fcbf80 RCX: 00007f8539e8fd6d
+RDX: 0000000000000000 RSI: 0000000020000000 RDI: ffffffffffffff9c
+RBP: 00007f8539ef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f8539fcbf80 R15: 00007f853ab5b000
+ </TASK>

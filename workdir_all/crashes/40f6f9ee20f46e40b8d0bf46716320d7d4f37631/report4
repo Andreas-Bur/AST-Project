@@ -1,0 +1,11 @@
+R13: 000000000000000b R14: 00007fa5f4bcbf80 R15: 00007fa5f573d000
+ </TASK>
+================================================
+WARNING: lock held when returning to user space!
+6.9.0-rc4 #2 Not tainted
+------------------------------------------------
+syz-executor.3/17588 is leaving the kernel with locks still held!
+1 lock held by syz-executor.3/17588:
+ #0: ffff888027e84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_lock_acquire include/linux/srcu.h:116 [inline]
+ #0: ffff888027e84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: srcu_read_lock include/linux/srcu.h:215 [inline]
+ #0: ffff888027e84240 (&c->btree_trans_barrier){.+.+}-{0:0}, at: __bch2_trans_get+0x3af/0x4d0 fs/bcachefs/btree_iter.c:3069

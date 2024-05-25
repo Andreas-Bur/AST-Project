@@ -1,0 +1,141 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2632 jiffies s: 14969 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 27333 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:arch_atomic_try_cmpxchg arch/x86/include/asm/atomic.h:115 [inline]
+RIP: 0010:arch_atomic_fetch_or arch/x86/include/asm/atomic.h:155 [inline]
+RIP: 0010:raw_atomic_fetch_or include/linux/atomic/atomic-arch-fallback.h:1690 [inline]
+RIP: 0010:atomic_fetch_or include/linux/atomic/atomic-instrumented.h:954 [inline]
+RIP: 0010:io_poll_get_ownership_slowpath+0x3c/0xb0 io_uring/poll.c:81
+Code: b4 24 8c 00 00 00 e8 13 6c bc fe 41 8b 9c 24 8c 00 00 00 e8 06 6c bc fe 89 da 41 89 dd 89 d8 81 ca 00 00 00 40 f0 41 0f b1 16 <41> 0f 94 c7 31 ff 89 c3 44 89 fe e8 b4 66 bc fe 45 84 ff 74 d4 e8
+RSP: 0018:ffff88807dc05688 EFLAGS: 00000046
+RAX: 0000000040000080 RBX: 0000000040000080 RCX: ffffffff826d6e98
+RDX: 0000000040000080 RSI: ffffffff826d52fa RDI: ffff88806fd8a500
+RBP: ffff88807dc056b0 R08: ffff88806fc5ea50 R09: 0000000000000001
+R10: 0000000040000080 R11: 0000000000000001 R12: ffff88806fd8a500
+R13: 0000000040000080 R14: ffff88806fd8a58c R15: 0000000040000080
+FS:  00007fc99184c640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fc99184e000 CR3: 000000002bd32004 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ io_poll_get_ownership io_uring/poll.c:96 [inline]
+ io_poll_wake+0xf8/0x340 io_uring/poll.c:443
+ __wake_up_common+0x83/0xc0 kernel/sched/wait.c:89
+ __wake_up_common_lock kernel/sched/wait.c:106 [inline]
+ __wake_up+0x36/0x60 kernel/sched/wait.c:127
+ ring_buffer_wakeup kernel/events/core.c:6262 [inline]
+ perf_event_wakeup+0xd3/0x310 kernel/events/core.c:6697
+ perf_pending_irq+0x1c2/0x200 kernel/events/core.c:6796
+ irq_work_single+0x66/0xf0 kernel/irq_work.c:221
+ irq_work_run_list+0x52/0x70 kernel/irq_work.c:252
+ irq_work_run+0x21/0x40 kernel/irq_work.c:261
+ __sysvec_irq_work+0x53/0x250 arch/x86/kernel/irq_work.c:22
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0x66/0xc0 arch/x86/kernel/irq_work.c:17
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:default_send_IPI_self+0x2b/0x70 arch/x86/kernel/apic/ipi.c:248
+Code: 0f 1e fa 55 83 ff 02 48 89 e5 53 75 04 eb 25 f3 90 8b 04 25 00 c3 5f ff f6 c4 10 75 f2 81 cf 00 00 04 00 89 3c 25 00 c3 5f ff <48> 8b 5d f8 c9 e9 a6 5c 06 04 bb e8 03 00 00 eb 16 65 ff 05 59 2d
+RSP: 0018:ffff88807dc05938 EFLAGS: 00000206
+RAX: 00000000000400f6 RBX: 0000000000000001 RCX: ffffffff81059735
+RDX: ffff8880102921c0 RSI: ffffffff8105973e RDI: 00000000000400f6
+RBP: ffff88807dc05940 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000001
+R13: ffff88801233fe00 R14: 00000000264bce01 R15: 0000000000000020
+ __apic_send_IPI_self arch/x86/include/asm/apic.h:459 [inline]
+ arch_irq_work_raise+0x38/0x50 arch/x86/kernel/irq_work.c:31
+ irq_work_raise kernel/irq_work.c:84 [inline]
+ __irq_work_queue_local+0x9c/0x220 kernel/irq_work.c:112
+ irq_work_queue kernel/irq_work.c:124 [inline]
+ irq_work_queue+0x79/0xc0 kernel/irq_work.c:116
+ perf_output_wakeup kernel/events/ring_buffer.c:25 [inline]
+ perf_output_put_handle+0xe8/0x160 kernel/events/ring_buffer.c:131
+ perf_output_end+0x1b/0xd0 kernel/events/ring_buffer.c:305
+ __perf_event_output kernel/events/core.c:7882 [inline]
+ perf_event_output_forward+0xca/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x261/0x2c0 kernel/events/core.c:9720
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_lock_acquire+0x16b/0x1c0 include/trace/events/lock.h:24
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2f/0x50 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ mrp_join_timer+0xb7/0x100 net/802/mrp.c:610
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0xb4/0xc0 arch/x86/kernel/irq_work.c:17
+ </IRQ>
+ <TASK>
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:default_send_IPI_self+0x2b/0x70 arch/x86/kernel/apic/ipi.c:248
+Code: 0f 1e fa 55 83 ff 02 48 89 e5 53 75 04 eb 25 f3 90 8b 04 25 00 c3 5f ff f6 c4 10 75 f2 81 cf 00 00 04 00 89 3c 25 00 c3 5f ff <48> 8b 5d f8 c9 e9 a6 5c 06 04 bb e8 03 00 00 eb 16 65 ff 05 59 2d
+RSP: 0018:ffff88803eb2b778 EFLAGS: 00000206
+RAX: 00000000000400f6 RBX: 0000000000000001 RCX: ffffc9000a337000
+RDX: 0000000000040000 RSI: ffffffff8105973e RDI: 00000000000400f6
+RBP: ffff88803eb2b780 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000040001
+R13: ffff88801233fe00 R14: 00000000007db301 R15: 0000000000000020
+ __apic_send_IPI_self arch/x86/include/asm/apic.h:459 [inline]
+ arch_irq_work_raise+0x38/0x50 arch/x86/kernel/irq_work.c:31
+ irq_work_raise kernel/irq_work.c:84 [inline]
+ __irq_work_queue_local+0x9c/0x220 kernel/irq_work.c:112
+ irq_work_queue kernel/irq_work.c:124 [inline]
+ irq_work_queue+0x79/0xc0 kernel/irq_work.c:116
+ perf_output_wakeup kernel/events/ring_buffer.c:25 [inline]
+ perf_output_put_handle+0xe8/0x160 kernel/events/ring_buffer.c:131
+ perf_output_end+0x1b/0xd0 kernel/events/ring_buffer.c:305
+ __perf_event_output kernel/events/core.c:7882 [inline]
+ perf_event_output_forward+0xca/0x220 kernel/events/core.c:7894
+ __perf_event_overflow+0x252/0x480 kernel/events/core.c:9616
+ perf_swevent_overflow kernel/events/core.c:9692 [inline]
+ perf_swevent_event+0x261/0x2c0 kernel/events/core.c:9720
+ perf_tp_event+0x1a2/0xa00 kernel/events/core.c:10230
+ perf_trace_run_bpf_submit+0x92/0xd0 kernel/events/core.c:10166
+ perf_trace_lock_acquire+0x16b/0x1c0 include/trace/events/lock.h:24
+ trace_lock_acquire include/trace/events/lock.h:24 [inline]
+ lock_acquire+0x12a/0x2c0 kernel/locking/lockdep.c:5725
+ rcu_lock_acquire include/linux/rcupdate.h:329 [inline]
+ rcu_read_lock include/linux/rcupdate.h:781 [inline]
+ io_poll_remove_entries.part.0+0x41/0x390 io_uring/poll.c:217
+ io_poll_remove_entries io_uring/poll.c:199 [inline]
+ io_poll_task_func+0x25e/0x6f0 io_uring/poll.c:364
+ io_handle_tw_list+0xd2/0x370 io_uring/io_uring.c:1198
+ tctx_task_work_run+0x70/0x1f0 io_uring/io_uring.c:1270
+ tctx_task_work+0x31/0x60 io_uring/io_uring.c:1288
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ get_signal+0x9a/0x1350 kernel/signal.c:2683
+ arch_do_signal_or_restart+0x26/0x470 arch/x86/kernel/signal.c:310
+ exit_to_user_mode_loop kernel/entry/common.c:111 [inline]
+ exit_to_user_mode_prepare include/linux/entry-common.h:328 [inline]
+ __syscall_exit_to_user_mode_work kernel/entry/common.c:207 [inline]
+ syscall_exit_to_user_mode+0x128/0x210 kernel/entry/common.c:218
+ do_syscall_64+0xd0/0x200 arch/x86/entry/common.c:89
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc990a8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fc99184c028 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: 0000000000002000 RBX: 00007fc990bcbf80 RCX: 00007fc990a8fd6d
+RDX: 0000000000000000 RSI: 0000000000004bfd RDI: 000000000000000c
+RBP: 00007fc990af14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fc990bcbf80 R15: 00007fc99182c000
+ </TASK>

@@ -1,0 +1,42 @@
+------------[ cut here ]------------
+kernel BUG at fs/bcachefs/util.c:639!
+invalid opcode: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 3421 Comm: kworker/u9:1 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: bcachefs_journal do_journal_write
+RIP: 0010:bch2_bio_map+0x119/0x140 fs/bcachefs/util.c:639
+Code: 89 c6 e8 ca 50 e4 fe 84 db 0f 84 2a ff ff ff e8 ed 55 e4 fe 4c 89 e7 e8 55 b3 08 ff 49 89 c7 e9 74 ff ff ff e8 d8 55 e4 fe 90 <0f> 0b e8 d0 55 e4 fe 48 83 c4 08 5b 41 5c 41 5d 41 5e 41 5f 5d e9
+RSP: 0018:ffff88800e32fd48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000001000 RCX: ffffffff824568cf
+RDX: ffff88800bf0c380 RSI: ffffffff82456928 RDI: 0000000000000005
+RBP: ffff88800e32fd78 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88803b390000
+R13: 0000000000001000 R14: ffff888025848010 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055797f5a00d0 CR3: 00000000358f6001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ do_journal_write+0x734/0xa40 fs/bcachefs/journal_io.c:1759
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:bch2_bio_map+0x119/0x140 fs/bcachefs/util.c:639
+Code: 89 c6 e8 ca 50 e4 fe 84 db 0f 84 2a ff ff ff e8 ed 55 e4 fe 4c 89 e7 e8 55 b3 08 ff 49 89 c7 e9 74 ff ff ff e8 d8 55 e4 fe 90 <0f> 0b e8 d0 55 e4 fe 48 83 c4 08 5b 41 5c 41 5d 41 5e 41 5f 5d e9
+RSP: 0018:ffff88800e32fd48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: 0000000000001000 RCX: ffffffff824568cf
+RDX: ffff88800bf0c380 RSI: ffffffff82456928 RDI: 0000000000000005
+RBP: ffff88800e32fd78 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88803b390000
+R13: 0000000000001000 R14: ffff888025848010 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055797f5a00d0 CR3: 00000000358f6001 CR4: 0000000000770ef0
+PKRU: 55555554

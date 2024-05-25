@@ -1,0 +1,108 @@
+BUG: unable to handle page fault for address: ffff888131c79f6c
+#PF: supervisor read access in kernel mode
+#PF: error_code(0x0000) - not-present page
+PGD 9601067 P4D 9601067 PUD 0 
+Oops: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 45129 Comm: syz-executor.0 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:dbJoin+0xdf/0x180 fs/jfs/jfs_dmap.c:2805
+Code: 83 c4 01 89 de 44 8b 28 44 89 ef e8 7b b8 60 ff 41 39 dd 76 76 e8 11 be 60 ff 48 8b 55 c8 45 89 fe 44 89 e6 41 31 de 49 63 c6 <44> 0f be 2c 02 44 89 ef e8 54 b8 60 ff 45 39 e5 7c 4f e8 ea bd 60
+RSP: 0018:ffff88804cf2f7d8 EFLAGS: 00010206
+RAX: 0000000000000041 RBX: 0000000000000040 RCX: ffffffff81c9008f
+RDX: ffff888131c79f2b RSI: 0000000000000005 RDI: 0000000000000004
+RBP: ffff88804cf2f820 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000040 R11: 0000000000000000 R12: 0000000000000005
+R13: 0000000000000000 R14: 0000000000000041 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888131c79f6c CR3: 000000001e88c001 CR4: 0000000000770ef0
+DR0: 0000000020000180 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ dbFreeBits+0xc1/0x460 fs/jfs/jfs_dmap.c:2338
+ dbFreeDmap+0x3b/0x110 fs/jfs/jfs_dmap.c:2087
+ dbFree+0x10f/0x2d0 fs/jfs/jfs_dmap.c:409
+ txFreeMap+0x3e7/0x600 fs/jfs/jfs_txnmgr.c:2515
+ xtTruncate+0x1112/0x13c0 fs/jfs/jfs_xtree.c:2467
+ jfs_free_zero_link+0x125/0x220 fs/jfs/namei.c:759
+ jfs_evict_inode+0x1e4/0x1f0 fs/jfs/inode.c:153
+ evict+0x132/0x2d0 fs/inode.c:667
+ iput_final fs/inode.c:1741 [inline]
+ iput fs/inode.c:1767 [inline]
+ iput+0x2e2/0x520 fs/inode.c:1753
+ dentry_unlink_inode+0x12b/0x1b0 fs/dcache.c:400
+ __dentry_kill+0xe1/0x2c0 fs/dcache.c:603
+ shrink_kill fs/dcache.c:1048 [inline]
+ shrink_dentry_list+0xea/0x590 fs/dcache.c:1075
+ shrink_dcache_parent+0x8a/0x520 fs/dcache.c:1509
+ do_one_tree fs/dcache.c:1538 [inline]
+ shrink_dcache_for_umount+0x54/0x1f0 fs/dcache.c:1555
+ generic_shutdown_super+0x31/0x180 fs/super.c:619
+ kill_block_super+0x22/0x50 fs/super.c:1675
+ deactivate_locked_super+0x55/0x100 fs/super.c:472
+ deactivate_super+0x83/0xa0 fs/super.c:505
+ cleanup_mnt+0x17e/0x210 fs/namespace.c:1267
+ __cleanup_mnt+0x1a/0x30 fs/namespace.c:1274
+ task_work_run+0xa1/0x110 kernel/task_work.c:180
+ exit_task_work include/linux/task_work.h:38 [inline]
+ do_exit+0x537/0x1360 kernel/exit.c:878
+ do_group_exit+0x5a/0xf0 kernel/exit.c:1027
+ __do_sys_exit_group kernel/exit.c:1038 [inline]
+ __se_sys_exit_group kernel/exit.c:1036 [inline]
+ __x64_sys_exit_group+0x20/0x20 kernel/exit.c:1036
+ x64_sys_call+0x1a0b/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:232
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff0dd48fd6d
+Code: Unable to access opcode bytes at 0x7ff0dd48fd43.
+RSP: 002b:00007fffac463788 EFLAGS: 00000206 ORIG_RAX: 00000000000000e7
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007ff0dd48fd6d
+RDX: 00007ff0dd48ea8f RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00007fffac463950 R08: 0000000000000000 R09: 00007ff0dd4f02d8
+R10: 0000000000000000 R11: 0000000000000206 R12: 00007ff0dd4f02d8
+R13: 0000000000000005 R14: 000055555bec89b0 R15: 000055555bebf430
+ </TASK>
+Modules linked in:
+CR2: ffff888131c79f6c
+---[ end trace 0000000000000000 ]---
+RIP: 0010:dbJoin+0xdf/0x180 fs/jfs/jfs_dmap.c:2805
+Code: 83 c4 01 89 de 44 8b 28 44 89 ef e8 7b b8 60 ff 41 39 dd 76 76 e8 11 be 60 ff 48 8b 55 c8 45 89 fe 44 89 e6 41 31 de 49 63 c6 <44> 0f be 2c 02 44 89 ef e8 54 b8 60 ff 45 39 e5 7c 4f e8 ea bd 60
+RSP: 0018:ffff88804cf2f7d8 EFLAGS: 00010206
+RAX: 0000000000000041 RBX: 0000000000000040 RCX: ffffffff81c9008f
+RDX: ffff888131c79f2b RSI: 0000000000000005 RDI: 0000000000000004
+RBP: ffff88804cf2f820 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000040 R11: 0000000000000000 R12: 0000000000000005
+R13: 0000000000000000 R14: 0000000000000041 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffff888131c79f6c CR3: 000000001e88c001 CR4: 0000000000770ef0
+DR0: 0000000020000180 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	83 c4 01             	add    $0x1,%esp
+   3:	89 de                	mov    %ebx,%esi
+   5:	44 8b 28             	mov    (%rax),%r13d
+   8:	44 89 ef             	mov    %r13d,%edi
+   b:	e8 7b b8 60 ff       	call   0xff60b88b
+  10:	41 39 dd             	cmp    %ebx,%r13d
+  13:	76 76                	jbe    0x8b
+  15:	e8 11 be 60 ff       	call   0xff60be2b
+  1a:	48 8b 55 c8          	mov    -0x38(%rbp),%rdx
+  1e:	45 89 fe             	mov    %r15d,%r14d
+  21:	44 89 e6             	mov    %r12d,%esi
+  24:	41 31 de             	xor    %ebx,%r14d
+  27:	49 63 c6             	movslq %r14d,%rax
+* 2a:	44 0f be 2c 02       	movsbl (%rdx,%rax,1),%r13d <-- trapping instruction
+  2f:	44 89 ef             	mov    %r13d,%edi
+  32:	e8 54 b8 60 ff       	call   0xff60b88b
+  37:	45 39 e5             	cmp    %r12d,%r13d
+  3a:	7c 4f                	jl     0x8b
+  3c:	e8                   	.byte 0xe8
+  3d:	ea                   	(bad)
+  3e:	bd                   	.byte 0xbd
+  3f:	60                   	(bad)

@@ -1,0 +1,88 @@
+rcu: INFO: rcu_preempt detected expedited stalls on CPUs/tasks: { 0-.... } 2680 jiffies s: 18993 root: 0x1/.
+rcu: blocking rcu_node structures (internal RCU debug):
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 PID: 38958 Comm: syz-executor.6 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:note_gp_changes+0xa6/0xc0 kernel/rcu/tree.c:1285
+Code: 05 8b bb e4 7e 85 c0 74 04 90 0f 0b 90 4c 89 ee 4c 89 f7 e8 5c 37 d6 03 84 db 74 a7 e8 e3 f8 ff ff eb a0 e8 0c d8 0f 00 fb 5b <41> 5c 41 5d 41 5e 5d e9 29 35 f3 03 e8 e9 d8 0f 00 e9 65 ff ff ff
+RSP: 0018:ffff88807dc05ee0 EFLAGS: 00000202
+RAX: 0000000000716e68 RBX: ffff88807dc00000 RCX: 0000000000000004
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff811d0bd4
+RBP: ffff88807dc05ef8 R08: 0000000000000001 R09: 0000000000000001
+R10: ffff88807dc05e28 R11: 0000000000000000 R12: ffff88807dc33400
+R13: 0000000000000202 R14: ffffffff865c37c0 R15: ffffffff86406108
+FS:  00007fe3e59f9640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efdb2e9c000 CR3: 000000004edb2004 CR4: 0000000000770ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+PKRU: 55555554
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ rcu_check_quiescent_state kernel/rcu/tree.c:2080 [inline]
+ rcu_core+0x84/0x910 kernel/rcu/tree.c:2455
+ rcu_core_si+0xd/0x20 kernel/rcu/tree.c:2488
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_irq_work arch/x86/kernel/irq_work.c:17 [inline]
+ sysvec_irq_work+0xb4/0xc0 arch/x86/kernel/irq_work.c:17
+ </IRQ>
+ <TASK>
+ asm_sysvec_irq_work+0x1f/0x30 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:arch_atomic_read arch/x86/include/asm/atomic.h:23 [inline]
+RIP: 0010:raw_atomic_read include/linux/atomic/atomic-arch-fallback.h:457 [inline]
+RIP: 0010:atomic_read include/linux/atomic/atomic-instrumented.h:33 [inline]
+RIP: 0010:queued_spin_is_locked include/asm-generic/qspinlock.h:57 [inline]
+RIP: 0010:mb_find_extent+0x41/0x2e0 fs/ext4/mballoc.c:1985
+Code: 83 ec 28 89 55 c8 e8 de 8f a8 ff 49 8b 45 28 31 ff 48 8b 90 38 06 00 00 41 8b 45 34 83 e0 1f 48 c1 e0 06 48 03 82 c0 02 00 00 <44> 8b 20 44 89 e6 e8 04 8b a8 ff 45 85 e4 0f 84 61 02 00 00 e8 a6
+RSP: 0018:ffff88802e5833a0 EFLAGS: 00000286
+RAX: ffff88800f4f9ac0 RBX: 0000000000008000 RCX: ffffc90007d24000
+RDX: ffff888010712000 RSI: ffffffff81812f22 RDI: 0000000000000000
+RBP: ffff88802e5833f0 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000003 R11: 0000000000000000 R12: 0000000000000003
+R13: ffff88802e5834f0 R14: ffff88802e583438 R15: 00000000000027f1
+ ext4_mb_complex_scan_group+0x170/0x5f0 fs/ext4/mballoc.c:2491
+ ext4_mb_regular_allocator+0x112c/0x1960 fs/ext4/mballoc.c:2928
+ ext4_mb_new_blocks+0x1191/0x1ec0 fs/ext4/mballoc.c:6205
+ ext4_ext_map_blocks+0xc4b/0x2d70 fs/ext4/extents.c:4317
+ ext4_map_blocks+0x3a8/0xab0 fs/ext4/inode.c:623
+ mpage_map_one_extent fs/ext4/inode.c:2163 [inline]
+ mpage_map_and_submit_extent fs/ext4/inode.c:2216 [inline]
+ ext4_do_writepages+0xcd6/0x1440 fs/ext4/inode.c:2679
+ ext4_writepages+0x13c/0x3b0 fs/ext4/inode.c:2768
+ do_writepages+0xf9/0x350 mm/page-writeback.c:2612
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ file_write_and_wait_range+0x93/0xf0 mm/filemap.c:788
+ ext4_sync_file+0x107/0x720 fs/ext4/fsync.c:158
+ vfs_fsync_range+0x67/0x100 fs/sync.c:188
+ generic_write_sync include/linux/fs.h:2795 [inline]
+ generic_write_sync include/linux/fs.h:2792 [inline]
+ ext4_buffered_write_iter+0x113/0x1d0 fs/ext4/file.c:305
+ ext4_file_write_iter+0xb0/0xd70 fs/ext4/file.c:698
+ call_write_iter include/linux/fs.h:2110 [inline]
+ do_iter_readv_writev+0x2bb/0x3b0 fs/read_write.c:741
+ vfs_writev+0x1a8/0x750 fs/read_write.c:971
+ do_pwritev fs/read_write.c:1072 [inline]
+ __do_sys_pwritev fs/read_write.c:1119 [inline]
+ __se_sys_pwritev fs/read_write.c:1114 [inline]
+ __x64_sys_pwritev+0xf7/0x170 fs/read_write.c:1114
+ x64_sys_call+0x188a/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:297
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fe3e5e8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fe3e59f9028 EFLAGS: 00000246 ORIG_RAX: 0000000000000128
+RAX: ffffffffffffffda RBX: 00007fe3e5fcbf80 RCX: 00007fe3e5e8fd6d
+RDX: 0000000000000001 RSI: 0000000020001680 RDI: 0000000000000004
+RBP: 00007fe3e5ef14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000100000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007fe3e5fcbf80 R15: 00007fe3e59d9000
+ </TASK>

@@ -1,0 +1,103 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 1 PID: 61218 Comm: systemd-udevd Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ local_lock_acquire include/linux/local_lock_internal.h:29 [inline]
+ get_random_u32+0x75/0x300 drivers/char/random.c:532
+ net_tx_rndhash include/net/sock.h:2093 [inline]
+ sk_set_txhash include/net/sock.h:2101 [inline]
+ sk_rethink_txhash include/net/sock.h:2107 [inline]
+ tcp_write_timeout net/ipv4/tcp_timer.c:299 [inline]
+ tcp_retransmit_timer+0xf80/0x18d0 net/ipv4/tcp_timer.c:577
+ tcp_write_timer_handler net/ipv4/tcp_timer.c:693 [inline]
+ tcp_write_timer_handler+0x244/0x440 net/ipv4/tcp_timer.c:667
+ tcp_write_timer+0x18f/0x250 net/ipv4/tcp_timer.c:710
+ call_timer_fn+0xb8/0x3b0 kernel/time/timer.c:1793
+ expire_timers kernel/time/timer.c:1844 [inline]
+ __run_timers+0x34c/0x4f0 kernel/time/timer.c:2418
+ __run_timer_base kernel/time/timer.c:2429 [inline]
+ __run_timer_base kernel/time/timer.c:2422 [inline]
+ run_timer_base kernel/time/timer.c:2438 [inline]
+ run_timer_softirq+0x9f/0x130 kernel/time/timer.c:2448
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:lock_acquire+0xcf/0x2c0 kernel/locking/lockdep.c:5758
+Code: 53 e8 e5 e1 ff ff b8 ff ff ff ff 48 83 c4 28 65 0f c1 05 1c 25 e9 7e 83 f8 01 0f 85 da 01 00 00 4d 85 ff 74 01 fb 48 8d 65 d8 <5b> 41 5c 41 5d 41 5e 41 5f 5d e9 bd 9b f7 03 65 8b 05 37 6d ea 7e
+RSP: 0018:ffff8880173ebbb8 EFLAGS: 00000206
+RAX: 0000000000000001 RBX: 0000000000000001 RCX: ffffffff88b0faf0
+RDX: 0eb24d63a6a16958 RSI: 00000000941fe1fb RDI: ffff88800c898a88
+RBP: ffff8880173ebbe0 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000028 R11: 0000000000000000 R12: 0000000000000000
+R13: 0000000000000000 R14: ffffffff865fca80 R15: 0000000000000200
+ fs_reclaim_acquire mm/page_alloc.c:3715 [inline]
+ fs_reclaim_acquire+0x70/0x100 mm/page_alloc.c:3706
+ might_alloc include/linux/sched/mm.h:312 [inline]
+ slab_pre_alloc_hook mm/slub.c:3746 [inline]
+ slab_alloc_node mm/slub.c:3827 [inline]
+ kmem_cache_alloc+0x3a/0x290 mm/slub.c:3852
+ kmem_cache_zalloc include/linux/slab.h:739 [inline]
+ lsm_file_alloc security/security.c:649 [inline]
+ security_file_alloc+0x33/0xd0 security/security.c:2709
+ init_file+0x46/0x120 fs/file_table.c:152
+ alloc_empty_file+0x94/0x1a0 fs/file_table.c:206
+ path_openat+0x42/0x1210 fs/namei.c:3785
+ do_filp_open+0xb9/0x190 fs/namei.c:3826
+ do_sys_openat2+0xc4/0x110 fs/open.c:1406
+ do_sys_open fs/open.c:1421 [inline]
+ __do_sys_openat fs/open.c:1437 [inline]
+ __se_sys_openat fs/open.c:1432 [inline]
+ __x64_sys_openat+0x78/0xd0 fs/open.c:1432
+ x64_sys_call+0x1b08/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:258
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fb464127167
+Code: 25 00 00 41 00 3d 00 00 41 00 74 47 64 8b 04 25 18 00 00 00 85 c0 75 6b 44 89 e2 48 89 ee bf 9c ff ff ff b8 01 01 00 00 0f 05 <48> 3d 00 f0 ff ff 0f 87 95 00 00 00 48 8b 4c 24 28 64 48 2b 0c 25
+RSP: 002b:00007ffcd426b7d0 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 0000558798c56270 RCX: 00007fb464127167
+RDX: 0000000000080000 RSI: 00007ffcd426ba10 RDI: 00000000ffffff9c
+RBP: 00007ffcd426ba10 R08: 0000000000000008 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000080000
+R13: 0000558798c56270 R14: 0000000000000001 R15: 0000558798c3b1e0
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	53                   	push   %rbx
+   1:	e8 e5 e1 ff ff       	call   0xffffe1eb
+   6:	b8 ff ff ff ff       	mov    $0xffffffff,%eax
+   b:	48 83 c4 28          	add    $0x28,%rsp
+   f:	65 0f c1 05 1c 25 e9 	xadd   %eax,%gs:0x7ee9251c(%rip)        # 0x7ee92533
+  16:	7e
+  17:	83 f8 01             	cmp    $0x1,%eax
+  1a:	0f 85 da 01 00 00    	jne    0x1fa
+  20:	4d 85 ff             	test   %r15,%r15
+  23:	74 01                	je     0x26
+  25:	fb                   	sti
+  26:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
+* 2a:	5b                   	pop    %rbx <-- trapping instruction
+  2b:	41 5c                	pop    %r12
+  2d:	41 5d                	pop    %r13
+  2f:	41 5e                	pop    %r14
+  31:	41 5f                	pop    %r15
+  33:	5d                   	pop    %rbp
+  34:	e9 bd 9b f7 03       	jmp    0x3f79bf6
+  39:	65 8b 05 37 6d ea 7e 	mov    %gs:0x7eea6d37(%rip),%eax        # 0x7eea6d77

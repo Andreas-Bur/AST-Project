@@ -1,0 +1,91 @@
+hfsplus: request for non-existent node 8388608 in B*Tree
+hfsplus: request for non-existent node 8388608 in B*Tree
+general protection fault, maybe for address 0xffff88802bae7c52: 0000 [#1] PREEMPT SMP NOPTI
+CPU: 1 PID: 39981 Comm: syz-executor.4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:memcpy+0xc/0x20 arch/x86/lib/memcpy_64.S:38
+Code: 0f fe ff ff 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 48 89 f8 48 89 d1 <f3> a4 e9 b8 b8 1e 00 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90
+RSP: 0018:ffff88802bae7c08 EFLAGS: 00010282
+RAX: ffff88802bae7c52 RBX: 0000000000000000 RCX: 0000000000000002
+RDX: 0000000000000002 RSI: ffe7288a1034d232 RDI: ffff88802bae7c52
+RBP: ffff88802bae7c38 R08: 0000000000000004 R09: 0000000000000001
+R10: 00000000000000ff R11: 0000000000000000 R12: ffff88802bae7c52
+R13: 0000000000000002 R14: ffff88801f817240 R15: 00000000000000ff
+FS:  000055558f72a480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000040 CR3: 000000001beea001 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ hfsplus_bnode_read_u16 fs/hfsplus/bnode.c:45 [inline]
+ hfsplus_bnode_dump+0x15c/0x1b0 fs/hfsplus/bnode.c:321
+ hfsplus_brec_remove+0x1f5/0x230 fs/hfsplus/brec.c:229
+ __hfsplus_delete_attr+0xfe/0x140 fs/hfsplus/attributes.c:299
+ hfsplus_delete_all_attrs+0x75/0x180 fs/hfsplus/attributes.c:378
+ hfsplus_delete_cat+0x30c/0x460 fs/hfsplus/catalog.c:425
+ hfsplus_file_release+0xdc/0xf0 fs/hfsplus/inode.c:236
+ __fput+0x135/0x540 fs/file_table.c:422
+ __fput_sync+0x44/0x60 fs/file_table.c:507
+ __do_sys_close fs/open.c:1556 [inline]
+ __se_sys_close fs/open.c:1541 [inline]
+ __x64_sys_close+0x4d/0xd0 fs/open.c:1541
+ x64_sys_call+0x18e2/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:4
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f7bfaa8ec4b
+Code: 03 00 00 00 0f 05 48 3d 00 f0 ff ff 77 41 c3 48 83 ec 18 89 7c 24 0c e8 83 fd 02 00 8b 7c 24 0c 41 89 c0 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 35 44 89 c7 89 44 24 0c e8 d1 fd 02 00 8b 44
+RSP: 002b:00007ffe84dff4c0 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: ffffffffffffffda RBX: 0000000000000008 RCX: 00007f7bfaa8ec4b
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000007
+RBP: 00007ffe84dff598 R08: 0000000000000000 R09: 00007f7bfa6165ef
+R10: 0000000000000001 R11: 0000000000000293 R12: 0000000000000032
+R13: 00000000000742d5 R14: 00007f7bfabcbf8c R15: 00007ffe84dff5c0
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:memcpy+0xc/0x20 arch/x86/lib/memcpy_64.S:38
+Code: 0f fe ff ff 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 48 89 f8 48 89 d1 <f3> a4 e9 b8 b8 1e 00 66 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90
+RSP: 0018:ffff88802bae7c08 EFLAGS: 00010282
+RAX: ffff88802bae7c52 RBX: 0000000000000000 RCX: 0000000000000002
+RDX: 0000000000000002 RSI: ffe7288a1034d232 RDI: ffff88802bae7c52
+RBP: ffff88802bae7c38 R08: 0000000000000004 R09: 0000000000000001
+R10: 00000000000000ff R11: 0000000000000000 R12: ffff88802bae7c52
+R13: 0000000000000002 R14: ffff88801f817240 R15: 00000000000000ff
+FS:  000055558f72a480(0000) GS:ffff88807dd00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020000040 CR3: 000000001beea001 CR4: 0000000000770ef0
+PKRU: 55555554
+----------------
+Code disassembly (best guess):
+   0:	0f fe ff             	paddd  %mm7,%mm7
+   3:	ff 66 2e             	jmp    *0x2e(%rsi)
+   6:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+   d:	00
+   e:	90                   	nop
+   f:	90                   	nop
+  10:	90                   	nop
+  11:	90                   	nop
+  12:	90                   	nop
+  13:	90                   	nop
+  14:	90                   	nop
+  15:	90                   	nop
+  16:	90                   	nop
+  17:	90                   	nop
+  18:	90                   	nop
+  19:	90                   	nop
+  1a:	90                   	nop
+  1b:	90                   	nop
+  1c:	90                   	nop
+  1d:	90                   	nop
+  1e:	f3 0f 1e fa          	endbr64
+  22:	66 90                	xchg   %ax,%ax
+  24:	48 89 f8             	mov    %rdi,%rax
+  27:	48 89 d1             	mov    %rdx,%rcx
+* 2a:	f3 a4                	rep movsb %ds:(%rsi),%es:(%rdi) <-- trapping instruction
+  2c:	e9 b8 b8 1e 00       	jmp    0x1eb8e9
+  31:	66 66 2e 0f 1f 84 00 	data16 cs nopw 0x0(%rax,%rax,1)
+  38:	00 00 00 00
+  3c:	66 90                	xchg   %ax,%ax
+  3e:	90                   	nop
+  3f:	90                   	nop

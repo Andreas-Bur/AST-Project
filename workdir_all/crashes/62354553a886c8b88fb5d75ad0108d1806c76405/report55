@@ -1,0 +1,108 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 8913 at include/linux/backing-dev.h:251 inode_to_wb include/linux/backing-dev.h:251 [inline]
+WARNING: CPU: 0 PID: 8913 at include/linux/backing-dev.h:251 folio_account_dirtied mm/page-writeback.c:2672 [inline]
+WARNING: CPU: 0 PID: 8913 at include/linux/backing-dev.h:251 __folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Modules linked in:
+CPU: 0 PID: 8913 Comm: kworker/u8:9 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:6)
+RIP: 0010:inode_to_wb include/linux/backing-dev.h:251 [inline]
+RIP: 0010:folio_account_dirtied mm/page-writeback.c:2672 [inline]
+RIP: 0010:__folio_mark_dirty+0x4bf/0x510 mm/page-writeback.c:2723
+Code: ff ff ff ff 48 8d 78 70 e8 be 85 ae 03 31 ff 89 c6 89 45 c0 e8 92 d1 e6 ff 8b 45 c0 85 c0 0f 85 98 fc ff ff e8 32 d6 e6 ff 90 <0f> 0b 90 e9 8a fc ff ff e8 24 d6 e6 ff 4c 89 e6 48 89 df e8 b9 c0
+RSP: 0018:ffff88802a23f8d0 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: ffff888009d51158 RCX: ffffffff8142e8be
+RDX: ffff8880202fc380 RSI: ffffffff8142e8ce RDI: 0000000000000005
+RBP: ffff88802a23f910 R08: 0000000000000000 R09: 0000000000000030
+R10: 0000000000000000 R11: 0000000000000001 R12: ffffea00003eebc0
+R13: 0000000000000293 R14: ffff88802fe9df88 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b2e222000 CR3: 000000000d85a005 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ mark_buffer_dirty+0x1aa/0x260 fs/buffer.c:1200
+ gfs2_unpin+0xa7/0x4d0 fs/gfs2/lops.c:111
+ buf_lo_after_commit+0x87/0xc0 fs/gfs2/lops.c:738
+ lops_after_commit fs/gfs2/lops.h:51 [inline]
+ gfs2_log_flush+0x74a/0x11a0 fs/gfs2/log.c:1122
+ gfs2_write_inode+0x19b/0x1e0 fs/gfs2/super.c:453
+ write_inode fs/fs-writeback.c:1498 [inline]
+ __writeback_single_inode+0x66b/0x870 fs/fs-writeback.c:1715
+ writeback_sb_inodes+0x302/0x890 fs/fs-writeback.c:1941
+ wb_writeback+0x72/0x5f0 fs/fs-writeback.c:2117
+ wb_do_writeback fs/fs-writeback.c:2264 [inline]
+ wb_workfn+0x139/0x7d0 fs/fs-writeback.c:2304
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 5178850
+hardirqs last  enabled at (5178849): [<ffffffff8158f053>] folio_memcg_lock+0x123/0x1c0 mm/memcontrol.c:2207
+hardirqs last disabled at (5178850): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (5178850): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (5178828): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (5178828): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (5178549): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (5178549): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (5178549): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 8913 at include/linux/backing-dev.h:251 inode_to_wb include/linux/backing-dev.h:251 [inline]
+WARNING: CPU: 0 PID: 8913 at include/linux/backing-dev.h:251 __folio_start_writeback+0x46d/0x480 mm/page-writeback.c:3063
+Modules linked in:
+CPU: 0 PID: 8913 Comm: kworker/u8:9 Tainted: G        W          6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: writeback wb_workfn (flush-7:6)
+RIP: 0010:inode_to_wb include/linux/backing-dev.h:251 [inline]
+RIP: 0010:__folio_start_writeback+0x46d/0x480 mm/page-writeback.c:3063
+Code: 48 8d 78 70 48 89 45 88 e8 c0 b2 ae 03 31 ff 89 c6 89 45 88 e8 94 fe e6 ff 8b 45 88 85 c0 0f 85 97 fe ff ff e8 34 03 e7 ff 90 <0f> 0b 90 e9 89 fe ff ff 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90
+RSP: 0018:ffff88802a23f6c0 EFLAGS: 00010093
+RAX: 0000000000000000 RBX: ffffea0000c9f240 RCX: ffffffff8142bbbc
+RDX: ffff8880202fc380 RSI: ffffffff8142bbcc RDI: 0000000000000005
+RBP: ffff88802a23f748 R08: 0000000000000000 R09: 0000000000000001
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff88802fe9cc40
+R13: 0000000000000000 R14: 0000000000000001 R15: 0000000000000001
+FS:  0000000000000000(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f7cb9d6a6f4 CR3: 000000000d85a006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <TASK>
+ set_page_writeback+0x4a/0xc0 mm/folio-compat.c:51
+ gfs2_aspace_writepage+0x260/0x440 fs/gfs2/meta_io.c:73
+ writeback_use_writepage mm/page-writeback.c:2589 [inline]
+ do_writepages+0x1cd/0x350 mm/page-writeback.c:2614
+ filemap_fdatawrite_wbc mm/filemap.c:397 [inline]
+ filemap_fdatawrite_wbc+0xa5/0xd0 mm/filemap.c:387
+ __filemap_fdatawrite_range+0x6b/0x80 mm/filemap.c:430
+ __filemap_fdatawrite mm/filemap.c:436 [inline]
+ filemap_fdatawrite+0x2b/0x40 mm/filemap.c:441
+ gfs2_write_inode+0x1ad/0x1e0 fs/gfs2/super.c:459
+ write_inode fs/fs-writeback.c:1498 [inline]
+ __writeback_single_inode+0x66b/0x870 fs/fs-writeback.c:1715
+ writeback_sb_inodes+0x302/0x890 fs/fs-writeback.c:1941
+ wb_writeback+0x72/0x5f0 fs/fs-writeback.c:2117
+ wb_do_writeback fs/fs-writeback.c:2264 [inline]
+ wb_workfn+0x139/0x7d0 fs/fs-writeback.c:2304
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
+irq event stamp: 5178990
+hardirqs last  enabled at (5178989): [<ffffffff8158f053>] folio_memcg_lock+0x123/0x1c0 mm/memcontrol.c:2207
+hardirqs last disabled at (5178990): [<ffffffff84f3406d>] __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:108 [inline]
+hardirqs last disabled at (5178990): [<ffffffff84f3406d>] _raw_spin_lock_irqsave+0x5d/0x60 kernel/locking/spinlock.c:162
+softirqs last  enabled at (5178964): [<ffffffff84f35683>] softirq_handle_end kernel/softirq.c:400 [inline]
+softirqs last  enabled at (5178964): [<ffffffff84f35683>] __do_softirq+0x313/0x3c8 kernel/softirq.c:583
+softirqs last disabled at (5178855): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (5178855): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (5178855): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---

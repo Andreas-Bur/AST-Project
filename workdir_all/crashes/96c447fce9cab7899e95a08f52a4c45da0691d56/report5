@@ -1,0 +1,125 @@
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 9900 at net/mac80211/tx.c:5034 __ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5034 [inline]
+WARNING: CPU: 0 PID: 9900 at net/mac80211/tx.c:5034 __ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5029 [inline]
+WARNING: CPU: 0 PID: 9900 at net/mac80211/tx.c:5034 __ieee80211_beacon_get+0xbc2/0xbd0 net/mac80211/tx.c:5461
+Modules linked in:
+CPU: 0 PID: 9900 Comm: syz-executor.2 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+RIP: 0010:__ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5034 [inline]
+RIP: 0010:__ieee80211_beacon_update_cntdwn net/mac80211/tx.c:5029 [inline]
+RIP: 0010:__ieee80211_beacon_get+0xbc2/0xbd0 net/mac80211/tx.c:5461
+Code: 89 df 44 89 e6 e8 fe 10 6f fc 44 38 e3 72 ce e8 14 17 6f fc 4c 89 ef e8 cc a5 95 fc 45 31 ed e9 08 ff ff ff e8 ff 16 6f fc 90 <0f> 0b 90 e9 ec fa ff ff 66 0f 1f 44 00 00 90 90 90 90 90 90 90 90
+RSP: 0018:ffff88807dc05d28 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff84baa2ee
+RDX: ffff88802aa58000 RSI: ffffffff84baa801 RDI: 0000000000000001
+RBP: ffff88807dc05d80 R08: 0000000000000001 R09: 0000000000000001
+R10: 0000000000000000 R11: ffffffff84ba9c8e R12: ffff88802b3ca750
+R13: 0000000000000041 R14: ffff88807dc05d9e R15: ffff88802b3ca2d0
+FS:  00007f87cd8c4640(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000040 CR3: 000000002a8b4006 CR4: 0000000000770ef0
+PKRU: 55555554
+Call Trace:
+ <IRQ>
+ ieee80211_beacon_get_tim+0x53/0x120 net/mac80211/tx.c:5588
+ ieee80211_beacon_get include/net/mac80211.h:5552 [inline]
+ mac80211_hwsim_beacon_tx+0x2b8/0x4b0 drivers/net/wireless/virtual/mac80211_hwsim.c:2296
+ __iterate_interfaces+0x133/0x390 net/mac80211/util.c:772
+ ieee80211_iterate_active_interfaces_atomic+0x78/0x1d0 net/mac80211/util.c:808
+ mac80211_hwsim_beacon+0x88/0xf0 drivers/net/wireless/virtual/mac80211_hwsim.c:2326
+ __run_hrtimer kernel/time/hrtimer.c:1692 [inline]
+ __hrtimer_run_queues+0xa9/0x530 kernel/time/hrtimer.c:1756
+ hrtimer_run_softirq+0x9d/0x110 kernel/time/hrtimer.c:1773
+ __do_softirq+0xca/0x3c8 kernel/softirq.c:554
+ invoke_softirq kernel/softirq.c:428 [inline]
+ __irq_exit_rcu kernel/softirq.c:633 [inline]
+ irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
+ sysvec_apic_timer_interrupt+0x7e/0x90 arch/x86/kernel/apic/apic.c:1043
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1f/0x30 arch/x86/include/asm/idtentry.h:702
+RIP: 0010:on_stack arch/x86/include/asm/stacktrace.h:60 [inline]
+RIP: 0010:update_stack_state+0xa3/0x260 arch/x86/kernel/unwind_frame.c:228
+Code: 0f 84 89 01 00 00 e8 4c cf 1e 00 c6 43 35 01 b8 a8 00 00 00 4c 89 75 b8 44 8b 65 c4 4c 01 f0 48 89 45 d0 e8 2f cf 1e 00 31 ff <44> 89 e6 4c 8b 6b 08 4c 8b 7b 10 e8 6d ca 1e 00 45 85 e4 0f 84 e8
+RSP: 0018:ffff88802d74f3f0 EFLAGS: 00000246
+RAX: 0000000000040000 RBX: ffff88802d74f4c0 RCX: ffffc9000912e000
+RDX: 0000000000040000 RSI: ffffffff810aefd1 RDI: 0000000000000000
+RBP: ffff88802d74f440 R08: 0000000000000001 R09: 00000000ffffffff
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000000 R14: ffff88802d74f6f0 R15: ffff88802aa58000
+ unwind_next_frame.part.0+0xcd/0x3c0 arch/x86/kernel/unwind_frame.c:315
+ unwind_next_frame+0x36/0x50 arch/x86/kernel/unwind_frame.c:269
+ arch_stack_walk+0xd7/0x140 arch/x86/kernel/stacktrace.c:25
+ stack_trace_save+0x3b/0x50 kernel/stacktrace.c:122
+ ref_tracker_alloc+0xf8/0x370 lib/ref_tracker.c:209
+ __netdev_tracker_alloc include/linux/netdevice.h:4064 [inline]
+ netdev_hold include/linux/netdevice.h:4093 [inline]
+ dst_init+0xb9/0x1d0 net/core/dst.c:52
+ dst_alloc+0x83/0xf0 net/core/dst.c:93
+ rt_dst_alloc+0x39/0xf0 net/ipv4/route.c:1633
+ __mkroute_output net/ipv4/route.c:2591 [inline]
+ ip_route_output_key_hash_rcu+0x478/0x1120 net/ipv4/route.c:2813
+ ip_route_output_key_hash+0xc0/0x210 net/ipv4/route.c:2642
+ __ip_route_output_key include/net/route.h:131 [inline]
+ ip_route_output_flow+0x2c/0xb0 net/ipv4/route.c:2870
+ udp_sendmsg+0xf7e/0x18f0 net/ipv4/udp.c:1221
+ udpv6_sendmsg+0x928/0x1750 net/ipv6/udp.c:1388
+ inet6_sendmsg+0xa2/0xc0 net/ipv6/af_inet6.c:661
+ sock_sendmsg_nosec net/socket.c:730 [inline]
+ __sock_sendmsg net/socket.c:745 [inline]
+ ____sys_sendmsg+0x3a1/0x520 net/socket.c:2584
+ __sys_sendmsg_sock+0x2f/0x40 net/socket.c:2650
+ io_sendmsg+0x12a/0x3e0 io_uring/net.c:453
+ io_issue_sqe+0x23a/0x5b0 io_uring/io_uring.c:1897
+ io_queue_sqe io_uring/io_uring.c:2111 [inline]
+ io_submit_sqe io_uring/io_uring.c:2377 [inline]
+ io_submit_sqes+0x414/0xd60 io_uring/io_uring.c:2492
+ __do_sys_io_uring_enter+0x4df/0xaa0 io_uring/io_uring.c:3668
+ __se_sys_io_uring_enter io_uring/io_uring.c:3603 [inline]
+ __x64_sys_io_uring_enter+0x2a/0x40 io_uring/io_uring.c:3603
+ x64_sys_call+0x14b9/0x20b0 arch/x86/include/generated/asm/syscalls_64.h:427
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x200 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f87cca8fd6d
+Code: c3 e8 97 2b 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f87cd8c4028 EFLAGS: 00000246 ORIG_RAX: 00000000000001aa
+RAX: ffffffffffffffda RBX: 00007f87ccbcbf80 RCX: 00007f87cca8fd6d
+RDX: 0000000000000000 RSI: 0000000000006d65 RDI: 000000000000000b
+RBP: 00007f87ccaf14cd R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 000000000000000b R14: 00007f87ccbcbf80 R15: 00007f87cd8a4000
+ </TASK>
+irq event stamp: 349396
+hardirqs last  enabled at (349406): [<ffffffff811a6e74>] __up_console_sem kernel/printk/printk.c:341 [inline]
+hardirqs last  enabled at (349406): [<ffffffff811a6e74>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last  enabled at (349406): [<ffffffff811a6e74>] console_unlock+0x1b4/0x1c0 kernel/printk/printk.c:3050
+hardirqs last disabled at (349415): [<ffffffff811a6e59>] __up_console_sem kernel/printk/printk.c:339 [inline]
+hardirqs last disabled at (349415): [<ffffffff811a6e59>] __console_unlock kernel/printk/printk.c:2731 [inline]
+hardirqs last disabled at (349415): [<ffffffff811a6e59>] console_unlock+0x199/0x1c0 kernel/printk/printk.c:3050
+softirqs last  enabled at (348036): [<ffffffff8405435b>] local_bh_enable include/linux/bottom_half.h:33 [inline]
+softirqs last  enabled at (348036): [<ffffffff8405435b>] __neigh_event_send+0x15b/0x880 net/core/neighbour.c:1245
+softirqs last disabled at (348039): [<ffffffff810e02cd>] invoke_softirq kernel/softirq.c:428 [inline]
+softirqs last disabled at (348039): [<ffffffff810e02cd>] __irq_exit_rcu kernel/softirq.c:633 [inline]
+softirqs last disabled at (348039): [<ffffffff810e02cd>] irq_exit_rcu+0x8d/0xb0 kernel/softirq.c:645
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	0f 84 89 01 00 00    	je     0x18f
+   6:	e8 4c cf 1e 00       	call   0x1ecf57
+   b:	c6 43 35 01          	movb   $0x1,0x35(%rbx)
+   f:	b8 a8 00 00 00       	mov    $0xa8,%eax
+  14:	4c 89 75 b8          	mov    %r14,-0x48(%rbp)
+  18:	44 8b 65 c4          	mov    -0x3c(%rbp),%r12d
+  1c:	4c 01 f0             	add    %r14,%rax
+  1f:	48 89 45 d0          	mov    %rax,-0x30(%rbp)
+  23:	e8 2f cf 1e 00       	call   0x1ecf57
+  28:	31 ff                	xor    %edi,%edi
+* 2a:	44 89 e6             	mov    %r12d,%esi <-- trapping instruction
+  2d:	4c 8b 6b 08          	mov    0x8(%rbx),%r13
+  31:	4c 8b 7b 10          	mov    0x10(%rbx),%r15
+  35:	e8 6d ca 1e 00       	call   0x1ecaa7
+  3a:	45 85 e4             	test   %r12d,%r12d
+  3d:	0f                   	.byte 0xf
+  3e:	84 e8                	test   %ch,%al

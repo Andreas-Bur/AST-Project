@@ -1,0 +1,50 @@
+BUG: MAX_STACK_TRACE_ENTRIES too low!
+turning off the locking correctness validator.
+CPU: 0 PID: 60 Comm: kworker/u8:4 Not tainted 6.9.0-rc4 #2
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Workqueue: loop0 loop_workfn
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xda/0x140 lib/dump_stack.c:114
+ dump_stack+0x19/0x20 lib/dump_stack.c:123
+ save_trace+0x2c5/0x3a0 kernel/locking/lockdep.c:578
+ check_prev_add+0x72b/0x9e0 kernel/locking/lockdep.c:3195
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain kernel/locking/lockdep.c:3869 [inline]
+ __lock_acquire+0x1214/0x15f0 kernel/locking/lockdep.c:5137
+ lock_acquire kernel/locking/lockdep.c:5754 [inline]
+ lock_acquire+0xab/0x2c0 kernel/locking/lockdep.c:5719
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+ _raw_spin_lock_irqsave+0x3f/0x60 kernel/locking/spinlock.c:162
+ __put_partials+0xab/0x160 mm/slub.c:2886
+ put_cpu_partial+0x11c/0x1b0 mm/slub.c:2981
+ __slab_free+0x22e/0x380 mm/slub.c:4151
+ do_slab_free mm/slub.c:4233 [inline]
+ slab_free mm/slub.c:4281 [inline]
+ kmem_cache_free+0x215/0x2a0 mm/slub.c:4344
+ zswap_entry_cache_free mm/zswap.c:883 [inline]
+ zswap_entry_free+0x70/0x2e0 mm/zswap.c:914
+ zswap_load+0x2e1/0x420 mm/zswap.c:1681
+ swap_read_folio+0x67/0x740 mm/page_io.c:518
+ swap_cluster_readahead+0x41b/0x4a0 mm/swap_state.c:701
+ shmem_swapin_cluster mm/shmem.c:1582 [inline]
+ shmem_swapin_folio+0x73e/0xab0 mm/shmem.c:1891
+ shmem_get_folio_gfp+0x688/0x9b0 mm/shmem.c:1997
+ shmem_get_folio mm/shmem.c:2166 [inline]
+ shmem_file_read_iter+0x1ec/0x4d0 mm/shmem.c:2821
+ call_read_iter include/linux/fs.h:2104 [inline]
+ do_iter_readv_writev+0x327/0x3b0 fs/read_write.c:739
+ vfs_iter_read+0x11c/0x230 fs/read_write.c:830
+ lo_read_simple drivers/block/loop.c:286 [inline]
+ do_req_filebacked drivers/block/loop.c:496 [inline]
+ loop_handle_cmd drivers/block/loop.c:1907 [inline]
+ loop_process_work+0xafe/0xe00 drivers/block/loop.c:1942
+ loop_workfn+0x22/0x30 drivers/block/loop.c:1966
+ process_one_work+0x2eb/0xa00 kernel/workqueue.c:3254
+ process_scheduled_works kernel/workqueue.c:3335 [inline]
+ worker_thread+0x2a8/0x590 kernel/workqueue.c:3416
+ kthread+0x127/0x160 kernel/kthread.c:388
+ ret_from_fork+0x54/0x60 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
+ </TASK>
